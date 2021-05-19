@@ -1,0 +1,25 @@
+package shared;
+
+/**
+ * This class handles textual display of
+ * a Board (i.e., converting it to a string to show
+ * to the user).
+ * It supports two ways to display the Board:
+ * one for the player's own board, and one for the 
+ * enemy's board.
+ */
+public class BoardTextView {
+    /**
+     * The board to display on the screen
+     */
+    private final Board toDisplay;
+
+    /**
+     * Constructs a BoardView, given the board it will display.
+     * @param _toDisplay is the board to display
+     */
+    public BoardTextView(Board _toDisplay) {
+        this.toDisplay = _toDisplay;
+    }
+
+}
