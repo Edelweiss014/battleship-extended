@@ -45,6 +45,14 @@ public class BattleshipBoard<T> implements Board<T> {
         return whatIsAt(where, false);
     }
 
+    /**
+     * Return the display info of a certain coordinate, depending
+     *      on whether self or enemy wants it
+     * @param where is the coordinate to check
+     * @param isSelf indicates whether the info is asked by self
+     * @return missInfo for miss, ship display info for ship, null
+     *      if empty
+     */
     protected T whatIsAt(Coordinate where, boolean isSelf) {
         if (!isSelf) {
             if (enemyMisses.contains(where)) {
@@ -59,4 +67,13 @@ public class BattleshipBoard<T> implements Board<T> {
         return null;
     }
     
+    /**
+     * Try to add ship on the board
+     * @param toAdd is the ship to add
+     * @return the check result, null for success
+     */
+    public String tryAddShip(Ship<T> toAdd) {
+        myShips.add(toAdd);
+        return null;
+    }
 }
