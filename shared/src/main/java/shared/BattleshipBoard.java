@@ -15,6 +15,9 @@ public class BattleshipBoard<T> implements Board<T> {
     private final T missInfo;
 
     public BattleshipBoard(int _width, int _height, T _missInfo) {
+        if (_width <= 0 || _height <= 0) {
+            throw new IllegalArgumentException("Dimensions must not be less or equal to 0");
+        }
         this.width = _width;
         this.height = _height;
         this.enemyMisses = new HashSet<>();
@@ -61,7 +64,9 @@ public class BattleshipBoard<T> implements Board<T> {
         }
         else {
             for (Ship<T> s: myShips) {
-                return s.getDisplayInfoAt(where, isSelf);
+                if (s.occupiesCoordinates(where)) {
+                    return s.getDisplayInfoAt(where, isSelf);
+                }
             }
         }
         return null;

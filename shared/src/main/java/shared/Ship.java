@@ -45,4 +45,10 @@ public interface Ship<T> {
      * @return the view-specific information at that coordinate
      */
     public T getDisplayInfoAt(Coordinate where, boolean isSelf);
+
+    /**
+     * Get the name of the ship
+     * @return the name of the ship
+     */
+    public String getName();
 }
