@@ -106,4 +106,13 @@ public abstract class BasicShip<T> implements Ship<T> {
 		}
 	}
 
+	/**
+     * Get all of the Coordinates that this Ship occupies
+     * @return an Iterable with the coordinates that this Ship occupies
+     */
+	@Override
+	public Iterable<Coordinate> getCoordinates() {
+		return myPieces.keySet();
+	}
+
 }
