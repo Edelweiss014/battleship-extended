@@ -29,11 +29,6 @@ public abstract class BasicShip<T> implements Ship<T> {
         }
     }
 
-    public BasicShip(HashMap<Coordinate, Boolean> myPieces, ShipDisplayInfo<T> myDisplayInfo, ShipDisplayInfo<T> enemyDisplayInfo) {
-        this.myPieces = myPieces;
-        this.enemyDisplayInfo = enemyDisplayInfo;
-    }
-
     /**
 	 * Check whether the coordinate is occupied
 	 * 		by this ship

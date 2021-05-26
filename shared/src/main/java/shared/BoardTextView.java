@@ -99,12 +99,55 @@ public class BoardTextView {
         return ans.toString();
     }
 
+    /**
+     * This function display player's own board
+     * @return the string representation of the player's own board
+     */
     public String displayMyOwnBoard() {
         return displayAnyBoard((c)->toDisplay.whatIsAtForSelf(c));
     }
 
+    /**
+     * This function display enemy's board
+     * @return the string representation of the enemy's board
+     */
     public String displayEnemyBoard() {
         return displayAnyBoard((c)->toDisplay.whatIsAtForEnemy(c));
     }
+
+    /**
+     * This function handles the final game display with both
+     *      player's board and enemy's board
+     * @param enemyView is the enemy's board text view
+     * @param myHeader is the current player's header
+     * @param enemyHeader is the enemy's header
+     * @return the string representation of the 2 board's view
+     */
+    public String displayMyBoardWithEnemyNextToIt(BoardTextView enemyView, String myHeader, String enemyHeader) {
+        int firstStart_h = 5;
+        int secondStart_h = toDisplay.getWidth() * 2 + 22;
+        int secondStart_b = toDisplay.getWidth() * 2 + 19;
+        String myTextBoard = displayMyOwnBoard();
+        String enemyTextBoard = enemyView.displayEnemyBoard();
+        StringBuilder result = new StringBuilder("");
+        // append the header
+        result.append(" ".repeat(firstStart_h));
+        result.append(myHeader);
+        result.append(" ".repeat(secondStart_h - firstStart_h - myHeader.length()));
+        result.append(enemyHeader);
+        result.append("\n");
+        
+        // append the board
+        String [] myTextLines = myTextBoard.split("\n");
+        String [] enemyTextLines = enemyTextBoard.split("\n");
+        for (int i = 0; i < toDisplay.getHeight() + 2; i++) {
+            result.append(myTextLines[i]);
+            result.append(" ".repeat(secondStart_b - myTextLines[i].length()));
+            result.append(enemyTextLines[i]);
+            result.append("\n");
+        }
+        return result.toString();
+    }
+
 
 }

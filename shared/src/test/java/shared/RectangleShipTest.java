@@ -52,4 +52,11 @@ public class RectangleShipTest {
 		assertEquals(rs1.getName(), "submarine");
 	}
 
+	@Test
+	public void test_error_fire() {
+		Coordinate c1 = new Coordinate(1, 4);
+		RectangleShip<Character> rs1 = new RectangleShip<Character>("submarine", c1, 3, 2, 's', '*');
+		assertThrows(IllegalArgumentException.class, () -> rs1.recordHitAt(new Coordinate(0, 0)));
+	}
+
 }

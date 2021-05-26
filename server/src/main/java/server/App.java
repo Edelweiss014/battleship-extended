@@ -3,12 +3,20 @@
  */
 package server;
 
-public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+import java.io.IOException;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+/**
+ * This is where the server starts
+ */
+public class App {
+
+    /**
+     * Main function: run the server
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
+        Server server = new Server(12345);
+        server.run();
     }
 }

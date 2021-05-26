@@ -113,4 +113,36 @@ public class BattleshipBoardTest {
 		assertEquals(null, b.whatIsAtForEnemy(c9));
 		assertEquals('c', b.whatIsAtForEnemy(c5));
 	}
+
+	@Test
+	public void test_all_sunk() {
+		CharShipFactory f = new CharShipFactory();
+		Board<Character> b = new BattleshipBoard<>(10, 20, new NoCollisionRuleChecker<>(null), 'X');
+		Coordinate c1 = new Coordinate(1, 4);
+		Coordinate c2 = new Coordinate(2, 6);
+		Coordinate c3 = new Coordinate(5, 5);
+		Coordinate c4 = new Coordinate(4, 4);
+		Coordinate c5 = new Coordinate(2, 8);
+		Coordinate c6 = new Coordinate(2, 4);
+		Coordinate c7 = new Coordinate(1, 4);
+		Coordinate c8 = new Coordinate(3, 4);
+		Coordinate c9 = new Coordinate(2, 7);
+		Ship<Character> s1 = f.makeBattleship(new Placement(c1, 'V'));
+		Ship<Character> s2 = f.makeDestroyer(new Placement(c2, 'H'));
+		b.tryAddShip(s1);
+		b.tryAddShip(s2);
+		b.fireAt(c4);
+		assertEquals(false, b.isAllShipSunk());
+		b.fireAt(c6);
+		b.fireAt(c7);
+		b.fireAt(c8);
+		assertEquals(false, b.isAllShipSunk());
+		b.fireAt(c3);
+		assertEquals(false, b.isAllShipSunk());
+		b.fireAt(c2);
+		b.fireAt(c5);
+		b.fireAt(c9);
+		assertEquals(true, b.isAllShipSunk());
+	}
+
 }
