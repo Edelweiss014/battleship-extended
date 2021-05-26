@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import shared.response.Response;
 
@@ -26,6 +27,11 @@ public class Server {
      * The ID of the next game (which starts from 0)
      */
     private int nextGameId;
+
+    /**
+     * The hash map to store games
+     */
+    private HashMap<Integer, Game> games;
 
     /**
      * The list of player handler
@@ -67,13 +73,33 @@ public class Server {
     }
 
     /**
+     * Check whether a certain game exists
+     * @param gameId is the game id
+     */
+    private void checkGameExist(int gameId) {
+        if (!games.containsKey(gameId)) {
+            throw new IllegalArgumentException("Game does not exist");
+        }
+    }
+
+    /**
+     * Given the id, get the required game
+     * @param id is the game id to get
+     * @return the corresponding game
+     */
+    public Game getGameById(int gameId) {
+        checkGameExist(gameId);
+        return games.get(gameId);
+    }
+
+    /**
      * Broadcase a message to all players that are in
      *      a gme
      * @param r is the response to send
      * @param gameId is the game to send the message
      */
     public void sendResponseToAllInGame(Response r, int gameId) {
-
+        
     }
 
     /**

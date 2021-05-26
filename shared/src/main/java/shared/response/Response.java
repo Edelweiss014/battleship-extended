@@ -11,5 +11,18 @@ public interface Response extends Serializable {
      * Get the type of the response
      * @return a string representing the response type
      */
-    String getResponseType();
+    public String getResponseType();
+
+    /**
+     * Get the response result
+     * @return SUCCESS or FAILURE
+     */
+    public String getResponseResult();
+
+    /**
+     * Get the response message
+     * @return the response message string
+     */
+    public String getResponseMsg();
+
 }

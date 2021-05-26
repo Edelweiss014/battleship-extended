@@ -7,7 +7,9 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import shared.request.EndSocketRequest;
 import shared.request.Request;
+import shared.request.RequestType;
 import shared.response.Response;
 
 public class PlayerHandler extends Thread {
@@ -64,7 +66,26 @@ public class PlayerHandler extends Thread {
      * it works by adding pairs to the HashMap
      */
     public void initActions() {
+        actionFns.put(RequestType.CREATE_GAME_JOIN, (r) -> workWithCreateGameJoin(r));
+    }
 
+    /**
+     * Get the current player that the thread is handling
+     * @return the current username in this thread
+     */
+    public String getCurrentUsername() {
+        return currentUsername;
+    }
+
+    /**
+     * Work with CreateGameJoinRequest and send corresponding
+     *      response
+     * @param r is the request
+     */
+    public void workWithCreateGameJoin(Request r) {
+        if (r.getRequestType().equals(RequestType.CREATE_GAME_JOIN)) {
+            
+        }
     }
 
     /**
@@ -92,4 +113,31 @@ public class PlayerHandler extends Thread {
         }
     }
 
+    /**
+     * Map the request into its corresponding "workWith" function
+     * @param r is the received request
+     */
+    private void workWithRequest(Request r) {
+        actionFns.get(r.getRequestType()).accept(r);
+    }
+
+    /**
+     * The override run() function of the thread
+     */
+    @Override
+    public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                Request r = receiveRequest();
+                workWithRequest(r);
+                if (r instanceof EndSocketRequest) {
+                    clientSocket.close();
+                    break;
+                }
+            }
+            catch (Exception e) {
+                continue;
+            }
+        }
+    }
 }

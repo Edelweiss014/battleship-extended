@@ -18,5 +18,11 @@ public class Game {
         this.id = _id;
     }
 
-
+    /**
+     * Get the game id
+     * @return
+     */
+    public int getId() {
+        return id;
+    }
 }
