@@ -1,6 +1,10 @@
-package shared;
+package shared.ship;
 
 import java.util.HashSet;
+
+import shared.Coordinate;
+import shared.ShipDisplayInfo;
+import shared.SimpleShipDisplayInfo;
 
 public class RectangleShip<T> extends BasicShip<T> {
 

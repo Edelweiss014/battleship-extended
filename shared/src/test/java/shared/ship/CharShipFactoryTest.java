@@ -1,8 +1,12 @@
-package shared;
+package shared.ship;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import shared.Coordinate;
+import shared.Placement;
+import shared.ship.CharShipFactory;
 
 public class CharShipFactoryTest {
 

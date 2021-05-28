@@ -1,4 +1,7 @@
-package shared;
+package shared.checker;
+
+import shared.Board;
+import shared.ship.Ship;
 
 /**
  * This class is the parent class of all rule checkers. It 

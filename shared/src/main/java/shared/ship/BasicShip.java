@@ -1,6 +1,9 @@
-package shared;
+package shared.ship;
 
 import java.util.HashMap;
+
+import shared.Coordinate;
+import shared.ShipDisplayInfo;
 
 public abstract class BasicShip<T> implements Ship<T> {
     /**

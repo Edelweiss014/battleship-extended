@@ -3,6 +3,10 @@ package shared;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import shared.checker.InBoundsRuleChecker;
+import shared.checker.PlacementRuleChecker;
+import shared.ship.Ship;
+
 /**
  * This is a battleship board for game playing
  */

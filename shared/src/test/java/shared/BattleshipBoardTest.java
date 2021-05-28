@@ -4,6 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import shared.checker.InBoundsRuleChecker;
+import shared.checker.NoCollisionRuleChecker;
+import shared.checker.PlacementRuleChecker;
+import shared.ship.CharShipFactory;
+import shared.ship.RectangleShip;
+import shared.ship.Ship;
+
 public class BattleshipBoardTest {
 	@Test
 	public void test_width_height() {

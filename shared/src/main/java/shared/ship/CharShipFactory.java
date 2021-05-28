@@ -1,4 +1,6 @@
-package shared;
+package shared.ship;
+
+import shared.Placement;
 
 /**
  * This is the ship factory for this battleship game

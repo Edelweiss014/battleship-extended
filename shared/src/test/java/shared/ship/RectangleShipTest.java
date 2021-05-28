@@ -1,10 +1,13 @@
-package shared;
+package shared.ship;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
+
+import shared.Coordinate;
+import shared.ship.RectangleShip;
 
 public class RectangleShipTest {
 	@Test

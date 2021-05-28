@@ -1,4 +1,6 @@
-package shared;
+package shared.ship;
+
+import shared.Coordinate;
 
 /**
  * This interface represents any type of Ship in our Battleship game. It is

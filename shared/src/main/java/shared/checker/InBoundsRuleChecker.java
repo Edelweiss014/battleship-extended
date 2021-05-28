@@ -1,4 +1,8 @@
-package shared;
+package shared.checker;
+
+import shared.Board;
+import shared.Coordinate;
+import shared.ship.Ship;
 
 /**
  * This is a rule checker that checks whether the placement of

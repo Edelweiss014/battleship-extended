@@ -1,4 +1,6 @@
-package shared;
+package shared.ship;
+
+import shared.Placement;
 
 /**
  * This interface represents an Abstract Factory pattern

@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import shared.ship.CharShipFactory;
+import shared.ship.Ship;
+
 public class BoardTextViewTest {
 	@Test
 	public void test_() {

@@ -1,5 +1,7 @@
 package shared;
 
+import shared.ship.Ship;
+
 /**
  * This is a board interface
  */
