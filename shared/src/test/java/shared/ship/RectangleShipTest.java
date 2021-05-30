@@ -7,7 +7,6 @@ import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 
 import shared.Coordinate;
-import shared.ship.RectangleShip;
 
 public class RectangleShipTest {
 	@Test

@@ -48,6 +48,7 @@ public class Server {
         this.clientSockets = new ArrayList<>();
         this.playerHandlers = new ArrayList<>();
         this.nextGameId = 0;
+        this.games = new HashMap<>();
     }
 
     /**
@@ -99,7 +100,27 @@ public class Server {
      * @param gameId is the game to send the message
      */
     public void sendResponseToAllInGame(Response r, int gameId) {
-        
+        Game g = games.get(gameId);
+        for (PlayerHandler p : playerHandlers) {
+            if (g.containsPlayer(p.getCurrentUsername())) {
+                p.sendResponse(r);
+            }
+        }
+    }
+
+    /**
+     * Create a new game with a new id
+     * @return the game id
+     */
+    public int createNewGameAndAdd1Player(String gameType, String playerName) {
+        Game game = new Game(nextGameId);
+        games.put(nextGameId, game);
+        String addResult = game.acceptPlayer(playerName);
+        if (addResult != null) {
+            throw new IllegalArgumentException(addResult);
+        }
+        nextGameId++;
+        return game.getId();
     }
 
     /**

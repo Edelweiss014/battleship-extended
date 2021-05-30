@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import shared.Coordinate;
 import shared.Placement;
-import shared.ship.CharShipFactory;
 
 public class CharShipFactoryTest {
 

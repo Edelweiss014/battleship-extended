@@ -7,10 +7,13 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import shared.request.CreateGameJoinRequest;
 import shared.request.EndSocketRequest;
 import shared.request.Request;
 import shared.request.RequestType;
+import shared.response.CreateGameJoinResponse;
 import shared.response.Response;
+import shared.response.ResponseResult;
 
 public class PlayerHandler extends Thread {
     /**
@@ -84,7 +87,18 @@ public class PlayerHandler extends Thread {
      */
     public void workWithCreateGameJoin(Request r) {
         if (r.getRequestType().equals(RequestType.CREATE_GAME_JOIN)) {
-            
+            CreateGameJoinRequest cgr = (CreateGameJoinRequest) r;
+            String playerName = cgr.getPlayerName();
+            String gameType = cgr.getGameType();
+            try {
+                int gameId = server.createNewGameAndAdd1Player(gameType, playerName);
+                CreateGameJoinResponse res = new CreateGameJoinResponse(ResponseResult.SUCCESS, "Success", gameId);
+                sendResponse(res);
+            }
+            catch (Exception e) {
+                CreateGameJoinResponse res = new CreateGameJoinResponse(ResponseResult.FAILURE, e.getMessage(), -1);
+                sendResponse(res);
+            }
         }
     }
 
