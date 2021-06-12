@@ -7,9 +7,6 @@
  plugins {
     id 'com.bmuschko.clover' version '2.2.3'
 }
-repositories {
-    jcenter()
-}
 subprojects{
     apply plugin: "java"
     apply plugin: "com.bmuschko.clover"
