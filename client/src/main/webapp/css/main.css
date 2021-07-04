@@ -3,3 +3,12 @@
     margin: 0 auto;
     width: 800px;
 }
+
+#icon {
+    font-size: larger;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px 0;
+    text-align: center;
+    width: 370px;
+    height: 70px;
+}

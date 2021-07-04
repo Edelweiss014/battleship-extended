@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/main/webapp/javascript/Greeting.jsx":
-/*!*************************************************!*\
-  !*** ./src/main/webapp/javascript/Greeting.jsx ***!
-  \*************************************************/
+/***/ "./src/main/webapp/javascript/Icon.jsx":
+/*!*********************************************!*\
+  !*** ./src/main/webapp/javascript/Icon.jsx ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -13,6 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../css/main.css */ "./src/main/webapp/css/main.css");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,34 +38,31 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var Greeting = /*#__PURE__*/function (_Component) {
-  _inherits(Greeting, _Component);
 
-  var _super = _createSuper(Greeting);
+var Icon = /*#__PURE__*/function (_Component) {
+  _inherits(Icon, _Component);
 
-  function Greeting() {
-    _classCallCheck(this, Greeting);
+  var _super = _createSuper(Icon);
+
+  function Icon() {
+    _classCallCheck(this, Icon);
 
     return _super.apply(this, arguments);
   }
 
-  _createClass(Greeting, [{
+  _createClass(Icon, [{
     key: "render",
     value: function render() {
-      if (!this.props.greeting) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Hello...");
-      }
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        id: "greeting"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("em", null, this.props.greeting.content));
+        id: "icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Battleship"));
     }
   }]);
 
-  return Greeting;
+  return Icon;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Greeting);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Icon);
 
 /***/ }),
 
@@ -87,7 +85,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}", "",{"version":3,"sources":["webpack://./src/main/webapp/css/main.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,cAAc;IACd,YAAY;AAChB","sourcesContent":["#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: 'Courier New', Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}", "",{"version":3,"sources":["webpack://./src/main/webapp/css/main.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,cAAc;IACd,YAAY;AAChB;;AAEA;IACI,iBAAiB;IACjB,8CAA8C;IAC9C,eAAe;IACf,kBAAkB;IAClB,YAAY;IACZ,YAAY;AAChB","sourcesContent":["#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: 'Courier New', Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30405,7 +30403,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _Greeting__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Greeting */ "./src/main/webapp/javascript/Greeting.jsx");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Icon */ "./src/main/webapp/javascript/Icon.jsx");
 /* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../css/main.css */ "./src/main/webapp/css/main.css");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -30469,11 +30467,7 @@ var Main = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        id: "main"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Demo Component"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Greeting__WEBPACK_IMPORTED_MODULE_2__.default, {
-        greeting: this.state.greeting
-      }));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_2__.default, null));
     }
   }]);
 
