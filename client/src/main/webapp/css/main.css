@@ -6,9 +6,15 @@
 
 #icon {
     font-size: larger;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
     padding: 10px 0;
     text-align: center;
     width: 370px;
     height: 70px;
+}
+
+.indexButton {
+    margin: 600px;
+    width: 200px;
+    height: 200px;
 }

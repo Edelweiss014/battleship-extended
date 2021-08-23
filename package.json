@@ -1,0 +1,28 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "This project is adopted from [Duke ECE651 Homework 1](https://adhilton.pratt.duke.edu/ece-651).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Edelweiss014/battleship-extended.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Edelweiss014/battleship-extended/issues"
+  },
+  "homepage": "https://github.com/Edelweiss014/battleship-extended#readme",
+  "devDependencies": {
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-router-dom": "^5.2.0"
+  }
+}

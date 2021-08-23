@@ -2,6 +2,17817 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@fluentui/dom-utilities/lib/elementContains.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/elementContains.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "elementContains": () => (/* binding */ elementContains)
+/* harmony export */ });
+/* harmony import */ var _getParent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getParent */ "./node_modules/@fluentui/dom-utilities/lib/getParent.js");
+
+/**
+ * Determines whether or not a parent element contains a given child element.
+ * If `allowVirtualParents` is true, this method may return `true` if the child
+ * has the parent in its virtual element hierarchy.
+ *
+ * @public
+ */
+function elementContains(parent, child, allowVirtualParents) {
+    if (allowVirtualParents === void 0) { allowVirtualParents = true; }
+    var isContained = false;
+    if (parent && child) {
+        if (allowVirtualParents) {
+            if (parent === child) {
+                isContained = true;
+            }
+            else {
+                isContained = false;
+                while (child) {
+                    var nextParent = (0,_getParent__WEBPACK_IMPORTED_MODULE_0__.getParent)(child);
+                    if (nextParent === parent) {
+                        isContained = true;
+                        break;
+                    }
+                    child = nextParent;
+                }
+            }
+        }
+        else if (parent.contains) {
+            isContained = parent.contains(child);
+        }
+    }
+    return isContained;
+}
+//# sourceMappingURL=elementContains.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/elementContainsAttribute.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/elementContainsAttribute.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "elementContainsAttribute": () => (/* binding */ elementContainsAttribute)
+/* harmony export */ });
+/* harmony import */ var _findElementRecursive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./findElementRecursive */ "./node_modules/@fluentui/dom-utilities/lib/findElementRecursive.js");
+
+/**
+ * Determines if an element, or any of its ancestors, contain the given attribute
+ * @param element - element to start searching at
+ * @param attribute - the attribute to search for
+ * @returns the value of the first instance found
+ */
+function elementContainsAttribute(element, attribute) {
+    var elementMatch = (0,_findElementRecursive__WEBPACK_IMPORTED_MODULE_0__.findElementRecursive)(element, function (testElement) { return testElement.hasAttribute(attribute); });
+    return elementMatch && elementMatch.getAttribute(attribute);
+}
+//# sourceMappingURL=elementContainsAttribute.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/findElementRecursive.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/findElementRecursive.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "findElementRecursive": () => (/* binding */ findElementRecursive)
+/* harmony export */ });
+/* harmony import */ var _getParent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getParent */ "./node_modules/@fluentui/dom-utilities/lib/getParent.js");
+
+/**
+ * Finds the first parent element where the matchFunction returns true
+ * @param element - element to start searching at
+ * @param matchFunction - the function that determines if the element is a match
+ * @returns the matched element or null no match was found
+ */
+function findElementRecursive(element, matchFunction) {
+    if (!element || element === document.body) {
+        return null;
+    }
+    return matchFunction(element) ? element : findElementRecursive((0,_getParent__WEBPACK_IMPORTED_MODULE_0__.getParent)(element), matchFunction);
+}
+//# sourceMappingURL=findElementRecursive.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/getParent.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/getParent.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getParent": () => (/* binding */ getParent)
+/* harmony export */ });
+/* harmony import */ var _getVirtualParent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getVirtualParent */ "./node_modules/@fluentui/dom-utilities/lib/getVirtualParent.js");
+
+/**
+ * Gets the element which is the parent of a given element.
+ * If `allowVirtuaParents` is `true`, this method prefers the virtual parent over
+ * real DOM parent when present.
+ *
+ * @public
+ */
+function getParent(child, allowVirtualParents) {
+    if (allowVirtualParents === void 0) { allowVirtualParents = true; }
+    return (child &&
+        ((allowVirtualParents && (0,_getVirtualParent__WEBPACK_IMPORTED_MODULE_0__.getVirtualParent)(child)) || (child.parentNode && child.parentNode)));
+}
+//# sourceMappingURL=getParent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/getVirtualParent.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/getVirtualParent.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getVirtualParent": () => (/* binding */ getVirtualParent)
+/* harmony export */ });
+/* harmony import */ var _isVirtualElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isVirtualElement */ "./node_modules/@fluentui/dom-utilities/lib/isVirtualElement.js");
+
+/**
+ * Gets the virtual parent given the child element, if it exists.
+ *
+ * @public
+ */
+function getVirtualParent(child) {
+    var parent;
+    if (child && (0,_isVirtualElement__WEBPACK_IMPORTED_MODULE_0__.isVirtualElement)(child)) {
+        parent = child._virtual.parent;
+    }
+    return parent;
+}
+//# sourceMappingURL=getVirtualParent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/isVirtualElement.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/isVirtualElement.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isVirtualElement": () => (/* binding */ isVirtualElement)
+/* harmony export */ });
+/**
+ * Determines whether or not an element has the virtual hierarchy extension.
+ *
+ * @public
+ */
+function isVirtualElement(element) {
+    return element && !!element._virtual;
+}
+//# sourceMappingURL=isVirtualElement.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/portalContainsElement.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/portalContainsElement.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "portalContainsElement": () => (/* binding */ portalContainsElement)
+/* harmony export */ });
+/* harmony import */ var _findElementRecursive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./findElementRecursive */ "./node_modules/@fluentui/dom-utilities/lib/findElementRecursive.js");
+/* harmony import */ var _setPortalAttribute__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./setPortalAttribute */ "./node_modules/@fluentui/dom-utilities/lib/setPortalAttribute.js");
+
+
+/**
+ * Determine whether a target is within a portal from perspective of root or optional parent.
+ * This function only works against portal components that use the setPortalAttribute function.
+ * If both parent and child are within the same portal this function will return false.
+ * @param target - Element to query portal containment status of.
+ * @param parent - Optional parent perspective. Search for containing portal stops at parent
+ * (or root if parent is undefined or invalid.)
+ */
+function portalContainsElement(target, parent) {
+    var elementMatch = (0,_findElementRecursive__WEBPACK_IMPORTED_MODULE_0__.findElementRecursive)(target, function (testElement) { return parent === testElement || testElement.hasAttribute(_setPortalAttribute__WEBPACK_IMPORTED_MODULE_1__.DATA_PORTAL_ATTRIBUTE); });
+    return elementMatch !== null && elementMatch.hasAttribute(_setPortalAttribute__WEBPACK_IMPORTED_MODULE_1__.DATA_PORTAL_ATTRIBUTE);
+}
+//# sourceMappingURL=portalContainsElement.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/setPortalAttribute.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/setPortalAttribute.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DATA_PORTAL_ATTRIBUTE": () => (/* binding */ DATA_PORTAL_ATTRIBUTE),
+/* harmony export */   "setPortalAttribute": () => (/* binding */ setPortalAttribute)
+/* harmony export */ });
+var DATA_PORTAL_ATTRIBUTE = 'data-portal-element';
+/**
+ * Identify element as a portal by setting an attribute.
+ * @param element - Element to mark as a portal.
+ */
+function setPortalAttribute(element) {
+    element.setAttribute(DATA_PORTAL_ATTRIBUTE, 'true');
+}
+//# sourceMappingURL=setPortalAttribute.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/dom-utilities/lib/setVirtualParent.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/dom-utilities/lib/setVirtualParent.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setVirtualParent": () => (/* binding */ setVirtualParent)
+/* harmony export */ });
+/**
+ * Sets the virtual parent of an element.
+ * Pass `undefined` as the `parent` to clear the virtual parent.
+ *
+ * @public
+ */
+function setVirtualParent(child, parent) {
+    var virtualChild = child;
+    var virtualParent = parent;
+    if (!virtualChild._virtual) {
+        virtualChild._virtual = {
+            children: [],
+        };
+    }
+    var oldParent = virtualChild._virtual.parent;
+    if (oldParent && oldParent !== parent) {
+        // Remove the child from its old parent.
+        var index = oldParent._virtual.children.indexOf(virtualChild);
+        if (index > -1) {
+            oldParent._virtual.children.splice(index, 1);
+        }
+    }
+    virtualChild._virtual.parent = virtualParent || undefined;
+    if (virtualParent) {
+        if (!virtualParent._virtual) {
+            virtualParent._virtual = {
+                children: [],
+            };
+        }
+        virtualParent._virtual.children.push(virtualChild);
+    }
+}
+//# sourceMappingURL=setVirtualParent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setRTL": () => (/* binding */ setRTL),
+/* harmony export */   "getRTL": () => (/* binding */ getRTL),
+/* harmony export */   "getStyleOptions": () => (/* binding */ getStyleOptions)
+/* harmony export */ });
+/**
+ * Sets the current RTL value.
+ */
+function setRTL(isRTL) {
+    if (_rtl !== isRTL) {
+        _rtl = isRTL;
+    }
+}
+/**
+ * Gets the current RTL value.
+ */
+function getRTL() {
+    if (_rtl === undefined) {
+        _rtl =
+            typeof document !== 'undefined' &&
+                !!document.documentElement &&
+                document.documentElement.getAttribute('dir') === 'rtl';
+    }
+    return _rtl;
+}
+// This has been split into 2 lines because it was working in Fabric due to the code being transpiled to es5, so this
+// was converted to var while not working in Fluent that uses babel to transpile the code to be es6-like. Splitting the
+// logic into two lines, however, allows it to work in both scenarios.
+var _rtl;
+_rtl = getRTL();
+function getStyleOptions() {
+    return {
+        rtl: getRTL(),
+    };
+}
+//# sourceMappingURL=StyleOptionsState.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/Stylesheet.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "InjectionMode": () => (/* binding */ InjectionMode),
+/* harmony export */   "Stylesheet": () => (/* binding */ Stylesheet)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+var InjectionMode = {
+    /**
+     * Avoids style injection, use getRules() to read the styles.
+     */
+    none: 0,
+    /**
+     * Inserts rules using the insertRule api.
+     */
+    insertNode: 1,
+    /**
+     * Appends rules using appendChild.
+     */
+    appendChild: 2,
+};
+var STYLESHEET_SETTING = '__stylesheet__';
+/**
+ * MSIE 11 doesn't cascade styles based on DOM ordering, but rather on the order that each style node
+ * is created. As such, to maintain consistent priority, IE11 should reuse a single style node.
+ */
+var REUSE_STYLE_NODE = typeof navigator !== 'undefined' && /rv:11.0/.test(navigator.userAgent);
+var _global = {};
+// Grab window.
+try {
+    _global = window;
+}
+catch (_a) {
+    /* leave as blank object */
+}
+var _stylesheet;
+/**
+ * Represents the state of styles registered in the page. Abstracts
+ * the surface for adding styles to the stylesheet, exposes helpers
+ * for reading the styles registered in server rendered scenarios.
+ *
+ * @public
+ */
+var Stylesheet = /** @class */ (function () {
+    function Stylesheet(config) {
+        this._rules = [];
+        this._preservedRules = [];
+        this._rulesToInsert = [];
+        this._counter = 0;
+        this._keyToClassName = {};
+        this._onResetCallbacks = [];
+        this._classNameToArgs = {};
+        this._config = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({ injectionMode: InjectionMode.insertNode, defaultPrefix: 'css', namespace: undefined, cspSettings: undefined }, config);
+        this._keyToClassName = this._config.classNameCache || {};
+    }
+    /**
+     * Gets the singleton instance.
+     */
+    Stylesheet.getInstance = function () {
+        _stylesheet = _global[STYLESHEET_SETTING];
+        if (!_stylesheet || (_stylesheet._lastStyleElement && _stylesheet._lastStyleElement.ownerDocument !== document)) {
+            var fabricConfig = (_global === null || _global === void 0 ? void 0 : _global.FabricConfig) || {};
+            _stylesheet = _global[STYLESHEET_SETTING] = new Stylesheet(fabricConfig.mergeStyles);
+        }
+        return _stylesheet;
+    };
+    /**
+     * Configures the stylesheet.
+     */
+    Stylesheet.prototype.setConfig = function (config) {
+        this._config = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({}, this._config), config);
+    };
+    /**
+     * Configures a reset callback.
+     *
+     * @param callback - A callback which will be called when the Stylesheet is reset.
+     */
+    Stylesheet.prototype.onReset = function (callback) {
+        this._onResetCallbacks.push(callback);
+    };
+    /**
+     * Generates a unique classname.
+     *
+     * @param displayName - Optional value to use as a prefix.
+     */
+    Stylesheet.prototype.getClassName = function (displayName) {
+        var namespace = this._config.namespace;
+        var prefix = displayName || this._config.defaultPrefix;
+        return "" + (namespace ? namespace + '-' : '') + prefix + "-" + this._counter++;
+    };
+    /**
+     * Used internally to cache information about a class which was
+     * registered with the stylesheet.
+     */
+    Stylesheet.prototype.cacheClassName = function (className, key, args, rules) {
+        this._keyToClassName[key] = className;
+        this._classNameToArgs[className] = {
+            args: args,
+            rules: rules,
+        };
+    };
+    /**
+     * Gets the appropriate classname given a key which was previously
+     * registered using cacheClassName.
+     */
+    Stylesheet.prototype.classNameFromKey = function (key) {
+        return this._keyToClassName[key];
+    };
+    /**
+     * Gets all classnames cache with the stylesheet.
+     */
+    Stylesheet.prototype.getClassNameCache = function () {
+        return this._keyToClassName;
+    };
+    /**
+     * Gets the arguments associated with a given classname which was
+     * previously registered using cacheClassName.
+     */
+    Stylesheet.prototype.argsFromClassName = function (className) {
+        var entry = this._classNameToArgs[className];
+        return entry && entry.args;
+    };
+    /**
+     * Gets the arguments associated with a given classname which was
+     * previously registered using cacheClassName.
+     */
+    Stylesheet.prototype.insertedRulesFromClassName = function (className) {
+        var entry = this._classNameToArgs[className];
+        return entry && entry.rules;
+    };
+    /**
+     * Inserts a css rule into the stylesheet.
+     * @param preserve - Preserves the rule beyond a reset boundary.
+     */
+    Stylesheet.prototype.insertRule = function (rule, preserve) {
+        var injectionMode = this._config.injectionMode;
+        var element = injectionMode !== InjectionMode.none ? this._getStyleElement() : undefined;
+        if (preserve) {
+            this._preservedRules.push(rule);
+        }
+        if (element) {
+            switch (this._config.injectionMode) {
+                case InjectionMode.insertNode:
+                    var sheet = element.sheet;
+                    try {
+                        sheet.insertRule(rule, sheet.cssRules.length);
+                    }
+                    catch (e) {
+                        // The browser will throw exceptions on unsupported rules (such as a moz prefix in webkit.)
+                        // We need to swallow the exceptions for this scenario, otherwise we'd need to filter
+                        // which could be slower and bulkier.
+                    }
+                    break;
+                case InjectionMode.appendChild:
+                    element.appendChild(document.createTextNode(rule));
+                    break;
+            }
+        }
+        else {
+            this._rules.push(rule);
+        }
+        if (this._config.onInsertRule) {
+            this._config.onInsertRule(rule);
+        }
+    };
+    /**
+     * Gets all rules registered with the stylesheet; only valid when
+     * using InsertionMode.none.
+     */
+    Stylesheet.prototype.getRules = function (includePreservedRules) {
+        return ((includePreservedRules ? this._preservedRules.join('') : '') + this._rules.join('') + this._rulesToInsert.join(''));
+    };
+    /**
+     * Resets the internal state of the stylesheet. Only used in server
+     * rendered scenarios where we're using InsertionMode.none.
+     */
+    Stylesheet.prototype.reset = function () {
+        this._rules = [];
+        this._rulesToInsert = [];
+        this._counter = 0;
+        this._classNameToArgs = {};
+        this._keyToClassName = {};
+        this._onResetCallbacks.forEach(function (callback) { return callback(); });
+    };
+    // Forces the regeneration of incoming styles without totally resetting the stylesheet.
+    Stylesheet.prototype.resetKeys = function () {
+        this._keyToClassName = {};
+    };
+    Stylesheet.prototype._getStyleElement = function () {
+        var _this = this;
+        if (!this._styleElement && typeof document !== 'undefined') {
+            this._styleElement = this._createStyleElement();
+            if (!REUSE_STYLE_NODE) {
+                // Reset the style element on the next frame.
+                window.requestAnimationFrame(function () {
+                    _this._styleElement = undefined;
+                });
+            }
+        }
+        return this._styleElement;
+    };
+    Stylesheet.prototype._createStyleElement = function () {
+        var head = document.head;
+        var styleElement = document.createElement('style');
+        styleElement.setAttribute('data-merge-styles', 'true');
+        var cspSettings = this._config.cspSettings;
+        if (cspSettings) {
+            if (cspSettings.nonce) {
+                styleElement.setAttribute('nonce', cspSettings.nonce);
+            }
+        }
+        if (this._lastStyleElement) {
+            // If the `nextElementSibling` is null, then the insertBefore will act as a regular append.
+            // https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore#Syntax
+            head.insertBefore(styleElement, this._lastStyleElement.nextElementSibling);
+        }
+        else {
+            var placeholderStyleTag = this._findPlaceholderStyleTag();
+            if (placeholderStyleTag) {
+                head.insertBefore(styleElement, placeholderStyleTag.nextElementSibling);
+            }
+            else {
+                head.insertBefore(styleElement, head.childNodes[0]);
+            }
+        }
+        this._lastStyleElement = styleElement;
+        return styleElement;
+    };
+    Stylesheet.prototype._findPlaceholderStyleTag = function () {
+        var head = document.head;
+        if (head) {
+            return head.querySelector('style[data-merge-styles]');
+        }
+        return null;
+    };
+    return Stylesheet;
+}());
+
+//# sourceMappingURL=Stylesheet.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/concatStyleSets.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/concatStyleSets.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "concatStyleSets": () => (/* binding */ concatStyleSets)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+/**
+ * Combine a set of styles together (but does not register css classes).
+ * @param styleSets - One or more stylesets to be merged (each param can also be falsy).
+ */
+function concatStyleSets() {
+    var styleSets = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        styleSets[_i] = arguments[_i];
+    }
+    if (styleSets && styleSets.length === 1 && styleSets[0] && !styleSets[0].subComponentStyles) {
+        return styleSets[0];
+    }
+    var mergedSet = {};
+    // We process sub component styles in two phases. First we collect them, then we combine them into 1 style function.
+    var workingSubcomponentStyles = {};
+    for (var _a = 0, styleSets_1 = styleSets; _a < styleSets_1.length; _a++) {
+        var currentSet = styleSets_1[_a];
+        if (currentSet) {
+            for (var prop in currentSet) {
+                if (currentSet.hasOwnProperty(prop)) {
+                    if (prop === 'subComponentStyles' && currentSet.subComponentStyles !== undefined) {
+                        // subcomponent styles - style functions or objects
+                        var currentComponentStyles = currentSet.subComponentStyles;
+                        for (var subCompProp in currentComponentStyles) {
+                            if (currentComponentStyles.hasOwnProperty(subCompProp)) {
+                                if (workingSubcomponentStyles.hasOwnProperty(subCompProp)) {
+                                    workingSubcomponentStyles[subCompProp].push(currentComponentStyles[subCompProp]);
+                                }
+                                else {
+                                    workingSubcomponentStyles[subCompProp] = [currentComponentStyles[subCompProp]];
+                                }
+                            }
+                        }
+                        continue;
+                    }
+                    // the as any casts below is a workaround for ts 2.8.
+                    // todo: remove cast to any in ts 2.9.
+                    var mergedValue = mergedSet[prop];
+                    var currentValue = currentSet[prop];
+                    if (mergedValue === undefined) {
+                        mergedSet[prop] = currentValue;
+                    }
+                    else {
+                        mergedSet[prop] = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__spreadArrays)((Array.isArray(mergedValue) ? mergedValue : [mergedValue]), (Array.isArray(currentValue) ? currentValue : [currentValue]));
+                    }
+                }
+            }
+        }
+    }
+    if (Object.keys(workingSubcomponentStyles).length > 0) {
+        mergedSet.subComponentStyles = {};
+        var mergedSubStyles = mergedSet.subComponentStyles;
+        var _loop_1 = function (subCompProp) {
+            if (workingSubcomponentStyles.hasOwnProperty(subCompProp)) {
+                var workingSet_1 = workingSubcomponentStyles[subCompProp];
+                mergedSubStyles[subCompProp] = function (styleProps) {
+                    return concatStyleSets.apply(void 0, workingSet_1.map(function (styleFunctionOrObject) {
+                        return typeof styleFunctionOrObject === 'function' ? styleFunctionOrObject(styleProps) : styleFunctionOrObject;
+                    }));
+                };
+            }
+        };
+        // now we process the subcomponent styles if there are any
+        for (var subCompProp in workingSubcomponentStyles) {
+            _loop_1(subCompProp);
+        }
+    }
+    return mergedSet;
+}
+//# sourceMappingURL=concatStyleSets.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/concatStyleSetsWithProps.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/concatStyleSetsWithProps.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "concatStyleSetsWithProps": () => (/* binding */ concatStyleSetsWithProps)
+/* harmony export */ });
+/* harmony import */ var _concatStyleSets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./concatStyleSets */ "./node_modules/@fluentui/merge-styles/lib/concatStyleSets.js");
+
+/**
+ * Concatenates style sets into one, but resolves functional sets using the given props.
+ * @param styleProps - Props used to resolve functional sets.
+ * @param allStyles - Style sets, which can be functions or objects.
+ */
+function concatStyleSetsWithProps(styleProps) {
+    var allStyles = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        allStyles[_i - 1] = arguments[_i];
+    }
+    var result = [];
+    for (var _a = 0, allStyles_1 = allStyles; _a < allStyles_1.length; _a++) {
+        var styles = allStyles_1[_a];
+        if (styles) {
+            result.push(typeof styles === 'function' ? styles(styleProps) : styles);
+        }
+    }
+    if (result.length === 1) {
+        return result[0];
+    }
+    else if (result.length) {
+        // cliffkoh: I cannot figure out how to avoid the cast to any here.
+        // It is something to do with the use of Omit in IStyleSet.
+        // It might not be necessary once  Omit becomes part of lib.d.ts (when we remove our own Omit and rely on
+        // the official version).
+        return _concatStyleSets__WEBPACK_IMPORTED_MODULE_0__.concatStyleSets.apply(void 0, result);
+    }
+    return {};
+}
+//# sourceMappingURL=concatStyleSetsWithProps.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/extractStyleParts.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/extractStyleParts.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "extractStyleParts": () => (/* binding */ extractStyleParts)
+/* harmony export */ });
+/* harmony import */ var _Stylesheet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Stylesheet */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+
+/**
+ * Separates the classes and style objects. Any classes that are pre-registered
+ * args are auto expanded into objects.
+ */
+function extractStyleParts() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    var classes = [];
+    var objects = [];
+    var stylesheet = _Stylesheet__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance();
+    function _processArgs(argsList) {
+        for (var _i = 0, argsList_1 = argsList; _i < argsList_1.length; _i++) {
+            var arg = argsList_1[_i];
+            if (arg) {
+                if (typeof arg === 'string') {
+                    if (arg.indexOf(' ') >= 0) {
+                        _processArgs(arg.split(' '));
+                    }
+                    else {
+                        var translatedArgs = stylesheet.argsFromClassName(arg);
+                        if (translatedArgs) {
+                            _processArgs(translatedArgs);
+                        }
+                        else {
+                            // Avoid adding the same class twice.
+                            if (classes.indexOf(arg) === -1) {
+                                classes.push(arg);
+                            }
+                        }
+                    }
+                }
+                else if (Array.isArray(arg)) {
+                    _processArgs(arg);
+                }
+                else if (typeof arg === 'object') {
+                    objects.push(arg);
+                }
+            }
+        }
+    }
+    _processArgs(args);
+    return {
+        classes: classes,
+        objects: objects,
+    };
+}
+//# sourceMappingURL=extractStyleParts.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/fontFace.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/fontFace.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fontFace": () => (/* binding */ fontFace)
+/* harmony export */ });
+/* harmony import */ var _StyleOptionsState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StyleOptionsState */ "./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js");
+/* harmony import */ var _Stylesheet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Stylesheet */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+/* harmony import */ var _styleToClassName__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styleToClassName */ "./node_modules/@fluentui/merge-styles/lib/styleToClassName.js");
+
+
+
+/**
+ * Registers a font face.
+ * @public
+ */
+function fontFace(font) {
+    _Stylesheet__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance().insertRule("@font-face{" + (0,_styleToClassName__WEBPACK_IMPORTED_MODULE_1__.serializeRuleEntries)((0,_StyleOptionsState__WEBPACK_IMPORTED_MODULE_2__.getStyleOptions)(), font) + "}", true);
+}
+//# sourceMappingURL=fontFace.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/getVendorSettings.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/getVendorSettings.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getVendorSettings": () => (/* binding */ getVendorSettings),
+/* harmony export */   "setVendorSettings": () => (/* binding */ setVendorSettings)
+/* harmony export */ });
+var _vendorSettings;
+function getVendorSettings() {
+    if (!_vendorSettings) {
+        var doc = typeof document !== 'undefined' ? document : undefined;
+        var nav = typeof navigator !== 'undefined' ? navigator : undefined;
+        var userAgent = nav ? nav.userAgent.toLowerCase() : undefined;
+        if (!doc) {
+            _vendorSettings = {
+                isWebkit: true,
+                isMoz: true,
+                isOpera: true,
+                isMs: true,
+            };
+        }
+        else {
+            _vendorSettings = {
+                isWebkit: !!(doc && 'WebkitAppearance' in doc.documentElement.style),
+                isMoz: !!(userAgent && userAgent.indexOf('firefox') > -1),
+                isOpera: !!(userAgent && userAgent.indexOf('opera') > -1),
+                isMs: !!(nav && (/rv:11.0/i.test(nav.userAgent) || /Edge\/\d./i.test(navigator.userAgent))),
+            };
+        }
+    }
+    return _vendorSettings;
+}
+/**
+ * Sets the vendor settings for prefixing and vendor specific operations.
+ */
+function setVendorSettings(vendorSettings) {
+    _vendorSettings = vendorSettings;
+}
+//# sourceMappingURL=getVendorSettings.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/keyframes.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/keyframes.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "keyframes": () => (/* binding */ keyframes)
+/* harmony export */ });
+/* harmony import */ var _StyleOptionsState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StyleOptionsState */ "./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js");
+/* harmony import */ var _Stylesheet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Stylesheet */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+/* harmony import */ var _styleToClassName__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styleToClassName */ "./node_modules/@fluentui/merge-styles/lib/styleToClassName.js");
+
+
+
+/**
+ * Registers keyframe definitions.
+ *
+ * @public
+ */
+function keyframes(timeline) {
+    var stylesheet = _Stylesheet__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance();
+    var name = stylesheet.getClassName();
+    var rulesArray = [];
+    for (var prop in timeline) {
+        if (timeline.hasOwnProperty(prop)) {
+            rulesArray.push(prop, '{', (0,_styleToClassName__WEBPACK_IMPORTED_MODULE_1__.serializeRuleEntries)((0,_StyleOptionsState__WEBPACK_IMPORTED_MODULE_2__.getStyleOptions)(), timeline[prop]), '}');
+        }
+    }
+    var rules = rulesArray.join('');
+    stylesheet.insertRule("@keyframes " + name + "{" + rules + "}", true);
+    stylesheet.cacheClassName(name, rules, [], ['keyframes', rules]);
+    return name;
+}
+//# sourceMappingURL=keyframes.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/mergeStyleSets.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/mergeStyleSets.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mergeStyleSets": () => (/* binding */ mergeStyleSets),
+/* harmony export */   "mergeCssSets": () => (/* binding */ mergeCssSets)
+/* harmony export */ });
+/* harmony import */ var _concatStyleSets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./concatStyleSets */ "./node_modules/@fluentui/merge-styles/lib/concatStyleSets.js");
+/* harmony import */ var _extractStyleParts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./extractStyleParts */ "./node_modules/@fluentui/merge-styles/lib/extractStyleParts.js");
+/* harmony import */ var _StyleOptionsState__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StyleOptionsState */ "./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js");
+/* harmony import */ var _styleToClassName__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styleToClassName */ "./node_modules/@fluentui/merge-styles/lib/styleToClassName.js");
+
+
+
+
+/**
+ * Takes in one or more style set objects, each consisting of a set of areas,
+ * each which will produce a class name. Using this is analogous to calling
+ * `mergeStyles` for each property in the object, but ensures we maintain the
+ * set ordering when multiple style sets are merged.
+ *
+ * @param styleSets - One or more style sets to be merged.
+ */
+function mergeStyleSets() {
+    var styleSets = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        styleSets[_i] = arguments[_i];
+    }
+    return mergeCssSets(styleSets, (0,_StyleOptionsState__WEBPACK_IMPORTED_MODULE_0__.getStyleOptions)());
+}
+/**
+ * Takes in one or more style set objects, each1consisting of a set of areas,
+ * each which will produce a class name. Using this is analogous to calling
+ * `mergeCss` for each property in the object, but ensures the
+ * set ordering when multiple style sets are merged.
+ *
+ * @param styleSets - One or more style sets to be merged.
+ * @param options - (optional) Options to use when creating rules.
+ */
+function mergeCssSets(styleSets, options) {
+    var classNameSet = { subComponentStyles: {} };
+    var styleSet = styleSets[0];
+    if (!styleSet && styleSets.length <= 1) {
+        return { subComponentStyles: {} };
+    }
+    var concatenatedStyleSet = _concatStyleSets__WEBPACK_IMPORTED_MODULE_1__.concatStyleSets.apply(void 0, styleSets);
+    var registrations = [];
+    for (var styleSetArea in concatenatedStyleSet) {
+        if (concatenatedStyleSet.hasOwnProperty(styleSetArea)) {
+            if (styleSetArea === 'subComponentStyles') {
+                classNameSet.subComponentStyles = concatenatedStyleSet.subComponentStyles || {};
+                continue;
+            }
+            var styles = concatenatedStyleSet[styleSetArea];
+            var _a = (0,_extractStyleParts__WEBPACK_IMPORTED_MODULE_2__.extractStyleParts)(styles), classes = _a.classes, objects = _a.objects;
+            if (objects === null || objects === void 0 ? void 0 : objects.length) {
+                var registration = (0,_styleToClassName__WEBPACK_IMPORTED_MODULE_3__.styleToRegistration)(options || {}, { displayName: styleSetArea }, objects);
+                if (registration) {
+                    registrations.push(registration);
+                    classNameSet[styleSetArea] = classes.concat([registration.className]).join(' ');
+                }
+            }
+            else {
+                classNameSet[styleSetArea] = classes.join(' ');
+            }
+        }
+    }
+    for (var _i = 0, registrations_1 = registrations; _i < registrations_1.length; _i++) {
+        var registration = registrations_1[_i];
+        if (registration) {
+            (0,_styleToClassName__WEBPACK_IMPORTED_MODULE_3__.applyRegistration)(registration, options === null || options === void 0 ? void 0 : options.specificityMultiplier);
+        }
+    }
+    return classNameSet;
+}
+//# sourceMappingURL=mergeStyleSets.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/mergeStyles.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mergeStyles": () => (/* binding */ mergeStyles),
+/* harmony export */   "mergeCss": () => (/* binding */ mergeCss)
+/* harmony export */ });
+/* harmony import */ var _extractStyleParts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./extractStyleParts */ "./node_modules/@fluentui/merge-styles/lib/extractStyleParts.js");
+/* harmony import */ var _StyleOptionsState__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StyleOptionsState */ "./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js");
+/* harmony import */ var _styleToClassName__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styleToClassName */ "./node_modules/@fluentui/merge-styles/lib/styleToClassName.js");
+
+
+
+/**
+ * Concatenation helper, which can merge class names together. Skips over falsey values.
+ *
+ * @public
+ */
+function mergeStyles() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return mergeCss(args, (0,_StyleOptionsState__WEBPACK_IMPORTED_MODULE_0__.getStyleOptions)());
+}
+/**
+ * Concatenation helper, which can merge class names together. Skips over falsey values.
+ * Accepts a set of options that will be used when calculating styles.
+ *
+ * @public
+ */
+function mergeCss(args, options) {
+    var styleArgs = args instanceof Array ? args : [args];
+    var _a = (0,_extractStyleParts__WEBPACK_IMPORTED_MODULE_1__.extractStyleParts)(styleArgs), classes = _a.classes, objects = _a.objects;
+    if (objects.length) {
+        classes.push((0,_styleToClassName__WEBPACK_IMPORTED_MODULE_2__.styleToClassName)(options || {}, objects));
+    }
+    return classes.join(' ');
+}
+//# sourceMappingURL=mergeStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/styleToClassName.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/styleToClassName.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "serializeRuleEntries": () => (/* binding */ serializeRuleEntries),
+/* harmony export */   "styleToRegistration": () => (/* binding */ styleToRegistration),
+/* harmony export */   "applyRegistration": () => (/* binding */ applyRegistration),
+/* harmony export */   "styleToClassName": () => (/* binding */ styleToClassName)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _Stylesheet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Stylesheet */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+/* harmony import */ var _transforms_kebabRules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transforms/kebabRules */ "./node_modules/@fluentui/merge-styles/lib/transforms/kebabRules.js");
+/* harmony import */ var _transforms_prefixRules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./transforms/prefixRules */ "./node_modules/@fluentui/merge-styles/lib/transforms/prefixRules.js");
+/* harmony import */ var _transforms_provideUnits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transforms/provideUnits */ "./node_modules/@fluentui/merge-styles/lib/transforms/provideUnits.js");
+/* harmony import */ var _transforms_rtlifyRules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./transforms/rtlifyRules */ "./node_modules/@fluentui/merge-styles/lib/transforms/rtlifyRules.js");
+/* harmony import */ var _tokenizeWithParentheses__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tokenizeWithParentheses */ "./node_modules/@fluentui/merge-styles/lib/tokenizeWithParentheses.js");
+
+
+
+
+
+
+
+var DISPLAY_NAME = 'displayName';
+function getDisplayName(rules) {
+    var rootStyle = rules && rules['&'];
+    return rootStyle ? rootStyle.displayName : undefined;
+}
+var globalSelectorRegExp = /\:global\((.+?)\)/g;
+/**
+ * Finds comma separated selectors in a :global() e.g. ":global(.class1, .class2, .class3)"
+ * and wraps them each in their own global ":global(.class1), :global(.class2), :global(.class3)"
+ *
+ * @param selectorWithGlobals The selector to process
+ * @returns The updated selector
+ */
+function expandCommaSeparatedGlobals(selectorWithGlobals) {
+    // We the selector does not have a :global() we can shortcut
+    if (!globalSelectorRegExp.test(selectorWithGlobals)) {
+        return selectorWithGlobals;
+    }
+    var replacementInfo = [];
+    var findGlobal = /\:global\((.+?)\)/g;
+    var match = null;
+    // Create a result list for global selectors so we can replace them.
+    while ((match = findGlobal.exec(selectorWithGlobals))) {
+        // Only if the found selector is a comma separated list we'll process it.
+        if (match[1].indexOf(',') > -1) {
+            replacementInfo.push([
+                match.index,
+                match.index + match[0].length,
+                // Wrap each of the found selectors in :global()
+                match[1]
+                    .split(',')
+                    .map(function (v) { return ":global(" + v.trim() + ")"; })
+                    .join(', '),
+            ]);
+        }
+    }
+    // Replace the found selectors with their wrapped variants in reverse order
+    return replacementInfo
+        .reverse()
+        .reduce(function (selector, _a) {
+        var matchIndex = _a[0], matchEndIndex = _a[1], replacement = _a[2];
+        var prefix = selector.slice(0, matchIndex);
+        var suffix = selector.slice(matchEndIndex);
+        return prefix + replacement + suffix;
+    }, selectorWithGlobals);
+}
+function expandSelector(newSelector, currentSelector) {
+    if (newSelector.indexOf(':global(') >= 0) {
+        return newSelector.replace(globalSelectorRegExp, '$1');
+    }
+    else if (newSelector.indexOf(':') === 0) {
+        return currentSelector + newSelector;
+    }
+    else if (newSelector.indexOf('&') < 0) {
+        return currentSelector + ' ' + newSelector;
+    }
+    return newSelector;
+}
+function extractSelector(currentSelector, rules, selector, value) {
+    if (rules === void 0) { rules = { __order: [] }; }
+    if (selector.indexOf('@') === 0) {
+        selector = selector + '{' + currentSelector;
+        extractRules([value], rules, selector);
+    }
+    else if (selector.indexOf(',') > -1) {
+        expandCommaSeparatedGlobals(selector)
+            .split(',')
+            .map(function (s) { return s.trim(); })
+            .forEach(function (separatedSelector) {
+            return extractRules([value], rules, expandSelector(separatedSelector, currentSelector));
+        });
+    }
+    else {
+        extractRules([value], rules, expandSelector(selector, currentSelector));
+    }
+}
+function extractRules(args, rules, currentSelector) {
+    if (rules === void 0) { rules = { __order: [] }; }
+    if (currentSelector === void 0) { currentSelector = '&'; }
+    var stylesheet = _Stylesheet__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance();
+    var currentRules = rules[currentSelector];
+    if (!currentRules) {
+        currentRules = {};
+        rules[currentSelector] = currentRules;
+        rules.__order.push(currentSelector);
+    }
+    for (var _i = 0, args_1 = args; _i < args_1.length; _i++) {
+        var arg = args_1[_i];
+        // If the arg is a string, we need to look up the class map and merge.
+        if (typeof arg === 'string') {
+            var expandedRules = stylesheet.argsFromClassName(arg);
+            if (expandedRules) {
+                extractRules(expandedRules, rules, currentSelector);
+            }
+            // Else if the arg is an array, we need to recurse in.
+        }
+        else if (Array.isArray(arg)) {
+            extractRules(arg, rules, currentSelector);
+        }
+        else {
+            for (var prop in arg) {
+                if (arg.hasOwnProperty(prop)) {
+                    var propValue = arg[prop];
+                    if (prop === 'selectors') {
+                        // every child is a selector.
+                        var selectors = arg.selectors;
+                        for (var newSelector in selectors) {
+                            if (selectors.hasOwnProperty(newSelector)) {
+                                extractSelector(currentSelector, rules, newSelector, selectors[newSelector]);
+                            }
+                        }
+                    }
+                    else if (typeof propValue === 'object') {
+                        // prop is a selector.
+                        if (propValue !== null) {
+                            extractSelector(currentSelector, rules, prop, propValue);
+                        }
+                    }
+                    else {
+                        if (propValue !== undefined) {
+                            // Else, add the rule to the currentSelector.
+                            if (prop === 'margin' || prop === 'padding') {
+                                expandQuads(currentRules, prop, propValue);
+                            }
+                            else {
+                                currentRules[prop] = propValue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return rules;
+}
+function expandQuads(currentRules, name, value) {
+    var parts = typeof value === 'string' ? (0,_tokenizeWithParentheses__WEBPACK_IMPORTED_MODULE_1__.tokenizeWithParentheses)(value) : [value];
+    if (parts.length === 0) {
+        parts.push(value);
+    }
+    if (parts[parts.length - 1] === '!important') {
+        // Remove !important from parts, and append it to each part individually
+        parts = parts.slice(0, -1).map(function (p) { return p + ' !important'; });
+    }
+    currentRules[name + 'Top'] = parts[0];
+    currentRules[name + 'Right'] = parts[1] || parts[0];
+    currentRules[name + 'Bottom'] = parts[2] || parts[0];
+    currentRules[name + 'Left'] = parts[3] || parts[1] || parts[0];
+}
+function getKeyForRules(options, rules) {
+    var serialized = [options.rtl ? 'rtl' : 'ltr'];
+    var hasProps = false;
+    for (var _i = 0, _a = rules.__order; _i < _a.length; _i++) {
+        var selector = _a[_i];
+        serialized.push(selector);
+        var rulesForSelector = rules[selector];
+        for (var propName in rulesForSelector) {
+            if (rulesForSelector.hasOwnProperty(propName) && rulesForSelector[propName] !== undefined) {
+                hasProps = true;
+                serialized.push(propName, rulesForSelector[propName]);
+            }
+        }
+    }
+    return hasProps ? serialized.join('') : undefined;
+}
+function repeatString(target, count) {
+    if (count <= 0) {
+        return '';
+    }
+    if (count === 1) {
+        return target;
+    }
+    return target + repeatString(target, count - 1);
+}
+function serializeRuleEntries(options, ruleEntries) {
+    if (!ruleEntries) {
+        return '';
+    }
+    var allEntries = [];
+    for (var entry in ruleEntries) {
+        if (ruleEntries.hasOwnProperty(entry) && entry !== DISPLAY_NAME && ruleEntries[entry] !== undefined) {
+            allEntries.push(entry, ruleEntries[entry]);
+        }
+    }
+    // Apply transforms.
+    for (var i = 0; i < allEntries.length; i += 2) {
+        (0,_transforms_kebabRules__WEBPACK_IMPORTED_MODULE_2__.kebabRules)(allEntries, i);
+        (0,_transforms_provideUnits__WEBPACK_IMPORTED_MODULE_3__.provideUnits)(allEntries, i);
+        (0,_transforms_rtlifyRules__WEBPACK_IMPORTED_MODULE_4__.rtlifyRules)(options, allEntries, i);
+        (0,_transforms_prefixRules__WEBPACK_IMPORTED_MODULE_5__.prefixRules)(allEntries, i);
+    }
+    // Apply punctuation.
+    for (var i = 1; i < allEntries.length; i += 4) {
+        allEntries.splice(i, 1, ':', allEntries[i], ';');
+    }
+    return allEntries.join('');
+}
+function styleToRegistration(options) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    var rules = extractRules(args);
+    var key = getKeyForRules(options, rules);
+    if (key) {
+        var stylesheet = _Stylesheet__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance();
+        var registration = {
+            className: stylesheet.classNameFromKey(key),
+            key: key,
+            args: args,
+        };
+        if (!registration.className) {
+            registration.className = stylesheet.getClassName(getDisplayName(rules));
+            var rulesToInsert = [];
+            for (var _a = 0, _b = rules.__order; _a < _b.length; _a++) {
+                var selector = _b[_a];
+                rulesToInsert.push(selector, serializeRuleEntries(options, rules[selector]));
+            }
+            registration.rulesToInsert = rulesToInsert;
+        }
+        return registration;
+    }
+    return undefined;
+}
+/**
+ * Insert style to stylesheet.
+ * @param registration Style registration.
+ * @param specificityMultiplier Number of times classname selector is repeated in the css rule.
+ * This is to increase css specificity in case it's needed. Default to 1.
+ */
+function applyRegistration(registration, specificityMultiplier) {
+    if (specificityMultiplier === void 0) { specificityMultiplier = 1; }
+    var stylesheet = _Stylesheet__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance();
+    var className = registration.className, key = registration.key, args = registration.args, rulesToInsert = registration.rulesToInsert;
+    if (rulesToInsert) {
+        // rulesToInsert is an ordered array of selector/rule pairs.
+        for (var i = 0; i < rulesToInsert.length; i += 2) {
+            var rules = rulesToInsert[i + 1];
+            if (rules) {
+                var selector = rulesToInsert[i];
+                selector = selector.replace(/&/g, repeatString("." + registration.className, specificityMultiplier));
+                // Insert. Note if a media query, we must close the query with a final bracket.
+                var processedRule = selector + "{" + rules + "}" + (selector.indexOf('@') === 0 ? '}' : '');
+                stylesheet.insertRule(processedRule);
+            }
+        }
+        stylesheet.cacheClassName(className, key, args, rulesToInsert);
+    }
+}
+function styleToClassName(options) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    var registration = styleToRegistration.apply(void 0, (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__spreadArrays)([options], args));
+    if (registration) {
+        applyRegistration(registration, options.specificityMultiplier);
+        return registration.className;
+    }
+    return '';
+}
+//# sourceMappingURL=styleToClassName.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/tokenizeWithParentheses.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/tokenizeWithParentheses.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "tokenizeWithParentheses": () => (/* binding */ tokenizeWithParentheses)
+/* harmony export */ });
+/**
+ * Split a string into tokens separated by whitespace, except all text within parentheses
+ * is treated as a single token (whitespace is ignored within parentheses).
+ *
+ * Unlike String.split(' '), multiple consecutive space characters are collapsed and
+ * removed from the returned array (including leading and trailing spaces).
+ *
+ * For example:
+ * `tokenizeWithParentheses("3px calc(var(--x) / 2) 9px    0 ")`
+ *   => `["3px", "calc(var(--x) / 2)", "9px", "0"]`
+ *
+ * @returns The array of tokens. Returns an empty array if the string was empty or contained only whitespace.
+ */
+function tokenizeWithParentheses(value) {
+    var parts = [];
+    var partStart = 0;
+    var parens = 0;
+    for (var i = 0; i < value.length; i++) {
+        switch (value[i]) {
+            case '(':
+                parens++;
+                break;
+            case ')':
+                if (parens) {
+                    parens--;
+                }
+                break;
+            case '\t':
+            case ' ':
+                if (!parens) {
+                    // Add the new part if it's not an empty string
+                    if (i > partStart) {
+                        parts.push(value.substring(partStart, i));
+                    }
+                    partStart = i + 1;
+                }
+                break;
+        }
+    }
+    // Add the last part
+    if (partStart < value.length) {
+        parts.push(value.substring(partStart));
+    }
+    return parts;
+}
+//# sourceMappingURL=tokenizeWithParentheses.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/transforms/kebabRules.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/transforms/kebabRules.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "kebabRules": () => (/* binding */ kebabRules)
+/* harmony export */ });
+var rules = {};
+function kebabRules(rulePairs, index) {
+    var rule = rulePairs[index];
+    if (rule.charAt(0) !== '-') {
+        rulePairs[index] = rules[rule] = rules[rule] || rule.replace(/([A-Z])/g, '-$1').toLowerCase();
+    }
+}
+//# sourceMappingURL=kebabRules.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/transforms/prefixRules.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/transforms/prefixRules.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "prefixRules": () => (/* binding */ prefixRules)
+/* harmony export */ });
+/* harmony import */ var _getVendorSettings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../getVendorSettings */ "./node_modules/@fluentui/merge-styles/lib/getVendorSettings.js");
+
+var autoPrefixNames = {
+    'user-select': 1,
+};
+function prefixRules(rulePairs, index) {
+    var vendorSettings = (0,_getVendorSettings__WEBPACK_IMPORTED_MODULE_0__.getVendorSettings)();
+    var name = rulePairs[index];
+    if (autoPrefixNames[name]) {
+        var value = rulePairs[index + 1];
+        if (autoPrefixNames[name]) {
+            if (vendorSettings.isWebkit) {
+                rulePairs.push('-webkit-' + name, value);
+            }
+            if (vendorSettings.isMoz) {
+                rulePairs.push('-moz-' + name, value);
+            }
+            if (vendorSettings.isMs) {
+                rulePairs.push('-ms-' + name, value);
+            }
+            if (vendorSettings.isOpera) {
+                rulePairs.push('-o-' + name, value);
+            }
+        }
+    }
+}
+//# sourceMappingURL=prefixRules.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/transforms/provideUnits.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/transforms/provideUnits.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "provideUnits": () => (/* binding */ provideUnits)
+/* harmony export */ });
+var NON_PIXEL_NUMBER_PROPS = [
+    'column-count',
+    'font-weight',
+    'flex',
+    'flex-grow',
+    'flex-shrink',
+    'fill-opacity',
+    'opacity',
+    'order',
+    'z-index',
+    'zoom',
+];
+function provideUnits(rulePairs, index) {
+    var name = rulePairs[index];
+    var value = rulePairs[index + 1];
+    if (typeof value === 'number') {
+        var isNonPixelProp = NON_PIXEL_NUMBER_PROPS.indexOf(name) > -1;
+        var isVariableOrPrefixed = name.indexOf('--') > -1;
+        var unit = isNonPixelProp || isVariableOrPrefixed ? '' : 'px';
+        rulePairs[index + 1] = "" + value + unit;
+    }
+}
+//# sourceMappingURL=provideUnits.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/merge-styles/lib/transforms/rtlifyRules.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/merge-styles/lib/transforms/rtlifyRules.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "rtlifyRules": () => (/* binding */ rtlifyRules)
+/* harmony export */ });
+var _a;
+var LEFT = 'left';
+var RIGHT = 'right';
+var NO_FLIP = '@noflip';
+var NAME_REPLACEMENTS = (_a = {},
+    _a[LEFT] = RIGHT,
+    _a[RIGHT] = LEFT,
+    _a);
+var VALUE_REPLACEMENTS = {
+    'w-resize': 'e-resize',
+    'sw-resize': 'se-resize',
+    'nw-resize': 'ne-resize',
+};
+/**
+ * RTLifies the rulePair in the array at the current index. This mutates the array for performance
+ * reasons.
+ */
+function rtlifyRules(options, rulePairs, index) {
+    if (options.rtl) {
+        var name_1 = rulePairs[index];
+        if (!name_1) {
+            return;
+        }
+        var value = rulePairs[index + 1];
+        if (typeof value === 'string' && value.indexOf(NO_FLIP) >= 0) {
+            rulePairs[index + 1] = value.replace(/\s*(?:\/\*\s*)?\@noflip\b(?:\s*\*\/)?\s*?/g, '');
+        }
+        else if (name_1.indexOf(LEFT) >= 0) {
+            rulePairs[index] = name_1.replace(LEFT, RIGHT);
+        }
+        else if (name_1.indexOf(RIGHT) >= 0) {
+            rulePairs[index] = name_1.replace(RIGHT, LEFT);
+        }
+        else if (String(value).indexOf(LEFT) >= 0) {
+            rulePairs[index + 1] = value.replace(LEFT, RIGHT);
+        }
+        else if (String(value).indexOf(RIGHT) >= 0) {
+            rulePairs[index + 1] = value.replace(RIGHT, LEFT);
+        }
+        else if (NAME_REPLACEMENTS[name_1]) {
+            rulePairs[index] = NAME_REPLACEMENTS[name_1];
+        }
+        else if (VALUE_REPLACEMENTS[value]) {
+            rulePairs[index + 1] = VALUE_REPLACEMENTS[value];
+        }
+        else {
+            switch (name_1) {
+                case 'margin':
+                case 'padding':
+                    rulePairs[index + 1] = flipQuad(value);
+                    break;
+                case 'box-shadow':
+                    rulePairs[index + 1] = negateNum(value, 0);
+                    break;
+            }
+        }
+    }
+}
+/**
+ * Given a string value in a space delimited format (e.g. "1 2 3 4"), negates a particular value.
+ */
+function negateNum(value, partIndex) {
+    var parts = value.split(' ');
+    var numberVal = parseInt(parts[partIndex], 10);
+    parts[0] = parts[0].replace(String(numberVal), String(numberVal * -1));
+    return parts.join(' ');
+}
+/**
+ * Given a string quad, flips the left and right values.
+ */
+function flipQuad(value) {
+    if (typeof value === 'string') {
+        var parts = value.split(' ');
+        if (parts.length === 4) {
+            return parts[0] + " " + parts[3] + " " + parts[2] + " " + parts[1];
+        }
+    }
+    return value;
+}
+//# sourceMappingURL=rtlifyRules.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FocusZone": () => (/* binding */ FocusZone)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./FocusZone.types */ "./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.types.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/createMergedRef.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/focus.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/dom-utilities/lib/getParent.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/initializeComponentRef.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/getId.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/css.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/dom-utilities/lib/elementContains.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/raiseClick.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/scroll.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/dom-utilities/lib/portalContainsElement.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+/* harmony import */ var _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/style-utilities */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+
+
+
+
+
+var IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+var IS_ENTER_DISABLED_ATTRIBUTE = 'data-disable-click-on-enter';
+var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+var TABINDEX = 'tabindex';
+var NO_VERTICAL_WRAP = 'data-no-vertical-wrap';
+var NO_HORIZONTAL_WRAP = 'data-no-horizontal-wrap';
+var LARGE_DISTANCE_FROM_CENTER = 999999999;
+var LARGE_NEGATIVE_DISTANCE_FROM_CENTER = -999999999;
+var focusZoneStyles;
+var focusZoneClass = 'ms-FocusZone';
+// Helper function that will return a class for when the root is focused
+function getRootClass() {
+    if (!focusZoneStyles) {
+        focusZoneStyles = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__.mergeStyles)({
+            selectors: {
+                ':focus': {
+                    outline: 'none',
+                },
+            },
+        }, focusZoneClass);
+    }
+    return focusZoneStyles;
+}
+var _allInstances = {};
+var _outerZones = new Set();
+var ALLOWED_INPUT_TYPES = ['text', 'number', 'password', 'email', 'tel', 'url', 'search'];
+var ALLOW_VIRTUAL_ELEMENTS = false;
+var FocusZone = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(FocusZone, _super);
+    function FocusZone(props) {
+        var _this = _super.call(this, props) || this;
+        _this._root = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
+        _this._mergedRef = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_4__.createMergedRef)();
+        _this._onFocus = function (ev) {
+            if (_this._portalContainsElement(ev.target)) {
+                // If the event target is inside a portal do not process the event.
+                return;
+            }
+            var _a = _this.props, onActiveElementChanged = _a.onActiveElementChanged, 
+            // eslint-disable-next-line deprecation/deprecation
+            doNotAllowFocusEventToPropagate = _a.doNotAllowFocusEventToPropagate, stopFocusPropagation = _a.stopFocusPropagation, 
+            // eslint-disable-next-line deprecation/deprecation
+            onFocusNotification = _a.onFocusNotification, onFocus = _a.onFocus, shouldFocusInnerElementWhenReceivedFocus = _a.shouldFocusInnerElementWhenReceivedFocus, defaultTabbableElement = _a.defaultTabbableElement;
+            var isImmediateDescendant = _this._isImmediateDescendantOfZone(ev.target);
+            var newActiveElement;
+            if (isImmediateDescendant) {
+                newActiveElement = ev.target;
+            }
+            else {
+                var parentElement = ev.target;
+                while (parentElement && parentElement !== _this._root.current) {
+                    if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementTabbable)(parentElement) && _this._isImmediateDescendantOfZone(parentElement)) {
+                        newActiveElement = parentElement;
+                        break;
+                    }
+                    parentElement = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.getParent)(parentElement, ALLOW_VIRTUAL_ELEMENTS);
+                }
+            }
+            // If an inner focusable element should be focused when FocusZone container receives focus
+            if (shouldFocusInnerElementWhenReceivedFocus && ev.target === _this._root.current) {
+                var maybeElementToFocus = defaultTabbableElement &&
+                    typeof defaultTabbableElement === 'function' &&
+                    defaultTabbableElement(_this._root.current);
+                // try to focus defaultTabbable element
+                if (maybeElementToFocus && (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementTabbable)(maybeElementToFocus)) {
+                    newActiveElement = maybeElementToFocus;
+                    maybeElementToFocus.focus();
+                }
+                else {
+                    // force focus on first focusable element
+                    _this.focus(true);
+                    if (_this._activeElement) {
+                        // set to null as new active element was handled in method above
+                        newActiveElement = null;
+                    }
+                }
+            }
+            var initialElementFocused = !_this._activeElement;
+            // If the new active element is a child of this zone and received focus,
+            // update alignment an immediate descendant
+            if (newActiveElement && newActiveElement !== _this._activeElement) {
+                if (isImmediateDescendant || initialElementFocused) {
+                    _this._setFocusAlignment(newActiveElement, true, true);
+                }
+                _this._activeElement = newActiveElement;
+                if (initialElementFocused) {
+                    _this._updateTabIndexes();
+                }
+            }
+            if (onActiveElementChanged) {
+                onActiveElementChanged(_this._activeElement, ev);
+            }
+            if (stopFocusPropagation || doNotAllowFocusEventToPropagate) {
+                ev.stopPropagation();
+            }
+            if (onFocus) {
+                onFocus(ev);
+            }
+            else if (onFocusNotification) {
+                onFocusNotification();
+            }
+        };
+        _this._onBlur = function () {
+            _this._setParkedFocus(false);
+        };
+        _this._onMouseDown = function (ev) {
+            if (_this._portalContainsElement(ev.target)) {
+                // If the event target is inside a portal do not process the event.
+                return;
+            }
+            var disabled = _this.props.disabled;
+            if (disabled) {
+                return;
+            }
+            var target = ev.target;
+            var path = [];
+            while (target && target !== _this._root.current) {
+                path.push(target);
+                target = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.getParent)(target, ALLOW_VIRTUAL_ELEMENTS);
+            }
+            while (path.length) {
+                target = path.pop();
+                if (target && (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementTabbable)(target)) {
+                    _this._setActiveElement(target, true);
+                }
+                if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusZone)(target)) {
+                    // Stop here since the focus zone will take care of its own children.
+                    break;
+                }
+            }
+        };
+        /**
+         * Handle the keystrokes.
+         */
+        _this._onKeyDown = function (ev, theme) {
+            if (_this._portalContainsElement(ev.target)) {
+                // If the event target is inside a portal do not process the event.
+                return;
+            }
+            // eslint-disable-next-line deprecation/deprecation
+            var _a = _this.props, direction = _a.direction, disabled = _a.disabled, isInnerZoneKeystroke = _a.isInnerZoneKeystroke, pagingSupportDisabled = _a.pagingSupportDisabled, shouldEnterInnerZone = _a.shouldEnterInnerZone;
+            if (disabled) {
+                return;
+            }
+            if (_this.props.onKeyDown) {
+                _this.props.onKeyDown(ev);
+            }
+            // If the default has been prevented, do not process keyboard events.
+            if (ev.isDefaultPrevented()) {
+                return;
+            }
+            if (_this._getDocument().activeElement === _this._root.current && _this._isInnerZone) {
+                // If this element has focus, it is being controlled by a parent.
+                // Ignore the keystroke.
+                return;
+            }
+            if (((shouldEnterInnerZone && shouldEnterInnerZone(ev)) || (isInnerZoneKeystroke && isInnerZoneKeystroke(ev))) &&
+                _this._isImmediateDescendantOfZone(ev.target)) {
+                // Try to focus
+                var innerZone = _this._getFirstInnerZone();
+                if (innerZone) {
+                    if (!innerZone.focus(true)) {
+                        return;
+                    }
+                }
+                else if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusSubZone)(ev.target)) {
+                    if (!_this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getNextElement)(ev.target, ev.target.firstChild, true))) {
+                        return;
+                    }
+                }
+                else {
+                    return;
+                }
+            }
+            else if (ev.altKey) {
+                return;
+            }
+            else {
+                // eslint-disable-next-line @fluentui/deprecated-keyboard-event-props, deprecation/deprecation
+                switch (ev.which) {
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.space:
+                        if (_this._tryInvokeClickForFocusable(ev.target)) {
+                            break;
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.left:
+                        if (direction !== _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.vertical) {
+                            _this._preventDefaultWhenHandled(ev);
+                            if (_this._moveFocusLeft(theme)) {
+                                break;
+                            }
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.right:
+                        if (direction !== _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.vertical) {
+                            _this._preventDefaultWhenHandled(ev);
+                            if (_this._moveFocusRight(theme)) {
+                                break;
+                            }
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.up:
+                        if (direction !== _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.horizontal) {
+                            _this._preventDefaultWhenHandled(ev);
+                            if (_this._moveFocusUp()) {
+                                break;
+                            }
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.down:
+                        if (direction !== _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.horizontal) {
+                            _this._preventDefaultWhenHandled(ev);
+                            if (_this._moveFocusDown()) {
+                                break;
+                            }
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.pageDown:
+                        if (!pagingSupportDisabled && _this._moveFocusPaging(true)) {
+                            break;
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.pageUp:
+                        if (!pagingSupportDisabled && _this._moveFocusPaging(false)) {
+                            break;
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.tab:
+                        if (
+                        // eslint-disable-next-line deprecation/deprecation
+                        _this.props.allowTabKey ||
+                            _this.props.handleTabKey === _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneTabbableElements.all ||
+                            (_this.props.handleTabKey === _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneTabbableElements.inputOnly &&
+                                _this._isElementInput(ev.target))) {
+                            var focusChanged = false;
+                            _this._processingTabKey = true;
+                            if (direction === _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.vertical ||
+                                !_this._shouldWrapFocus(_this._activeElement, NO_HORIZONTAL_WRAP)) {
+                                focusChanged = ev.shiftKey ? _this._moveFocusUp() : _this._moveFocusDown();
+                            }
+                            else {
+                                var tabWithDirection = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_9__.getRTL)(theme) ? !ev.shiftKey : ev.shiftKey;
+                                focusChanged = tabWithDirection ? _this._moveFocusLeft(theme) : _this._moveFocusRight(theme);
+                            }
+                            _this._processingTabKey = false;
+                            if (focusChanged) {
+                                break;
+                            }
+                            else if (_this.props.shouldResetActiveElementWhenTabFromZone) {
+                                _this._activeElement = null;
+                            }
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.home:
+                        if (_this._isContentEditableElement(ev.target) ||
+                            (_this._isElementInput(ev.target) &&
+                                !_this._shouldInputLoseFocus(ev.target, false))) {
+                            return false;
+                        }
+                        var firstChild = _this._root.current && _this._root.current.firstChild;
+                        if (_this._root.current &&
+                            firstChild &&
+                            _this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getNextElement)(_this._root.current, firstChild, true))) {
+                            break;
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.end:
+                        if (_this._isContentEditableElement(ev.target) ||
+                            (_this._isElementInput(ev.target) &&
+                                !_this._shouldInputLoseFocus(ev.target, true))) {
+                            return false;
+                        }
+                        var lastChild = _this._root.current && _this._root.current.lastChild;
+                        if (_this._root.current &&
+                            _this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getPreviousElement)(_this._root.current, lastChild, true, true, true))) {
+                            break;
+                        }
+                        return;
+                    case _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.enter:
+                        if (_this._tryInvokeClickForFocusable(ev.target)) {
+                            break;
+                        }
+                        return;
+                    default:
+                        return;
+                }
+            }
+            ev.preventDefault();
+            ev.stopPropagation();
+        };
+        _this._getHorizontalDistanceFromCenter = function (isForward, activeRect, targetRect) {
+            // eslint-disable-next-line deprecation/deprecation
+            var leftAlignment = _this._focusAlignment.left || _this._focusAlignment.x || 0;
+            // ClientRect values can be floats that differ by very small fractions of a decimal.
+            // If the difference between top and bottom are within a pixel then we should treat
+            // them as equivalent by using Math.floor. For instance 5.2222 and 5.222221 should be equivalent,
+            // but without Math.Floor they will be handled incorrectly.
+            var targetRectTop = Math.floor(targetRect.top);
+            var activeRectBottom = Math.floor(activeRect.bottom);
+            var targetRectBottom = Math.floor(targetRect.bottom);
+            var activeRectTop = Math.floor(activeRect.top);
+            var isValidCandidateOnpagingDown = isForward && targetRectTop > activeRectBottom;
+            var isValidCandidateOnpagingUp = !isForward && targetRectBottom < activeRectTop;
+            if (isValidCandidateOnpagingDown || isValidCandidateOnpagingUp) {
+                if (leftAlignment >= targetRect.left && leftAlignment <= targetRect.left + targetRect.width) {
+                    return 0;
+                }
+                return Math.abs(targetRect.left + targetRect.width / 2 - leftAlignment);
+            }
+            if (!_this._shouldWrapFocus(_this._activeElement, NO_VERTICAL_WRAP)) {
+                return LARGE_NEGATIVE_DISTANCE_FROM_CENTER;
+            }
+            return LARGE_DISTANCE_FROM_CENTER;
+        };
+        // Manage componentRef resolution.
+        (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_10__.initializeComponentRef)(_this);
+        if (true) {
+            (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_11__.warnDeprecations)('FocusZone', props, {
+                rootProps: undefined,
+                allowTabKey: 'handleTabKey',
+                elementType: 'as',
+                ariaDescribedBy: 'aria-describedby',
+                ariaLabelledBy: 'aria-labelledby',
+            });
+        }
+        _this._id = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_12__.getId)('FocusZone');
+        _this._focusAlignment = {
+            left: 0,
+            top: 0,
+        };
+        _this._processingTabKey = false;
+        return _this;
+    }
+    /** Used for testing purposes only. */
+    FocusZone.getOuterZones = function () {
+        return _outerZones.size;
+    };
+    /**
+     * Handle global tab presses so that we can patch tabindexes on the fly.
+     * HEADS UP: This must not be an arrow function in order to be referentially equal among instances
+     * for ref counting to work correctly!
+     */
+    FocusZone._onKeyDownCapture = function (ev) {
+        // eslint-disable-next-line deprecation/deprecation, @fluentui/deprecated-keyboard-event-props
+        if (ev.which === _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.KeyCodes.tab) {
+            _outerZones.forEach(function (zone) { return zone._updateTabIndexes(); });
+        }
+    };
+    FocusZone.prototype.componentDidMount = function () {
+        var root = this._root.current;
+        _allInstances[this._id] = this;
+        if (root) {
+            this._windowElement = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_13__.getWindow)(root);
+            var parentElement = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.getParent)(root, ALLOW_VIRTUAL_ELEMENTS);
+            while (parentElement && parentElement !== this._getDocument().body && parentElement.nodeType === 1) {
+                if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusZone)(parentElement)) {
+                    this._isInnerZone = true;
+                    break;
+                }
+                parentElement = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.getParent)(parentElement, ALLOW_VIRTUAL_ELEMENTS);
+            }
+            if (!this._isInnerZone) {
+                _outerZones.add(this);
+                if (this._windowElement && _outerZones.size === 1) {
+                    this._windowElement.addEventListener('keydown', FocusZone._onKeyDownCapture, true);
+                }
+            }
+            this._root.current && this._root.current.addEventListener('blur', this._onBlur, true);
+            // Assign initial tab indexes so that we can set initial focus as appropriate.
+            this._updateTabIndexes();
+            if (this.props.defaultTabbableElement && typeof this.props.defaultTabbableElement === 'string') {
+                this._activeElement = this._getDocument().querySelector(this.props.defaultTabbableElement);
+                // eslint-disable-next-line deprecation/deprecation
+            }
+            else if (this.props.defaultActiveElement) {
+                // eslint-disable-next-line deprecation/deprecation
+                this._activeElement = this._getDocument().querySelector(this.props.defaultActiveElement);
+            }
+            if (this.props.shouldFocusOnMount) {
+                this.focus();
+            }
+        }
+    };
+    FocusZone.prototype.componentDidUpdate = function () {
+        var root = this._root.current;
+        var doc = this._getDocument();
+        if (doc &&
+            this._lastIndexPath &&
+            (doc.activeElement === doc.body ||
+                doc.activeElement === null ||
+                (!this.props.preventFocusRestoration && doc.activeElement === root))) {
+            // The element has been removed after the render, attempt to restore focus.
+            var elementToFocus = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getFocusableByIndexPath)(root, this._lastIndexPath);
+            if (elementToFocus) {
+                this._setActiveElement(elementToFocus, true);
+                elementToFocus.focus();
+                this._setParkedFocus(false);
+            }
+            else {
+                // We had a focus path to restore, but now that path is unresolvable. Park focus
+                // on the container until we can try again.
+                this._setParkedFocus(true);
+            }
+        }
+    };
+    FocusZone.prototype.componentWillUnmount = function () {
+        delete _allInstances[this._id];
+        if (!this._isInnerZone) {
+            _outerZones.delete(this);
+            // If this is the last outer zone, remove the keydown listener.
+            if (this._windowElement && _outerZones.size === 0) {
+                this._windowElement.removeEventListener('keydown', FocusZone._onKeyDownCapture, true);
+            }
+        }
+        if (this._root.current) {
+            this._root.current.removeEventListener('blur', this._onBlur, true);
+        }
+        this._activeElement = null;
+        this._defaultFocusElement = null;
+    };
+    FocusZone.prototype.render = function () {
+        var _this = this;
+        // eslint-disable-next-line deprecation/deprecation
+        var _a = this.props, tag = _a.as, elementType = _a.elementType, rootProps = _a.rootProps, ariaDescribedBy = _a.ariaDescribedBy, ariaLabelledBy = _a.ariaLabelledBy, className = _a.className;
+        var divProps = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_14__.getNativeProps)(this.props, _fluentui_utilities__WEBPACK_IMPORTED_MODULE_14__.htmlElementProperties);
+        var Tag = tag || elementType || 'div';
+        // Note, right before rendering/reconciling proceeds, we need to record if focus
+        // was in the zone before the update. This helper will track this and, if focus
+        // was actually in the zone, what the index path to the element is at this time.
+        // Then, later in componentDidUpdate, we can evaluate if we need to restore it in
+        // the case the element was removed.
+        this._evaluateFocusBeforeRender();
+        // Only support RTL defined in global theme, not contextual theme/RTL.
+        var theme = (0,_fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_1__.getTheme)();
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ "aria-labelledby": ariaLabelledBy, "aria-describedby": ariaDescribedBy }, divProps, rootProps, { 
+            // Once the getClassName correctly memoizes inputs this should
+            // be replaced so that className is passed to getRootClass and is included there so
+            // the class names will always be in the same order.
+            className: (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_15__.css)(getRootClass(), className), 
+            // eslint-disable-next-line deprecation/deprecation
+            ref: this._mergedRef(this.props.elementRef, this._root), "data-focuszone-id": this._id, 
+            // eslint-disable-next-line react/jsx-no-bind
+            onKeyDown: function (ev) { return _this._onKeyDown(ev, theme); }, onFocus: this._onFocus, onMouseDownCapture: this._onMouseDown }), this.props.children));
+    };
+    /**
+     * Sets focus to the first tabbable item in the zone.
+     * @param forceIntoFirstElement - If true, focus will be forced into the first element, even
+     * if focus is already in the focus zone.
+     * @returns True if focus could be set to an active element, false if no operation was taken.
+     */
+    FocusZone.prototype.focus = function (forceIntoFirstElement) {
+        if (forceIntoFirstElement === void 0) { forceIntoFirstElement = false; }
+        if (this._root.current) {
+            if (!forceIntoFirstElement &&
+                this._root.current.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true' &&
+                this._isInnerZone) {
+                var ownerZoneElement = this._getOwnerZone(this._root.current);
+                if (ownerZoneElement !== this._root.current) {
+                    var ownerZone = _allInstances[ownerZoneElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
+                    return !!ownerZone && ownerZone.focusElement(this._root.current);
+                }
+                return false;
+            }
+            else if (!forceIntoFirstElement &&
+                this._activeElement &&
+                (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_16__.elementContains)(this._root.current, this._activeElement) &&
+                (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementTabbable)(this._activeElement)) {
+                this._activeElement.focus();
+                return true;
+            }
+            else {
+                var firstChild = this._root.current.firstChild;
+                return this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getNextElement)(this._root.current, firstChild, true));
+            }
+        }
+        return false;
+    };
+    /**
+     * Sets focus to the last tabbable item in the zone.
+     * @returns True if focus could be set to an active element, false if no operation was taken.
+     */
+    FocusZone.prototype.focusLast = function () {
+        if (this._root.current) {
+            var lastChild = this._root.current && this._root.current.lastChild;
+            return this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getPreviousElement)(this._root.current, lastChild, true, true, true));
+        }
+        return false;
+    };
+    /**
+     * Sets focus to a specific child element within the zone. This can be used in conjunction with
+     * shouldReceiveFocus to create delayed focus scenarios (like animate the scroll position to the correct
+     * location and then focus.)
+     * @param element - The child element within the zone to focus.
+     * @param forceAlignment - If true, focus alignment will be set according to the element provided.
+     * @returns True if focus could be set to an active element, false if no operation was taken.
+     */
+    FocusZone.prototype.focusElement = function (element, forceAlignment) {
+        // eslint-disable-next-line deprecation/deprecation
+        var _a = this.props, onBeforeFocus = _a.onBeforeFocus, shouldReceiveFocus = _a.shouldReceiveFocus;
+        if ((shouldReceiveFocus && !shouldReceiveFocus(element)) || (onBeforeFocus && !onBeforeFocus(element))) {
+            return false;
+        }
+        if (element) {
+            // when we set focus to a specific child, we should recalculate the alignment depending on its position.
+            this._setActiveElement(element, forceAlignment);
+            if (this._activeElement) {
+                this._activeElement.focus();
+            }
+            return true;
+        }
+        return false;
+    };
+    /**
+     * Forces horizontal alignment in the context of vertical arrowing to use specific point as the reference,
+     * rather than a center based on the last horizontal motion.
+     * @param point - the new reference point.
+     */
+    FocusZone.prototype.setFocusAlignment = function (point) {
+        this._focusAlignment = point;
+    };
+    FocusZone.prototype._evaluateFocusBeforeRender = function () {
+        var root = this._root.current;
+        var doc = this._getDocument();
+        if (doc) {
+            var focusedElement = doc.activeElement;
+            // Only update the index path if we are not parked on the root.
+            if (focusedElement !== root) {
+                var shouldRestoreFocus = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_16__.elementContains)(root, focusedElement, false);
+                this._lastIndexPath = shouldRestoreFocus ? (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getElementIndexPath)(root, focusedElement) : undefined;
+            }
+        }
+    };
+    /**
+     * When focus is in the zone at render time but then all focusable elements are removed,
+     * we "park" focus temporarily on the root. Once we update with focusable children, we restore
+     * focus to the closest path from previous. If the user tabs away from the parked container,
+     * we restore focusability to the pre-parked state.
+     */
+    FocusZone.prototype._setParkedFocus = function (isParked) {
+        var root = this._root.current;
+        if (root && this._isParked !== isParked) {
+            this._isParked = isParked;
+            if (isParked) {
+                if (!this.props.allowFocusRoot) {
+                    this._parkedTabIndex = root.getAttribute('tabindex');
+                    root.setAttribute('tabindex', '-1');
+                }
+                root.focus();
+            }
+            else if (!this.props.allowFocusRoot) {
+                if (this._parkedTabIndex) {
+                    root.setAttribute('tabindex', this._parkedTabIndex);
+                    this._parkedTabIndex = undefined;
+                }
+                else {
+                    root.removeAttribute('tabindex');
+                }
+            }
+        }
+    };
+    FocusZone.prototype._setActiveElement = function (element, forceAlignment) {
+        var previousActiveElement = this._activeElement;
+        this._activeElement = element;
+        if (previousActiveElement) {
+            if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusZone)(previousActiveElement)) {
+                this._updateTabIndexes(previousActiveElement);
+            }
+            previousActiveElement.tabIndex = -1;
+        }
+        if (this._activeElement) {
+            if (!this._focusAlignment || forceAlignment) {
+                this._setFocusAlignment(element, true, true);
+            }
+            this._activeElement.tabIndex = 0;
+        }
+    };
+    FocusZone.prototype._preventDefaultWhenHandled = function (ev) {
+        this.props.preventDefaultWhenHandled && ev.preventDefault();
+    };
+    /**
+     * Walk up the dom try to find a focusable element.
+     */
+    FocusZone.prototype._tryInvokeClickForFocusable = function (target) {
+        if (target === this._root.current || !this.props.shouldRaiseClicks) {
+            return false;
+        }
+        do {
+            if (target.tagName === 'BUTTON' ||
+                target.tagName === 'A' ||
+                target.tagName === 'INPUT' ||
+                target.tagName === 'TEXTAREA') {
+                return false;
+            }
+            if (this._isImmediateDescendantOfZone(target) &&
+                target.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true' &&
+                target.getAttribute(IS_ENTER_DISABLED_ATTRIBUTE) !== 'true') {
+                (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_17__.raiseClick)(target);
+                return true;
+            }
+            target = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.getParent)(target, ALLOW_VIRTUAL_ELEMENTS);
+        } while (target !== this._root.current);
+        return false;
+    };
+    /**
+     * Traverse to find first child zone.
+     */
+    FocusZone.prototype._getFirstInnerZone = function (rootElement) {
+        rootElement = rootElement || this._activeElement || this._root.current;
+        if (!rootElement) {
+            return null;
+        }
+        if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusZone)(rootElement)) {
+            return _allInstances[rootElement.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
+        }
+        var child = rootElement.firstElementChild;
+        while (child) {
+            if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusZone)(child)) {
+                return _allInstances[child.getAttribute(FOCUSZONE_ID_ATTRIBUTE)];
+            }
+            var match = this._getFirstInnerZone(child);
+            if (match) {
+                return match;
+            }
+            child = child.nextElementSibling;
+        }
+        return null;
+    };
+    FocusZone.prototype._moveFocus = function (isForward, getDistanceFromCenter, ev, useDefaultWrap) {
+        if (useDefaultWrap === void 0) { useDefaultWrap = true; }
+        var element = this._activeElement;
+        var candidateDistance = -1;
+        var candidateElement = undefined;
+        var changedFocus = false;
+        var isBidirectional = this.props.direction === _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.bidirectional;
+        if (!element || !this._root.current) {
+            return false;
+        }
+        if (this._isElementInput(element)) {
+            if (!this._shouldInputLoseFocus(element, isForward)) {
+                return false;
+            }
+        }
+        var activeRect = isBidirectional ? element.getBoundingClientRect() : null;
+        do {
+            element = (isForward
+                ? (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getNextElement)(this._root.current, element)
+                : (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getPreviousElement)(this._root.current, element));
+            if (isBidirectional) {
+                if (element) {
+                    var targetRect = element.getBoundingClientRect();
+                    var elementDistance = getDistanceFromCenter(activeRect, targetRect);
+                    if (elementDistance === -1 && candidateDistance === -1) {
+                        candidateElement = element;
+                        break;
+                    }
+                    if (elementDistance > -1 && (candidateDistance === -1 || elementDistance < candidateDistance)) {
+                        candidateDistance = elementDistance;
+                        candidateElement = element;
+                    }
+                    if (candidateDistance >= 0 && elementDistance < 0) {
+                        break;
+                    }
+                }
+            }
+            else {
+                candidateElement = element;
+                break;
+            }
+        } while (element);
+        // Focus the closest candidate
+        if (candidateElement && candidateElement !== this._activeElement) {
+            changedFocus = true;
+            this.focusElement(candidateElement);
+        }
+        else if (this.props.isCircularNavigation && useDefaultWrap) {
+            if (isForward) {
+                return this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getNextElement)(this._root.current, this._root.current.firstElementChild, true));
+            }
+            else {
+                return this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getPreviousElement)(this._root.current, this._root.current.lastElementChild, true, true, true));
+            }
+        }
+        return changedFocus;
+    };
+    FocusZone.prototype._moveFocusDown = function () {
+        var _this = this;
+        var targetTop = -1;
+        // eslint-disable-next-line deprecation/deprecation
+        var leftAlignment = this._focusAlignment.left || this._focusAlignment.x || 0;
+        if (this._moveFocus(true, function (activeRect, targetRect) {
+            var distance = -1;
+            // ClientRect values can be floats that differ by very small fractions of a decimal.
+            // If the difference between top and bottom are within a pixel then we should treat
+            // them as equivalent by using Math.floor. For instance 5.2222 and 5.222221 should be equivalent,
+            // but without Math.Floor they will be handled incorrectly.
+            var targetRectTop = Math.floor(targetRect.top);
+            var activeRectBottom = Math.floor(activeRect.bottom);
+            if (targetRectTop < activeRectBottom) {
+                if (!_this._shouldWrapFocus(_this._activeElement, NO_VERTICAL_WRAP)) {
+                    return LARGE_NEGATIVE_DISTANCE_FROM_CENTER;
+                }
+                return LARGE_DISTANCE_FROM_CENTER;
+            }
+            if ((targetTop === -1 && targetRectTop >= activeRectBottom) || targetRectTop === targetTop) {
+                targetTop = targetRectTop;
+                if (leftAlignment >= targetRect.left && leftAlignment <= targetRect.left + targetRect.width) {
+                    distance = 0;
+                }
+                else {
+                    distance = Math.abs(targetRect.left + targetRect.width / 2 - leftAlignment);
+                }
+            }
+            return distance;
+        })) {
+            this._setFocusAlignment(this._activeElement, false, true);
+            return true;
+        }
+        return false;
+    };
+    FocusZone.prototype._moveFocusUp = function () {
+        var _this = this;
+        var targetTop = -1;
+        // eslint-disable-next-line deprecation/deprecation
+        var leftAlignment = this._focusAlignment.left || this._focusAlignment.x || 0;
+        if (this._moveFocus(false, function (activeRect, targetRect) {
+            var distance = -1;
+            // ClientRect values can be floats that differ by very small fractions of a decimal.
+            // If the difference between top and bottom are within a pixel then we should treat
+            // them as equivalent by using Math.floor. For instance 5.2222 and 5.222221 should be equivalent,
+            // but without Math.Floor they will be handled incorrectly.
+            var targetRectBottom = Math.floor(targetRect.bottom);
+            var targetRectTop = Math.floor(targetRect.top);
+            var activeRectTop = Math.floor(activeRect.top);
+            if (targetRectBottom > activeRectTop) {
+                if (!_this._shouldWrapFocus(_this._activeElement, NO_VERTICAL_WRAP)) {
+                    return LARGE_NEGATIVE_DISTANCE_FROM_CENTER;
+                }
+                return LARGE_DISTANCE_FROM_CENTER;
+            }
+            if ((targetTop === -1 && targetRectBottom <= activeRectTop) || targetRectTop === targetTop) {
+                targetTop = targetRectTop;
+                if (leftAlignment >= targetRect.left && leftAlignment <= targetRect.left + targetRect.width) {
+                    distance = 0;
+                }
+                else {
+                    distance = Math.abs(targetRect.left + targetRect.width / 2 - leftAlignment);
+                }
+            }
+            return distance;
+        })) {
+            this._setFocusAlignment(this._activeElement, false, true);
+            return true;
+        }
+        return false;
+    };
+    FocusZone.prototype._moveFocusLeft = function (theme) {
+        var _this = this;
+        var shouldWrap = this._shouldWrapFocus(this._activeElement, NO_HORIZONTAL_WRAP);
+        if (this._moveFocus((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_9__.getRTL)(theme), function (activeRect, targetRect) {
+            var distance = -1;
+            var topBottomComparison;
+            if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_9__.getRTL)(theme)) {
+                // When in RTL, this comparison should be the same as the one in _moveFocusRight for LTR.
+                // Going left at a leftmost rectangle will go down a line instead of up a line like in LTR.
+                // This is important, because we want to be comparing the top of the target rect
+                // with the bottom of the active rect.
+                topBottomComparison = parseFloat(targetRect.top.toFixed(3)) < parseFloat(activeRect.bottom.toFixed(3));
+            }
+            else {
+                topBottomComparison = parseFloat(targetRect.bottom.toFixed(3)) > parseFloat(activeRect.top.toFixed(3));
+            }
+            if (topBottomComparison &&
+                targetRect.right <= activeRect.right &&
+                _this.props.direction !== _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.vertical) {
+                distance = activeRect.right - targetRect.right;
+            }
+            else if (!shouldWrap) {
+                distance = LARGE_NEGATIVE_DISTANCE_FROM_CENTER;
+            }
+            return distance;
+        }, undefined /*ev*/, shouldWrap)) {
+            this._setFocusAlignment(this._activeElement, true, false);
+            return true;
+        }
+        return false;
+    };
+    FocusZone.prototype._moveFocusRight = function (theme) {
+        var _this = this;
+        var shouldWrap = this._shouldWrapFocus(this._activeElement, NO_HORIZONTAL_WRAP);
+        if (this._moveFocus(!(0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_9__.getRTL)(theme), function (activeRect, targetRect) {
+            var distance = -1;
+            var topBottomComparison;
+            if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_9__.getRTL)(theme)) {
+                // When in RTL, this comparison should be the same as the one in _moveFocusLeft for LTR.
+                // Going right at a rightmost rectangle will go up a line instead of down a line like in LTR.
+                // This is important, because we want to be comparing the bottom of the target rect
+                // with the top of the active rect.
+                topBottomComparison = parseFloat(targetRect.bottom.toFixed(3)) > parseFloat(activeRect.top.toFixed(3));
+            }
+            else {
+                topBottomComparison = parseFloat(targetRect.top.toFixed(3)) < parseFloat(activeRect.bottom.toFixed(3));
+            }
+            if (topBottomComparison &&
+                targetRect.left >= activeRect.left &&
+                _this.props.direction !== _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.vertical) {
+                distance = targetRect.left - activeRect.left;
+            }
+            else if (!shouldWrap) {
+                distance = LARGE_NEGATIVE_DISTANCE_FROM_CENTER;
+            }
+            return distance;
+        }, undefined /*ev*/, shouldWrap)) {
+            this._setFocusAlignment(this._activeElement, true, false);
+            return true;
+        }
+        return false;
+    };
+    FocusZone.prototype._moveFocusPaging = function (isForward, useDefaultWrap) {
+        if (useDefaultWrap === void 0) { useDefaultWrap = true; }
+        var element = this._activeElement;
+        if (!element || !this._root.current) {
+            return false;
+        }
+        if (this._isElementInput(element)) {
+            if (!this._shouldInputLoseFocus(element, isForward)) {
+                return false;
+            }
+        }
+        var scrollableParent = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_18__.findScrollableParent)(element);
+        if (!scrollableParent) {
+            return false;
+        }
+        var candidateDistance = -1;
+        var candidateElement = undefined;
+        var targetTop = -1;
+        var targetBottom = -1;
+        var pagesize = scrollableParent.clientHeight;
+        var activeRect = element.getBoundingClientRect();
+        do {
+            element = isForward
+                ? (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getNextElement)(this._root.current, element)
+                : (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getPreviousElement)(this._root.current, element);
+            if (element) {
+                var targetRect = element.getBoundingClientRect();
+                var targetRectTop = Math.floor(targetRect.top);
+                var activeRectBottom = Math.floor(activeRect.bottom);
+                var targetRectBottom = Math.floor(targetRect.bottom);
+                var activeRectTop = Math.floor(activeRect.top);
+                var elementDistance = this._getHorizontalDistanceFromCenter(isForward, activeRect, targetRect);
+                var isElementPassedPageSizeOnPagingDown = isForward && targetRectTop > activeRectBottom + pagesize;
+                var isElementPassedPageSizeOnPagingUp = !isForward && targetRectBottom < activeRectTop - pagesize;
+                if (isElementPassedPageSizeOnPagingDown || isElementPassedPageSizeOnPagingUp) {
+                    break;
+                }
+                if (elementDistance > -1) {
+                    // for paging down
+                    if (isForward && targetRectTop > targetTop) {
+                        targetTop = targetRectTop;
+                        candidateDistance = elementDistance;
+                        candidateElement = element;
+                    }
+                    else if (!isForward && targetRectBottom < targetBottom) {
+                        // for paging up
+                        targetBottom = targetRectBottom;
+                        candidateDistance = elementDistance;
+                        candidateElement = element;
+                    }
+                    else if (candidateDistance === -1 || elementDistance <= candidateDistance) {
+                        candidateDistance = elementDistance;
+                        candidateElement = element;
+                    }
+                }
+            }
+        } while (element);
+        var changedFocus = false;
+        // Focus the closest candidate
+        if (candidateElement && candidateElement !== this._activeElement) {
+            changedFocus = true;
+            this.focusElement(candidateElement);
+            this._setFocusAlignment(candidateElement, false, true);
+        }
+        else if (this.props.isCircularNavigation && useDefaultWrap) {
+            if (isForward) {
+                return this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getNextElement)(this._root.current, this._root.current.firstElementChild, true));
+            }
+            return this.focusElement((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getPreviousElement)(this._root.current, this._root.current.lastElementChild, true, true, true));
+        }
+        return changedFocus;
+    };
+    FocusZone.prototype._setFocusAlignment = function (element, isHorizontal, isVertical) {
+        if (this.props.direction === _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.bidirectional &&
+            (!this._focusAlignment || isHorizontal || isVertical)) {
+            var rect = element.getBoundingClientRect();
+            var left = rect.left + rect.width / 2;
+            var top_1 = rect.top + rect.height / 2;
+            if (!this._focusAlignment) {
+                this._focusAlignment = { left: left, top: top_1 };
+            }
+            if (isHorizontal) {
+                this._focusAlignment.left = left;
+            }
+            if (isVertical) {
+                this._focusAlignment.top = top_1;
+            }
+        }
+    };
+    FocusZone.prototype._isImmediateDescendantOfZone = function (element) {
+        return this._getOwnerZone(element) === this._root.current;
+    };
+    FocusZone.prototype._getOwnerZone = function (element) {
+        var parentElement = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.getParent)(element, ALLOW_VIRTUAL_ELEMENTS);
+        while (parentElement && parentElement !== this._root.current && parentElement !== this._getDocument().body) {
+            if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusZone)(parentElement)) {
+                return parentElement;
+            }
+            parentElement = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.getParent)(parentElement, ALLOW_VIRTUAL_ELEMENTS);
+        }
+        return parentElement;
+    };
+    FocusZone.prototype._updateTabIndexes = function (element) {
+        if (!this._activeElement &&
+            this.props.defaultTabbableElement &&
+            typeof this.props.defaultTabbableElement === 'function') {
+            this._activeElement = this.props.defaultTabbableElement(this._root.current);
+        }
+        if (!element && this._root.current) {
+            this._defaultFocusElement = null;
+            element = this._root.current;
+            if (this._activeElement && !(0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_16__.elementContains)(element, this._activeElement)) {
+                this._activeElement = null;
+            }
+        }
+        // If active element changes state to disabled, set it to null.
+        // Otherwise, we lose keyboard accessibility to other elements in focus zone.
+        if (this._activeElement && !(0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementTabbable)(this._activeElement)) {
+            this._activeElement = null;
+        }
+        var childNodes = element && element.children;
+        for (var childIndex = 0; childNodes && childIndex < childNodes.length; childIndex++) {
+            var child = childNodes[childIndex];
+            if (!(0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementFocusZone)(child)) {
+                // If the item is explicitly set to not be focusable then TABINDEX needs to be set to -1.
+                if (child.getAttribute && child.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'false') {
+                    child.setAttribute(TABINDEX, '-1');
+                }
+                if ((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.isElementTabbable)(child)) {
+                    if (this.props.disabled) {
+                        child.setAttribute(TABINDEX, '-1');
+                    }
+                    else if (!this._isInnerZone &&
+                        ((!this._activeElement && !this._defaultFocusElement) || this._activeElement === child)) {
+                        this._defaultFocusElement = child;
+                        if (child.getAttribute(TABINDEX) !== '0') {
+                            child.setAttribute(TABINDEX, '0');
+                        }
+                    }
+                    else if (child.getAttribute(TABINDEX) !== '-1') {
+                        child.setAttribute(TABINDEX, '-1');
+                    }
+                }
+                else if (child.tagName === 'svg' && child.getAttribute('focusable') !== 'false') {
+                    // Disgusting IE hack. Sad face.
+                    child.setAttribute('focusable', 'false');
+                }
+            }
+            else if (child.getAttribute(IS_FOCUSABLE_ATTRIBUTE) === 'true') {
+                if (!this._isInnerZone &&
+                    ((!this._activeElement && !this._defaultFocusElement) || this._activeElement === child)) {
+                    this._defaultFocusElement = child;
+                    if (child.getAttribute(TABINDEX) !== '0') {
+                        child.setAttribute(TABINDEX, '0');
+                    }
+                }
+                else if (child.getAttribute(TABINDEX) !== '-1') {
+                    child.setAttribute(TABINDEX, '-1');
+                }
+            }
+            this._updateTabIndexes(child);
+        }
+    };
+    FocusZone.prototype._isContentEditableElement = function (element) {
+        return element && element.getAttribute('contenteditable') === 'true';
+    };
+    FocusZone.prototype._isElementInput = function (element) {
+        if (element &&
+            element.tagName &&
+            (element.tagName.toLowerCase() === 'input' || element.tagName.toLowerCase() === 'textarea')) {
+            return true;
+        }
+        return false;
+    };
+    FocusZone.prototype._shouldInputLoseFocus = function (element, isForward) {
+        // If a tab was used, we want to focus on the next element.
+        if (!this._processingTabKey &&
+            element &&
+            element.type &&
+            ALLOWED_INPUT_TYPES.indexOf(element.type.toLowerCase()) > -1) {
+            var selectionStart = element.selectionStart;
+            var selectionEnd = element.selectionEnd;
+            var isRangeSelected = selectionStart !== selectionEnd;
+            var inputValue = element.value;
+            var isReadonly = element.readOnly;
+            // We shouldn't lose focus in the following cases:
+            // 1. There is range selected.
+            // 2. When selection start is larger than 0 and it is backward and not readOnly.
+            // 3. when selection start is not the end of length, it is forward and not readOnly.
+            // 4. We press any of the arrow keys when our handleTabKey isn't none or undefined (only losing focus if we hit
+            // tab) and if shouldInputLoseFocusOnArrowKey is defined, if scenario prefers to not loose the focus which is
+            // determined by calling the callback shouldInputLoseFocusOnArrowKey
+            if (isRangeSelected ||
+                (selectionStart > 0 && !isForward && !isReadonly) ||
+                (selectionStart !== inputValue.length && isForward && !isReadonly) ||
+                (!!this.props.handleTabKey &&
+                    !(this.props.shouldInputLoseFocusOnArrowKey && this.props.shouldInputLoseFocusOnArrowKey(element)))) {
+                return false;
+            }
+        }
+        return true;
+    };
+    FocusZone.prototype._shouldWrapFocus = function (element, noWrapDataAttribute) {
+        return this.props.checkForNoWrap ? (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.shouldWrapFocus)(element, noWrapDataAttribute) : true;
+    };
+    /**
+     * Returns true if the element is a descendant of the FocusZone through a React portal.
+     */
+    FocusZone.prototype._portalContainsElement = function (element) {
+        return element && !!this._root.current && (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_19__.portalContainsElement)(element, this._root.current);
+    };
+    FocusZone.prototype._getDocument = function () {
+        return (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_20__.getDocument)(this._root.current);
+    };
+    FocusZone.defaultProps = {
+        isCircularNavigation: false,
+        direction: _FocusZone_types__WEBPACK_IMPORTED_MODULE_8__.FocusZoneDirection.bidirectional,
+        shouldRaiseClicks: true,
+    };
+    return FocusZone;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=FocusZone.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.types.js":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.types.js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FocusZoneTabbableElements": () => (/* binding */ FocusZoneTabbableElements),
+/* harmony export */   "FocusZoneDirection": () => (/* binding */ FocusZoneDirection)
+/* harmony export */ });
+/**
+ * {@docCategory FocusZone}
+ */
+var FocusZoneTabbableElements = {
+    /** Tabbing is not allowed */
+    none: 0,
+    /** All tabbing action is allowed */
+    all: 1,
+    /** Tabbing is allowed only on input elements */
+    inputOnly: 2,
+};
+/**
+ * {@docCategory FocusZone}
+ */
+var FocusZoneDirection;
+(function (FocusZoneDirection) {
+    /** Only react to up/down arrows. */
+    FocusZoneDirection[FocusZoneDirection["vertical"] = 0] = "vertical";
+    /** Only react to left/right arrows. */
+    FocusZoneDirection[FocusZoneDirection["horizontal"] = 1] = "horizontal";
+    /** React to all arrows. */
+    FocusZoneDirection[FocusZoneDirection["bidirectional"] = 2] = "bidirectional";
+    /**
+     * React to all arrows. Navigate next item in DOM on right/down arrow keys and previous - left/up arrow keys.
+     * Right and Left arrow keys are swapped in RTL mode.
+     */
+    FocusZoneDirection[FocusZoneDirection["domOrder"] = 3] = "domOrder";
+})(FocusZoneDirection || (FocusZoneDirection = {}));
+//# sourceMappingURL=FocusZone.types.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useAsync.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useAsync.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useAsync": () => (/* binding */ useAsync)
+/* harmony export */ });
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/Async.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _useConst__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useConst */ "./node_modules/@fluentui/react-hooks/lib/useConst.js");
+
+
+
+/**
+ * Hook to provide an Async instance that is automatically cleaned up on dismount.
+ */
+function useAsync() {
+    var async = (0,_useConst__WEBPACK_IMPORTED_MODULE_1__.useConst)(function () { return new _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.Async(); });
+    // Function that returns a function in order to dispose the async instance on unmount
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () { return function () { return async.dispose(); }; }, [async]);
+    return async;
+}
+//# sourceMappingURL=useAsync.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useConst.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useConst.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useConst": () => (/* binding */ useConst)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+/**
+ * Hook to initialize and return a constant value. Unlike `React.useMemo`, this is guaranteed to
+ * always return the same value (and if the initializer is a function, only call it once).
+ * This is similar to setting a private member in a class constructor.
+ *
+ * If the value should ever change based on dependencies, use `React.useMemo` instead.
+ *
+ * @param initialValue - Initial value, or function to get the initial value. Similar to `useState`,
+ * only the value/function passed in the first time this is called is respected.
+ * @returns The value. The identity of this value will always be the same.
+ */
+function useConst(initialValue) {
+    // Use useRef to store the value because it's the least expensive built-in hook that works here
+    // (we could also use `const [value] = React.useState(initialValue)` but that's more expensive
+    // internally due to reducer handling which we don't need)
+    var ref = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    if (ref.current === undefined) {
+        // Box the value in an object so we can tell if it's initialized even if the initializer
+        // returns/is undefined
+        ref.current = {
+            value: typeof initialValue === 'function' ? initialValue() : initialValue,
+        };
+    }
+    return ref.current.value;
+}
+//# sourceMappingURL=useConst.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useMergedRefs": () => (/* binding */ useMergedRefs)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+/**
+ * React hook to merge multiple React refs (either MutableRefObjects or ref callbacks) into a single ref callback that
+ * updates all provided refs
+ * @param refs - Refs to collectively update with one ref value.
+ * @returns A function with an attached "current" prop, so that it can be treated like a RefObject.
+ */
+function useMergedRefs() {
+    var refs = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        refs[_i] = arguments[_i];
+    }
+    var mergedCallback = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (value) {
+        // Update the "current" prop hanging on the function.
+        mergedCallback.current = value;
+        for (var _i = 0, refs_1 = refs; _i < refs_1.length; _i++) {
+            var ref = refs_1[_i];
+            if (typeof ref === 'function') {
+                ref(value);
+            }
+            else if (ref) {
+                // work around the immutability of the React.Ref type
+                ref.current = value;
+            }
+        }
+    }, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__spreadArrays)(refs));
+    return mergedCallback;
+}
+//# sourceMappingURL=useMergedRefs.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useOnEvent.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useOnEvent.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useOnEvent": () => (/* binding */ useOnEvent)
+/* harmony export */ });
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/on.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+/**
+ * Hook to attach an event handler on mount and handle cleanup.
+ * @param element - Element (or ref to an element) to attach the event handler to
+ * @param eventName - The event to attach a handler for
+ * @param callback - The handler for the event
+ * @param useCapture - Whether or not to attach the handler for the capture phase
+ */
+function useOnEvent(element, eventName, callback, useCapture) {
+    // Use a ref for the callback to prevent repeatedly attaching/unattaching callbacks that are unstable across renders
+    var callbackRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(callback);
+    callbackRef.current = callback;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        var actualElement = element && 'current' in element ? element.current : element;
+        if (!actualElement) {
+            return;
+        }
+        var dispose = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__.on)(actualElement, eventName, function (ev) { return callbackRef.current(ev); }, useCapture);
+        return dispose;
+    }, [element, eventName, useCapture]);
+}
+//# sourceMappingURL=useOnEvent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/usePrevious.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/usePrevious.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "usePrevious": () => (/* binding */ usePrevious)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+/**
+ * Hook keeping track of a given value from a previous execution of the component the Hook is used in.
+ *
+ * See [React Hooks FAQ](https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state)
+ */
+function usePrevious(value) {
+    var ref = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+        ref.current = value;
+    });
+    return ref.current;
+}
+//# sourceMappingURL=usePrevious.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useTarget.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useTarget.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useTarget": () => (/* binding */ useTarget)
+/* harmony export */ });
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_react_window_provider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/react-window-provider */ "./node_modules/@fluentui/react-window-provider/lib/WindowProvider.js");
+
+
+
+/**
+ * Hook to calculate and cache the target element specified by the given target attribute,
+ * as well as the target element's (or host element's) parent window
+ * @param target- Target selector passed to the component as a property, describing the element that
+ * the callout should target
+ * @param hostElement- The callout's host element, used for determining the parent window.
+ */
+function useTarget(target, hostElement) {
+    var previousTargetProp = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var targetRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    /**
+     * Stores an instance of Window, used to check
+     * for server side rendering and if focus was lost.
+     */
+    var targetWindow = (0,_fluentui_react_window_provider__WEBPACK_IMPORTED_MODULE_1__.useWindow)();
+    // If the target element changed, find the new one. If we are tracking
+    // target with class name, always find element because we do not know if
+    // fabric has rendered a new element and disposed the old element.
+    if (!target || target !== previousTargetProp.current || typeof target === 'string') {
+        var currentElement = hostElement === null || hostElement === void 0 ? void 0 : hostElement.current;
+        if (target) {
+            if (typeof target === 'string') {
+                var currentDoc = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.getDocument)(currentElement);
+                targetRef.current = currentDoc ? currentDoc.querySelector(target) : null;
+            }
+            else if ('stopPropagation' in target) {
+                targetRef.current = target;
+            }
+            else if ('getBoundingClientRect' in target) {
+                targetRef.current = target;
+            }
+            else if ('current' in target) {
+                targetRef.current = target.current;
+            }
+            else {
+                targetRef.current = target;
+            }
+        }
+        previousTargetProp.current = target;
+    }
+    return [targetRef, targetWindow];
+}
+//# sourceMappingURL=useTarget.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useWarnings.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useWarnings.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useWarnings": () => (/* binding */ useWarnings)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/utilities/lib/warn */ "./node_modules/@fluentui/utilities/lib/warn/warn.js");
+/* harmony import */ var _fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/utilities/lib/warn */ "./node_modules/@fluentui/utilities/lib/warn/warnConditionallyRequiredProps.js");
+/* harmony import */ var _fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/utilities/lib/warn */ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js");
+/* harmony import */ var _fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fluentui/utilities/lib/warn */ "./node_modules/@fluentui/utilities/lib/warn/warnMutuallyExclusive.js");
+/* harmony import */ var _fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fluentui/utilities/lib/warn */ "./node_modules/@fluentui/utilities/lib/warn/warnControlledUsage.js");
+/* harmony import */ var _usePrevious__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./usePrevious */ "./node_modules/@fluentui/react-hooks/lib/usePrevious.js");
+/* harmony import */ var _useConst__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useConst */ "./node_modules/@fluentui/react-hooks/lib/useConst.js");
+
+
+
+
+
+var warningId = 0;
+/**
+ * Only in development mode, display console warnings when certain conditions are met.
+ * Note that all warnings except `controlledUsage` will only be shown on first render
+ * (new `controlledUsage` warnings may be shown later due to prop changes).
+ */
+function useWarnings(options) {
+    if (true) {
+        var name_1 = options.name, props = options.props, _a = options.other, other = _a === void 0 ? [] : _a, conditionallyRequired = options.conditionallyRequired, deprecations = options.deprecations, mutuallyExclusive = options.mutuallyExclusive, controlledUsage = options.controlledUsage;
+        /* eslint-disable react-hooks/rules-of-hooks -- build-time conditional */
+        var hasWarnedRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+        var componentId = (0,_useConst__WEBPACK_IMPORTED_MODULE_1__.useConst)(function () { return "useWarnings_" + warningId++; });
+        var oldProps = (0,_usePrevious__WEBPACK_IMPORTED_MODULE_2__.usePrevious)(props);
+        /* eslint-enable react-hooks/rules-of-hooks */
+        // Warn synchronously (not in useEffect) on first render to make debugging easier.
+        if (!hasWarnedRef.current) {
+            hasWarnedRef.current = true;
+            for (var _i = 0, other_1 = other; _i < other_1.length; _i++) {
+                var warning = other_1[_i];
+                (0,_fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_3__.warn)(warning);
+            }
+            if (conditionallyRequired) {
+                for (var _b = 0, conditionallyRequired_1 = conditionallyRequired; _b < conditionallyRequired_1.length; _b++) {
+                    var req = conditionallyRequired_1[_b];
+                    (0,_fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_4__.warnConditionallyRequiredProps)(name_1, props, req.requiredProps, req.conditionalPropName, req.condition);
+                }
+            }
+            deprecations && (0,_fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_5__.warnDeprecations)(name_1, props, deprecations);
+            mutuallyExclusive && (0,_fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_6__.warnMutuallyExclusive)(name_1, props, mutuallyExclusive);
+        }
+        // Controlled usage warnings may be displayed on either first or subsequent renders due to
+        // prop changes. Note that it's safe to run this synchronously (not in useEffect) even in
+        // concurrent mode because `warnControlledUsage` internally tracks which warnings have been
+        // displayed for each component instance (so nothing will be displayed twice).
+        controlledUsage && (0,_fluentui_utilities_lib_warn__WEBPACK_IMPORTED_MODULE_7__.warnControlledUsage)((0,tslib__WEBPACK_IMPORTED_MODULE_8__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_8__.__assign)({}, controlledUsage), { componentId: componentId, props: props, componentName: name_1, oldProps: oldProps }));
+    }
+}
+//# sourceMappingURL=useWarnings.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-window-provider/lib/WindowProvider.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@fluentui/react-window-provider/lib/WindowProvider.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "WindowContext": () => (/* binding */ WindowContext),
+/* harmony export */   "useWindow": () => (/* binding */ useWindow),
+/* harmony export */   "useDocument": () => (/* binding */ useDocument),
+/* harmony export */   "WindowProvider": () => (/* binding */ WindowProvider)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+/**
+ * Context for providing the window.
+ */
+var WindowContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({
+    window: typeof window === 'object' ? window : undefined,
+});
+/**
+ * Hook to access the window object. This can be overridden contextually using the `WindowProvider`.
+ */
+var useWindow = function () { return react__WEBPACK_IMPORTED_MODULE_0__.useContext(WindowContext).window; };
+/**
+ * Hook to access the document object. This can be overridden contextually using the `WindowProvider`.
+ */
+var useDocument = function () { var _a; return (_a = react__WEBPACK_IMPORTED_MODULE_0__.useContext(WindowContext).window) === null || _a === void 0 ? void 0 : _a.document; };
+/**
+ * Component to provide the window object contextually. This is useful when rendering content to an element
+ * contained within a child window or iframe element, where event handlers and styling must be projected
+ * to an alternative window or document.
+ */
+var WindowProvider = function (props) {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(WindowContext.Provider, { value: props }, props.children);
+};
+//# sourceMappingURL=WindowProvider.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/common/DirectionalHint.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/common/DirectionalHint.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DirectionalHint": () => (/* binding */ DirectionalHint)
+/* harmony export */ });
+var DirectionalHint = {
+    /**
+     * Appear above the target element, with the left edges of the callout and target aligning.
+     */
+    topLeftEdge: 0,
+    /**
+     * Appear above the target element, with the centers of the callout and target aligning.
+     */
+    topCenter: 1,
+    /**
+     * Appear above the target element, with the right edges of the callout and target aligning.
+     */
+    topRightEdge: 2,
+    /**
+     * Appear above the target element, aligning with the target element such that the callout tends toward
+     * the center of the screen.
+     */
+    topAutoEdge: 3,
+    /**
+     * Appear below the target element, with the left edges of the callout and target aligning.
+     */
+    bottomLeftEdge: 4,
+    /**
+     * Appear below the target element, with the centers of the callout and target aligning.
+     */
+    bottomCenter: 5,
+    /**
+     * Appear below the target element, with the right edges of the callout and target aligning.
+     */
+    bottomRightEdge: 6,
+    /**
+     * Appear below the target element, aligning with the target element such that the callout tends toward
+     * the center of the screen.
+     */
+    bottomAutoEdge: 7,
+    /**
+     * Appear to the left of the target element, with the top edges of the callout and target aligning.
+     */
+    leftTopEdge: 8,
+    /**
+     * Appear to the left of the target element, with the centers of the callout and target aligning.
+     */
+    leftCenter: 9,
+    /**
+     * Appear to the left of the target element, with the bottom edges of the callout and target aligning.
+     */
+    leftBottomEdge: 10,
+    /**
+     * Appear to the right of the target element, with the top edges of the callout and target aligning.
+     */
+    rightTopEdge: 11,
+    /**
+     * Appear to the right of the target element, with the centers of the callout and target aligning.
+     */
+    rightCenter: 12,
+    /**
+     * Appear to the right of the target element, with the bottom edges of the callout and target aligning.
+     */
+    rightBottomEdge: 13,
+};
+//# sourceMappingURL=DirectionalHint.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.classNames.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/BaseButton.classNames.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ButtonGlobalClassNames": () => (/* binding */ ButtonGlobalClassNames),
+/* harmony export */   "getBaseButtonClassNames": () => (/* binding */ getBaseButtonClassNames)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+
+var ButtonGlobalClassNames = {
+    msButton: 'ms-Button',
+    msButtonHasMenu: 'ms-Button--hasMenu',
+    msButtonIcon: 'ms-Button-icon',
+    msButtonMenuIcon: 'ms-Button-menuIcon',
+    msButtonLabel: 'ms-Button-label',
+    msButtonDescription: 'ms-Button-description',
+    msButtonScreenReaderText: 'ms-Button-screenReaderText',
+    msButtonFlexContainer: 'ms-Button-flexContainer',
+    msButtonTextContainer: 'ms-Button-textContainer',
+};
+var getBaseButtonClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(function (theme, styles, className, variantClassName, iconClassName, menuIconClassName, disabled, hasMenu, checked, expanded, isSplit) {
+    var _a, _b;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getGlobalClassNames)(ButtonGlobalClassNames, theme || {});
+    var isExpanded = expanded && !isSplit;
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.mergeStyleSets)({
+        root: [
+            classNames.msButton,
+            styles.root,
+            variantClassName,
+            checked && ['is-checked', styles.rootChecked],
+            isExpanded && [
+                'is-expanded',
+                styles.rootExpanded,
+                {
+                    selectors: (_a = {},
+                        _a[":hover ." + classNames.msButtonIcon] = styles.iconExpandedHovered,
+                        // menuIcon falls back to rootExpandedHovered to support original behavior
+                        _a[":hover ." + classNames.msButtonMenuIcon] = styles.menuIconExpandedHovered || styles.rootExpandedHovered,
+                        _a[':hover'] = styles.rootExpandedHovered,
+                        _a),
+                },
+            ],
+            hasMenu && [ButtonGlobalClassNames.msButtonHasMenu, styles.rootHasMenu],
+            disabled && ['is-disabled', styles.rootDisabled],
+            !disabled &&
+                !isExpanded &&
+                !checked && {
+                selectors: (_b = {
+                        ':hover': styles.rootHovered
+                    },
+                    _b[":hover ." + classNames.msButtonLabel] = styles.labelHovered,
+                    _b[":hover ." + classNames.msButtonIcon] = styles.iconHovered,
+                    _b[":hover ." + classNames.msButtonDescription] = styles.descriptionHovered,
+                    _b[":hover ." + classNames.msButtonMenuIcon] = styles.menuIconHovered,
+                    _b[':focus'] = styles.rootFocused,
+                    _b[':active'] = styles.rootPressed,
+                    _b[":active ." + classNames.msButtonIcon] = styles.iconPressed,
+                    _b[":active ." + classNames.msButtonDescription] = styles.descriptionPressed,
+                    _b[":active ." + classNames.msButtonMenuIcon] = styles.menuIconPressed,
+                    _b),
+            },
+            disabled && checked && [styles.rootCheckedDisabled],
+            !disabled &&
+                checked && {
+                selectors: {
+                    ':hover': styles.rootCheckedHovered,
+                    ':active': styles.rootCheckedPressed,
+                },
+            },
+            className,
+        ],
+        flexContainer: [classNames.msButtonFlexContainer, styles.flexContainer],
+        textContainer: [classNames.msButtonTextContainer, styles.textContainer],
+        icon: [
+            classNames.msButtonIcon,
+            iconClassName,
+            styles.icon,
+            isExpanded && styles.iconExpanded,
+            checked && styles.iconChecked,
+            disabled && styles.iconDisabled,
+        ],
+        label: [classNames.msButtonLabel, styles.label, checked && styles.labelChecked, disabled && styles.labelDisabled],
+        menuIcon: [
+            classNames.msButtonMenuIcon,
+            menuIconClassName,
+            styles.menuIcon,
+            checked && styles.menuIconChecked,
+            disabled && !isSplit && styles.menuIconDisabled,
+            !disabled &&
+                !isExpanded &&
+                !checked && {
+                selectors: {
+                    ':hover': styles.menuIconHovered,
+                    ':active': styles.menuIconPressed,
+                },
+            },
+            isExpanded && ['is-expanded', styles.menuIconExpanded],
+        ],
+        description: [
+            classNames.msButtonDescription,
+            styles.description,
+            checked && styles.descriptionChecked,
+            disabled && styles.descriptionDisabled,
+        ],
+        screenReaderText: [classNames.msButtonScreenReaderText, styles.screenReaderText],
+    });
+});
+//# sourceMappingURL=BaseButton.classNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/BaseButton.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BaseButton": () => (/* binding */ BaseButton)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/createMergedRef.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/css.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/dom-utilities/lib/portalContainsElement.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/setFocusVisibility.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/initializeComponentRef.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/Async.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/EventGroup.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/warn/warnConditionallyRequiredProps.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/getId.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/object.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/BaseComponent.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/useFocusRects.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/aria.js");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Icon */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.js");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Icon */ "./node_modules/@fluentui/react/lib/components/Icon/FontIcon.js");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Icon */ "./node_modules/@fluentui/react/lib/components/Icon/ImageIcon.js");
+/* harmony import */ var _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../common/DirectionalHint */ "./node_modules/@fluentui/react/lib/common/DirectionalHint.js");
+/* harmony import */ var _ContextualMenu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../ContextualMenu */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.js");
+/* harmony import */ var _BaseButton_classNames__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./BaseButton.classNames */ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.classNames.js");
+/* harmony import */ var _SplitButton_SplitButton_classNames__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./SplitButton/SplitButton.classNames */ "./node_modules/@fluentui/react/lib/components/Button/SplitButton/SplitButton.classNames.js");
+/* harmony import */ var _KeytipData__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../KeytipData */ "./node_modules/@fluentui/react/lib/components/KeytipData/KeytipData.js");
+
+
+
+
+
+
+
+
+
+var TouchIdleDelay = 500; /* ms */
+var COMPONENT_NAME = 'BaseButton';
+/**
+ * {@docCategory Button}
+ */
+var BaseButton = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(BaseButton, _super);
+    function BaseButton(props) {
+        var _this = _super.call(this, props) || this;
+        _this._buttonElement = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
+        _this._splitButtonContainer = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
+        _this._mergedRef = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.createMergedRef)();
+        _this._renderedVisibleMenu = false;
+        _this._getMemoizedMenuButtonKeytipProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.memoizeFunction)(function (keytipProps) {
+            return (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, keytipProps), { hasMenu: true });
+        });
+        _this._onRenderIcon = function (buttonProps, defaultRender) {
+            var iconProps = _this.props.iconProps;
+            if (iconProps && (iconProps.iconName !== undefined || iconProps.imageProps)) {
+                var className = iconProps.className, imageProps = iconProps.imageProps, rest = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__rest)(iconProps, ["className", "imageProps"]);
+                // If the styles prop is specified as part of iconProps, fall back to regular Icon as FontIcon and ImageIcon
+                // do not have this prop.
+                if (iconProps.styles) {
+                    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_4__.Icon, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.css)(_this._classNames.icon, className), imageProps: imageProps }, rest));
+                }
+                if (iconProps.iconName) {
+                    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_6__.FontIcon, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.css)(_this._classNames.icon, className) }, rest));
+                }
+                if (imageProps) {
+                    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_7__.ImageIcon, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.css)(_this._classNames.icon, className), imageProps: imageProps }, rest));
+                }
+            }
+            return null;
+        };
+        _this._onRenderTextContents = function () {
+            var _a = _this.props, text = _a.text, children = _a.children, 
+            // eslint-disable-next-line deprecation/deprecation
+            _b = _a.secondaryText, 
+            // eslint-disable-next-line deprecation/deprecation
+            secondaryText = _b === void 0 ? _this.props.description : _b, _c = _a.onRenderText, onRenderText = _c === void 0 ? _this._onRenderText : _c, _d = _a.onRenderDescription, onRenderDescription = _d === void 0 ? _this._onRenderDescription : _d;
+            if (text || typeof children === 'string' || secondaryText) {
+                return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: _this._classNames.textContainer },
+                    onRenderText(_this.props, _this._onRenderText),
+                    onRenderDescription(_this.props, _this._onRenderDescription)));
+            }
+            return [onRenderText(_this.props, _this._onRenderText), onRenderDescription(_this.props, _this._onRenderDescription)];
+        };
+        _this._onRenderText = function () {
+            var text = _this.props.text;
+            var children = _this.props.children;
+            // For backwards compat, we should continue to take in the text content from children.
+            if (text === undefined && typeof children === 'string') {
+                text = children;
+            }
+            if (_this._hasText()) {
+                return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { key: _this._labelId, className: _this._classNames.label, id: _this._labelId }, text));
+            }
+            return null;
+        };
+        _this._onRenderChildren = function () {
+            var children = _this.props.children;
+            // If children is just a string, either it or the text will be rendered via onRenderLabel
+            // If children is another component, it will be rendered after text
+            if (typeof children === 'string') {
+                return null;
+            }
+            return children;
+        };
+        _this._onRenderDescription = function (props) {
+            // eslint-disable-next-line deprecation/deprecation
+            var _a = props.secondaryText, secondaryText = _a === void 0 ? _this.props.description : _a;
+            // ms-Button-description is only shown when the button type is compound.
+            // In other cases it will not be displayed.
+            return secondaryText ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { key: _this._descriptionId, className: _this._classNames.description, id: _this._descriptionId }, secondaryText)) : null;
+        };
+        _this._onRenderAriaDescription = function () {
+            var ariaDescription = _this.props.ariaDescription;
+            // If ariaDescription is given, descriptionId will be assigned to ariaDescriptionSpan,
+            // otherwise it will be assigned to descriptionSpan.
+            return ariaDescription ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: _this._classNames.screenReaderText, id: _this._ariaDescriptionId }, ariaDescription)) : null;
+        };
+        _this._onRenderMenuIcon = function (props) {
+            var menuIconProps = _this.props.menuIconProps;
+            return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_6__.FontIcon, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ iconName: "ChevronDown" }, menuIconProps, { className: _this._classNames.menuIcon }));
+        };
+        _this._onRenderMenu = function (menuProps) {
+            var persistMenu = _this.props.persistMenu;
+            var menuHidden = _this.state.menuHidden;
+            var MenuType = _this.props.menuAs || _ContextualMenu__WEBPACK_IMPORTED_MODULE_8__.ContextualMenu;
+            // the accessible menu label (accessible name) has a relationship to the button.
+            // If the menu props do not specify an explicit value for aria-label or aria-labelledBy,
+            // AND the button has text, we'll set the menu aria-labelledBy to the text element id.
+            if (!menuProps.ariaLabel && !menuProps.labelElementId && _this._hasText()) {
+                menuProps = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, menuProps), { labelElementId: _this._labelId });
+            }
+            return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(MenuType, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ id: _this._labelId + '-menu', directionalHint: _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_9__.DirectionalHint.bottomLeftEdge }, menuProps, { shouldFocusOnContainer: _this._menuShouldFocusOnContainer, shouldFocusOnMount: _this._menuShouldFocusOnMount, hidden: persistMenu ? menuHidden : undefined, className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.css)('ms-BaseButton-menuhost', menuProps.className), target: _this._isSplitButton ? _this._splitButtonContainer.current : _this._buttonElement.current, onDismiss: _this._onDismissMenu })));
+        };
+        _this._onDismissMenu = function (ev) {
+            var menuProps = _this.props.menuProps;
+            if (menuProps && menuProps.onDismiss) {
+                menuProps.onDismiss(ev);
+            }
+            if (!ev || !ev.defaultPrevented) {
+                _this._dismissMenu();
+            }
+        };
+        _this._dismissMenu = function () {
+            _this._menuShouldFocusOnMount = undefined;
+            _this._menuShouldFocusOnContainer = undefined;
+            _this.setState({ menuHidden: true });
+        };
+        _this._openMenu = function (shouldFocusOnContainer, shouldFocusOnMount) {
+            if (shouldFocusOnMount === void 0) { shouldFocusOnMount = true; }
+            if (_this.props.menuProps) {
+                _this._menuShouldFocusOnContainer = shouldFocusOnContainer;
+                _this._menuShouldFocusOnMount = shouldFocusOnMount;
+                _this._renderedVisibleMenu = true;
+                _this.setState({ menuHidden: false });
+            }
+        };
+        _this._onToggleMenu = function (shouldFocusOnContainer) {
+            var shouldFocusOnMount = true;
+            if (_this.props.menuProps && _this.props.menuProps.shouldFocusOnMount === false) {
+                shouldFocusOnMount = false;
+            }
+            _this.state.menuHidden ? _this._openMenu(shouldFocusOnContainer, shouldFocusOnMount) : _this._dismissMenu();
+        };
+        _this._onSplitContainerFocusCapture = function (ev) {
+            var container = _this._splitButtonContainer.current;
+            // If the target is coming from the portal we do not need to set focus on the container.
+            if (!container || (ev.target && (0,_Utilities__WEBPACK_IMPORTED_MODULE_10__.portalContainsElement)(ev.target, container))) {
+                return;
+            }
+            // We should never be able to focus the individual buttons in a split button. Focus
+            // should always remain on the container.
+            container.focus();
+        };
+        _this._onSplitButtonPrimaryClick = function (ev) {
+            if (!_this.state.menuHidden) {
+                _this._dismissMenu();
+            }
+            if (!_this._processingTouch && _this.props.onClick) {
+                _this.props.onClick(ev);
+            }
+            else if (_this._processingTouch) {
+                _this._onMenuClick(ev);
+            }
+        };
+        _this._onKeyDown = function (ev) {
+            // explicity cancelling event so click won't fire after this
+            // eslint-disable-next-line deprecation/deprecation
+            if (_this.props.disabled && (ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.enter || ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.space)) {
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
+            else if (!_this.props.disabled) {
+                if (_this.props.menuProps) {
+                    _this._onMenuKeyDown(ev);
+                }
+                else if (_this.props.onKeyDown !== undefined) {
+                    _this.props.onKeyDown(ev); // not cancelling event because it's not disabled
+                }
+            }
+        };
+        _this._onKeyUp = function (ev) {
+            if (!_this.props.disabled && _this.props.onKeyUp !== undefined) {
+                _this.props.onKeyUp(ev); // not cancelling event because it's not disabled
+            }
+        };
+        _this._onKeyPress = function (ev) {
+            if (!_this.props.disabled && _this.props.onKeyPress !== undefined) {
+                _this.props.onKeyPress(ev); // not cancelling event because it's not disabled
+            }
+        };
+        _this._onMouseUp = function (ev) {
+            if (!_this.props.disabled && _this.props.onMouseUp !== undefined) {
+                _this.props.onMouseUp(ev); // not cancelling event because it's not disabled
+            }
+        };
+        _this._onMouseDown = function (ev) {
+            if (!_this.props.disabled && _this.props.onMouseDown !== undefined) {
+                _this.props.onMouseDown(ev); // not cancelling event because it's not disabled
+            }
+        };
+        _this._onClick = function (ev) {
+            if (!_this.props.disabled) {
+                if (_this.props.menuProps) {
+                    _this._onMenuClick(ev);
+                }
+                else if (_this.props.onClick !== undefined) {
+                    _this.props.onClick(ev); // not cancelling event because it's not disabled
+                }
+            }
+        };
+        _this._onSplitButtonContainerKeyDown = function (ev) {
+            // eslint-disable-next-line deprecation/deprecation
+            if (ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.enter || ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.space) {
+                if (_this._buttonElement.current) {
+                    _this._buttonElement.current.click();
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                }
+            }
+            else {
+                _this._onMenuKeyDown(ev);
+            }
+        };
+        _this._onMenuKeyDown = function (ev) {
+            if (_this.props.disabled) {
+                return;
+            }
+            if (_this.props.onKeyDown) {
+                _this.props.onKeyDown(ev);
+            }
+            // eslint-disable-next-line deprecation/deprecation
+            var isUp = ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.up;
+            // eslint-disable-next-line deprecation/deprecation
+            var isDown = ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.down;
+            if (!ev.defaultPrevented && _this._isValidMenuOpenKey(ev)) {
+                var onMenuClick = _this.props.onMenuClick;
+                if (onMenuClick) {
+                    onMenuClick(ev, _this.props);
+                }
+                _this._onToggleMenu(false);
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
+            // eslint-disable-next-line deprecation/deprecation
+            if (ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.enter || ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.space) {
+                // We manually set the focus visibility to true if opening via Enter or Space to account for the scenario where
+                // a user clicks on the button, closes the menu and then opens it via keyboard. In this scenario our default logic
+                // for setting focus visibility is not triggered since there is no keyboard navigation present beforehand.
+                (0,_Utilities__WEBPACK_IMPORTED_MODULE_12__.setFocusVisibility)(true, ev.target);
+            }
+            if (!(ev.altKey || ev.metaKey) && (isUp || isDown)) {
+                // Suppose a menu, with shouldFocusOnMount: false, is open, and user wants to keyboard to the menu items
+                // We need to re-render the menu with shouldFocusOnMount as true.
+                if (!_this.state.menuHidden && _this.props.menuProps) {
+                    var currentShouldFocusOnMount = _this._menuShouldFocusOnMount !== undefined
+                        ? _this._menuShouldFocusOnMount
+                        : _this.props.menuProps.shouldFocusOnMount;
+                    if (!currentShouldFocusOnMount) {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        _this._menuShouldFocusOnMount = true;
+                        _this.forceUpdate();
+                    }
+                }
+            }
+        };
+        _this._onTouchStart = function () {
+            if (_this._isSplitButton &&
+                _this._splitButtonContainer.current &&
+                !('onpointerdown' in _this._splitButtonContainer.current)) {
+                _this._handleTouchAndPointerEvent();
+            }
+        };
+        _this._onMenuClick = function (ev) {
+            var onMenuClick = _this.props.onMenuClick;
+            if (onMenuClick) {
+                onMenuClick(ev, _this.props);
+            }
+            if (!ev.defaultPrevented) {
+                // When Edge + Narrator are used together (regardless of if the button is in a form or not), pressing
+                // "Enter" fires this method and not _onMenuKeyDown. Checking ev.nativeEvent.detail differentiates
+                // between a real click event and a keypress event (detail should be the number of mouse clicks).
+                // ...Plot twist! For a real click event in IE 11, detail is always 0 (Edge sets it properly to 1).
+                // So we also check the pointerType property, which both Edge and IE set to "mouse" for real clicks
+                // and "" for pressing "Enter" with Narrator on.
+                var shouldFocusOnContainer = ev.nativeEvent.detail !== 0 || ev.nativeEvent.pointerType === 'mouse';
+                _this._onToggleMenu(shouldFocusOnContainer);
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
+        };
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_13__.initializeComponentRef)(_this);
+        _this._async = new _Utilities__WEBPACK_IMPORTED_MODULE_14__.Async(_this);
+        _this._events = new _Utilities__WEBPACK_IMPORTED_MODULE_15__.EventGroup(_this);
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_16__.warnConditionallyRequiredProps)(COMPONENT_NAME, props, ['menuProps', 'onClick'], 'split', _this.props.split);
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_17__.warnDeprecations)(COMPONENT_NAME, props, {
+            rootProps: undefined,
+            description: 'secondaryText',
+            toggled: 'checked',
+        });
+        _this._labelId = (0,_Utilities__WEBPACK_IMPORTED_MODULE_18__.getId)();
+        _this._descriptionId = (0,_Utilities__WEBPACK_IMPORTED_MODULE_18__.getId)();
+        _this._ariaDescriptionId = (0,_Utilities__WEBPACK_IMPORTED_MODULE_18__.getId)();
+        _this.state = {
+            menuHidden: true,
+        };
+        return _this;
+    }
+    Object.defineProperty(BaseButton.prototype, "_isSplitButton", {
+        get: function () {
+            return !!this.props.menuProps && !!this.props.onClick && this.props.split === true;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    BaseButton.prototype.render = function () {
+        var _a;
+        var _b = this.props, ariaDescription = _b.ariaDescription, ariaLabel = _b.ariaLabel, ariaHidden = _b.ariaHidden, className = _b.className, disabled = _b.disabled, allowDisabledFocus = _b.allowDisabledFocus, primaryDisabled = _b.primaryDisabled, 
+        // eslint-disable-next-line deprecation/deprecation
+        _c = _b.secondaryText, 
+        // eslint-disable-next-line deprecation/deprecation
+        secondaryText = _c === void 0 ? this.props.description : _c, href = _b.href, iconProps = _b.iconProps, menuIconProps = _b.menuIconProps, styles = _b.styles, checked = _b.checked, variantClassName = _b.variantClassName, theme = _b.theme, toggle = _b.toggle, getClassNames = _b.getClassNames, role = _b.role;
+        var menuHidden = this.state.menuHidden;
+        // Button is disabled if the whole button (in case of splitButton is disabled) or if the primary action is disabled
+        var isPrimaryButtonDisabled = disabled || primaryDisabled;
+        this._classNames = getClassNames
+            ? getClassNames(theme, className, variantClassName, iconProps && iconProps.className, menuIconProps && menuIconProps.className, isPrimaryButtonDisabled, checked, !menuHidden, !!this.props.menuProps, this.props.split, !!allowDisabledFocus)
+            : (0,_BaseButton_classNames__WEBPACK_IMPORTED_MODULE_19__.getBaseButtonClassNames)(theme, styles, className, variantClassName, iconProps && iconProps.className, menuIconProps && menuIconProps.className, isPrimaryButtonDisabled, !!this.props.menuProps, checked, !menuHidden, this.props.split);
+        var _d = this, _ariaDescriptionId = _d._ariaDescriptionId, _labelId = _d._labelId, _descriptionId = _d._descriptionId;
+        // Anchor tag cannot be disabled hence in disabled state rendering
+        // anchor button as normal button
+        var renderAsAnchor = !isPrimaryButtonDisabled && !!href;
+        var tag = renderAsAnchor ? 'a' : 'button';
+        var nativeProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_20__.getNativeProps)(
+        // eslint-disable-next-line deprecation/deprecation
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_21__.assign)(renderAsAnchor ? {} : { type: 'button' }, this.props.rootProps, this.props), renderAsAnchor ? _Utilities__WEBPACK_IMPORTED_MODULE_20__.anchorProperties : _Utilities__WEBPACK_IMPORTED_MODULE_20__.buttonProperties, [
+            'disabled',
+        ]);
+        // Check for ariaLabel passed in via Button props, and fall back to aria-label passed in via native props
+        var resolvedAriaLabel = ariaLabel || nativeProps['aria-label'];
+        // Check for ariaDescription, secondaryText or aria-describedby in the native props to determine source of
+        // aria-describedby. Otherwise default to undefined so property does not appear in output.
+        var ariaDescribedBy = undefined;
+        if (ariaDescription) {
+            ariaDescribedBy = _ariaDescriptionId;
+        }
+        else if (secondaryText && this.props.onRenderDescription !== _Utilities__WEBPACK_IMPORTED_MODULE_22__.nullRender) {
+            // for buttons like CompoundButton with a valid onRenderDescription, we need to set an ariaDescribedBy
+            // for buttons that do not render anything (via nullRender), we should not set an ariaDescribedBy
+            ariaDescribedBy = _descriptionId;
+        }
+        else if (nativeProps['aria-describedby']) {
+            ariaDescribedBy = nativeProps['aria-describedby'];
+        }
+        // If an explicit aria-labelledby is given, use that and we're done.
+        // If any kind of description is given (which will end up as an aria-describedby attribute)
+        // and no ariaLabel is specified, set the labelledby element.
+        // Otherwise, the button is labeled implicitly by the descendent text on the button (if it exists).
+        var ariaLabelledBy = undefined;
+        if (nativeProps['aria-labelledby']) {
+            ariaLabelledBy = nativeProps['aria-labelledby'];
+        }
+        else if (ariaDescribedBy && !resolvedAriaLabel) {
+            ariaLabelledBy = this._hasText() ? _labelId : undefined;
+        }
+        var dataIsFocusable = this.props['data-is-focusable'] === false || (disabled && !allowDisabledFocus) || this._isSplitButton
+            ? false
+            : true;
+        var isCheckboxTypeRole = role === 'menuitemcheckbox' || role === 'checkbox';
+        // if isCheckboxTypeRole, always return a checked value.
+        // Otherwise only return checked value if toggle is set to true.
+        // This is because role="checkbox" always needs to have an aria-checked value
+        // but our checked prop only sets aria-pressed if we mark the button as a toggle="true"
+        var checkedOrPressedValue = isCheckboxTypeRole ? !!checked : toggle === true ? !!checked : undefined;
+        var buttonProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_21__.assign)(nativeProps, (_a = {
+                className: this._classNames.root,
+                // eslint-disable-next-line deprecation/deprecation
+                ref: this._mergedRef(this.props.elementRef, this._buttonElement),
+                disabled: isPrimaryButtonDisabled && !allowDisabledFocus,
+                onKeyDown: this._onKeyDown,
+                onKeyPress: this._onKeyPress,
+                onKeyUp: this._onKeyUp,
+                onMouseDown: this._onMouseDown,
+                onMouseUp: this._onMouseUp,
+                onClick: this._onClick,
+                'aria-label': resolvedAriaLabel,
+                'aria-labelledby': ariaLabelledBy,
+                'aria-describedby': ariaDescribedBy,
+                'aria-disabled': isPrimaryButtonDisabled,
+                'data-is-focusable': dataIsFocusable
+            },
+            // aria-pressed attribute should only be present for toggle buttons
+            // aria-checked attribute should only be present for toggle buttons with checkbox type role
+            _a[isCheckboxTypeRole ? 'aria-checked' : 'aria-pressed'] = checkedOrPressedValue,
+            _a));
+        if (ariaHidden) {
+            buttonProps['aria-hidden'] = true;
+        }
+        if (this._isSplitButton) {
+            return this._onRenderSplitButtonContent(tag, buttonProps);
+        }
+        else if (this.props.menuProps) {
+            var _e = this.props.menuProps.id, id = _e === void 0 ? this._labelId + "-menu" : _e;
+            (0,_Utilities__WEBPACK_IMPORTED_MODULE_21__.assign)(buttonProps, {
+                'aria-expanded': !menuHidden,
+                'aria-controls': !menuHidden ? id : null,
+                'aria-haspopup': true,
+            });
+        }
+        return this._onRenderContent(tag, buttonProps);
+    };
+    BaseButton.prototype.componentDidMount = function () {
+        // For split buttons, touching anywhere in the button should drop the dropdown, which should contain the
+        // primary action. This gives more hit target space for touch environments. We're setting the onpointerdown here,
+        // because React does not support Pointer events yet.
+        if (this._isSplitButton && this._splitButtonContainer.current) {
+            if ('onpointerdown' in this._splitButtonContainer.current) {
+                this._events.on(this._splitButtonContainer.current, 'pointerdown', this._onPointerDown, true);
+            }
+            if ('onpointerup' in this._splitButtonContainer.current && this.props.onPointerUp) {
+                this._events.on(this._splitButtonContainer.current, 'pointerup', this.props.onPointerUp, true);
+            }
+        }
+    };
+    BaseButton.prototype.componentDidUpdate = function (prevProps, prevState) {
+        // If Button's menu was closed, run onAfterMenuDismiss.
+        if (this.props.onAfterMenuDismiss && !prevState.menuHidden && this.state.menuHidden) {
+            this.props.onAfterMenuDismiss();
+        }
+    };
+    BaseButton.prototype.componentWillUnmount = function () {
+        this._async.dispose();
+        this._events.dispose();
+    };
+    BaseButton.prototype.focus = function () {
+        if (this._isSplitButton && this._splitButtonContainer.current) {
+            (0,_Utilities__WEBPACK_IMPORTED_MODULE_12__.setFocusVisibility)(true);
+            this._splitButtonContainer.current.focus();
+        }
+        else if (this._buttonElement.current) {
+            (0,_Utilities__WEBPACK_IMPORTED_MODULE_12__.setFocusVisibility)(true);
+            this._buttonElement.current.focus();
+        }
+    };
+    BaseButton.prototype.dismissMenu = function () {
+        this._dismissMenu();
+    };
+    BaseButton.prototype.openMenu = function (shouldFocusOnContainer, shouldFocusOnMount) {
+        this._openMenu(shouldFocusOnContainer, shouldFocusOnMount);
+    };
+    BaseButton.prototype._onRenderContent = function (tag, buttonProps) {
+        var _this = this;
+        var props = this.props;
+        var Tag = tag;
+        var menuIconProps = props.menuIconProps, menuProps = props.menuProps, _a = props.onRenderIcon, onRenderIcon = _a === void 0 ? this._onRenderIcon : _a, _b = props.onRenderAriaDescription, onRenderAriaDescription = _b === void 0 ? this._onRenderAriaDescription : _b, _c = props.onRenderChildren, onRenderChildren = _c === void 0 ? this._onRenderChildren : _c, 
+        // eslint-disable-next-line deprecation/deprecation
+        _d = props.onRenderMenu, 
+        // eslint-disable-next-line deprecation/deprecation
+        onRenderMenu = _d === void 0 ? this._onRenderMenu : _d, _e = props.onRenderMenuIcon, onRenderMenuIcon = _e === void 0 ? this._onRenderMenuIcon : _e, disabled = props.disabled;
+        var keytipProps = props.keytipProps;
+        if (keytipProps && menuProps) {
+            keytipProps = this._getMemoizedMenuButtonKeytipProps(keytipProps);
+        }
+        var Button = function (keytipAttributes) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, buttonProps, keytipAttributes),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: _this._classNames.flexContainer, "data-automationid": "splitbuttonprimary" },
+                onRenderIcon(props, _this._onRenderIcon),
+                _this._onRenderTextContents(),
+                onRenderAriaDescription(props, _this._onRenderAriaDescription),
+                onRenderChildren(props, _this._onRenderChildren),
+                !_this._isSplitButton &&
+                    (menuProps || menuIconProps || _this.props.onRenderMenuIcon) &&
+                    onRenderMenuIcon(_this.props, _this._onRenderMenuIcon),
+                menuProps &&
+                    !menuProps.doNotLayer &&
+                    _this._shouldRenderMenu() &&
+                    onRenderMenu(menuProps, _this._onRenderMenu)))); };
+        var Content = keytipProps ? (
+        // If we're making a split button, we won't put the keytip here
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_KeytipData__WEBPACK_IMPORTED_MODULE_23__.KeytipData, { keytipProps: !this._isSplitButton ? keytipProps : undefined, ariaDescribedBy: buttonProps['aria-describedby'], disabled: disabled }, function (keytipAttributes) { return Button(keytipAttributes); })) : (Button());
+        if (menuProps && menuProps.doNotLayer) {
+            return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+                Content,
+                this._shouldRenderMenu() && onRenderMenu(menuProps, this._onRenderMenu)));
+        }
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+            Content,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Utilities__WEBPACK_IMPORTED_MODULE_24__.FocusRects, null)));
+    };
+    /**
+     * Method to help determine if the menu's component tree should
+     * be rendered. It takes into account whether the menu is expanded,
+     * whether it is a persisted menu and whether it has been shown to the user.
+     */
+    BaseButton.prototype._shouldRenderMenu = function () {
+        var menuHidden = this.state.menuHidden;
+        // eslint-disable-next-line deprecation/deprecation
+        var _a = this.props, persistMenu = _a.persistMenu, renderPersistedMenuHiddenOnMount = _a.renderPersistedMenuHiddenOnMount;
+        if (!menuHidden) {
+            // Always should render a menu when it is expanded
+            return true;
+        }
+        else if (persistMenu && (this._renderedVisibleMenu || renderPersistedMenuHiddenOnMount)) {
+            // _renderedVisibleMenu ensures that the first rendering of
+            // the menu happens on-screen, as edge's scrollbar calculations are off if done while hidden.
+            return true;
+        }
+        return false;
+    };
+    BaseButton.prototype._hasText = function () {
+        // _onRenderTextContents and _onRenderText do not perform the same checks. Below is parity with what _onRenderText
+        // used to have before the refactor that introduced this function. _onRenderTextContents does not require props.
+        // text to be undefined in order for props.children to be used as a fallback.
+        // Purely a code maintainability/reuse issue, but logged as Issue #4979.
+        return this.props.text !== null && (this.props.text !== undefined || typeof this.props.children === 'string');
+    };
+    BaseButton.prototype._onRenderSplitButtonContent = function (tag, buttonProps) {
+        var _this = this;
+        var _a = this.props, _b = _a.styles, styles = _b === void 0 ? {} : _b, disabled = _a.disabled, allowDisabledFocus = _a.allowDisabledFocus, checked = _a.checked, getSplitButtonClassNames = _a.getSplitButtonClassNames, primaryDisabled = _a.primaryDisabled, menuProps = _a.menuProps, toggle = _a.toggle, role = _a.role, primaryActionButtonProps = _a.primaryActionButtonProps;
+        var keytipProps = this.props.keytipProps;
+        var menuHidden = this.state.menuHidden;
+        var classNames = getSplitButtonClassNames
+            ? getSplitButtonClassNames(!!disabled, !menuHidden, !!checked, !!allowDisabledFocus)
+            : styles && (0,_SplitButton_SplitButton_classNames__WEBPACK_IMPORTED_MODULE_25__.getSplitButtonClassNames)(styles, !!disabled, !menuHidden, !!checked, !!primaryDisabled);
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_21__.assign)(buttonProps, {
+            onClick: undefined,
+            onPointerDown: undefined,
+            onPointerUp: undefined,
+            tabIndex: -1,
+            'data-is-focusable': false,
+        });
+        if (keytipProps && menuProps) {
+            keytipProps = this._getMemoizedMenuButtonKeytipProps(keytipProps);
+        }
+        var containerProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_20__.getNativeProps)(buttonProps, [], ['disabled']);
+        // Add additional props to apply on primary action button
+        if (primaryActionButtonProps) {
+            (0,_Utilities__WEBPACK_IMPORTED_MODULE_21__.assign)(buttonProps, primaryActionButtonProps);
+        }
+        var SplitButton = function (keytipAttributes) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, containerProps, { "data-ktp-target": keytipAttributes ? keytipAttributes['data-ktp-target'] : undefined, role: role ? role : 'button', "aria-disabled": disabled, "aria-haspopup": true, "aria-expanded": !menuHidden, "aria-pressed": toggle ? !!checked : undefined, "aria-describedby": (0,_Utilities__WEBPACK_IMPORTED_MODULE_26__.mergeAriaAttributeValues)(buttonProps['aria-describedby'], keytipAttributes ? keytipAttributes['aria-describedby'] : undefined), className: classNames && classNames.splitButtonContainer, onKeyDown: _this._onSplitButtonContainerKeyDown, onTouchStart: _this._onTouchStart, ref: _this._splitButtonContainer, "data-is-focusable": true, onClick: !disabled && !primaryDisabled ? _this._onSplitButtonPrimaryClick : undefined, tabIndex: (!disabled && !primaryDisabled) || allowDisabledFocus ? 0 : undefined, "aria-roledescription": buttonProps['aria-roledescription'], onFocusCapture: _this._onSplitContainerFocusCapture }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { style: { display: 'flex' } },
+                _this._onRenderContent(tag, buttonProps),
+                _this._onRenderSplitButtonMenuButton(classNames, keytipAttributes),
+                _this._onRenderSplitButtonDivider(classNames)))); };
+        return keytipProps ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_KeytipData__WEBPACK_IMPORTED_MODULE_23__.KeytipData, { keytipProps: keytipProps, disabled: disabled }, function (keytipAttributes) { return SplitButton(keytipAttributes); })) : (SplitButton());
+    };
+    BaseButton.prototype._onRenderSplitButtonDivider = function (classNames) {
+        if (classNames && classNames.divider) {
+            var onClick = function (ev) {
+                ev.stopPropagation();
+            };
+            return react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.divider, "aria-hidden": true, onClick: onClick });
+        }
+        return null;
+    };
+    BaseButton.prototype._onRenderSplitButtonMenuButton = function (classNames, keytipAttributes) {
+        var _a = this.props, allowDisabledFocus = _a.allowDisabledFocus, checked = _a.checked, disabled = _a.disabled, splitButtonMenuProps = _a.splitButtonMenuProps, splitButtonAriaLabel = _a.splitButtonAriaLabel, primaryDisabled = _a.primaryDisabled;
+        var menuHidden = this.state.menuHidden;
+        var menuIconProps = this.props.menuIconProps;
+        if (menuIconProps === undefined) {
+            menuIconProps = {
+                iconName: 'ChevronDown',
+            };
+        }
+        var splitButtonProps = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, splitButtonMenuProps), { styles: classNames, checked: checked, disabled: disabled, allowDisabledFocus: allowDisabledFocus, onClick: this._onMenuClick, menuProps: undefined, iconProps: (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, menuIconProps), { className: this._classNames.menuIcon }), ariaLabel: splitButtonAriaLabel, 'aria-haspopup': true, 'aria-expanded': !menuHidden, 'data-is-focusable': false });
+        // Add data-ktp-execute-target to the split button if the keytip is defined
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(BaseButton, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, splitButtonProps, { "data-ktp-execute-target": keytipAttributes ? keytipAttributes['data-ktp-execute-target'] : keytipAttributes, onMouseDown: this._onMouseDown, tabIndex: primaryDisabled && !allowDisabledFocus ? 0 : -1 })));
+    };
+    BaseButton.prototype._onPointerDown = function (ev) {
+        var onPointerDown = this.props.onPointerDown;
+        if (onPointerDown) {
+            onPointerDown(ev);
+        }
+        if (ev.pointerType === 'touch') {
+            this._handleTouchAndPointerEvent();
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+        }
+    };
+    BaseButton.prototype._handleTouchAndPointerEvent = function () {
+        var _this = this;
+        // If we already have an existing timeout from a previous touch and pointer event
+        // cancel that timeout so we can set a new one.
+        if (this._lastTouchTimeoutId !== undefined) {
+            this._async.clearTimeout(this._lastTouchTimeoutId);
+            this._lastTouchTimeoutId = undefined;
+        }
+        this._processingTouch = true;
+        this._lastTouchTimeoutId = this._async.setTimeout(function () {
+            _this._processingTouch = false;
+            _this._lastTouchTimeoutId = undefined;
+            // Touch and pointer events don't focus the button naturally,
+            // so adding an imperative focus call to guarantee this behavior.
+            _this.focus();
+        }, TouchIdleDelay);
+    };
+    /**
+     * Returns if the user hits a valid keyboard key to open the menu
+     * @param ev - the keyboard event
+     * @returns True if user clicks on custom trigger key if enabled or alt + down arrow if not. False otherwise.
+     */
+    BaseButton.prototype._isValidMenuOpenKey = function (ev) {
+        if (this.props.menuTriggerKeyCode) {
+            // eslint-disable-next-line deprecation/deprecation
+            return ev.which === this.props.menuTriggerKeyCode;
+        }
+        else if (this.props.menuProps) {
+            // eslint-disable-next-line deprecation/deprecation
+            return ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.down && (ev.altKey || ev.metaKey);
+        }
+        // Note: When enter is pressed, we will let the event continue to propagate
+        // to trigger the onClick event on the button
+        return false;
+    };
+    BaseButton.defaultProps = {
+        baseClassName: 'ms-Button',
+        styles: {},
+        split: false,
+    };
+    return BaseButton;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=BaseButton.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.styles.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/BaseButton.styles.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+
+var noOutline = {
+    outline: 0,
+};
+var iconStyle = function (fontSize) {
+    return {
+        fontSize: fontSize,
+        margin: '0 4px',
+        height: '16px',
+        lineHeight: '16px',
+        textAlign: 'center',
+        flexShrink: 0,
+    };
+};
+/**
+ * Gets the base button styles. Note: because it is a base class to be used with the `mergeRules`
+ * helper, it should have values for all class names in the interface. This let `mergeRules` optimize
+ * mixing class names together.
+ */
+var getStyles = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(function (theme) {
+    var _a, _b;
+    var semanticColors = theme.semanticColors, effects = theme.effects, fonts = theme.fonts;
+    var border = semanticColors.buttonBorder;
+    var disabledBackground = semanticColors.disabledBackground;
+    var disabledText = semanticColors.disabledText;
+    var buttonHighContrastFocus = {
+        left: -2,
+        top: -2,
+        bottom: -2,
+        right: -2,
+        outlineColor: 'ButtonText',
+    };
+    return {
+        root: [
+            (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getFocusStyle)(theme, { inset: 1, highContrastStyle: buttonHighContrastFocus, borderColor: 'transparent' }),
+            theme.fonts.medium,
+            {
+                boxSizing: 'border-box',
+                border: '1px solid ' + border,
+                userSelect: 'none',
+                display: 'inline-block',
+                textDecoration: 'none',
+                textAlign: 'center',
+                cursor: 'pointer',
+                padding: '0 16px',
+                borderRadius: effects.roundedCorner2,
+                selectors: {
+                    // IE11 workaround for preventing shift of child elements of a button when active.
+                    ':active > *': {
+                        position: 'relative',
+                        left: 0,
+                        top: 0,
+                    },
+                },
+            },
+        ],
+        rootDisabled: [
+            (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getFocusStyle)(theme, { inset: 1, highContrastStyle: buttonHighContrastFocus, borderColor: 'transparent' }),
+            {
+                backgroundColor: disabledBackground,
+                borderColor: disabledBackground,
+                color: disabledText,
+                cursor: 'default',
+                selectors: {
+                    ':hover': noOutline,
+                    ':focus': noOutline,
+                },
+            },
+        ],
+        iconDisabled: {
+            color: disabledText,
+            selectors: (_a = {},
+                _a[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                    color: 'GrayText',
+                },
+                _a),
+        },
+        menuIconDisabled: {
+            color: disabledText,
+            selectors: (_b = {},
+                _b[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                    color: 'GrayText',
+                },
+                _b),
+        },
+        flexContainer: {
+            display: 'flex',
+            height: '100%',
+            flexWrap: 'nowrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        description: {
+            display: 'block',
+        },
+        textContainer: {
+            flexGrow: 1,
+            display: 'block',
+        },
+        icon: iconStyle(fonts.mediumPlus.fontSize),
+        menuIcon: iconStyle(fonts.small.fontSize),
+        label: {
+            margin: '0 4px',
+            lineHeight: '100%',
+            display: 'block',
+        },
+        screenReaderText: _Styling__WEBPACK_IMPORTED_MODULE_1__.hiddenContentStyle,
+    };
+});
+//# sourceMappingURL=BaseButton.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/ButtonThemes.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/ButtonThemes.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "standardStyles": () => (/* binding */ standardStyles),
+/* harmony export */   "primaryStyles": () => (/* binding */ primaryStyles)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/setFocusVisibility.js");
+
+
+
+var splitButtonDividerBaseStyles = function () {
+    return {
+        position: 'absolute',
+        width: 1,
+        right: 31,
+        top: 8,
+        bottom: 8,
+    };
+};
+function standardStyles(theme) {
+    var _a, _b, _c, _d, _e;
+    var s = theme.semanticColors, p = theme.palette;
+    var buttonBackground = s.buttonBackground;
+    var buttonBackgroundPressed = s.buttonBackgroundPressed;
+    var buttonBackgroundHovered = s.buttonBackgroundHovered;
+    var buttonBackgroundDisabled = s.buttonBackgroundDisabled;
+    var buttonText = s.buttonText;
+    var buttonTextHovered = s.buttonTextHovered;
+    var buttonTextDisabled = s.buttonTextDisabled;
+    var buttonTextChecked = s.buttonTextChecked;
+    var buttonTextCheckedHovered = s.buttonTextCheckedHovered;
+    return {
+        root: {
+            backgroundColor: buttonBackground,
+            color: buttonText,
+        },
+        rootHovered: {
+            backgroundColor: buttonBackgroundHovered,
+            color: buttonTextHovered,
+            selectors: (_a = {},
+                _a[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    borderColor: 'Highlight',
+                    color: 'Highlight',
+                },
+                _a),
+        },
+        rootPressed: {
+            backgroundColor: buttonBackgroundPressed,
+            color: buttonTextChecked,
+        },
+        rootExpanded: {
+            backgroundColor: buttonBackgroundPressed,
+            color: buttonTextChecked,
+        },
+        rootChecked: {
+            backgroundColor: buttonBackgroundPressed,
+            color: buttonTextChecked,
+        },
+        rootCheckedHovered: {
+            backgroundColor: buttonBackgroundPressed,
+            color: buttonTextCheckedHovered,
+        },
+        rootDisabled: {
+            color: buttonTextDisabled,
+            backgroundColor: buttonBackgroundDisabled,
+            selectors: (_b = {},
+                _b[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    color: 'GrayText',
+                    borderColor: 'GrayText',
+                    backgroundColor: 'Window',
+                },
+                _b),
+        },
+        // Split button styles
+        splitButtonContainer: {
+            selectors: (_c = {},
+                _c[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    border: 'none',
+                },
+                _c),
+        },
+        splitButtonMenuButton: {
+            color: p.white,
+            backgroundColor: 'transparent',
+            selectors: {
+                ':hover': {
+                    backgroundColor: p.neutralLight,
+                    selectors: (_d = {},
+                        _d[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                            color: 'Highlight',
+                        },
+                        _d),
+                },
+            },
+        },
+        splitButtonMenuButtonDisabled: {
+            backgroundColor: s.buttonBackgroundDisabled,
+            selectors: {
+                ':hover': {
+                    backgroundColor: s.buttonBackgroundDisabled,
+                },
+            },
+        },
+        splitButtonDivider: (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, splitButtonDividerBaseStyles()), { backgroundColor: p.neutralTertiaryAlt, selectors: (_e = {},
+                _e[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    backgroundColor: 'WindowText',
+                },
+                _e) }),
+        splitButtonDividerDisabled: {
+            backgroundColor: theme.palette.neutralTertiaryAlt,
+        },
+        splitButtonMenuButtonChecked: {
+            backgroundColor: p.neutralQuaternaryAlt,
+            selectors: {
+                ':hover': {
+                    backgroundColor: p.neutralQuaternaryAlt,
+                },
+            },
+        },
+        splitButtonMenuButtonExpanded: {
+            backgroundColor: p.neutralQuaternaryAlt,
+            selectors: {
+                ':hover': {
+                    backgroundColor: p.neutralQuaternaryAlt,
+                },
+            },
+        },
+        splitButtonMenuIcon: {
+            color: s.buttonText,
+        },
+        splitButtonMenuIconDisabled: {
+            color: s.buttonTextDisabled,
+        },
+    };
+}
+function primaryStyles(theme) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    var p = theme.palette, s = theme.semanticColors;
+    return {
+        root: {
+            backgroundColor: s.primaryButtonBackground,
+            border: "1px solid " + s.primaryButtonBackground,
+            color: s.primaryButtonText,
+            selectors: (_a = {},
+                _a[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ color: 'Window', backgroundColor: 'WindowText', borderColor: 'WindowText' }, (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getHighContrastNoAdjustStyle)()),
+                _a["." + _Utilities__WEBPACK_IMPORTED_MODULE_2__.IsFocusVisibleClassName + " &:focus"] = {
+                    selectors: {
+                        ':after': {
+                            border: "none",
+                            outlineColor: p.white,
+                        },
+                    },
+                },
+                _a),
+        },
+        rootHovered: {
+            backgroundColor: s.primaryButtonBackgroundHovered,
+            border: "1px solid " + s.primaryButtonBackgroundHovered,
+            color: s.primaryButtonTextHovered,
+            selectors: (_b = {},
+                _b[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    color: 'Window',
+                    backgroundColor: 'Highlight',
+                    borderColor: 'Highlight',
+                },
+                _b),
+        },
+        rootPressed: {
+            backgroundColor: s.primaryButtonBackgroundPressed,
+            border: "1px solid " + s.primaryButtonBackgroundPressed,
+            color: s.primaryButtonTextPressed,
+            selectors: (_c = {},
+                _c[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ color: 'Window', backgroundColor: 'WindowText', borderColor: 'WindowText' }, (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getHighContrastNoAdjustStyle)()),
+                _c),
+        },
+        rootExpanded: {
+            backgroundColor: s.primaryButtonBackgroundPressed,
+            color: s.primaryButtonTextPressed,
+        },
+        rootChecked: {
+            backgroundColor: s.primaryButtonBackgroundPressed,
+            color: s.primaryButtonTextPressed,
+        },
+        rootCheckedHovered: {
+            backgroundColor: s.primaryButtonBackgroundPressed,
+            color: s.primaryButtonTextPressed,
+        },
+        rootDisabled: {
+            color: s.primaryButtonTextDisabled,
+            backgroundColor: s.primaryButtonBackgroundDisabled,
+            selectors: (_d = {},
+                _d[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    color: 'GrayText',
+                    borderColor: 'GrayText',
+                    backgroundColor: 'Window',
+                },
+                _d),
+        },
+        // Split button styles
+        splitButtonContainer: {
+            selectors: (_e = {},
+                _e[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    border: 'none',
+                },
+                _e),
+        },
+        splitButtonDivider: (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, splitButtonDividerBaseStyles()), { backgroundColor: p.white, selectors: (_f = {},
+                _f[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    backgroundColor: 'Window',
+                },
+                _f) }),
+        splitButtonMenuButton: {
+            backgroundColor: s.primaryButtonBackground,
+            color: s.primaryButtonText,
+            selectors: (_g = {},
+                _g[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    backgroundColor: 'WindowText',
+                },
+                _g[':hover'] = {
+                    backgroundColor: s.primaryButtonBackgroundHovered,
+                    selectors: (_h = {},
+                        _h[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                            color: 'Highlight',
+                        },
+                        _h),
+                },
+                _g),
+        },
+        splitButtonMenuButtonDisabled: {
+            backgroundColor: s.primaryButtonBackgroundDisabled,
+            selectors: {
+                ':hover': {
+                    backgroundColor: s.primaryButtonBackgroundDisabled,
+                },
+            },
+        },
+        splitButtonMenuButtonChecked: {
+            backgroundColor: s.primaryButtonBackgroundPressed,
+            selectors: {
+                ':hover': {
+                    backgroundColor: s.primaryButtonBackgroundPressed,
+                },
+            },
+        },
+        splitButtonMenuButtonExpanded: {
+            backgroundColor: s.primaryButtonBackgroundPressed,
+            selectors: {
+                ':hover': {
+                    backgroundColor: s.primaryButtonBackgroundPressed,
+                },
+            },
+        },
+        splitButtonMenuIcon: {
+            color: s.primaryButtonText,
+        },
+        splitButtonMenuIconDisabled: {
+            color: p.neutralTertiary,
+            selectors: (_j = {},
+                _j[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    color: 'GrayText',
+                },
+                _j),
+        },
+    };
+}
+//# sourceMappingURL=ButtonThemes.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/DefaultButton/DefaultButton.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/DefaultButton/DefaultButton.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DefaultButton": () => (/* binding */ DefaultButton)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _BaseButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../BaseButton */ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/BaseComponent.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/customizations/customizable.js");
+/* harmony import */ var _DefaultButton_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DefaultButton.styles */ "./node_modules/@fluentui/react/lib/components/Button/DefaultButton/DefaultButton.styles.js");
+
+
+
+
+
+/**
+ * {@docCategory Button}
+ */
+var DefaultButton = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(DefaultButton, _super);
+    function DefaultButton() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    DefaultButton.prototype.render = function () {
+        var _a = this.props, _b = _a.primary, primary = _b === void 0 ? false : _b, styles = _a.styles, theme = _a.theme;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BaseButton__WEBPACK_IMPORTED_MODULE_2__.BaseButton, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, this.props, { variantClassName: primary ? 'ms-Button--primary' : 'ms-Button--default', styles: (0,_DefaultButton_styles__WEBPACK_IMPORTED_MODULE_3__.getStyles)(theme, styles, primary), onRenderDescription: _Utilities__WEBPACK_IMPORTED_MODULE_4__.nullRender })));
+    };
+    DefaultButton = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.customizable)('DefaultButton', ['theme', 'styles'], true)
+    ], DefaultButton);
+    return DefaultButton;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=DefaultButton.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/DefaultButton/DefaultButton.styles.js":
+/*!**************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/DefaultButton/DefaultButton.styles.js ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _BaseButton_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../BaseButton.styles */ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.styles.js");
+/* harmony import */ var _SplitButton_SplitButton_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SplitButton/SplitButton.styles */ "./node_modules/@fluentui/react/lib/components/Button/SplitButton/SplitButton.styles.js");
+/* harmony import */ var _ButtonThemes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ButtonThemes */ "./node_modules/@fluentui/react/lib/components/Button/ButtonThemes.js");
+
+
+
+
+
+var DEFAULT_BUTTON_HEIGHT = '32px';
+var DEFAULT_BUTTON_MIN_WIDTH = '80px';
+var getStyles = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(function (theme, customStyles, primary) {
+    var baseButtonStyles = (0,_BaseButton_styles__WEBPACK_IMPORTED_MODULE_1__.getStyles)(theme);
+    var splitButtonStyles = (0,_SplitButton_SplitButton_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles)(theme);
+    var defaultButtonStyles = {
+        root: {
+            minWidth: DEFAULT_BUTTON_MIN_WIDTH,
+            height: DEFAULT_BUTTON_HEIGHT,
+        },
+        label: {
+            fontWeight: _Styling__WEBPACK_IMPORTED_MODULE_3__.FontWeights.semibold,
+        },
+    };
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_3__.concatStyleSets)(baseButtonStyles, defaultButtonStyles, primary ? (0,_ButtonThemes__WEBPACK_IMPORTED_MODULE_4__.primaryStyles)(theme) : (0,_ButtonThemes__WEBPACK_IMPORTED_MODULE_4__.standardStyles)(theme), splitButtonStyles, customStyles);
+});
+//# sourceMappingURL=DefaultButton.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PrimaryButton": () => (/* binding */ PrimaryButton)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/BaseComponent.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/customizations/customizable.js");
+/* harmony import */ var _DefaultButton_DefaultButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DefaultButton/DefaultButton */ "./node_modules/@fluentui/react/lib/components/Button/DefaultButton/DefaultButton.js");
+
+
+
+
+/**
+ * {@docCategory Button}
+ */
+var PrimaryButton = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(PrimaryButton, _super);
+    function PrimaryButton() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    PrimaryButton.prototype.render = function () {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_DefaultButton_DefaultButton__WEBPACK_IMPORTED_MODULE_2__.DefaultButton, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, this.props, { primary: true, onRenderDescription: _Utilities__WEBPACK_IMPORTED_MODULE_3__.nullRender }));
+    };
+    PrimaryButton = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_4__.customizable)('PrimaryButton', ['theme', 'styles'], true)
+    ], PrimaryButton);
+    return PrimaryButton;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=PrimaryButton.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/SplitButton/SplitButton.classNames.js":
+/*!**************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/SplitButton/SplitButton.classNames.js ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getSplitButtonClassNames": () => (/* binding */ getSplitButtonClassNames)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+
+var getSplitButtonClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(function (styles, disabled, expanded, checked, primaryDisabled) {
+    return {
+        root: (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.mergeStyles)(styles.splitButtonMenuButton, expanded && [styles.splitButtonMenuButtonExpanded], disabled && [styles.splitButtonMenuButtonDisabled], checked && !disabled && [styles.splitButtonMenuButtonChecked], primaryDisabled &&
+            !disabled && [
+            {
+                selectors: {
+                    ':focus': styles.splitButtonMenuFocused,
+                },
+            },
+        ]),
+        splitButtonContainer: (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.mergeStyles)(styles.splitButtonContainer, !disabled &&
+            checked && [
+            styles.splitButtonContainerChecked,
+            {
+                selectors: {
+                    ':hover': styles.splitButtonContainerCheckedHovered,
+                },
+            },
+        ], !disabled &&
+            !checked && [
+            {
+                selectors: {
+                    ':hover': styles.splitButtonContainerHovered,
+                    ':focus': styles.splitButtonContainerFocused,
+                },
+            },
+        ], disabled && styles.splitButtonContainerDisabled),
+        icon: (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.mergeStyles)(styles.splitButtonMenuIcon, disabled && styles.splitButtonMenuIconDisabled, !disabled && primaryDisabled && styles.splitButtonMenuIcon),
+        flexContainer: (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.mergeStyles)(styles.splitButtonFlexContainer),
+        divider: (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.mergeStyles)(styles.splitButtonDivider, (primaryDisabled || disabled) && styles.splitButtonDividerDisabled),
+    };
+});
+//# sourceMappingURL=SplitButton.classNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/SplitButton/SplitButton.styles.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/SplitButton/SplitButton.styles.js ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+
+
+
+var getStyles = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(function (theme, customStyles) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+    var effects = theme.effects, palette = theme.palette, semanticColors = theme.semanticColors;
+    var buttonHighContrastFocus = {
+        left: -2,
+        top: -2,
+        bottom: -2,
+        right: -2,
+        border: 'none',
+    };
+    var splitButtonDividerBaseStyles = {
+        position: 'absolute',
+        width: 1,
+        right: 31,
+        top: 8,
+        bottom: 8,
+    };
+    var splitButtonStyles = {
+        splitButtonContainer: [
+            (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getFocusStyle)(theme, { highContrastStyle: buttonHighContrastFocus, inset: 2 }),
+            {
+                display: 'inline-flex',
+                selectors: {
+                    '.ms-Button--default': {
+                        borderTopRightRadius: '0',
+                        borderBottomRightRadius: '0',
+                        borderRight: 'none',
+                    },
+                    '.ms-Button--primary': {
+                        borderTopRightRadius: '0',
+                        borderBottomRightRadius: '0',
+                        border: 'none',
+                        selectors: (_a = {},
+                            _a[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ color: 'WindowText', backgroundColor: 'Window', border: '1px solid WindowText', borderRightWidth: '0' }, (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getHighContrastNoAdjustStyle)()),
+                            _a),
+                    },
+                    '.ms-Button--primary + .ms-Button': {
+                        border: 'none',
+                        selectors: (_b = {},
+                            _b[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                                border: '1px solid WindowText',
+                                borderLeftWidth: '0',
+                            },
+                            _b),
+                    },
+                },
+            },
+        ],
+        splitButtonContainerHovered: {
+            selectors: {
+                '.ms-Button--primary': {
+                    selectors: (_c = {},
+                        _c[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                            color: 'Window',
+                            backgroundColor: 'Highlight',
+                        },
+                        _c),
+                },
+                '.ms-Button.is-disabled': {
+                    color: semanticColors.buttonTextDisabled,
+                    selectors: (_d = {},
+                        _d[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                            color: 'GrayText',
+                            borderColor: 'GrayText',
+                            backgroundColor: 'Window',
+                        },
+                        _d),
+                },
+            },
+        },
+        splitButtonContainerChecked: {
+            selectors: {
+                '.ms-Button--primary': {
+                    selectors: (_e = {},
+                        _e[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ color: 'Window', backgroundColor: 'WindowText' }, (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getHighContrastNoAdjustStyle)()),
+                        _e),
+                },
+            },
+        },
+        splitButtonContainerCheckedHovered: {
+            selectors: {
+                '.ms-Button--primary': {
+                    selectors: (_f = {},
+                        _f[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ color: 'Window', backgroundColor: 'WindowText' }, (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getHighContrastNoAdjustStyle)()),
+                        _f),
+                },
+            },
+        },
+        splitButtonContainerFocused: {
+            outline: 'none!important',
+        },
+        splitButtonMenuButton: (_g = {
+                padding: 6,
+                height: 'auto',
+                boxSizing: 'border-box',
+                borderRadius: 0,
+                borderTopRightRadius: effects.roundedCorner2,
+                borderBottomRightRadius: effects.roundedCorner2,
+                border: "1px solid " + palette.neutralSecondaryAlt,
+                borderLeft: 'none',
+                outline: 'transparent',
+                userSelect: 'none',
+                display: 'inline-block',
+                textDecoration: 'none',
+                textAlign: 'center',
+                cursor: 'pointer',
+                verticalAlign: 'top',
+                width: 32,
+                marginLeft: -1,
+                marginTop: 0,
+                marginRight: 0,
+                marginBottom: 0
+            },
+            _g[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                '.ms-Button-menuIcon': {
+                    color: 'WindowText',
+                },
+            },
+            _g),
+        splitButtonDivider: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, splitButtonDividerBaseStyles), { selectors: (_h = {},
+                _h[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                    backgroundColor: 'WindowText',
+                },
+                _h) }),
+        splitButtonDividerDisabled: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, splitButtonDividerBaseStyles), { selectors: (_j = {},
+                _j[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                    backgroundColor: 'GrayText',
+                },
+                _j) }),
+        splitButtonMenuButtonDisabled: {
+            pointerEvents: 'none',
+            border: 'none',
+            selectors: (_k = {
+                    ':hover': {
+                        cursor: 'default',
+                    },
+                    '.ms-Button--primary': {
+                        selectors: (_l = {},
+                            _l[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                                color: 'GrayText',
+                                borderColor: 'GrayText',
+                                backgroundColor: 'Window',
+                            },
+                            _l),
+                    },
+                    '.ms-Button-menuIcon': {
+                        selectors: (_m = {},
+                            _m[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                                color: 'GrayText',
+                            },
+                            _m),
+                    }
+                },
+                _k[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = {
+                    color: 'GrayText',
+                    border: '1px solid GrayText',
+                    backgroundColor: 'Window',
+                },
+                _k),
+        },
+        splitButtonFlexContainer: {
+            display: 'flex',
+            height: '100%',
+            flexWrap: 'nowrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        splitButtonContainerDisabled: {
+            outline: 'none',
+            border: 'none',
+            selectors: (_o = {},
+                _o[_Styling__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ color: 'GrayText', borderColor: 'GrayText', backgroundColor: 'Window' }, (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getHighContrastNoAdjustStyle)()),
+                _o),
+        },
+        splitButtonMenuFocused: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.getFocusStyle)(theme, { highContrastStyle: buttonHighContrastFocus, inset: 2 })),
+    };
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.concatStyleSets)(splitButtonStyles, customStyles);
+});
+//# sourceMappingURL=SplitButton.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Callout/Callout.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Callout/Callout.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Callout": () => (/* binding */ Callout)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _CalloutContent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CalloutContent */ "./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.js");
+/* harmony import */ var _Layer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Layer */ "./node_modules/@fluentui/react/lib/components/Layer/Layer.js");
+
+
+
+
+var Callout = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (_a, forwardedRef) {
+    var layerProps = _a.layerProps, doNotLayer = _a.doNotLayer, rest = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__rest)(_a, ["layerProps", "doNotLayer"]);
+    var content = react__WEBPACK_IMPORTED_MODULE_0__.createElement(_CalloutContent__WEBPACK_IMPORTED_MODULE_2__.CalloutContent, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, rest, { doNotLayer: doNotLayer, ref: forwardedRef }));
+    return doNotLayer ? content : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Layer__WEBPACK_IMPORTED_MODULE_3__.Layer, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, layerProps), content);
+});
+Callout.displayName = 'Callout';
+//# sourceMappingURL=Callout.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.base.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.base.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CalloutContentBase": () => (/* binding */ CalloutContentBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/DirectionalHint */ "./node_modules/@fluentui/react/lib/common/DirectionalHint.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/focus.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/dom-utilities/lib/elementContains.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/dom/on.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/getPropsWithDefaults.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/css.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/object.js");
+/* harmony import */ var _Positioning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Positioning */ "./node_modules/@fluentui/react/lib/utilities/positioning/positioning.types.js");
+/* harmony import */ var _Positioning__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Positioning */ "./node_modules/@fluentui/react/lib/utilities/positioning/positioning.js");
+/* harmony import */ var _Popup__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../Popup */ "./node_modules/@fluentui/react/lib/components/Popup/Popup.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useAsync.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useConst.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useTarget.js");
+var _a;
+
+
+
+
+
+
+
+
+
+var ANIMATIONS = (_a = {},
+    _a[_Positioning__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top] = _Styling__WEBPACK_IMPORTED_MODULE_2__.AnimationClassNames.slideUpIn10,
+    _a[_Positioning__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom] = _Styling__WEBPACK_IMPORTED_MODULE_2__.AnimationClassNames.slideDownIn10,
+    _a[_Positioning__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left] = _Styling__WEBPACK_IMPORTED_MODULE_2__.AnimationClassNames.slideLeftIn10,
+    _a[_Positioning__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right] = _Styling__WEBPACK_IMPORTED_MODULE_2__.AnimationClassNames.slideRightIn10,
+    _a);
+var getClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.classNamesFunction)({
+    disableCaching: true,
+});
+var BEAK_ORIGIN_POSITION = { top: 0, left: 0 };
+// Microsoft Edge will overwrite inline styles if there is an animation pertaining to that style.
+// To help ensure that edge will respect the offscreen style opacity
+// filter needs to be added as an additional way to set opacity.
+// Also set pointer-events: none so that the callout will not occlude the element it is
+// going to be positioned against
+var OFF_SCREEN_STYLE = { opacity: 0, filter: 'opacity(0)', pointerEvents: 'none' };
+// role and role description go hand-in-hand. Both would be included by spreading getNativeProps for a basic element
+// This constant array can be used to filter these out of native props spread on callout root and apply them together on
+// calloutMain (the Popup component within the callout)
+var ARIA_ROLE_ATTRIBUTES = ['role', 'aria-roledescription'];
+var DEFAULT_PROPS = {
+    preventDismissOnLostFocus: false,
+    preventDismissOnScroll: false,
+    preventDismissOnResize: false,
+    isBeakVisible: true,
+    beakWidth: 16,
+    gapSpace: 0,
+    minPagePadding: 8,
+    directionalHint: _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_4__.DirectionalHint.bottomAutoEdge,
+};
+/**
+ * Returns a function to lazily fetch the bounds of the target element for the callout
+ */
+function useBounds(_a, targetRef, targetWindow) {
+    var bounds = _a.bounds, _b = _a.minPagePadding, minPagePadding = _b === void 0 ? DEFAULT_PROPS.minPagePadding : _b, target = _a.target;
+    var cachedBounds = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var getBounds = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
+        if (!cachedBounds.current) {
+            var currentBounds = typeof bounds === 'function' ? (targetWindow ? bounds(target, targetWindow) : undefined) : bounds;
+            if (!currentBounds && targetWindow) {
+                currentBounds = (0,_Positioning__WEBPACK_IMPORTED_MODULE_5__.getBoundsFromTargetWindow)(targetRef.current, targetWindow);
+                currentBounds = {
+                    top: currentBounds.top + minPagePadding,
+                    left: currentBounds.left + minPagePadding,
+                    right: currentBounds.right - minPagePadding,
+                    bottom: currentBounds.bottom - minPagePadding,
+                    width: currentBounds.width - minPagePadding * 2,
+                    height: currentBounds.height - minPagePadding * 2,
+                };
+            }
+            cachedBounds.current = currentBounds;
+        }
+        return cachedBounds.current;
+    }, [bounds, minPagePadding, target, targetRef, targetWindow]);
+    return getBounds;
+}
+/**
+ * Returns the maximum available height for the Callout to render into
+ */
+function useMaxHeight(_a, targetRef, getBounds) {
+    var beakWidth = _a.beakWidth, coverTarget = _a.coverTarget, directionalHint = _a.directionalHint, directionalHintFixed = _a.directionalHintFixed, gapSpace = _a.gapSpace, isBeakVisible = _a.isBeakVisible, hidden = _a.hidden;
+    var _b = react__WEBPACK_IMPORTED_MODULE_0__.useState(), maxHeight = _b[0], setMaxHeight = _b[1];
+    var async = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__.useAsync)();
+    // Updating targetRef won't re-render the component, but it's recalculated (if needed) with every render
+    // If it mutates, we want to re-run the effect
+    var currentTarget = targetRef.current;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        var _a;
+        if (!maxHeight && !hidden) {
+            if (directionalHintFixed && currentTarget) {
+                // Since the callout cannot measure it's border size it must be taken into account here. Otherwise it will
+                // overlap with the target.
+                var totalGap_1 = (gapSpace !== null && gapSpace !== void 0 ? gapSpace : 0) + (isBeakVisible && beakWidth ? beakWidth : 0);
+                async.requestAnimationFrame(function () {
+                    if (targetRef.current) {
+                        setMaxHeight((0,_Positioning__WEBPACK_IMPORTED_MODULE_5__.getMaxHeight)(targetRef.current, directionalHint, totalGap_1, getBounds(), coverTarget));
+                    }
+                });
+            }
+            else {
+                setMaxHeight((_a = getBounds()) === null || _a === void 0 ? void 0 : _a.height);
+            }
+        }
+        else if (hidden) {
+            setMaxHeight(undefined);
+        }
+    }, [
+        targetRef,
+        currentTarget,
+        gapSpace,
+        beakWidth,
+        getBounds,
+        hidden,
+        async,
+        coverTarget,
+        directionalHint,
+        directionalHintFixed,
+        isBeakVisible,
+        maxHeight,
+    ]);
+    return maxHeight;
+}
+/**
+ * Returns the height offset of the callout element and updates it each frame to approach the configured finalHeight
+ */
+function useHeightOffset(_a, calloutElement) {
+    var finalHeight = _a.finalHeight, hidden = _a.hidden;
+    var _b = react__WEBPACK_IMPORTED_MODULE_0__.useState(0), heightOffset = _b[0], setHeightOffset = _b[1];
+    var async = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__.useAsync)();
+    var setHeightOffsetTimer = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var setHeightOffsetEveryFrame = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
+        if (calloutElement.current && finalHeight) {
+            setHeightOffsetTimer.current = async.requestAnimationFrame(function () {
+                var _a;
+                var calloutMainElem = (_a = calloutElement.current) === null || _a === void 0 ? void 0 : _a.lastChild;
+                if (!calloutMainElem) {
+                    return;
+                }
+                var cardScrollHeight = calloutMainElem.scrollHeight;
+                var cardCurrHeight = calloutMainElem.offsetHeight;
+                var scrollDiff = cardScrollHeight - cardCurrHeight;
+                setHeightOffset(function (currentHeightOffset) { return currentHeightOffset + scrollDiff; });
+                if (calloutMainElem.offsetHeight < finalHeight) {
+                    setHeightOffsetEveryFrame();
+                }
+                else {
+                    async.cancelAnimationFrame(setHeightOffsetTimer.current, calloutElement.current);
+                }
+            }, calloutElement.current);
+        }
+    }, [async, calloutElement, finalHeight]);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (!hidden) {
+            setHeightOffsetEveryFrame();
+        }
+    }, [finalHeight, hidden, setHeightOffsetEveryFrame]);
+    return heightOffset;
+}
+/**
+ * Get the position information for the callout. If the callout does not fit in the given orientation,
+ * a new position is calculated for the next frame, up to 5 attempts
+ */
+function usePositions(props, hostElement, calloutElement, targetRef, getBounds) {
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__.useState(), positions = _a[0], setPositions = _a[1];
+    var positionAttempts = react__WEBPACK_IMPORTED_MODULE_0__.useRef(0);
+    var async = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__.useAsync)();
+    var hidden = props.hidden, target = props.target, finalHeight = props.finalHeight, onPositioned = props.onPositioned, directionalHint = props.directionalHint;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (!hidden) {
+            var timerId_1 = async.requestAnimationFrame(function () {
+                // If we expect a target element to position against, we need to wait until `targetRef.current`
+                // is resolved. Otherwise we can try to position.
+                var expectsTarget = !!target;
+                if (hostElement.current && calloutElement.current && (!expectsTarget || targetRef.current)) {
+                    var currentProps = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)({}, props), { target: targetRef.current, bounds: getBounds() });
+                    // If there is a finalHeight given then we assume that the user knows and will handle
+                    // additional positioning adjustments so we should call positionCard
+                    var newPositions = finalHeight
+                        ? (0,_Positioning__WEBPACK_IMPORTED_MODULE_5__.positionCard)(currentProps, hostElement.current, calloutElement.current, positions)
+                        : (0,_Positioning__WEBPACK_IMPORTED_MODULE_5__.positionCallout)(currentProps, hostElement.current, calloutElement.current, positions);
+                    // Set the new position only when the positions are not exists or one of the new callout positions
+                    // are different. The position should not change if the position is within 2 decimal places.
+                    if ((!positions && newPositions) ||
+                        (positions && newPositions && !arePositionsEqual(positions, newPositions) && positionAttempts.current < 5)) {
+                        // We should not reposition the callout more than a few times, if it is then the content is likely resizing
+                        // and we should stop trying to reposition to prevent a stack overflow.
+                        positionAttempts.current++;
+                        setPositions(newPositions);
+                    }
+                    else if (positionAttempts.current > 0) {
+                        // Only call the onPositioned callback if the callout has been re-positioned at least once.
+                        positionAttempts.current = 0;
+                        onPositioned === null || onPositioned === void 0 ? void 0 : onPositioned(positions);
+                    }
+                }
+            }, calloutElement.current);
+            return function () { return async.cancelAnimationFrame(timerId_1); };
+        }
+    }, [
+        hidden,
+        directionalHint,
+        async,
+        calloutElement,
+        hostElement,
+        targetRef,
+        finalHeight,
+        getBounds,
+        onPositioned,
+        positions,
+        props,
+        target,
+    ]);
+    return positions;
+}
+/**
+ * Hook to set up behavior to automatically focus the callout when it appears, if indicated by props.
+ */
+function useAutoFocus(_a, positions, calloutElement) {
+    var hidden = _a.hidden, setInitialFocus = _a.setInitialFocus;
+    var async = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__.useAsync)();
+    var hasPositions = !!positions;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (!hidden && setInitialFocus && hasPositions && calloutElement.current) {
+            var timerId_2 = async.requestAnimationFrame(function () { return (0,_Utilities__WEBPACK_IMPORTED_MODULE_8__.focusFirstChild)(calloutElement.current); }, calloutElement.current);
+            return function () { return async.cancelAnimationFrame(timerId_2); };
+        }
+    }, [hidden, hasPositions, async, calloutElement, setInitialFocus]);
+}
+/**
+ * Hook to set up various handlers to dismiss the popup when it loses focus or the window scrolls or similar cases.
+ */
+function useDismissHandlers(_a, positions, hostElement, targetRef, targetWindow) {
+    var hidden = _a.hidden, onDismiss = _a.onDismiss, 
+    // eslint-disable-next-line deprecation/deprecation
+    preventDismissOnScroll = _a.preventDismissOnScroll, 
+    // eslint-disable-next-line deprecation/deprecation
+    preventDismissOnResize = _a.preventDismissOnResize, 
+    // eslint-disable-next-line deprecation/deprecation
+    preventDismissOnLostFocus = _a.preventDismissOnLostFocus, dismissOnTargetClick = _a.dismissOnTargetClick, shouldDismissOnWindowFocus = _a.shouldDismissOnWindowFocus, preventDismissOnEvent = _a.preventDismissOnEvent;
+    var isMouseDownOnPopup = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+    var async = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__.useAsync)();
+    var mouseDownHandlers = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_9__.useConst)([
+        function () {
+            isMouseDownOnPopup.current = true;
+        },
+        function () {
+            isMouseDownOnPopup.current = false;
+        },
+    ]);
+    var positionsExists = !!positions;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        var dismissOnScroll = function (ev) {
+            if (positionsExists && !preventDismissOnScroll) {
+                dismissOnClickOrScroll(ev);
+            }
+        };
+        var dismissOnResize = function (ev) {
+            if (!preventDismissOnResize) {
+                onDismiss === null || onDismiss === void 0 ? void 0 : onDismiss(ev);
+            }
+        };
+        var dismissOnLostFocus = function (ev) {
+            if (!preventDismissOnLostFocus) {
+                dismissOnClickOrScroll(ev);
+            }
+        };
+        var dismissOnClickOrScroll = function (ev) {
+            var target = ev.target;
+            var isEventTargetOutsideCallout = hostElement.current && !(0,_Utilities__WEBPACK_IMPORTED_MODULE_10__.elementContains)(hostElement.current, target);
+            // If mouse is pressed down on callout but moved outside then released, don't dismiss the callout.
+            if (isEventTargetOutsideCallout && isMouseDownOnPopup.current) {
+                isMouseDownOnPopup.current = false;
+                return;
+            }
+            if ((!targetRef.current && isEventTargetOutsideCallout) ||
+                (ev.target !== targetWindow &&
+                    isEventTargetOutsideCallout &&
+                    (!targetRef.current ||
+                        'stopPropagation' in targetRef.current ||
+                        dismissOnTargetClick ||
+                        (target !== targetRef.current && !(0,_Utilities__WEBPACK_IMPORTED_MODULE_10__.elementContains)(targetRef.current, target))))) {
+                onDismiss === null || onDismiss === void 0 ? void 0 : onDismiss(ev);
+            }
+        };
+        var dismissOnTargetWindowBlur = function (ev) {
+            // Do nothing
+            if (!shouldDismissOnWindowFocus) {
+                return;
+            }
+            if (((preventDismissOnEvent && !preventDismissOnEvent(ev)) ||
+                (!preventDismissOnEvent && !preventDismissOnLostFocus)) &&
+                !(targetWindow === null || targetWindow === void 0 ? void 0 : targetWindow.document.hasFocus()) &&
+                ev.relatedTarget === null) {
+                onDismiss === null || onDismiss === void 0 ? void 0 : onDismiss(ev);
+            }
+        };
+        // This is added so the callout will dismiss when the window is scrolled
+        // but not when something inside the callout is scrolled. The delay seems
+        // to be required to avoid React firing an async focus event in IE from
+        // the target changing focus quickly prior to rendering the callout.
+        var disposablesPromise = new Promise(function (resolve) {
+            async.setTimeout(function () {
+                if (!hidden && targetWindow) {
+                    var disposables_1 = [
+                        (0,_Utilities__WEBPACK_IMPORTED_MODULE_11__.on)(targetWindow, 'scroll', dismissOnScroll, true),
+                        (0,_Utilities__WEBPACK_IMPORTED_MODULE_11__.on)(targetWindow, 'resize', dismissOnResize, true),
+                        (0,_Utilities__WEBPACK_IMPORTED_MODULE_11__.on)(targetWindow.document.documentElement, 'focus', dismissOnLostFocus, true),
+                        (0,_Utilities__WEBPACK_IMPORTED_MODULE_11__.on)(targetWindow.document.documentElement, 'click', dismissOnLostFocus, true),
+                        (0,_Utilities__WEBPACK_IMPORTED_MODULE_11__.on)(targetWindow, 'blur', dismissOnTargetWindowBlur, true),
+                    ];
+                    resolve(function () {
+                        disposables_1.forEach(function (dispose) { return dispose(); });
+                    });
+                }
+            }, 0);
+        });
+        return function () {
+            disposablesPromise.then(function (dispose) { return dispose(); });
+        };
+    }, [
+        hidden,
+        async,
+        hostElement,
+        targetRef,
+        targetWindow,
+        onDismiss,
+        shouldDismissOnWindowFocus,
+        dismissOnTargetClick,
+        preventDismissOnLostFocus,
+        preventDismissOnResize,
+        preventDismissOnScroll,
+        positionsExists,
+        preventDismissOnEvent,
+    ]);
+    return mouseDownHandlers;
+}
+var COMPONENT_NAME = 'CalloutContentBase';
+var CalloutContentBase = react__WEBPACK_IMPORTED_MODULE_0__.memo(react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (propsWithoutDefaults, forwardedRef) {
+    var props = (0,_Utilities__WEBPACK_IMPORTED_MODULE_12__.getPropsWithDefaults)(DEFAULT_PROPS, propsWithoutDefaults);
+    var styles = props.styles, style = props.style, ariaLabel = props.ariaLabel, ariaDescribedBy = props.ariaDescribedBy, ariaLabelledBy = props.ariaLabelledBy, className = props.className, isBeakVisible = props.isBeakVisible, children = props.children, beakWidth = props.beakWidth, calloutWidth = props.calloutWidth, calloutMaxWidth = props.calloutMaxWidth, calloutMinWidth = props.calloutMinWidth, doNotLayer = props.doNotLayer, finalHeight = props.finalHeight, _a = props.hideOverflow, hideOverflow = _a === void 0 ? !!finalHeight : _a, backgroundColor = props.backgroundColor, calloutMaxHeight = props.calloutMaxHeight, onScroll = props.onScroll, 
+    // eslint-disable-next-line deprecation/deprecation
+    _b = props.shouldRestoreFocus, 
+    // eslint-disable-next-line deprecation/deprecation
+    shouldRestoreFocus = _b === void 0 ? true : _b, target = props.target, hidden = props.hidden, onLayerMounted = props.onLayerMounted;
+    var hostElement = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    var calloutElement = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    var rootRef = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_13__.useMergedRefs)(hostElement, forwardedRef);
+    var _c = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_14__.useTarget)(props.target, calloutElement), targetRef = _c[0], targetWindow = _c[1];
+    var getBounds = useBounds(props, targetRef, targetWindow);
+    var maxHeight = useMaxHeight(props, targetRef, getBounds);
+    var heightOffset = useHeightOffset(props, calloutElement);
+    var positions = usePositions(props, hostElement, calloutElement, targetRef, getBounds);
+    var _d = useDismissHandlers(props, positions, hostElement, targetRef, targetWindow), mouseDownOnPopup = _d[0], mouseUpOnPopup = _d[1];
+    useAutoFocus(props, positions, calloutElement);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (!hidden) {
+            onLayerMounted === null || onLayerMounted === void 0 ? void 0 : onLayerMounted();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run if hidden changes
+    }, [hidden]);
+    // If there is no target window then we are likely in server side rendering and we should not render anything.
+    if (!targetWindow) {
+        return null;
+    }
+    var getContentMaxHeight = maxHeight ? maxHeight + heightOffset : undefined;
+    var contentMaxHeight = calloutMaxHeight && getContentMaxHeight && calloutMaxHeight < getContentMaxHeight
+        ? calloutMaxHeight
+        : getContentMaxHeight;
+    var overflowYHidden = hideOverflow;
+    var beakVisible = isBeakVisible && !!target;
+    var classNames = getClassNames(styles, {
+        theme: props.theme,
+        className: className,
+        overflowYHidden: overflowYHidden,
+        calloutWidth: calloutWidth,
+        positions: positions,
+        beakWidth: beakWidth,
+        backgroundColor: backgroundColor,
+        calloutMaxWidth: calloutMaxWidth,
+        calloutMinWidth: calloutMinWidth,
+        doNotLayer: doNotLayer,
+    });
+    var overflowStyle = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)({}, style), { maxHeight: contentMaxHeight }), (overflowYHidden && { overflowY: 'hidden' }));
+    var visibilityStyle = props.hidden ? { visibility: 'hidden' } : undefined;
+    // React.CSSProperties does not understand IRawStyle, so the inline animations will need to be cast as any for now.
+    var content = (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { ref: rootRef, className: classNames.container, style: visibilityStyle },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)({}, (0,_Utilities__WEBPACK_IMPORTED_MODULE_15__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_15__.divProperties, ARIA_ROLE_ATTRIBUTES), { className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_16__.css)(classNames.root, positions && positions.targetEdge && ANIMATIONS[positions.targetEdge]), style: positions ? positions.elementPosition : OFF_SCREEN_STYLE, 
+            // Safari and Firefox on Mac OS requires this to back-stop click events so focus remains in the Callout.
+            // See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
+            tabIndex: -1, ref: calloutElement }),
+            beakVisible && react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: classNames.beak, style: getBeakPosition(positions) }),
+            beakVisible && react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: classNames.beakCurtain }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Popup__WEBPACK_IMPORTED_MODULE_17__.Popup, (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)({}, (0,_Utilities__WEBPACK_IMPORTED_MODULE_15__.getNativeProps)(props, ARIA_ROLE_ATTRIBUTES), { ariaLabel: ariaLabel, onRestoreFocus: props.onRestoreFocus, ariaDescribedBy: ariaDescribedBy, ariaLabelledBy: ariaLabelledBy, className: classNames.calloutMain, onDismiss: props.onDismiss, onScroll: onScroll, shouldRestoreFocus: shouldRestoreFocus, style: overflowStyle, onMouseDown: mouseDownOnPopup, onMouseUp: mouseUpOnPopup }), children))));
+    return content;
+}), function (previousProps, nextProps) {
+    if (!nextProps.shouldUpdateWhenHidden && previousProps.hidden && nextProps.hidden) {
+        // Do not update when hidden.
+        return true;
+    }
+    return (0,_Utilities__WEBPACK_IMPORTED_MODULE_18__.shallowCompare)(previousProps, nextProps);
+});
+CalloutContentBase.displayName = COMPONENT_NAME;
+function getBeakPosition(positions) {
+    var _a;
+    var beakPositionStyle = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__assign)({}, (_a = positions === null || positions === void 0 ? void 0 : positions.beakPosition) === null || _a === void 0 ? void 0 : _a.elementPosition);
+    if (!beakPositionStyle.top && !beakPositionStyle.bottom && !beakPositionStyle.left && !beakPositionStyle.right) {
+        beakPositionStyle.left = BEAK_ORIGIN_POSITION.left;
+        beakPositionStyle.top = BEAK_ORIGIN_POSITION.top;
+    }
+    return beakPositionStyle;
+}
+function arePositionsEqual(positions, newPosition) {
+    return (comparePositions(positions.elementPosition, newPosition.elementPosition) &&
+        comparePositions(positions.beakPosition.elementPosition, newPosition.beakPosition.elementPosition));
+}
+function comparePositions(oldPositions, newPositions) {
+    for (var key in newPositions) {
+        if (newPositions.hasOwnProperty(key)) {
+            var oldPositionEdge = oldPositions[key];
+            var newPositionEdge = newPositions[key];
+            if (oldPositionEdge !== undefined && newPositionEdge !== undefined) {
+                if (oldPositionEdge.toFixed(2) !== newPositionEdge.toFixed(2)) {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+//# sourceMappingURL=CalloutContent.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CalloutContent": () => (/* binding */ CalloutContent)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _CalloutContent_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CalloutContent.base */ "./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.base.js");
+/* harmony import */ var _CalloutContent_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CalloutContent.styles */ "./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.styles.js");
+
+
+
+var CalloutContent = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_CalloutContent_base__WEBPACK_IMPORTED_MODULE_1__.CalloutContentBase, _CalloutContent_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles, undefined, {
+    scope: 'CalloutContent',
+});
+//# sourceMappingURL=CalloutContent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.styles.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Callout/CalloutContent.styles.js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+function getBeakStyle(beakWidth) {
+    return {
+        height: beakWidth,
+        width: beakWidth,
+    };
+}
+var GlobalClassNames = {
+    container: 'ms-Callout-container',
+    root: 'ms-Callout',
+    beak: 'ms-Callout-beak',
+    beakCurtain: 'ms-Callout-beakCurtain',
+    calloutMain: 'ms-Callout-main',
+};
+var getStyles = function (props) {
+    var _a;
+    var theme = props.theme, className = props.className, overflowYHidden = props.overflowYHidden, calloutWidth = props.calloutWidth, beakWidth = props.beakWidth, backgroundColor = props.backgroundColor, calloutMaxWidth = props.calloutMaxWidth, calloutMinWidth = props.calloutMinWidth, doNotLayer = props.doNotLayer;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    var semanticColors = theme.semanticColors, effects = theme.effects;
+    return {
+        container: [
+            classNames.container,
+            {
+                position: 'relative',
+            },
+        ],
+        root: [
+            classNames.root,
+            theme.fonts.medium,
+            {
+                position: 'absolute',
+                zIndex: doNotLayer ? _Styling__WEBPACK_IMPORTED_MODULE_0__.ZIndexes.Layer : undefined,
+                boxSizing: 'border-box',
+                borderRadius: effects.roundedCorner2,
+                boxShadow: effects.elevation16,
+                selectors: (_a = {},
+                    _a[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                        borderWidth: 1,
+                        borderStyle: 'solid',
+                        borderColor: 'WindowText',
+                    },
+                    _a),
+            },
+            (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.focusClear)(),
+            className,
+            !!calloutWidth && { width: calloutWidth },
+            !!calloutMaxWidth && { maxWidth: calloutMaxWidth },
+            !!calloutMinWidth && { minWidth: calloutMinWidth },
+        ],
+        beak: [
+            classNames.beak,
+            {
+                position: 'absolute',
+                backgroundColor: semanticColors.menuBackground,
+                boxShadow: 'inherit',
+                border: 'inherit',
+                boxSizing: 'border-box',
+                transform: 'rotate(45deg)',
+            },
+            getBeakStyle(beakWidth),
+            backgroundColor && {
+                backgroundColor: backgroundColor,
+            },
+        ],
+        beakCurtain: [
+            classNames.beakCurtain,
+            {
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                backgroundColor: semanticColors.menuBackground,
+                borderRadius: effects.roundedCorner2,
+            },
+        ],
+        calloutMain: [
+            classNames.calloutMain,
+            {
+                backgroundColor: semanticColors.menuBackground,
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                position: 'relative',
+                borderRadius: effects.roundedCorner2,
+            },
+            overflowYHidden && {
+                overflowY: 'hidden',
+            },
+            backgroundColor && {
+                backgroundColor: backgroundColor,
+            },
+        ],
+    };
+};
+//# sourceMappingURL=CalloutContent.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.base.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.base.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getSubmenuItems": () => (/* binding */ getSubmenuItems),
+/* harmony export */   "canAnyMenuItemsCheck": () => (/* binding */ canAnyMenuItemsCheck),
+/* harmony export */   "ContextualMenuBase": () => (/* binding */ ContextualMenuBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ContextualMenu.types */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.types.js");
+/* harmony import */ var _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../common/DirectionalHint */ "./node_modules/@fluentui/react/lib/common/DirectionalHint.js");
+/* harmony import */ var _FocusZone__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../FocusZone */ "./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.types.js");
+/* harmony import */ var _FocusZone__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ../../FocusZone */ "./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/getPropsWithDefaults.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/osDetector.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/mobileDetector.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/focus.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/Async.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/EventGroup.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/initializeComponentRef.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/getId.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/object.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/css.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../utilities/contextualMenu/index */ "./node_modules/@fluentui/react/lib/utilities/contextualMenu/contextualMenuUtility.js");
+/* harmony import */ var _Callout__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../../Callout */ "./node_modules/@fluentui/react/lib/components/Callout/Callout.js");
+/* harmony import */ var _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./ContextualMenuItem */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.js");
+/* harmony import */ var _ContextualMenuItemWrapper_index__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./ContextualMenuItemWrapper/index */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuAnchor.js");
+/* harmony import */ var _ContextualMenuItemWrapper_index__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./ContextualMenuItemWrapper/index */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuButton.js");
+/* harmony import */ var _ContextualMenuItemWrapper_index__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./ContextualMenuItemWrapper/index */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuSplitButton.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _ContextualMenu_classNames__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ContextualMenu.classNames */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.classNames.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/usePrevious.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useTarget.js");
+/* harmony import */ var _ResponsiveMode__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../ResponsiveMode */ "./node_modules/@fluentui/react/lib/utilities/hooks/useResponsiveMode.js");
+/* harmony import */ var _ResponsiveMode__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../../ResponsiveMode */ "./node_modules/@fluentui/react/lib/utilities/decorators/withResponsiveMode.js");
+/* harmony import */ var _utilities_MenuContext_index__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../../utilities/MenuContext/index */ "./node_modules/@fluentui/react/lib/utilities/MenuContext/MenuContext.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var getClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.classNamesFunction)();
+var getContextualMenuItemClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.classNamesFunction)();
+// The default ContextualMenu properties have no items and beak, the default submenu direction is right and top.
+var DEFAULT_PROPS = {
+    items: [],
+    shouldFocusOnMount: true,
+    gapSpace: 0,
+    directionalHint: _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_2__.DirectionalHint.bottomAutoEdge,
+    beakWidth: 16,
+};
+function getSubmenuItems(item) {
+    return item.subMenuProps ? item.subMenuProps.items : item.items;
+}
+/**
+ * Returns true if a list of menu items can contain a checkbox
+ */
+function canAnyMenuItemsCheck(items) {
+    return items.some(function (item) {
+        if (item.canCheck) {
+            return true;
+        }
+        // If the item is a section, check if any of the items in the section can check.
+        if (item.sectionProps && item.sectionProps.items.some(function (submenuItem) { return submenuItem.canCheck === true; })) {
+            return true;
+        }
+        return false;
+    });
+}
+var NavigationIdleDelay = 250; /* ms */
+var COMPONENT_NAME = 'ContextualMenu';
+var _getMenuItemStylesFunction = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.memoizeFunction)(function () {
+    var styles = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        styles[_i] = arguments[_i];
+    }
+    return function (styleProps) {
+        return _Styling__WEBPACK_IMPORTED_MODULE_4__.concatStyleSetsWithProps.apply(void 0, (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__spreadArrays)([styleProps, _ContextualMenu_classNames__WEBPACK_IMPORTED_MODULE_6__.getItemStyles], styles));
+    };
+});
+function useVisibility(props, targetWindow) {
+    var _a = props.hidden, hidden = _a === void 0 ? false : _a, onMenuDismissed = props.onMenuDismissed, onMenuOpened = props.onMenuOpened;
+    var previousHidden = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_7__.usePrevious)(hidden);
+    var onMenuOpenedRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(onMenuOpened);
+    var onMenuClosedRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(onMenuDismissed);
+    var propsRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(props);
+    onMenuOpenedRef.current = onMenuOpened;
+    onMenuClosedRef.current = onMenuDismissed;
+    propsRef.current = props;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        var _a, _b;
+        // Don't issue dismissed callbacks on initial mount
+        if (hidden && previousHidden === false) {
+            (_a = onMenuClosedRef.current) === null || _a === void 0 ? void 0 : _a.call(onMenuClosedRef, propsRef.current);
+        }
+        else if (!hidden && previousHidden !== false) {
+            (_b = onMenuOpenedRef.current) === null || _b === void 0 ? void 0 : _b.call(onMenuOpenedRef, propsRef.current);
+        }
+    }, [hidden, previousHidden]);
+    // Issue onDismissedCallback on unmount
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () { return function () { var _a; return (_a = onMenuClosedRef.current) === null || _a === void 0 ? void 0 : _a.call(onMenuClosedRef, propsRef.current); }; }, []);
+}
+function useSubMenuState(_a) {
+    var hidden = _a.hidden;
+    var _b = react__WEBPACK_IMPORTED_MODULE_0__.useState(), expandedMenuItemKey = _b[0], setExpandedMenuItemKey = _b[1];
+    var _c = react__WEBPACK_IMPORTED_MODULE_0__.useState(), submenuTarget = _c[0], setSubmenuTarget = _c[1];
+    /** True if the menu was expanded by mouse click OR hover (as opposed to by keyboard) */
+    var _d = react__WEBPACK_IMPORTED_MODULE_0__.useState(), expandedByMouseClick = _d[0], setExpandedByMouseClick = _d[1];
+    var closeSubMenu = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
+        setExpandedByMouseClick(undefined);
+        setExpandedMenuItemKey(undefined);
+        setSubmenuTarget(undefined);
+    }, []);
+    var openSubMenu = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (_a, target, openedByMouseClick) {
+        var submenuItemKey = _a.key;
+        if (expandedMenuItemKey === submenuItemKey) {
+            return;
+        }
+        target.focus();
+        setExpandedByMouseClick(openedByMouseClick);
+        setExpandedMenuItemKey(submenuItemKey);
+        setSubmenuTarget(target);
+    }, [expandedMenuItemKey]);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (hidden) {
+            closeSubMenu();
+        }
+    }, [hidden, closeSubMenu]);
+    return [expandedMenuItemKey, submenuTarget, expandedByMouseClick, openSubMenu, closeSubMenu];
+}
+function useShouldUpdateFocusOnMouseMove(_a) {
+    var delayUpdateFocusOnHover = _a.delayUpdateFocusOnHover, hidden = _a.hidden;
+    var shouldUpdateFocusOnMouseEvent = react__WEBPACK_IMPORTED_MODULE_0__.useRef(!delayUpdateFocusOnHover);
+    var gotMouseMove = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        shouldUpdateFocusOnMouseEvent.current = !delayUpdateFocusOnHover;
+        gotMouseMove.current = hidden ? false : !delayUpdateFocusOnHover && gotMouseMove.current;
+    }, [delayUpdateFocusOnHover, hidden]);
+    var onMenuFocusCapture = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
+        if (delayUpdateFocusOnHover) {
+            shouldUpdateFocusOnMouseEvent.current = true;
+        }
+    }, [delayUpdateFocusOnHover]);
+    return [shouldUpdateFocusOnMouseEvent, gotMouseMove, onMenuFocusCapture];
+}
+var ContextualMenuBase = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (propsWithoutDefaults, forwardedRef) {
+    var _a = (0,_Utilities__WEBPACK_IMPORTED_MODULE_8__.getPropsWithDefaults)(DEFAULT_PROPS, propsWithoutDefaults), ref = _a.ref, props = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__rest)(_a, ["ref"]);
+    var rootRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    var hostElement = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_9__.useMergedRefs)(rootRef, forwardedRef);
+    var _b = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_10__.useTarget)(props.target, hostElement), targetRef = _b[0], targetWindow = _b[1];
+    var _c = useSubMenuState(props), expandedMenuItemKey = _c[0], submenuTarget = _c[1], expandedByMouseClick = _c[2], openSubMenu = _c[3], closeSubMenu = _c[4];
+    var _d = useShouldUpdateFocusOnMouseMove(props), shouldUpdateFocusOnMouseEvent = _d[0], gotMouseMove = _d[1], onMenuFocusCapture = _d[2];
+    var responsiveMode = (0,_ResponsiveMode__WEBPACK_IMPORTED_MODULE_11__.useResponsiveMode)(hostElement, props.responsiveMode);
+    useVisibility(props, targetWindow);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(ContextualMenuInternal, (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({}, props, { hoisted: {
+            hostElement: hostElement,
+            targetRef: targetRef,
+            targetWindow: targetWindow,
+            expandedMenuItemKey: expandedMenuItemKey,
+            submenuTarget: submenuTarget,
+            expandedByMouseClick: expandedByMouseClick,
+            openSubMenu: openSubMenu,
+            closeSubMenu: closeSubMenu,
+            shouldUpdateFocusOnMouseEvent: shouldUpdateFocusOnMouseEvent,
+            gotMouseMove: gotMouseMove,
+            onMenuFocusCapture: onMenuFocusCapture,
+        }, responsiveMode: responsiveMode })));
+});
+ContextualMenuBase.displayName = 'ContextualMenuBase';
+var ContextualMenuInternal = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__extends)(ContextualMenuInternal, _super);
+    function ContextualMenuInternal(props) {
+        var _this = _super.call(this, props) || this;
+        _this._mounted = false;
+        _this.dismiss = function (ev, dismissAll) {
+            var onDismiss = _this.props.onDismiss;
+            if (onDismiss) {
+                onDismiss(ev, dismissAll);
+            }
+        };
+        _this._tryFocusPreviousActiveElement = function (options) {
+            var _a, _b;
+            if (_this.props.onRestoreFocus) {
+                _this.props.onRestoreFocus(options);
+            }
+            else if (options && options.documentContainsFocus && _this._previousActiveElement) {
+                // Make sure that the focus method actually exists
+                // In some cases the object might exist but not be a real element.
+                // This is primarily for IE 11 and should be removed once IE 11 is no longer in use.
+                (_b = (_a = _this._previousActiveElement).focus) === null || _b === void 0 ? void 0 : _b.call(_a);
+            }
+        };
+        _this._onRenderMenuList = function (menuListProps, defaultRender) {
+            var indexCorrection = 0;
+            var items = menuListProps.items, totalItemCount = menuListProps.totalItemCount, hasCheckmarks = menuListProps.hasCheckmarks, hasIcons = menuListProps.hasIcons;
+            return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: _this._classNames.list, onKeyDown: _this._onKeyDown, onKeyUp: _this._onKeyUp, role: 'presentation' }, items.map(function (item, index) {
+                var menuItem = _this._renderMenuItem(item, index, indexCorrection, totalItemCount, hasCheckmarks, hasIcons);
+                if (item.itemType !== _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Divider && item.itemType !== _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Header) {
+                    var indexIncrease = item.customOnRenderListLength ? item.customOnRenderListLength : 1;
+                    indexCorrection += indexIncrease;
+                }
+                return menuItem;
+            })));
+        };
+        /**
+         * !!!IMPORTANT!!! Avoid mutating `item: IContextualMenuItem` argument. It will
+         * cause the menu items to always re-render because the component update is based on shallow comparison.
+         */
+        _this._renderMenuItem = function (item, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons) {
+            var _a;
+            var renderedItems = [];
+            var iconProps = item.iconProps || { iconName: 'None' };
+            var getItemClassNames = item.getItemClassNames, // eslint-disable-line deprecation/deprecation
+            itemProps = item.itemProps;
+            var styles = itemProps ? itemProps.styles : undefined;
+            var expandedMenuItemKey = _this.props.hoisted.expandedMenuItemKey;
+            // We only send a dividerClassName when the item to be rendered is a divider.
+            // For all other cases, the default divider style is used.
+            var dividerClassName = item.itemType === _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Divider ? item.className : undefined;
+            var subMenuIconClassName = item.submenuIconProps ? item.submenuIconProps.className : '';
+            // eslint-disable-next-line deprecation/deprecation
+            var itemClassNames;
+            // IContextualMenuItem#getItemClassNames for backwards compatibility
+            // otherwise uses mergeStyles for class names.
+            if (getItemClassNames) {
+                itemClassNames = getItemClassNames(_this.props.theme, (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__.isItemDisabled)(item), expandedMenuItemKey === item.key, !!(0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__.getIsChecked)(item), !!item.href, iconProps.iconName !== 'None', item.className, dividerClassName, iconProps.className, subMenuIconClassName, item.primaryDisabled);
+            }
+            else {
+                var itemStyleProps = {
+                    theme: _this.props.theme,
+                    disabled: (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__.isItemDisabled)(item),
+                    expanded: expandedMenuItemKey === item.key,
+                    checked: !!(0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__.getIsChecked)(item),
+                    isAnchorLink: !!item.href,
+                    knownIcon: iconProps.iconName !== 'None',
+                    itemClassName: item.className,
+                    dividerClassName: dividerClassName,
+                    iconClassName: iconProps.className,
+                    subMenuClassName: subMenuIconClassName,
+                    primaryDisabled: item.primaryDisabled,
+                };
+                // We need to generate default styles then override if styles are provided
+                // since the ContextualMenu currently handles item classNames.
+                itemClassNames = getContextualMenuItemClassNames(_getMenuItemStylesFunction((_a = _this._classNames.subComponentStyles) === null || _a === void 0 ? void 0 : _a.menuItem, styles), itemStyleProps);
+            }
+            // eslint-disable-next-line deprecation/deprecation
+            if (item.text === '-' || item.name === '-') {
+                item.itemType = _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Divider;
+            }
+            switch (item.itemType) {
+                case _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Divider:
+                    renderedItems.push(_this._renderSeparator(index, itemClassNames));
+                    break;
+                case _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Header:
+                    renderedItems.push(_this._renderSeparator(index, itemClassNames));
+                    var headerItem = _this._renderHeaderMenuItem(item, itemClassNames, index, hasCheckmarks, hasIcons);
+                    renderedItems.push(_this._renderListItem(headerItem, item.key || index, itemClassNames, item.title));
+                    break;
+                case _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Section:
+                    renderedItems.push(_this._renderSectionItem(item, itemClassNames, index, hasCheckmarks, hasIcons));
+                    break;
+                default:
+                    var menuItem = _this._renderNormalItem(item, itemClassNames, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons);
+                    renderedItems.push(_this._renderListItem(menuItem, item.key || index, itemClassNames, item.title));
+                    break;
+            }
+            // Since multiple nodes *could* be rendered, wrap them all in a fragment with this item's key.
+            // This ensures the reconciler handles multi-item output per-node correctly and does not re-mount content.
+            return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, { key: item.key }, renderedItems);
+        };
+        _this._defaultMenuItemRenderer = function (item) {
+            var index = item.index, focusableElementIndex = item.focusableElementIndex, totalItemCount = item.totalItemCount, hasCheckmarks = item.hasCheckmarks, hasIcons = item.hasIcons;
+            return _this._renderMenuItem(item, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons);
+        };
+        _this._onKeyDown = function (ev) {
+            // Take note if we are processing an alt (option) or meta (command) keydown.
+            // See comment in _shouldHandleKeyUp for reasoning.
+            _this._lastKeyDownWasAltOrMeta = _this._isAltOrMeta(ev);
+            // On Mac, pressing escape dismisses all levels of native context menus
+            // eslint-disable-next-line deprecation/deprecation
+            var dismissAllMenus = ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.escape && ((0,_Utilities__WEBPACK_IMPORTED_MODULE_15__.isMac)() || (0,_Utilities__WEBPACK_IMPORTED_MODULE_16__.isIOS)());
+            return _this._keyHandler(ev, _this._shouldHandleKeyDown, dismissAllMenus);
+        };
+        _this._shouldHandleKeyDown = function (ev) {
+            return (
+            // eslint-disable-next-line deprecation/deprecation
+            ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.escape ||
+                _this._shouldCloseSubMenu(ev) ||
+                // eslint-disable-next-line deprecation/deprecation
+                (ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.up && (ev.altKey || ev.metaKey)));
+        };
+        _this._onKeyUp = function (ev) {
+            return _this._keyHandler(ev, _this._shouldHandleKeyUp, true /* dismissAllMenus */);
+        };
+        /**
+         * We close the menu on key up only if ALL of the following are true:
+         * - Most recent key down was alt or meta (command)
+         * - The alt/meta key down was NOT followed by some other key (such as down/up arrow to
+         *   expand/collapse the menu)
+         * - We're not on a Mac (or iOS)
+         *
+         * This is because on Windows, pressing alt moves focus to the application menu bar or similar,
+         * closing any open context menus. There is not a similar behavior on Macs.
+         */
+        _this._shouldHandleKeyUp = function (ev) {
+            var keyPressIsAltOrMetaAlone = _this._lastKeyDownWasAltOrMeta && _this._isAltOrMeta(ev);
+            _this._lastKeyDownWasAltOrMeta = false;
+            return !!keyPressIsAltOrMetaAlone && !((0,_Utilities__WEBPACK_IMPORTED_MODULE_16__.isIOS)() || (0,_Utilities__WEBPACK_IMPORTED_MODULE_15__.isMac)());
+        };
+        /**
+         * Calls `shouldHandleKey` to determine whether the keyboard event should be handled;
+         * if so, stops event propagation and dismisses menu(s).
+         * @param ev - The keyboard event.
+         * @param shouldHandleKey - Returns whether we should handle this keyboard event.
+         * @param dismissAllMenus - If true, dismiss all menus. Otherwise, dismiss only the current menu.
+         * Only does anything if `shouldHandleKey` returns true.
+         * @returns Whether the event was handled.
+         */
+        _this._keyHandler = function (ev, shouldHandleKey, dismissAllMenus) {
+            var handled = false;
+            if (shouldHandleKey(ev)) {
+                _this.dismiss(ev, dismissAllMenus);
+                ev.preventDefault();
+                ev.stopPropagation();
+                handled = true;
+            }
+            return handled;
+        };
+        /**
+         * Checks if the submenu should be closed
+         */
+        _this._shouldCloseSubMenu = function (ev) {
+            var submenuCloseKey = (0,_Utilities__WEBPACK_IMPORTED_MODULE_17__.getRTL)(_this.props.theme) ? _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.right : _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.left;
+            // eslint-disable-next-line deprecation/deprecation
+            if (ev.which !== submenuCloseKey || !_this.props.isSubMenu) {
+                return false;
+            }
+            return (_this._adjustedFocusZoneProps.direction === _FocusZone__WEBPACK_IMPORTED_MODULE_18__.FocusZoneDirection.vertical ||
+                (!!_this._adjustedFocusZoneProps.checkForNoWrap &&
+                    !(0,_Utilities__WEBPACK_IMPORTED_MODULE_19__.shouldWrapFocus)(ev.target, 'data-no-horizontal-wrap')));
+        };
+        _this._onMenuKeyDown = function (ev) {
+            // Mark as handled if onKeyDown returns true (for handling collapse cases)
+            // or if we are attempting to expand a submenu
+            var handled = _this._onKeyDown(ev);
+            var hostElement = _this.props.hoisted.hostElement;
+            if (handled || !hostElement.current) {
+                return;
+            }
+            // If we have a modifier key being pressed, we do not want to move focus.
+            // Otherwise, handle up and down keys.
+            var hasModifier = !!(ev.altKey || ev.metaKey);
+            // eslint-disable-next-line deprecation/deprecation
+            var isUp = ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.up;
+            // eslint-disable-next-line deprecation/deprecation
+            var isDown = ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.down;
+            if (!hasModifier && (isUp || isDown)) {
+                var elementToFocus = isUp
+                    ? (0,_Utilities__WEBPACK_IMPORTED_MODULE_19__.getLastFocusable)(hostElement.current, hostElement.current.lastChild, true)
+                    : (0,_Utilities__WEBPACK_IMPORTED_MODULE_19__.getFirstFocusable)(hostElement.current, hostElement.current.firstChild, true);
+                if (elementToFocus) {
+                    elementToFocus.focus();
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                }
+            }
+        };
+        /**
+         * Scroll handler for the callout to make sure the mouse events
+         * for updating focus are not interacting during scroll
+         */
+        _this._onScroll = function () {
+            if (!_this._isScrollIdle && _this._scrollIdleTimeoutId !== undefined) {
+                _this._async.clearTimeout(_this._scrollIdleTimeoutId);
+                _this._scrollIdleTimeoutId = undefined;
+            }
+            else {
+                _this._isScrollIdle = false;
+            }
+            _this._scrollIdleTimeoutId = _this._async.setTimeout(function () {
+                _this._isScrollIdle = true;
+            }, NavigationIdleDelay);
+        };
+        _this._onItemMouseEnterBase = function (item, ev, target) {
+            if (_this._shouldIgnoreMouseEvent()) {
+                return;
+            }
+            _this._updateFocusOnMouseEvent(item, ev, target);
+        };
+        _this._onItemMouseMoveBase = function (item, ev, target) {
+            var targetElement = ev.currentTarget;
+            var _a = _this.props.hoisted, shouldUpdateFocusOnMouseEvent = _a.shouldUpdateFocusOnMouseEvent, gotMouseMove = _a.gotMouseMove, targetWindow = _a.targetWindow;
+            // Always do this check to make sure we record a mouseMove if needed (even if we are timed out)
+            if (shouldUpdateFocusOnMouseEvent.current) {
+                gotMouseMove.current = true;
+            }
+            else {
+                return;
+            }
+            if (!_this._isScrollIdle ||
+                _this._enterTimerId !== undefined ||
+                targetElement === (targetWindow === null || targetWindow === void 0 ? void 0 : targetWindow.document.activeElement)) {
+                return;
+            }
+            _this._updateFocusOnMouseEvent(item, ev, target);
+        };
+        _this._onMouseItemLeave = function (item, ev) {
+            var _a;
+            var _b = _this.props.hoisted, expandedMenuItemKey = _b.expandedMenuItemKey, hostElement = _b.hostElement;
+            if (_this._shouldIgnoreMouseEvent()) {
+                return;
+            }
+            if (_this._enterTimerId !== undefined) {
+                _this._async.clearTimeout(_this._enterTimerId);
+                _this._enterTimerId = undefined;
+            }
+            if (expandedMenuItemKey !== undefined) {
+                return;
+            }
+            /**
+             * IE11 focus() method forces parents to scroll to top of element.
+             * Edge and IE expose a setActive() function for focusable divs that
+             * sets the page focus but does not scroll the parent element.
+             */
+            if (hostElement.current.setActive) {
+                try {
+                    hostElement.current.setActive();
+                }
+                catch (e) {
+                    /* no-op */
+                }
+            }
+            else {
+                (_a = hostElement.current) === null || _a === void 0 ? void 0 : _a.focus();
+            }
+        };
+        _this._onItemMouseDown = function (item, ev) {
+            if (item.onMouseDown) {
+                item.onMouseDown(item, ev);
+            }
+        };
+        _this._onItemClick = function (item, ev) {
+            _this._onItemClickBase(item, ev, ev.currentTarget);
+        };
+        _this._onItemClickBase = function (item, ev, target) {
+            var items = getSubmenuItems(item);
+            var _a = _this.props.hoisted, expandedMenuItemKey = _a.expandedMenuItemKey, openSubMenu = _a.openSubMenu;
+            // Cancel a async menu item hover timeout action from being taken and instead
+            // just trigger the click event instead.
+            _this._cancelSubMenuTimer();
+            if (!(0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__.hasSubmenu)(item) && (!items || !items.length)) {
+                // This is an item without a menu. Click it.
+                _this._executeItemClick(item, ev);
+            }
+            else {
+                if (item.key !== expandedMenuItemKey) {
+                    // This has a collapsed sub menu. Expand it.
+                    openSubMenu(item, target, 
+                    // When Edge + Narrator are used together (regardless of if the button is in a form or not), pressing
+                    // "Enter" fires this method and not _onMenuKeyDown. Checking ev.nativeEvent.detail differentiates
+                    // between a real click event and a keypress event (detail should be the number of mouse clicks).
+                    // ...Plot twist! For a real click event in IE 11, detail is always 0 (Edge sets it properly to 1).
+                    // So we also check the pointerType property, which both Edge and IE set to "mouse" for real clicks
+                    // and "" for pressing "Enter" with Narrator on.
+                    ev.nativeEvent.detail !== 0 || ev.nativeEvent.pointerType === 'mouse');
+                }
+            }
+            ev.stopPropagation();
+            ev.preventDefault();
+        };
+        _this._onAnchorClick = function (item, ev) {
+            _this._executeItemClick(item, ev);
+            ev.stopPropagation();
+        };
+        _this._executeItemClick = function (item, ev) {
+            if (item.disabled || item.isDisabled) {
+                return;
+            }
+            var dismiss = false;
+            if (item.onClick) {
+                dismiss = !!item.onClick(ev, item);
+            }
+            else if (_this.props.onItemClick) {
+                dismiss = !!_this.props.onItemClick(ev, item);
+            }
+            if (dismiss || !ev.defaultPrevented) {
+                _this.dismiss(ev, true);
+            }
+        };
+        _this._onItemKeyDown = function (item, ev) {
+            var openKey = (0,_Utilities__WEBPACK_IMPORTED_MODULE_17__.getRTL)(_this.props.theme) ? _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.left : _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.right;
+            if (!item.disabled &&
+                // eslint-disable-next-line deprecation/deprecation
+                (ev.which === openKey || ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.enter || (ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.down && (ev.altKey || ev.metaKey)))) {
+                _this.props.hoisted.openSubMenu(item, ev.currentTarget, false);
+                ev.preventDefault();
+            }
+        };
+        // Cancel a async menu item hover timeout action from being taken and instead
+        // do new upcoming behavior
+        _this._cancelSubMenuTimer = function () {
+            if (_this._enterTimerId !== undefined) {
+                _this._async.clearTimeout(_this._enterTimerId);
+                _this._enterTimerId = undefined;
+            }
+        };
+        /**
+         * This function is called ASYNCHRONOUSLY, and so there is a chance it is called
+         * after the component is unmounted. The _mounted property is added to prevent
+         * from calling setState() after unmount. Do NOT copy this pattern in synchronous
+         * code.
+         */
+        _this._onSubMenuDismiss = function (ev, dismissAll) {
+            if (dismissAll) {
+                _this.dismiss(ev, dismissAll);
+            }
+            else if (_this._mounted) {
+                _this.props.hoisted.closeSubMenu();
+            }
+        };
+        _this._onPointerAndTouchEvent = function (ev) {
+            _this._cancelSubMenuTimer();
+        };
+        _this._async = new _Utilities__WEBPACK_IMPORTED_MODULE_20__.Async(_this);
+        _this._events = new _Utilities__WEBPACK_IMPORTED_MODULE_21__.EventGroup(_this);
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_22__.initializeComponentRef)(_this);
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_23__.warnDeprecations)(COMPONENT_NAME, props, {
+            getMenuClassNames: 'styles',
+        });
+        _this.state = {
+            contextualMenuItems: undefined,
+            subMenuId: (0,_Utilities__WEBPACK_IMPORTED_MODULE_24__.getId)('ContextualMenu'),
+        };
+        _this._id = props.id || (0,_Utilities__WEBPACK_IMPORTED_MODULE_24__.getId)('ContextualMenu');
+        _this._isScrollIdle = true;
+        return _this;
+    }
+    ContextualMenuInternal.prototype.shouldComponentUpdate = function (newProps, newState) {
+        if (!newProps.shouldUpdateWhenHidden && this.props.hidden && newProps.hidden) {
+            // Do not update when hidden.
+            return false;
+        }
+        return !(0,_Utilities__WEBPACK_IMPORTED_MODULE_25__.shallowCompare)(this.props, newProps) || !(0,_Utilities__WEBPACK_IMPORTED_MODULE_25__.shallowCompare)(this.state, newState);
+    };
+    ContextualMenuInternal.prototype.getSnapshotBeforeUpdate = function (prevProps) {
+        var hoisted = this.props.hoisted;
+        if (this._isHidden(prevProps) !== this._isHidden(this.props)) {
+            if (this._isHidden(this.props)) {
+                this._onMenuClosed();
+            }
+            else {
+                this._previousActiveElement = hoisted.targetWindow
+                    ? hoisted.targetWindow.document.activeElement
+                    : undefined;
+            }
+        }
+        return null;
+    };
+    // Invoked once, only on the client (not on the server), immediately after the initial rendering occurs.
+    ContextualMenuInternal.prototype.componentDidMount = function () {
+        var _a = this.props, hidden = _a.hidden, hoisted = _a.hoisted;
+        if (!hidden) {
+            this._previousActiveElement = hoisted.targetWindow
+                ? hoisted.targetWindow.document.activeElement
+                : undefined;
+        }
+        this._mounted = true;
+    };
+    // Invoked immediately before a component is unmounted from the DOM.
+    ContextualMenuInternal.prototype.componentWillUnmount = function () {
+        if (this.props.onMenuDismissed) {
+            this.props.onMenuDismissed(this.props);
+        }
+        this._events.dispose();
+        this._async.dispose();
+        this._mounted = false;
+    };
+    ContextualMenuInternal.prototype.render = function () {
+        var _this = this;
+        var isBeakVisible = this.props.isBeakVisible;
+        var _a = this.props, items = _a.items, labelElementId = _a.labelElementId, id = _a.id, className = _a.className, beakWidth = _a.beakWidth, directionalHint = _a.directionalHint, directionalHintForRTL = _a.directionalHintForRTL, alignTargetEdge = _a.alignTargetEdge, gapSpace = _a.gapSpace, coverTarget = _a.coverTarget, ariaLabel = _a.ariaLabel, doNotLayer = _a.doNotLayer, target = _a.target, bounds = _a.bounds, useTargetWidth = _a.useTargetWidth, useTargetAsMinWidth = _a.useTargetAsMinWidth, directionalHintFixed = _a.directionalHintFixed, shouldFocusOnMount = _a.shouldFocusOnMount, shouldFocusOnContainer = _a.shouldFocusOnContainer, title = _a.title, styles = _a.styles, theme = _a.theme, calloutProps = _a.calloutProps, _b = _a.onRenderSubMenu, onRenderSubMenu = _b === void 0 ? this._onRenderSubMenu : _b, _c = _a.onRenderMenuList, onRenderMenuList = _c === void 0 ? this._onRenderMenuList : _c, focusZoneProps = _a.focusZoneProps, 
+        // eslint-disable-next-line deprecation/deprecation
+        getMenuClassNames = _a.getMenuClassNames, _d = _a.hoisted, expandedMenuItemKey = _d.expandedMenuItemKey, targetRef = _d.targetRef, onMenuFocusCapture = _d.onMenuFocusCapture, hostElement = _d.hostElement;
+        this._classNames = getMenuClassNames
+            ? getMenuClassNames(theme, className)
+            : getClassNames(styles, {
+                theme: theme,
+                className: className,
+            });
+        var hasIcons = itemsHaveIcons(items);
+        function itemsHaveIcons(contextualMenuItems) {
+            for (var _i = 0, contextualMenuItems_1 = contextualMenuItems; _i < contextualMenuItems_1.length; _i++) {
+                var item = contextualMenuItems_1[_i];
+                if (item.iconProps) {
+                    return true;
+                }
+                if (item.itemType === _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Section &&
+                    item.sectionProps &&
+                    itemsHaveIcons(item.sectionProps.items)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        this._adjustedFocusZoneProps = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({}, focusZoneProps), { className: this._classNames.root, isCircularNavigation: true, handleTabKey: _FocusZone__WEBPACK_IMPORTED_MODULE_18__.FocusZoneTabbableElements.all, direction: this._getFocusZoneDirection() });
+        var hasCheckmarks = canAnyMenuItemsCheck(items);
+        var submenuProps = expandedMenuItemKey && this.props.hidden !== true ? this._getSubmenuProps() : null;
+        isBeakVisible = isBeakVisible === undefined ? this.props.responsiveMode <= _ResponsiveMode__WEBPACK_IMPORTED_MODULE_26__.ResponsiveMode.medium : isBeakVisible;
+        /**
+         * When useTargetWidth is true, get the width of the target element and apply it for the context menu container
+         */
+        var contextMenuStyle;
+        var targetAsHtmlElement = targetRef.current;
+        if ((useTargetWidth || useTargetAsMinWidth) && targetAsHtmlElement && targetAsHtmlElement.offsetWidth) {
+            var targetBoundingRect = targetAsHtmlElement.getBoundingClientRect();
+            var targetWidth = targetBoundingRect.width - 2; /* Accounts for 1px border */
+            if (useTargetWidth) {
+                contextMenuStyle = {
+                    width: targetWidth,
+                };
+            }
+            else if (useTargetAsMinWidth) {
+                contextMenuStyle = {
+                    minWidth: targetWidth,
+                };
+            }
+        }
+        // The menu should only return if items were provided, if no items were provided then it should not appear.
+        if (items && items.length > 0) {
+            var totalItemCount_1 = 0;
+            for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
+                var item = items_1[_i];
+                if (item.itemType !== _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Divider && item.itemType !== _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Header) {
+                    var itemCount = item.customOnRenderListLength ? item.customOnRenderListLength : 1;
+                    totalItemCount_1 += itemCount;
+                }
+            }
+            var calloutStyles_1 = this._classNames.subComponentStyles
+                ? this._classNames.subComponentStyles.callout
+                : undefined;
+            return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_utilities_MenuContext_index__WEBPACK_IMPORTED_MODULE_27__.MenuContext.Consumer, null, function (menuContext) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Callout__WEBPACK_IMPORTED_MODULE_28__.Callout, (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({ styles: calloutStyles_1, onRestoreFocus: _this._tryFocusPreviousActiveElement }, calloutProps, { target: target || menuContext.target, isBeakVisible: isBeakVisible, beakWidth: beakWidth, directionalHint: directionalHint, directionalHintForRTL: directionalHintForRTL, gapSpace: gapSpace, coverTarget: coverTarget, doNotLayer: doNotLayer, className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_29__.css)('ms-ContextualMenu-Callout', calloutProps && calloutProps.className), setInitialFocus: shouldFocusOnMount, onDismiss: _this.props.onDismiss || menuContext.onDismiss, onScroll: _this._onScroll, bounds: bounds, directionalHintFixed: directionalHintFixed, alignTargetEdge: alignTargetEdge, hidden: _this.props.hidden || menuContext.hidden, ref: hostElement }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: contextMenuStyle, id: id, className: _this._classNames.container, tabIndex: shouldFocusOnContainer ? 0 : -1, onKeyDown: _this._onMenuKeyDown, onKeyUp: _this._onKeyUp, onFocusCapture: onMenuFocusCapture, "aria-label": ariaLabel, "aria-labelledby": labelElementId, role: 'menu' },
+                    title && react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _this._classNames.title },
+                        " ",
+                        title,
+                        " "),
+                    items && items.length
+                        ? _this._renderFocusZone(onRenderMenuList({
+                            ariaLabel: ariaLabel,
+                            items: items,
+                            totalItemCount: totalItemCount_1,
+                            hasCheckmarks: hasCheckmarks,
+                            hasIcons: hasIcons,
+                            defaultMenuItemRenderer: _this._defaultMenuItemRenderer,
+                            labelElementId: labelElementId,
+                        }, _this._onRenderMenuList))
+                        : null,
+                    submenuProps && onRenderSubMenu(submenuProps, _this._onRenderSubMenu)))); }));
+        }
+        else {
+            return null;
+        }
+    };
+    ContextualMenuInternal.prototype._onMenuClosed = function () {
+        var _a, _b;
+        (_a = this._tryFocusPreviousActiveElement) === null || _a === void 0 ? void 0 : _a.call(this, {
+            originalElement: this._previousActiveElement,
+            containsFocus: true,
+            documentContainsFocus: ((_b = (0,_Utilities__WEBPACK_IMPORTED_MODULE_30__.getDocument)()) === null || _b === void 0 ? void 0 : _b.hasFocus()) || false,
+        });
+    };
+    /**
+     * Return whether the contextual menu is hidden.
+     * Undefined value for hidden is equivalent to hidden being false.
+     * @param props - Props for the component
+     */
+    ContextualMenuInternal.prototype._isHidden = function (props) {
+        return !!props.hidden;
+    };
+    /**
+     * Gets the focusZoneDirection by using the arrowDirection if specified,
+     * the direction specified in the focusZoneProps, or defaults to FocusZoneDirection.vertical
+     */
+    ContextualMenuInternal.prototype._getFocusZoneDirection = function () {
+        var focusZoneProps = this.props.focusZoneProps;
+        return focusZoneProps && focusZoneProps.direction !== undefined
+            ? focusZoneProps.direction
+            : _FocusZone__WEBPACK_IMPORTED_MODULE_18__.FocusZoneDirection.vertical;
+    };
+    ContextualMenuInternal.prototype._onRenderSubMenu = function (subMenuProps, defaultRender) {
+        throw Error('ContextualMenuBase: onRenderSubMenu callback is null or undefined. ' +
+            'Please ensure to set `onRenderSubMenu` property either manually or with `styled` helper.');
+    };
+    ContextualMenuInternal.prototype._renderFocusZone = function (children) {
+        var _a = this.props.focusZoneAs, ChildrenRenderer = _a === void 0 ? _FocusZone__WEBPACK_IMPORTED_MODULE_31__.FocusZone : _a;
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChildrenRenderer, (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({}, this._adjustedFocusZoneProps), children);
+    };
+    ContextualMenuInternal.prototype._renderSectionItem = function (sectionItem, 
+    // eslint-disable-next-line deprecation/deprecation
+    menuClassNames, index, hasCheckmarks, hasIcons) {
+        var _this = this;
+        var sectionProps = sectionItem.sectionProps;
+        if (!sectionProps) {
+            return;
+        }
+        var headerItem;
+        var groupProps;
+        if (sectionProps.title) {
+            var headerContextualMenuItem = undefined;
+            var ariaLabellledby = '';
+            if (typeof sectionProps.title === 'string') {
+                // Since title is a user-facing string, it needs to be stripped
+                // of whitespace in order to build a valid element ID
+                var id = this._id + sectionProps.title.replace(/\s/g, '');
+                headerContextualMenuItem = {
+                    key: "section-" + sectionProps.title + "-title",
+                    itemType: _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Header,
+                    text: sectionProps.title,
+                    id: id,
+                };
+                ariaLabellledby = id;
+            }
+            else {
+                var id = sectionProps.title.id || this._id + sectionProps.title.key.replace(/\s/g, '');
+                headerContextualMenuItem = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({}, sectionProps.title), { id: id });
+                ariaLabellledby = id;
+            }
+            if (headerContextualMenuItem) {
+                groupProps = {
+                    role: 'group',
+                    'aria-labelledby': ariaLabellledby,
+                };
+                headerItem = this._renderHeaderMenuItem(headerContextualMenuItem, menuClassNames, index, hasCheckmarks, hasIcons);
+            }
+        }
+        if (sectionProps.items && sectionProps.items.length > 0) {
+            return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { role: "presentation", key: sectionProps.key || sectionItem.key || "section-" + index },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({}, groupProps),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: this._classNames.list, role: "presentation" },
+                        sectionProps.topDivider && this._renderSeparator(index, menuClassNames, true, true),
+                        headerItem &&
+                            this._renderListItem(headerItem, sectionItem.key || index, menuClassNames, sectionItem.title),
+                        sectionProps.items.map(function (contextualMenuItem, itemsIndex) {
+                            return _this._renderMenuItem(contextualMenuItem, itemsIndex, itemsIndex, sectionProps.items.length, hasCheckmarks, hasIcons);
+                        }),
+                        sectionProps.bottomDivider && this._renderSeparator(index, menuClassNames, false, true)))));
+        }
+    };
+    ContextualMenuInternal.prototype._renderListItem = function (content, key, classNames, // eslint-disable-line deprecation/deprecation
+    title) {
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { role: "presentation", title: title, key: key, className: classNames.item }, content));
+    };
+    ContextualMenuInternal.prototype._renderSeparator = function (index, classNames, // eslint-disable-line deprecation/deprecation
+    top, fromSection) {
+        if (fromSection || index > 0) {
+            return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { role: "separator", key: 'separator-' + index + (top === undefined ? '' : top ? '-top' : '-bottom'), className: classNames.divider, "aria-hidden": "true" }));
+        }
+        return null;
+    };
+    ContextualMenuInternal.prototype._renderNormalItem = function (item, classNames, // eslint-disable-line deprecation/deprecation
+    index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons) {
+        if (item.onRender) {
+            return item.onRender((0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({ 'aria-posinset': focusableElementIndex + 1, 'aria-setsize': totalItemCount }, item), this.dismiss);
+        }
+        if (item.href) {
+            return this._renderAnchorMenuItem(item, classNames, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons);
+        }
+        if (item.split && (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__.hasSubmenu)(item)) {
+            return this._renderSplitButton(item, classNames, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons);
+        }
+        return this._renderButtonItem(item, classNames, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons);
+    };
+    ContextualMenuInternal.prototype._renderHeaderMenuItem = function (item, 
+    // eslint-disable-next-line deprecation/deprecation
+    classNames, index, hasCheckmarks, hasIcons) {
+        var _a = this.props.contextualMenuItemAs, ChildrenRenderer = _a === void 0 ? _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_32__.ContextualMenuItem : _a;
+        var itemProps = item.itemProps, id = item.id;
+        var divHtmlProperties = itemProps && (0,_Utilities__WEBPACK_IMPORTED_MODULE_33__.getNativeProps)(itemProps, _Utilities__WEBPACK_IMPORTED_MODULE_33__.divProperties);
+        return (
+        // eslint-disable-next-line deprecation/deprecation
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({ id: id, className: this._classNames.header }, divHtmlProperties, { style: item.style }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChildrenRenderer, (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__assign)({ item: item, classNames: classNames, index: index, onCheckmarkClick: hasCheckmarks ? this._onItemClick : undefined, hasIcons: hasIcons }, itemProps))));
+    };
+    ContextualMenuInternal.prototype._renderAnchorMenuItem = function (item, 
+    // eslint-disable-next-line deprecation/deprecation
+    classNames, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons) {
+        var _a = this.props, contextualMenuItemAs = _a.contextualMenuItemAs, _b = _a.hoisted, expandedMenuItemKey = _b.expandedMenuItemKey, openSubMenu = _b.openSubMenu;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContextualMenuItemWrapper_index__WEBPACK_IMPORTED_MODULE_34__.ContextualMenuAnchor, { item: item, classNames: classNames, index: index, focusableElementIndex: focusableElementIndex, totalItemCount: totalItemCount, hasCheckmarks: hasCheckmarks, hasIcons: hasIcons, contextualMenuItemAs: contextualMenuItemAs, onItemMouseEnter: this._onItemMouseEnterBase, onItemMouseLeave: this._onMouseItemLeave, onItemMouseMove: this._onItemMouseMoveBase, onItemMouseDown: this._onItemMouseDown, executeItemClick: this._executeItemClick, onItemClick: this._onAnchorClick, onItemKeyDown: this._onItemKeyDown, expandedMenuItemKey: expandedMenuItemKey, openSubMenu: openSubMenu, dismissSubMenu: this._onSubMenuDismiss, dismissMenu: this.dismiss }));
+    };
+    ContextualMenuInternal.prototype._renderButtonItem = function (item, 
+    // eslint-disable-next-line deprecation/deprecation
+    classNames, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons) {
+        var _a = this.props, contextualMenuItemAs = _a.contextualMenuItemAs, _b = _a.hoisted, expandedMenuItemKey = _b.expandedMenuItemKey, openSubMenu = _b.openSubMenu;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContextualMenuItemWrapper_index__WEBPACK_IMPORTED_MODULE_35__.ContextualMenuButton, { item: item, classNames: classNames, index: index, focusableElementIndex: focusableElementIndex, totalItemCount: totalItemCount, hasCheckmarks: hasCheckmarks, hasIcons: hasIcons, contextualMenuItemAs: contextualMenuItemAs, onItemMouseEnter: this._onItemMouseEnterBase, onItemMouseLeave: this._onMouseItemLeave, onItemMouseMove: this._onItemMouseMoveBase, onItemMouseDown: this._onItemMouseDown, executeItemClick: this._executeItemClick, onItemClick: this._onItemClick, onItemClickBase: this._onItemClickBase, onItemKeyDown: this._onItemKeyDown, expandedMenuItemKey: expandedMenuItemKey, openSubMenu: openSubMenu, dismissSubMenu: this._onSubMenuDismiss, dismissMenu: this.dismiss }));
+    };
+    ContextualMenuInternal.prototype._renderSplitButton = function (item, 
+    // eslint-disable-next-line deprecation/deprecation
+    classNames, index, focusableElementIndex, totalItemCount, hasCheckmarks, hasIcons) {
+        var _a = this.props, contextualMenuItemAs = _a.contextualMenuItemAs, _b = _a.hoisted, expandedMenuItemKey = _b.expandedMenuItemKey, openSubMenu = _b.openSubMenu;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContextualMenuItemWrapper_index__WEBPACK_IMPORTED_MODULE_36__.ContextualMenuSplitButton, { item: item, classNames: classNames, index: index, focusableElementIndex: focusableElementIndex, totalItemCount: totalItemCount, hasCheckmarks: hasCheckmarks, hasIcons: hasIcons, contextualMenuItemAs: contextualMenuItemAs, onItemMouseEnter: this._onItemMouseEnterBase, onItemMouseLeave: this._onMouseItemLeave, onItemMouseMove: this._onItemMouseMoveBase, onItemMouseDown: this._onItemMouseDown, executeItemClick: this._executeItemClick, onItemClick: this._onItemClick, onItemClickBase: this._onItemClickBase, onItemKeyDown: this._onItemKeyDown, openSubMenu: openSubMenu, dismissSubMenu: this._onSubMenuDismiss, dismissMenu: this.dismiss, expandedMenuItemKey: expandedMenuItemKey, onTap: this._onPointerAndTouchEvent }));
+    };
+    /**
+     * Returns true if the key for the event is alt (Mac option) or meta (Mac command).
+     */
+    ContextualMenuInternal.prototype._isAltOrMeta = function (ev) {
+        // eslint-disable-next-line deprecation/deprecation
+        return ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_14__.KeyCodes.alt || ev.key === 'Meta';
+    };
+    ContextualMenuInternal.prototype._shouldIgnoreMouseEvent = function () {
+        return !this._isScrollIdle || !this.props.hoisted.gotMouseMove.current;
+    };
+    /**
+     * Handles updating focus when mouseEnter or mouseMove fire.
+     * As part of updating focus, This function will also update
+     * the expand/collapse state accordingly.
+     */
+    ContextualMenuInternal.prototype._updateFocusOnMouseEvent = function (item, ev, target) {
+        var _this = this;
+        var targetElement = target ? target : ev.currentTarget;
+        var _a = this.props, _b = _a.subMenuHoverDelay, timeoutDuration = _b === void 0 ? NavigationIdleDelay : _b, _c = _a.hoisted, expandedMenuItemKey = _c.expandedMenuItemKey, openSubMenu = _c.openSubMenu;
+        if (item.key === expandedMenuItemKey) {
+            return;
+        }
+        if (this._enterTimerId !== undefined) {
+            this._async.clearTimeout(this._enterTimerId);
+            this._enterTimerId = undefined;
+        }
+        // If the menu is not expanded we can update focus without any delay
+        if (expandedMenuItemKey === undefined) {
+            targetElement.focus();
+        }
+        // Delay updating expanding/dismissing the submenu
+        // and only set focus if we have not already done so
+        if ((0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_13__.hasSubmenu)(item)) {
+            ev.stopPropagation();
+            this._enterTimerId = this._async.setTimeout(function () {
+                targetElement.focus();
+                openSubMenu(item, targetElement, true);
+                _this._enterTimerId = undefined;
+            }, timeoutDuration);
+        }
+        else {
+            this._enterTimerId = this._async.setTimeout(function () {
+                _this._onSubMenuDismiss(ev);
+                targetElement.focus();
+                _this._enterTimerId = undefined;
+            }, timeoutDuration);
+        }
+    };
+    ContextualMenuInternal.prototype._getSubmenuProps = function () {
+        var _a = this.props.hoisted, submenuTarget = _a.submenuTarget, expandedMenuItemKey = _a.expandedMenuItemKey, expandedByMouseClick = _a.expandedByMouseClick;
+        var item = this._findItemByKey(expandedMenuItemKey);
+        var submenuProps = null;
+        if (item) {
+            submenuProps = {
+                items: getSubmenuItems(item),
+                target: submenuTarget,
+                onDismiss: this._onSubMenuDismiss,
+                isSubMenu: true,
+                id: this.state.subMenuId,
+                shouldFocusOnMount: true,
+                shouldFocusOnContainer: expandedByMouseClick,
+                directionalHint: (0,_Utilities__WEBPACK_IMPORTED_MODULE_17__.getRTL)(this.props.theme) ? _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_2__.DirectionalHint.leftTopEdge : _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_2__.DirectionalHint.rightTopEdge,
+                className: this.props.className,
+                gapSpace: 0,
+                isBeakVisible: false,
+            };
+            if (item.subMenuProps) {
+                (0,_Utilities__WEBPACK_IMPORTED_MODULE_25__.assign)(submenuProps, item.subMenuProps);
+            }
+        }
+        return submenuProps;
+    };
+    ContextualMenuInternal.prototype._findItemByKey = function (key) {
+        var items = this.props.items;
+        return this._findItemByKeyFromItems(key, items);
+    };
+    /**
+     * Returns the item that matches a given key if any.
+     * @param key - The key of the item to match
+     * @param items - The items to look for the key
+     */
+    ContextualMenuInternal.prototype._findItemByKeyFromItems = function (key, items) {
+        for (var _i = 0, items_2 = items; _i < items_2.length; _i++) {
+            var item = items_2[_i];
+            if (item.itemType === _ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.ContextualMenuItemType.Section && item.sectionProps) {
+                var match = this._findItemByKeyFromItems(key, item.sectionProps.items);
+                if (match) {
+                    return match;
+                }
+            }
+            else if (item.key && item.key === key) {
+                return item;
+            }
+        }
+    };
+    return ContextualMenuInternal;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+//# sourceMappingURL=ContextualMenu.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.classNames.js":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.classNames.js ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getSplitButtonVerticalDividerClassNames": () => (/* binding */ getSplitButtonVerticalDividerClassNames),
+/* harmony export */   "getItemClassNames": () => (/* binding */ getItemClassNames),
+/* harmony export */   "getItemStyles": () => (/* binding */ getItemStyles)
+/* harmony export */ });
+/* harmony import */ var _Divider_VerticalDivider_classNames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Divider/VerticalDivider.classNames */ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.classNames.js");
+/* harmony import */ var _ContextualMenu_cnstyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ContextualMenu.cnstyles */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.cnstyles.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/setFocusVisibility.js");
+
+
+
+
+var CONTEXTUAL_SPLIT_MENU_MINWIDTH = '28px';
+var MediumScreenSelector = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getScreenSelector)(0, _Styling__WEBPACK_IMPORTED_MODULE_0__.ScreenWidthMaxMedium);
+var getSplitButtonVerticalDividerClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.memoizeFunction)(
+/* eslint-disable deprecation/deprecation */
+function (theme) {
+    var _a;
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.mergeStyleSets)((0,_Divider_VerticalDivider_classNames__WEBPACK_IMPORTED_MODULE_2__.getDividerClassNames)(theme), {
+        /* eslint-enable deprecation/deprecation */
+        wrapper: {
+            position: 'absolute',
+            right: 28,
+            selectors: (_a = {},
+                _a[MediumScreenSelector] = {
+                    right: 32,
+                },
+                _a),
+        },
+        divider: {
+            height: 16,
+            width: 1,
+        },
+    });
+});
+var GlobalClassNames = {
+    item: 'ms-ContextualMenu-item',
+    divider: 'ms-ContextualMenu-divider',
+    root: 'ms-ContextualMenu-link',
+    isChecked: 'is-checked',
+    isExpanded: 'is-expanded',
+    isDisabled: 'is-disabled',
+    linkContent: 'ms-ContextualMenu-linkContent',
+    linkContentMenu: 'ms-ContextualMenu-linkContent',
+    icon: 'ms-ContextualMenu-icon',
+    iconColor: 'ms-ContextualMenu-iconColor',
+    checkmarkIcon: 'ms-ContextualMenu-checkmarkIcon',
+    subMenuIcon: 'ms-ContextualMenu-submenuIcon',
+    label: 'ms-ContextualMenu-itemText',
+    secondaryText: 'ms-ContextualMenu-secondaryText',
+    splitMenu: 'ms-ContextualMenu-splitMenu',
+    screenReaderText: 'ms-ContextualMenu-screenReaderText',
+};
+/**
+ * @deprecated Will be removed in \>= 7.0.
+ * This is a package-internal method that has been depended on.
+ * It is being kept in this form for backwards compatibility.
+ * @internal
+ */
+// TODO: Audit perf. impact of and potentially remove memoizeFunction.
+// https://github.com/microsoft/fluentui/issues/5534
+var getItemClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.memoizeFunction)(function (theme, disabled, expanded, checked, isAnchorLink, knownIcon, itemClassName, dividerClassName, iconClassName, subMenuClassName, primaryDisabled, className) {
+    var _a, _b, _c, _d;
+    var styles = (0,_ContextualMenu_cnstyles__WEBPACK_IMPORTED_MODULE_3__.getMenuItemStyles)(theme);
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.mergeStyleSets)({
+        item: [classNames.item, styles.item, itemClassName],
+        divider: [classNames.divider, styles.divider, dividerClassName],
+        root: [
+            classNames.root,
+            styles.root,
+            checked && [classNames.isChecked, styles.rootChecked],
+            isAnchorLink && styles.anchorLink,
+            expanded && [classNames.isExpanded, styles.rootExpanded],
+            disabled && [classNames.isDisabled, styles.rootDisabled],
+            !disabled &&
+                !expanded && [
+                {
+                    selectors: (_a = {
+                            ':hover': styles.rootHovered,
+                            ':active': styles.rootPressed
+                        },
+                        _a["." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus, ." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus:hover"] = styles.rootFocused,
+                        _a["." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:hover"] = { background: 'inherit;' },
+                        _a),
+                },
+            ],
+            className,
+        ],
+        splitPrimary: [
+            styles.root,
+            {
+                width: "calc(100% - " + CONTEXTUAL_SPLIT_MENU_MINWIDTH + ")",
+            },
+            checked && ['is-checked', styles.rootChecked],
+            (disabled || primaryDisabled) && ['is-disabled', styles.rootDisabled],
+            !(disabled || primaryDisabled) &&
+                !checked && [
+                {
+                    selectors: (_b = {
+                            ':hover': styles.rootHovered
+                        },
+                        // when hovering over the splitPrimary also affect the splitMenu
+                        _b[":hover ~ ." + classNames.splitMenu] = styles.rootHovered,
+                        _b[':active'] = styles.rootPressed,
+                        _b["." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus, ." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus:hover"] = styles.rootFocused,
+                        _b["." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:hover"] = { background: 'inherit;' },
+                        _b),
+                },
+            ],
+        ],
+        splitMenu: [
+            classNames.splitMenu,
+            styles.root,
+            {
+                flexBasis: '0',
+                padding: '0 8px',
+                minWidth: CONTEXTUAL_SPLIT_MENU_MINWIDTH,
+            },
+            expanded && ['is-expanded', styles.rootExpanded],
+            disabled && ['is-disabled', styles.rootDisabled],
+            !disabled &&
+                !expanded && [
+                {
+                    selectors: (_c = {
+                            ':hover': styles.rootHovered,
+                            ':active': styles.rootPressed
+                        },
+                        _c["." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus, ." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus:hover"] = styles.rootFocused,
+                        _c["." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:hover"] = { background: 'inherit;' },
+                        _c),
+                },
+            ],
+        ],
+        anchorLink: styles.anchorLink,
+        linkContent: [classNames.linkContent, styles.linkContent],
+        linkContentMenu: [
+            classNames.linkContentMenu,
+            styles.linkContent,
+            {
+                justifyContent: 'center',
+            },
+        ],
+        icon: [
+            classNames.icon,
+            knownIcon && styles.iconColor,
+            styles.icon,
+            iconClassName,
+            disabled && [classNames.isDisabled, styles.iconDisabled],
+        ],
+        iconColor: styles.iconColor,
+        checkmarkIcon: [classNames.checkmarkIcon, knownIcon && styles.checkmarkIcon, styles.icon, iconClassName],
+        subMenuIcon: [
+            classNames.subMenuIcon,
+            styles.subMenuIcon,
+            subMenuClassName,
+            expanded && { color: theme.palette.neutralPrimary },
+            disabled && [styles.iconDisabled],
+        ],
+        label: [classNames.label, styles.label],
+        secondaryText: [classNames.secondaryText, styles.secondaryText],
+        splitContainer: [
+            styles.splitButtonFlexContainer,
+            !disabled &&
+                !checked && [
+                {
+                    selectors: (_d = {},
+                        _d["." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus, ." + _Utilities__WEBPACK_IMPORTED_MODULE_4__.IsFocusVisibleClassName + " &:focus:hover"] = styles.rootFocused,
+                        _d),
+                },
+            ],
+        ],
+        screenReaderText: [
+            classNames.screenReaderText,
+            styles.screenReaderText,
+            _Styling__WEBPACK_IMPORTED_MODULE_0__.hiddenContentStyle,
+            { visibility: 'hidden' },
+        ],
+    });
+});
+/**
+ * Wrapper function for generating ContextualMenuItem classNames which adheres to
+ * the getStyles API, but invokes memoized className generator function with
+ * primitive values.
+ *
+ * @param props the ContextualMenuItem style props used to generate its styles.
+ */
+var getItemStyles = function (props) {
+    var theme = props.theme, disabled = props.disabled, expanded = props.expanded, checked = props.checked, isAnchorLink = props.isAnchorLink, knownIcon = props.knownIcon, itemClassName = props.itemClassName, dividerClassName = props.dividerClassName, iconClassName = props.iconClassName, subMenuClassName = props.subMenuClassName, primaryDisabled = props.primaryDisabled, className = props.className;
+    // eslint-disable-next-line deprecation/deprecation
+    return getItemClassNames(theme, disabled, expanded, checked, isAnchorLink, knownIcon, itemClassName, dividerClassName, iconClassName, subMenuClassName, primaryDisabled, className);
+};
+//# sourceMappingURL=ContextualMenu.classNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.cnstyles.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.cnstyles.js ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CONTEXTUAL_MENU_ITEM_HEIGHT": () => (/* binding */ CONTEXTUAL_MENU_ITEM_HEIGHT),
+/* harmony export */   "getMenuItemStyles": () => (/* binding */ getMenuItemStyles)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+
+
+
+var CONTEXTUAL_MENU_ITEM_HEIGHT = 36;
+var MediumScreenSelector = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getScreenSelector)(0, _Styling__WEBPACK_IMPORTED_MODULE_0__.ScreenWidthMaxMedium);
+var getItemHighContrastStyles = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.memoizeFunction)(function () {
+    var _a;
+    return {
+        selectors: (_a = {},
+            _a[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ backgroundColor: 'Highlight', borderColor: 'Highlight', color: 'HighlightText' }, (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getHighContrastNoAdjustStyle)()),
+            _a),
+    };
+});
+var getMenuItemStyles = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.memoizeFunction)(function (theme) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    var semanticColors = theme.semanticColors, fonts = theme.fonts, palette = theme.palette;
+    var ContextualMenuItemBackgroundHoverColor = semanticColors.menuItemBackgroundHovered;
+    var ContextualMenuItemTextHoverColor = semanticColors.menuItemTextHovered;
+    var ContextualMenuItemBackgroundSelectedColor = semanticColors.menuItemBackgroundPressed;
+    var ContextualMenuItemDividerColor = semanticColors.bodyDivider;
+    var menuItemStyles = {
+        item: [
+            fonts.medium,
+            {
+                color: semanticColors.bodyText,
+                position: 'relative',
+                boxSizing: 'border-box',
+            },
+        ],
+        divider: {
+            display: 'block',
+            height: '1px',
+            backgroundColor: ContextualMenuItemDividerColor,
+            position: 'relative',
+        },
+        root: [
+            (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getFocusStyle)(theme),
+            fonts.medium,
+            {
+                color: semanticColors.bodyText,
+                backgroundColor: 'transparent',
+                border: 'none',
+                width: '100%',
+                height: CONTEXTUAL_MENU_ITEM_HEIGHT,
+                lineHeight: CONTEXTUAL_MENU_ITEM_HEIGHT,
+                display: 'block',
+                cursor: 'pointer',
+                padding: '0px 8px 0 4px',
+                textAlign: 'left',
+            },
+        ],
+        rootDisabled: {
+            color: semanticColors.disabledBodyText,
+            cursor: 'default',
+            pointerEvents: 'none',
+            selectors: (_a = {},
+                _a[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ color: 'GrayText', opacity: 1 }, (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getHighContrastNoAdjustStyle)()),
+                _a),
+        },
+        rootHovered: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ backgroundColor: ContextualMenuItemBackgroundHoverColor, color: ContextualMenuItemTextHoverColor, selectors: {
+                '.ms-ContextualMenu-icon': {
+                    color: palette.themeDarkAlt,
+                },
+                '.ms-ContextualMenu-submenuIcon': {
+                    color: palette.neutralPrimary,
+                },
+            } }, getItemHighContrastStyles()),
+        rootFocused: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ backgroundColor: palette.white }, getItemHighContrastStyles()),
+        rootChecked: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ selectors: {
+                '.ms-ContextualMenu-checkmarkIcon': {
+                    color: palette.neutralPrimary,
+                },
+            } }, getItemHighContrastStyles()),
+        rootPressed: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ backgroundColor: ContextualMenuItemBackgroundSelectedColor, selectors: {
+                '.ms-ContextualMenu-icon': {
+                    color: palette.themeDark,
+                },
+                '.ms-ContextualMenu-submenuIcon': {
+                    color: palette.neutralPrimary,
+                },
+            } }, getItemHighContrastStyles()),
+        rootExpanded: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ backgroundColor: ContextualMenuItemBackgroundSelectedColor, color: semanticColors.bodyTextChecked }, getItemHighContrastStyles()),
+        linkContent: {
+            whiteSpace: 'nowrap',
+            height: 'inherit',
+            display: 'flex',
+            alignItems: 'center',
+            maxWidth: '100%',
+        },
+        anchorLink: {
+            padding: '0px 8px 0 4px',
+            textRendering: 'auto',
+            color: 'inherit',
+            letterSpacing: 'normal',
+            wordSpacing: 'normal',
+            textTransform: 'none',
+            textIndent: '0px',
+            textShadow: 'none',
+            textDecoration: 'none',
+            boxSizing: 'border-box',
+        },
+        label: {
+            margin: '0 4px',
+            verticalAlign: 'middle',
+            display: 'inline-block',
+            flexGrow: '1',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+        },
+        secondaryText: {
+            color: theme.palette.neutralSecondary,
+            paddingLeft: '20px',
+            textAlign: 'right',
+        },
+        icon: {
+            display: 'inline-block',
+            minHeight: '1px',
+            maxHeight: CONTEXTUAL_MENU_ITEM_HEIGHT,
+            fontSize: _Styling__WEBPACK_IMPORTED_MODULE_0__.IconFontSizes.medium,
+            width: _Styling__WEBPACK_IMPORTED_MODULE_0__.IconFontSizes.medium,
+            margin: '0 4px',
+            verticalAlign: 'middle',
+            flexShrink: '0',
+            selectors: (_b = {},
+                _b[MediumScreenSelector] = {
+                    fontSize: _Styling__WEBPACK_IMPORTED_MODULE_0__.IconFontSizes.large,
+                    width: _Styling__WEBPACK_IMPORTED_MODULE_0__.IconFontSizes.large,
+                },
+                _b),
+        },
+        iconColor: {
+            color: semanticColors.menuIcon,
+            selectors: (_c = {},
+                _c[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    color: 'inherit',
+                },
+                _c['$root:hover &'] = {
+                    selectors: (_d = {},
+                        _d[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                            color: 'HighlightText',
+                        },
+                        _d),
+                },
+                _c['$root:focus &'] = {
+                    selectors: (_e = {},
+                        _e[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                            color: 'HighlightText',
+                        },
+                        _e),
+                },
+                _c),
+        },
+        iconDisabled: {
+            color: semanticColors.disabledBodyText,
+        },
+        checkmarkIcon: {
+            color: semanticColors.bodySubtext,
+            selectors: (_f = {},
+                _f[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    color: 'HighlightText',
+                },
+                _f),
+        },
+        subMenuIcon: {
+            height: CONTEXTUAL_MENU_ITEM_HEIGHT,
+            lineHeight: CONTEXTUAL_MENU_ITEM_HEIGHT,
+            color: palette.neutralSecondary,
+            textAlign: 'center',
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            flexShrink: '0',
+            fontSize: _Styling__WEBPACK_IMPORTED_MODULE_0__.IconFontSizes.small,
+            selectors: (_g = {
+                    ':hover': {
+                        color: palette.neutralPrimary,
+                    },
+                    ':active': {
+                        color: palette.neutralPrimary,
+                    }
+                },
+                _g[MediumScreenSelector] = {
+                    fontSize: _Styling__WEBPACK_IMPORTED_MODULE_0__.IconFontSizes.medium,
+                },
+                _g[_Styling__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                    color: 'HighlightText',
+                },
+                _g),
+        },
+        splitButtonFlexContainer: [
+            (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getFocusStyle)(theme),
+            {
+                display: 'flex',
+                height: CONTEXTUAL_MENU_ITEM_HEIGHT,
+                flexWrap: 'nowrap',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+            },
+        ],
+    };
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.concatStyleSets)(menuItemStyles);
+});
+//# sourceMappingURL=ContextualMenu.cnstyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContextualMenu": () => (/* binding */ ContextualMenu)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _ContextualMenu_base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ContextualMenu.base */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.base.js");
+/* harmony import */ var _ContextualMenu_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContextualMenu.styles */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.styles.js");
+
+
+
+
+
+function onRenderSubMenu(subMenuProps) {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(LocalContextualMenu, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, subMenuProps));
+}
+// This is to prevent cyclic import with ContextualMenu.base.tsx.
+var LocalContextualMenu = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.styled)(_ContextualMenu_base__WEBPACK_IMPORTED_MODULE_3__.ContextualMenuBase, _ContextualMenu_styles__WEBPACK_IMPORTED_MODULE_4__.getStyles, function () { return ({ onRenderSubMenu: onRenderSubMenu }); }, { scope: 'ContextualMenu' });
+/**
+ * ContextualMenu description
+ */
+var ContextualMenu = LocalContextualMenu;
+ContextualMenu.displayName = 'ContextualMenu';
+//# sourceMappingURL=ContextualMenu.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.styles.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.styles.js ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _ContextualMenu_cnstyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContextualMenu.cnstyles */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.cnstyles.js");
+
+
+var GlobalClassNames = {
+    root: 'ms-ContextualMenu',
+    container: 'ms-ContextualMenu-container',
+    list: 'ms-ContextualMenu-list',
+    header: 'ms-ContextualMenu-header',
+    title: 'ms-ContextualMenu-title',
+    isopen: 'is-open',
+};
+var getStyles = function (props) {
+    var className = props.className, theme = props.theme;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    var fonts = theme.fonts, semanticColors = theme.semanticColors, effects = theme.effects;
+    return {
+        root: [
+            theme.fonts.medium,
+            classNames.root,
+            classNames.isopen,
+            {
+                backgroundColor: semanticColors.menuBackground,
+                minWidth: '180px',
+            },
+            className,
+        ],
+        container: [
+            classNames.container,
+            {
+                selectors: {
+                    ':focus': { outline: 0 },
+                },
+            },
+        ],
+        list: [
+            classNames.list,
+            classNames.isopen,
+            {
+                listStyleType: 'none',
+                margin: '0',
+                padding: '0',
+            },
+        ],
+        header: [
+            classNames.header,
+            fonts.small,
+            {
+                fontWeight: _Styling__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold,
+                color: semanticColors.menuHeader,
+                background: 'none',
+                backgroundColor: 'transparent',
+                border: 'none',
+                height: _ContextualMenu_cnstyles__WEBPACK_IMPORTED_MODULE_1__.CONTEXTUAL_MENU_ITEM_HEIGHT,
+                lineHeight: _ContextualMenu_cnstyles__WEBPACK_IMPORTED_MODULE_1__.CONTEXTUAL_MENU_ITEM_HEIGHT,
+                cursor: 'default',
+                padding: '0px 6px',
+                userSelect: 'none',
+                textAlign: 'left',
+            },
+        ],
+        title: [
+            classNames.title,
+            {
+                fontSize: fonts.mediumPlus.fontSize,
+                paddingRight: '14px',
+                paddingLeft: '14px',
+                paddingBottom: '5px',
+                paddingTop: '5px',
+                backgroundColor: semanticColors.menuItemBackgroundPressed,
+            },
+        ],
+        subComponentStyles: {
+            callout: {
+                root: {
+                    boxShadow: effects.elevation8,
+                },
+            },
+            menuItem: {},
+        },
+    };
+};
+//# sourceMappingURL=ContextualMenu.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.types.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.types.js ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DirectionalHint": () => (/* reexport safe */ _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint),
+/* harmony export */   "ContextualMenuItemType": () => (/* binding */ ContextualMenuItemType)
+/* harmony export */ });
+/* harmony import */ var _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common/DirectionalHint */ "./node_modules/@fluentui/react/lib/common/DirectionalHint.js");
+
+/**
+ * {@docCategory ContextualMenu}
+ */
+var ContextualMenuItemType;
+(function (ContextualMenuItemType) {
+    ContextualMenuItemType[ContextualMenuItemType["Normal"] = 0] = "Normal";
+    ContextualMenuItemType[ContextualMenuItemType["Divider"] = 1] = "Divider";
+    ContextualMenuItemType[ContextualMenuItemType["Header"] = 2] = "Header";
+    ContextualMenuItemType[ContextualMenuItemType["Section"] = 3] = "Section";
+})(ContextualMenuItemType || (ContextualMenuItemType = {}));
+//# sourceMappingURL=ContextualMenu.types.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.base.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.base.js ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContextualMenuItemBase": () => (/* binding */ ContextualMenuItemBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utilities/contextualMenu/index */ "./node_modules/@fluentui/react/lib/utilities/contextualMenu/contextualMenuUtility.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/initializeComponentRef.js");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Icon */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.js");
+
+
+
+
+
+var renderItemIcon = function (props) {
+    var item = props.item, hasIcons = props.hasIcons, classNames = props.classNames;
+    var iconProps = item.iconProps;
+    if (!hasIcons) {
+        return null;
+    }
+    if (item.onRenderIcon) {
+        return item.onRenderIcon(props);
+    }
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_1__.Icon, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, iconProps, { className: classNames.icon }));
+};
+var renderCheckMarkIcon = function (_a) {
+    var onCheckmarkClick = _a.onCheckmarkClick, item = _a.item, classNames = _a.classNames;
+    var isItemChecked = (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_3__.getIsChecked)(item);
+    if (onCheckmarkClick) {
+        // Ensures that the item is passed as the first argument to the checkmark click callback.
+        var onClick = function (e) { return onCheckmarkClick(item, e); };
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_1__.Icon, { iconName: item.canCheck !== false && isItemChecked ? 'CheckMark' : '', className: classNames.checkmarkIcon, 
+            // eslint-disable-next-line react/jsx-no-bind
+            onClick: onClick }));
+    }
+    return null;
+};
+var renderItemName = function (_a) {
+    var item = _a.item, classNames = _a.classNames;
+    /* eslint-disable deprecation/deprecation */
+    if (item.text || item.name) {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.label }, item.text || item.name);
+    }
+    /* eslint-enable deprecation/deprecation */
+    return null;
+};
+var renderSecondaryText = function (_a) {
+    var item = _a.item, classNames = _a.classNames;
+    if (item.secondaryText) {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.secondaryText }, item.secondaryText);
+    }
+    return null;
+};
+var renderSubMenuIcon = function (_a) {
+    var item = _a.item, classNames = _a.classNames, theme = _a.theme;
+    if ((0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_3__.hasSubmenu)(item)) {
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_1__.Icon, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ iconName: (0,_Utilities__WEBPACK_IMPORTED_MODULE_4__.getRTL)(theme) ? 'ChevronLeft' : 'ChevronRight' }, item.submenuIconProps, { className: classNames.subMenuIcon })));
+    }
+    return null;
+};
+var ContextualMenuItemBase = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__extends)(ContextualMenuItemBase, _super);
+    function ContextualMenuItemBase(props) {
+        var _this = _super.call(this, props) || this;
+        _this.openSubMenu = function () {
+            var _a = _this.props, item = _a.item, openSubMenu = _a.openSubMenu, getSubmenuTarget = _a.getSubmenuTarget;
+            if (getSubmenuTarget) {
+                var submenuTarget = getSubmenuTarget();
+                if ((0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_3__.hasSubmenu)(item) && openSubMenu && submenuTarget) {
+                    openSubMenu(item, submenuTarget);
+                }
+            }
+        };
+        _this.dismissSubMenu = function () {
+            var _a = _this.props, item = _a.item, dismissSubMenu = _a.dismissSubMenu;
+            if ((0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_3__.hasSubmenu)(item) && dismissSubMenu) {
+                dismissSubMenu();
+            }
+        };
+        _this.dismissMenu = function (dismissAll) {
+            var dismissMenu = _this.props.dismissMenu;
+            if (dismissMenu) {
+                dismissMenu(undefined /* ev */, dismissAll);
+            }
+        };
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.initializeComponentRef)(_this);
+        return _this;
+    }
+    ContextualMenuItemBase.prototype.render = function () {
+        var _a = this.props, item = _a.item, classNames = _a.classNames;
+        var renderContent = item.onRenderContent || this._renderLayout;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: item.split ? classNames.linkContentMenu : classNames.linkContent }, renderContent(this.props, {
+            renderCheckMarkIcon: renderCheckMarkIcon,
+            renderItemIcon: renderItemIcon,
+            renderItemName: renderItemName,
+            renderSecondaryText: renderSecondaryText,
+            renderSubMenuIcon: renderSubMenuIcon,
+        })));
+    };
+    ContextualMenuItemBase.prototype._renderLayout = function (props, defaultRenders) {
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+            defaultRenders.renderCheckMarkIcon(props),
+            defaultRenders.renderItemIcon(props),
+            defaultRenders.renderItemName(props),
+            defaultRenders.renderSecondaryText(props),
+            defaultRenders.renderSubMenuIcon(props)));
+    };
+    return ContextualMenuItemBase;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=ContextualMenuItem.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.js ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContextualMenuItem": () => (/* binding */ ContextualMenuItem)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _ContextualMenuItem_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContextualMenuItem.base */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.base.js");
+/* harmony import */ var _ContextualMenu_classNames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContextualMenu.classNames */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.classNames.js");
+
+
+
+/**
+ * ContextualMenuItem description
+ */
+var ContextualMenuItem = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_ContextualMenuItem_base__WEBPACK_IMPORTED_MODULE_1__.ContextualMenuItemBase, _ContextualMenu_classNames__WEBPACK_IMPORTED_MODULE_2__.getItemStyles, undefined, { scope: 'ContextualMenuItem' });
+//# sourceMappingURL=ContextualMenuItem.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuAnchor.js":
+/*!**********************************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuAnchor.js ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContextualMenuAnchor": () => (/* binding */ ContextualMenuAnchor)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/getId.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/aria.js");
+/* harmony import */ var _ContextualMenuItemWrapper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ContextualMenuItemWrapper */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuItemWrapper.js");
+/* harmony import */ var _KeytipData__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../KeytipData */ "./node_modules/@fluentui/react/lib/components/KeytipData/KeytipData.js");
+/* harmony import */ var _utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../utilities/contextualMenu/index */ "./node_modules/@fluentui/react/lib/utilities/contextualMenu/contextualMenuUtility.js");
+/* harmony import */ var _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ContextualMenuItem */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.js");
+
+
+
+
+
+
+
+var ContextualMenuAnchor = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(ContextualMenuAnchor, _super);
+    function ContextualMenuAnchor() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._anchor = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
+        _this._getMemoizedMenuButtonKeytipProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.memoizeFunction)(function (keytipProps) {
+            return (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, keytipProps), { hasMenu: true });
+        });
+        _this._getSubmenuTarget = function () {
+            return _this._anchor.current ? _this._anchor.current : undefined;
+        };
+        _this._onItemClick = function (ev) {
+            var _a = _this.props, item = _a.item, onItemClick = _a.onItemClick;
+            if (onItemClick) {
+                onItemClick(item, ev);
+            }
+        };
+        _this._renderAriaDescription = function (ariaDescription, className) {
+            // If ariaDescription is given, descriptionId will be assigned to ariaDescriptionSpan
+            return ariaDescription ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { id: _this._ariaDescriptionId, className: className }, ariaDescription)) : null;
+        };
+        return _this;
+    }
+    ContextualMenuAnchor.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, item = _a.item, classNames = _a.classNames, index = _a.index, focusableElementIndex = _a.focusableElementIndex, totalItemCount = _a.totalItemCount, hasCheckmarks = _a.hasCheckmarks, hasIcons = _a.hasIcons, _b = _a.contextualMenuItemAs, ChildrenRenderer = _b === void 0 ? _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_3__.ContextualMenuItem : _b, expandedMenuItemKey = _a.expandedMenuItemKey, onItemClick = _a.onItemClick, openSubMenu = _a.openSubMenu, dismissSubMenu = _a.dismissSubMenu, dismissMenu = _a.dismissMenu;
+        var anchorRel = item.rel;
+        if (item.target && item.target.toLowerCase() === '_blank') {
+            anchorRel = anchorRel ? anchorRel : 'nofollow noopener noreferrer'; // Safe default to prevent tabjacking
+        }
+        var itemHasSubmenu = (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.hasSubmenu)(item);
+        var nativeProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.getNativeProps)(item, _Utilities__WEBPACK_IMPORTED_MODULE_5__.anchorProperties);
+        var disabled = (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.isItemDisabled)(item);
+        var itemProps = item.itemProps, ariaDescription = item.ariaDescription;
+        var keytipProps = item.keytipProps;
+        if (keytipProps && itemHasSubmenu) {
+            keytipProps = this._getMemoizedMenuButtonKeytipProps(keytipProps);
+        }
+        // Check for ariaDescription to set the _ariaDescriptionId and render a hidden span with
+        // the description in it to be added to ariaDescribedBy
+        if (ariaDescription) {
+            this._ariaDescriptionId = (0,_Utilities__WEBPACK_IMPORTED_MODULE_6__.getId)();
+        }
+        var ariaDescribedByIds = (0,_Utilities__WEBPACK_IMPORTED_MODULE_7__.mergeAriaAttributeValues)(item.ariaDescribedBy, ariaDescription ? this._ariaDescriptionId : undefined, nativeProps['aria-describedby']);
+        var additionalItemProperties = {
+            'aria-describedby': ariaDescribedByIds,
+        };
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_KeytipData__WEBPACK_IMPORTED_MODULE_8__.KeytipData, { keytipProps: item.keytipProps, ariaDescribedBy: ariaDescribedByIds, disabled: disabled }, function (keytipAttributes) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, additionalItemProperties, nativeProps, keytipAttributes, { ref: _this._anchor, href: item.href, target: item.target, rel: anchorRel, className: classNames.root, role: "menuitem", "aria-haspopup": itemHasSubmenu || undefined, "aria-expanded": itemHasSubmenu ? item.key === expandedMenuItemKey : undefined, "aria-posinset": focusableElementIndex + 1, "aria-setsize": totalItemCount, "aria-disabled": (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.isItemDisabled)(item), 
+                // eslint-disable-next-line deprecation/deprecation
+                style: item.style, onClick: _this._onItemClick, onMouseEnter: _this._onItemMouseEnter, onMouseLeave: _this._onItemMouseLeave, onMouseMove: _this._onItemMouseMove, onKeyDown: itemHasSubmenu ? _this._onItemKeyDown : undefined }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChildrenRenderer, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ componentRef: item.componentRef, item: item, classNames: classNames, index: index, onCheckmarkClick: hasCheckmarks && onItemClick ? onItemClick : undefined, hasIcons: hasIcons, openSubMenu: openSubMenu, dismissSubMenu: dismissSubMenu, dismissMenu: dismissMenu, getSubmenuTarget: _this._getSubmenuTarget }, itemProps)),
+                _this._renderAriaDescription(ariaDescription, classNames.screenReaderText))); })));
+    };
+    return ContextualMenuAnchor;
+}(_ContextualMenuItemWrapper__WEBPACK_IMPORTED_MODULE_9__.ContextualMenuItemWrapper));
+
+//# sourceMappingURL=ContextualMenuAnchor.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuButton.js":
+/*!**********************************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuButton.js ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContextualMenuButton": () => (/* binding */ ContextualMenuButton)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/getId.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/aria.js");
+/* harmony import */ var _ContextualMenuItemWrapper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ContextualMenuItemWrapper */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuItemWrapper.js");
+/* harmony import */ var _KeytipData__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../KeytipData */ "./node_modules/@fluentui/react/lib/components/KeytipData/KeytipData.js");
+/* harmony import */ var _utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../utilities/contextualMenu/index */ "./node_modules/@fluentui/react/lib/utilities/contextualMenu/contextualMenuUtility.js");
+/* harmony import */ var _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ContextualMenuItem */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.js");
+
+
+
+
+
+
+
+var ContextualMenuButton = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(ContextualMenuButton, _super);
+    function ContextualMenuButton() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._btn = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
+        _this._getMemoizedMenuButtonKeytipProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.memoizeFunction)(function (keytipProps) {
+            return (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, keytipProps), { hasMenu: true });
+        });
+        _this._renderAriaDescription = function (ariaDescription, className) {
+            // If ariaDescription is given, descriptionId will be assigned to ariaDescriptionSpan
+            return ariaDescription ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { id: _this._ariaDescriptionId, className: className }, ariaDescription)) : null;
+        };
+        _this._getSubmenuTarget = function () {
+            return _this._btn.current ? _this._btn.current : undefined;
+        };
+        return _this;
+    }
+    ContextualMenuButton.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, item = _a.item, classNames = _a.classNames, index = _a.index, focusableElementIndex = _a.focusableElementIndex, totalItemCount = _a.totalItemCount, hasCheckmarks = _a.hasCheckmarks, hasIcons = _a.hasIcons, _b = _a.contextualMenuItemAs, ChildrenRenderer = _b === void 0 ? _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_3__.ContextualMenuItem : _b, expandedMenuItemKey = _a.expandedMenuItemKey, onItemMouseDown = _a.onItemMouseDown, onItemClick = _a.onItemClick, openSubMenu = _a.openSubMenu, dismissSubMenu = _a.dismissSubMenu, dismissMenu = _a.dismissMenu;
+        var isChecked = (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.getIsChecked)(item);
+        var canCheck = isChecked !== null;
+        var defaultRole = (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.getMenuItemAriaRole)(item);
+        var itemHasSubmenu = (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.hasSubmenu)(item);
+        var itemProps = item.itemProps, ariaLabel = item.ariaLabel, ariaDescription = item.ariaDescription;
+        var buttonNativeProperties = (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.getNativeProps)(item, _Utilities__WEBPACK_IMPORTED_MODULE_5__.buttonProperties);
+        // Do not add the disabled attribute to the button so that it is focusable
+        delete buttonNativeProperties.disabled;
+        var itemRole = item.role || defaultRole;
+        // Check for ariaDescription to set the _ariaDescriptionId and render a hidden span with
+        // the description in it to be added to ariaDescribedBy
+        if (ariaDescription) {
+            this._ariaDescriptionId = (0,_Utilities__WEBPACK_IMPORTED_MODULE_6__.getId)();
+        }
+        var ariaDescribedByIds = (0,_Utilities__WEBPACK_IMPORTED_MODULE_7__.mergeAriaAttributeValues)(item.ariaDescribedBy, ariaDescription ? this._ariaDescriptionId : undefined, buttonNativeProperties['aria-describedby']);
+        var itemButtonProperties = {
+            className: classNames.root,
+            onClick: this._onItemClick,
+            onKeyDown: itemHasSubmenu ? this._onItemKeyDown : undefined,
+            onMouseEnter: this._onItemMouseEnter,
+            onMouseLeave: this._onItemMouseLeave,
+            onMouseDown: function (ev) {
+                return onItemMouseDown ? onItemMouseDown(item, ev) : undefined;
+            },
+            onMouseMove: this._onItemMouseMove,
+            href: item.href,
+            title: item.title,
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedByIds,
+            'aria-haspopup': itemHasSubmenu || undefined,
+            'aria-expanded': itemHasSubmenu ? item.key === expandedMenuItemKey : undefined,
+            'aria-posinset': focusableElementIndex + 1,
+            'aria-setsize': totalItemCount,
+            'aria-disabled': (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.isItemDisabled)(item),
+            'aria-checked': (itemRole === 'menuitemcheckbox' || itemRole === 'menuitemradio') && canCheck ? !!isChecked : undefined,
+            'aria-selected': itemRole === 'menuitem' && canCheck ? !!isChecked : undefined,
+            role: itemRole,
+            // eslint-disable-next-line deprecation/deprecation
+            style: item.style,
+        };
+        var keytipProps = item.keytipProps;
+        if (keytipProps && itemHasSubmenu) {
+            keytipProps = this._getMemoizedMenuButtonKeytipProps(keytipProps);
+        }
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_KeytipData__WEBPACK_IMPORTED_MODULE_8__.KeytipData, { keytipProps: keytipProps, ariaDescribedBy: ariaDescribedByIds, disabled: (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_4__.isItemDisabled)(item) }, function (keytipAttributes) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ ref: _this._btn }, buttonNativeProperties, itemButtonProperties, keytipAttributes),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChildrenRenderer, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ componentRef: item.componentRef, item: item, classNames: classNames, index: index, onCheckmarkClick: hasCheckmarks && onItemClick ? onItemClick : undefined, hasIcons: hasIcons, openSubMenu: openSubMenu, dismissSubMenu: dismissSubMenu, dismissMenu: dismissMenu, getSubmenuTarget: _this._getSubmenuTarget }, itemProps)),
+            _this._renderAriaDescription(ariaDescription, classNames.screenReaderText))); }));
+    };
+    return ContextualMenuButton;
+}(_ContextualMenuItemWrapper__WEBPACK_IMPORTED_MODULE_9__.ContextualMenuItemWrapper));
+
+//# sourceMappingURL=ContextualMenuButton.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuItemWrapper.js":
+/*!***************************************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuItemWrapper.js ***!
+  \***************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContextualMenuItemWrapper": () => (/* binding */ ContextualMenuItemWrapper)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/initializeComponentRef.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/object.js");
+
+
+
+var ContextualMenuItemWrapper = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(ContextualMenuItemWrapper, _super);
+    function ContextualMenuItemWrapper(props) {
+        var _this = _super.call(this, props) || this;
+        _this._onItemMouseEnter = function (ev) {
+            var _a = _this.props, item = _a.item, onItemMouseEnter = _a.onItemMouseEnter;
+            if (onItemMouseEnter) {
+                onItemMouseEnter(item, ev, ev.currentTarget);
+            }
+        };
+        _this._onItemClick = function (ev) {
+            var _a = _this.props, item = _a.item, onItemClickBase = _a.onItemClickBase;
+            if (onItemClickBase) {
+                onItemClickBase(item, ev, ev.currentTarget);
+            }
+        };
+        _this._onItemMouseLeave = function (ev) {
+            var _a = _this.props, item = _a.item, onItemMouseLeave = _a.onItemMouseLeave;
+            if (onItemMouseLeave) {
+                onItemMouseLeave(item, ev);
+            }
+        };
+        _this._onItemKeyDown = function (ev) {
+            var _a = _this.props, item = _a.item, onItemKeyDown = _a.onItemKeyDown;
+            if (onItemKeyDown) {
+                onItemKeyDown(item, ev);
+            }
+        };
+        _this._onItemMouseMove = function (ev) {
+            var _a = _this.props, item = _a.item, onItemMouseMove = _a.onItemMouseMove;
+            if (onItemMouseMove) {
+                onItemMouseMove(item, ev, ev.currentTarget);
+            }
+        };
+        _this._getSubmenuTarget = function () {
+            return undefined;
+        };
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.initializeComponentRef)(_this);
+        return _this;
+    }
+    ContextualMenuItemWrapper.prototype.shouldComponentUpdate = function (newProps) {
+        return !(0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.shallowCompare)(newProps, this.props);
+    };
+    return ContextualMenuItemWrapper;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=ContextualMenuItemWrapper.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuSplitButton.js":
+/*!***************************************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuSplitButton.js ***!
+  \***************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContextualMenuSplitButton": () => (/* binding */ ContextualMenuSplitButton)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/Async.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/EventGroup.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/getId.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/aria.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../ContextualMenuItem */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItem.js");
+/* harmony import */ var _ContextualMenu_classNames__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ContextualMenu.classNames */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenu.classNames.js");
+/* harmony import */ var _KeytipData__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../KeytipData */ "./node_modules/@fluentui/react/lib/components/KeytipData/KeytipData.js");
+/* harmony import */ var _utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../utilities/contextualMenu/index */ "./node_modules/@fluentui/react/lib/utilities/contextualMenu/contextualMenuUtility.js");
+/* harmony import */ var _Divider__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../Divider */ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.js");
+/* harmony import */ var _ContextualMenuItemWrapper__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ContextualMenuItemWrapper */ "./node_modules/@fluentui/react/lib/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuItemWrapper.js");
+
+
+
+
+
+
+
+
+
+var TouchIdleDelay = 500; /* ms */
+var ContextualMenuSplitButton = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(ContextualMenuSplitButton, _super);
+    function ContextualMenuSplitButton(props) {
+        var _this = _super.call(this, props) || this;
+        _this._getMemoizedMenuButtonKeytipProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.memoizeFunction)(function (keytipProps) {
+            return (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, keytipProps), { hasMenu: true });
+        });
+        _this._onItemKeyDown = function (ev) {
+            var _a = _this.props, item = _a.item, onItemKeyDown = _a.onItemKeyDown;
+            // eslint-disable-next-line deprecation/deprecation
+            if (ev.which === _Utilities__WEBPACK_IMPORTED_MODULE_3__.KeyCodes.enter) {
+                _this._executeItemClick(ev);
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
+            else if (onItemKeyDown) {
+                onItemKeyDown(item, ev);
+            }
+        };
+        _this._getSubmenuTarget = function () {
+            return _this._splitButton;
+        };
+        _this._renderAriaDescription = function (ariaDescription, className) {
+            // If ariaDescription is given, descriptionId will be assigned to ariaDescriptionSpan
+            return ariaDescription ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { id: _this._ariaDescriptionId, className: className }, ariaDescription)) : null;
+        };
+        _this._onItemMouseEnterPrimary = function (ev) {
+            var _a = _this.props, item = _a.item, onItemMouseEnter = _a.onItemMouseEnter;
+            if (onItemMouseEnter) {
+                onItemMouseEnter((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, item), { subMenuProps: undefined, items: undefined }), ev, _this._splitButton);
+            }
+        };
+        _this._onItemMouseEnterIcon = function (ev) {
+            var _a = _this.props, item = _a.item, onItemMouseEnter = _a.onItemMouseEnter;
+            if (onItemMouseEnter) {
+                onItemMouseEnter(item, ev, _this._splitButton);
+            }
+        };
+        _this._onItemMouseMovePrimary = function (ev) {
+            var _a = _this.props, item = _a.item, onItemMouseMove = _a.onItemMouseMove;
+            if (onItemMouseMove) {
+                onItemMouseMove((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, item), { subMenuProps: undefined, items: undefined }), ev, _this._splitButton);
+            }
+        };
+        _this._onItemMouseMoveIcon = function (ev) {
+            var _a = _this.props, item = _a.item, onItemMouseMove = _a.onItemMouseMove;
+            if (onItemMouseMove) {
+                onItemMouseMove(item, ev, _this._splitButton);
+            }
+        };
+        _this._onIconItemClick = function (ev) {
+            var _a = _this.props, item = _a.item, onItemClickBase = _a.onItemClickBase;
+            if (onItemClickBase) {
+                onItemClickBase(item, ev, (_this._splitButton ? _this._splitButton : ev.currentTarget));
+            }
+        };
+        _this._executeItemClick = function (ev) {
+            var _a = _this.props, item = _a.item, executeItemClick = _a.executeItemClick, onItemClick = _a.onItemClick;
+            if (item.disabled || item.isDisabled) {
+                return;
+            }
+            if (_this._processingTouch && onItemClick) {
+                return onItemClick(item, ev);
+            }
+            if (executeItemClick) {
+                executeItemClick(item, ev);
+            }
+        };
+        _this._onTouchStart = function (ev) {
+            if (_this._splitButton && !('onpointerdown' in _this._splitButton)) {
+                _this._handleTouchAndPointerEvent(ev);
+            }
+        };
+        _this._onPointerDown = function (ev) {
+            if (ev.pointerType === 'touch') {
+                _this._handleTouchAndPointerEvent(ev);
+                ev.preventDefault();
+                ev.stopImmediatePropagation();
+            }
+        };
+        _this._async = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Async(_this);
+        _this._events = new _Utilities__WEBPACK_IMPORTED_MODULE_5__.EventGroup(_this);
+        return _this;
+    }
+    ContextualMenuSplitButton.prototype.componentDidMount = function () {
+        if (this._splitButton && 'onpointerdown' in this._splitButton) {
+            this._events.on(this._splitButton, 'pointerdown', this._onPointerDown, true);
+        }
+    };
+    ContextualMenuSplitButton.prototype.componentWillUnmount = function () {
+        this._async.dispose();
+        this._events.dispose();
+    };
+    ContextualMenuSplitButton.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, item = _a.item, classNames = _a.classNames, index = _a.index, focusableElementIndex = _a.focusableElementIndex, totalItemCount = _a.totalItemCount, hasCheckmarks = _a.hasCheckmarks, hasIcons = _a.hasIcons, onItemMouseLeave = _a.onItemMouseLeave, expandedMenuItemKey = _a.expandedMenuItemKey;
+        var itemHasSubmenu = (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_6__.hasSubmenu)(item);
+        var keytipProps = item.keytipProps;
+        if (keytipProps) {
+            keytipProps = this._getMemoizedMenuButtonKeytipProps(keytipProps);
+        }
+        // Check for ariaDescription to set the _ariaDescriptionId and render a hidden span with
+        // the description in it to be added to ariaDescribedBy
+        var ariaDescription = item.ariaDescription;
+        if (ariaDescription) {
+            this._ariaDescriptionId = (0,_Utilities__WEBPACK_IMPORTED_MODULE_7__.getId)();
+        }
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_KeytipData__WEBPACK_IMPORTED_MODULE_8__.KeytipData, { keytipProps: keytipProps, disabled: (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_6__.isItemDisabled)(item) }, function (keytipAttributes) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { "data-ktp-target": keytipAttributes['data-ktp-target'], ref: function (splitButton) { return (_this._splitButton = splitButton); }, role: (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_6__.getMenuItemAriaRole)(item), "aria-label": item.ariaLabel, className: classNames.splitContainer, "aria-disabled": (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_6__.isItemDisabled)(item), "aria-expanded": itemHasSubmenu ? item.key === expandedMenuItemKey : undefined, "aria-haspopup": true, "aria-describedby": (0,_Utilities__WEBPACK_IMPORTED_MODULE_9__.mergeAriaAttributeValues)(item.ariaDescribedBy, ariaDescription ? _this._ariaDescriptionId : undefined, keytipAttributes['aria-describedby']), "aria-checked": item.isChecked || item.checked, "aria-posinset": focusableElementIndex + 1, "aria-setsize": totalItemCount, onMouseEnter: _this._onItemMouseEnterPrimary, onMouseLeave: onItemMouseLeave ? onItemMouseLeave.bind(_this, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, item), { subMenuProps: null, items: null })) : undefined, onMouseMove: _this._onItemMouseMovePrimary, onKeyDown: _this._onItemKeyDown, onClick: _this._executeItemClick, onTouchStart: _this._onTouchStart, tabIndex: 0, "data-is-focusable": true, "aria-roledescription": item['aria-roledescription'] },
+            _this._renderSplitPrimaryButton(item, classNames, index, hasCheckmarks, hasIcons),
+            _this._renderSplitDivider(item),
+            _this._renderSplitIconButton(item, classNames, index, keytipAttributes),
+            _this._renderAriaDescription(ariaDescription, classNames.screenReaderText))); }));
+    };
+    ContextualMenuSplitButton.prototype._renderSplitPrimaryButton = function (item, 
+    // eslint-disable-next-line deprecation/deprecation
+    classNames, index, hasCheckmarks, hasIcons) {
+        var _a = this.props, _b = _a.contextualMenuItemAs, ChildrenRenderer = _b === void 0 ? _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_10__.ContextualMenuItem : _b, onItemClick = _a.onItemClick;
+        var itemProps = {
+            key: item.key,
+            disabled: (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_6__.isItemDisabled)(item) || item.primaryDisabled,
+            /* eslint-disable deprecation/deprecation */
+            name: item.name,
+            text: item.text || item.name,
+            secondaryText: item.secondaryText,
+            /* eslint-enable deprecation/deprecation */
+            className: classNames.splitPrimary,
+            canCheck: item.canCheck,
+            isChecked: item.isChecked,
+            checked: item.checked,
+            iconProps: item.iconProps,
+            onRenderIcon: item.onRenderIcon,
+            data: item.data,
+            'data-is-focusable': false,
+        };
+        var itemComponentProps = item.itemProps;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, (0,_Utilities__WEBPACK_IMPORTED_MODULE_11__.getNativeProps)(itemProps, _Utilities__WEBPACK_IMPORTED_MODULE_11__.buttonProperties)),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChildrenRenderer, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ "data-is-focusable": false, item: itemProps, classNames: classNames, index: index, onCheckmarkClick: hasCheckmarks && onItemClick ? onItemClick : undefined, hasIcons: hasIcons }, itemComponentProps))));
+    };
+    ContextualMenuSplitButton.prototype._renderSplitDivider = function (item) {
+        var getDividerClassNames = item.getSplitButtonVerticalDividerClassNames || _ContextualMenu_classNames__WEBPACK_IMPORTED_MODULE_12__.getSplitButtonVerticalDividerClassNames;
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Divider__WEBPACK_IMPORTED_MODULE_13__.VerticalDivider, { getClassNames: getDividerClassNames });
+    };
+    ContextualMenuSplitButton.prototype._renderSplitIconButton = function (item, classNames, // eslint-disable-line deprecation/deprecation
+    index, keytipAttributes) {
+        var _a = this.props, _b = _a.contextualMenuItemAs, ChildrenRenderer = _b === void 0 ? _ContextualMenuItem__WEBPACK_IMPORTED_MODULE_10__.ContextualMenuItem : _b, onItemMouseLeave = _a.onItemMouseLeave, onItemMouseDown = _a.onItemMouseDown, openSubMenu = _a.openSubMenu, dismissSubMenu = _a.dismissSubMenu, dismissMenu = _a.dismissMenu;
+        var itemProps = {
+            onClick: this._onIconItemClick,
+            disabled: (0,_utilities_contextualMenu_index__WEBPACK_IMPORTED_MODULE_6__.isItemDisabled)(item),
+            className: classNames.splitMenu,
+            subMenuProps: item.subMenuProps,
+            submenuIconProps: item.submenuIconProps,
+            split: true,
+            key: item.key,
+        };
+        var buttonProps = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, (0,_Utilities__WEBPACK_IMPORTED_MODULE_11__.getNativeProps)(itemProps, _Utilities__WEBPACK_IMPORTED_MODULE_11__.buttonProperties)), {
+            onMouseEnter: this._onItemMouseEnterIcon,
+            onMouseLeave: onItemMouseLeave ? onItemMouseLeave.bind(this, item) : undefined,
+            onMouseDown: function (ev) {
+                return onItemMouseDown ? onItemMouseDown(item, ev) : undefined;
+            },
+            onMouseMove: this._onItemMouseMoveIcon,
+            'data-is-focusable': false,
+            'data-ktp-execute-target': keytipAttributes['data-ktp-execute-target'],
+            'aria-hidden': true,
+        });
+        var itemComponentProps = item.itemProps;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, buttonProps),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(ChildrenRenderer, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ componentRef: item.componentRef, item: itemProps, classNames: classNames, index: index, hasIcons: false, openSubMenu: openSubMenu, dismissSubMenu: dismissSubMenu, dismissMenu: dismissMenu, getSubmenuTarget: this._getSubmenuTarget }, itemComponentProps))));
+    };
+    ContextualMenuSplitButton.prototype._handleTouchAndPointerEvent = function (ev) {
+        var _this = this;
+        var onTap = this.props.onTap;
+        if (onTap) {
+            onTap(ev);
+        }
+        // If we already have an existing timeout from a previous touch/pointer event
+        // cancel that timeout so we can set a new one.
+        if (this._lastTouchTimeoutId) {
+            this._async.clearTimeout(this._lastTouchTimeoutId);
+            this._lastTouchTimeoutId = undefined;
+        }
+        this._processingTouch = true;
+        this._lastTouchTimeoutId = this._async.setTimeout(function () {
+            _this._processingTouch = false;
+            _this._lastTouchTimeoutId = undefined;
+        }, TouchIdleDelay);
+    };
+    return ContextualMenuSplitButton;
+}(_ContextualMenuItemWrapper__WEBPACK_IMPORTED_MODULE_14__.ContextualMenuItemWrapper));
+
+//# sourceMappingURL=ContextualMenuSplitButton.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.base.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.base.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "VerticalDividerBase": () => (/* binding */ VerticalDividerBase)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+
+
+var getClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.classNamesFunction)();
+var VerticalDividerBase = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, ref) {
+    // eslint-disable-next-line deprecation/deprecation
+    var styles = props.styles, theme = props.theme, deprecatedGetClassNames = props.getClassNames, className = props.className;
+    var classNames = getClassNames(styles, { theme: theme, getClassNames: deprecatedGetClassNames, className: className });
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.wrapper, ref: ref },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.divider })));
+});
+VerticalDividerBase.displayName = 'VerticalDividerBase';
+//# sourceMappingURL=VerticalDivider.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.classNames.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.classNames.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getDividerClassNames": () => (/* binding */ getDividerClassNames)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+
+/**
+ * @deprecated use getStyles exported from VerticalDivider.styles.ts
+ */
+var getDividerClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(
+// eslint-disable-next-line deprecation/deprecation
+function (theme) {
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_1__.mergeStyleSets)({
+        wrapper: {
+            display: 'inline-flex',
+            height: '100%',
+            alignItems: 'center',
+        },
+        divider: {
+            width: 1,
+            height: '100%',
+            backgroundColor: theme.palette.neutralTertiaryAlt,
+        },
+    });
+});
+//# sourceMappingURL=VerticalDivider.classNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "VerticalDivider": () => (/* binding */ VerticalDivider)
+/* harmony export */ });
+/* harmony import */ var _VerticalDivider_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./VerticalDivider.styles */ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.styles.js");
+/* harmony import */ var _VerticalDivider_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VerticalDivider.base */ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.base.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+
+
+
+var VerticalDivider = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_VerticalDivider_base__WEBPACK_IMPORTED_MODULE_1__.VerticalDividerBase, _VerticalDivider_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles, undefined, {
+    scope: 'VerticalDivider',
+});
+//# sourceMappingURL=VerticalDivider.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.styles.js":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Divider/VerticalDivider.styles.js ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+var getStyles = function (props) {
+    // eslint-disable-next-line deprecation/deprecation
+    var theme = props.theme, getClassNames = props.getClassNames, className = props.className;
+    if (!theme) {
+        throw new Error('Theme is undefined or null.');
+    }
+    if (getClassNames) {
+        var names = getClassNames(theme);
+        return {
+            wrapper: [names.wrapper],
+            divider: [names.divider],
+        };
+    }
+    return {
+        wrapper: [
+            {
+                display: 'inline-flex',
+                height: '100%',
+                alignItems: 'center',
+            },
+            className,
+        ],
+        divider: [
+            {
+                width: 1,
+                height: '100%',
+                backgroundColor: theme.palette.neutralTertiaryAlt,
+            },
+        ],
+    };
+};
+//# sourceMappingURL=VerticalDivider.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Fabric/Fabric.base.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Fabric/Fabric.base.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FabricBase": () => (/* binding */ FabricBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/useFocusRects.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/customizations/Customizer.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js");
+
+
+
+
+
+var getClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.classNamesFunction)();
+var getFabricTheme = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.memoizeFunction)(function (theme, isRTL) { return (0,_Styling__WEBPACK_IMPORTED_MODULE_3__.createTheme)((0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)({}, theme), { rtl: isRTL })); });
+var getDir = function (_a) {
+    var theme = _a.theme, dir = _a.dir;
+    var contextDir = (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.getRTL)(theme) ? 'rtl' : 'ltr';
+    var pageDir = (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.getRTL)() ? 'rtl' : 'ltr';
+    var componentDir = dir ? dir : contextDir;
+    return {
+        // If Fabric dir !== contextDir
+        // Or If contextDir !== pageDir
+        // Then we need to set dir of the Fabric root
+        rootDir: componentDir !== contextDir || componentDir !== pageDir ? componentDir : dir,
+        // If dir !== contextDir || pageDir
+        // then set contextual theme around content
+        needsTheme: componentDir !== contextDir,
+    };
+};
+var FabricBase = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, ref) {
+    var className = props.className, theme = props.theme, applyTheme = props.applyTheme, applyThemeToBody = props.applyThemeToBody, styles = props.styles;
+    var classNames = getClassNames(styles, {
+        theme: theme,
+        applyTheme: applyTheme,
+        className: className,
+    });
+    var rootElement = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    useApplyThemeToBody(applyThemeToBody, classNames, rootElement);
+    (0,_Utilities__WEBPACK_IMPORTED_MODULE_6__.useFocusRects)(rootElement);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, useRenderedContent(props, classNames, rootElement, ref));
+});
+FabricBase.displayName = 'FabricBase';
+function useRenderedContent(props, _a, rootElement, ref) {
+    var root = _a.root;
+    var _b = props.as, Root = _b === void 0 ? 'div' : _b, dir = props.dir, theme = props.theme;
+    var divProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_7__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_7__.divProperties, ['dir']);
+    var _c = getDir(props), rootDir = _c.rootDir, needsTheme = _c.needsTheme;
+    var renderedContent = react__WEBPACK_IMPORTED_MODULE_0__.createElement(Root, (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)({ dir: rootDir }, divProps, { className: root, ref: (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_8__.useMergedRefs)(rootElement, ref) }));
+    // Create the contextual theme if component direction does not match parent direction.
+    if (needsTheme) {
+        // Disabling ThemeProvider here because theme doesn't need to be re-provided by ThemeProvider if dir has changed.
+        renderedContent = (
+        // eslint-disable-next-line deprecation/deprecation
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Utilities__WEBPACK_IMPORTED_MODULE_9__.Customizer, { settings: { theme: getFabricTheme(theme, dir === 'rtl') } }, renderedContent));
+    }
+    return renderedContent;
+}
+function useApplyThemeToBody(applyThemeToBody, _a, rootElement) {
+    var bodyThemed = _a.bodyThemed;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (applyThemeToBody) {
+            var currentDoc_1 = (0,_Utilities__WEBPACK_IMPORTED_MODULE_10__.getDocument)(rootElement.current);
+            if (currentDoc_1) {
+                currentDoc_1.body.classList.add(bodyThemed);
+                return function () {
+                    currentDoc_1.body.classList.remove(bodyThemed);
+                };
+            }
+        }
+    }, [bodyThemed, applyThemeToBody, rootElement]);
+    return rootElement;
+}
+//# sourceMappingURL=Fabric.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Fabric/Fabric.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Fabric/Fabric.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Fabric": () => (/* binding */ Fabric)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _Fabric_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Fabric.base */ "./node_modules/@fluentui/react/lib/components/Fabric/Fabric.base.js");
+/* harmony import */ var _Fabric_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Fabric.styles */ "./node_modules/@fluentui/react/lib/components/Fabric/Fabric.styles.js");
+
+
+
+/**
+ * @deprecated This component is deprecated as of `@fluentui/react` version 8. Use `ThemeProvider` instead.
+ */
+var Fabric = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_Fabric_base__WEBPACK_IMPORTED_MODULE_1__.FabricBase, _Fabric_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles, undefined, {
+    scope: 'Fabric',
+});
+//# sourceMappingURL=Fabric.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Fabric/Fabric.styles.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Fabric/Fabric.styles.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+var inheritFont = { fontFamily: 'inherit' };
+var GlobalClassNames = {
+    root: 'ms-Fabric',
+    bodyThemed: 'ms-Fabric-bodyThemed',
+};
+var getStyles = function (props) {
+    var theme = props.theme, className = props.className, applyTheme = props.applyTheme;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    return {
+        root: [
+            classNames.root,
+            theme.fonts.medium,
+            {
+                color: theme.palette.neutralPrimary,
+                selectors: {
+                    '& button': inheritFont,
+                    '& input': inheritFont,
+                    '& textarea': inheritFont,
+                },
+            },
+            // apply theme to only if applyTheme is true
+            applyTheme && {
+                color: theme.semanticColors.bodyText,
+                backgroundColor: theme.semanticColors.bodyBackground,
+            },
+            className,
+        ],
+        bodyThemed: [
+            {
+                backgroundColor: theme.semanticColors.bodyBackground,
+            },
+        ],
+    };
+};
+//# sourceMappingURL=Fabric.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Icon/FontIcon.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Icon/FontIcon.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getIconContent": () => (/* binding */ getIconContent),
+/* harmony export */   "FontIcon": () => (/* binding */ FontIcon),
+/* harmony export */   "getFontIcon": () => (/* binding */ getFontIcon)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Icon_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Icon.styles */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.styles.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/css.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+
+
+
+
+var getIconContent = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.memoizeFunction)(function (iconName) {
+    var _a = (0,_Styling__WEBPACK_IMPORTED_MODULE_2__.getIcon)(iconName) || {
+        subset: {},
+        code: undefined,
+    }, code = _a.code, subset = _a.subset;
+    if (!code) {
+        return null;
+    }
+    return {
+        children: code,
+        iconClassName: subset.className,
+        fontFamily: subset.fontFace && subset.fontFace.fontFamily,
+        mergeImageProps: subset.mergeImageProps,
+    };
+}, undefined, true /*ignoreNullOrUndefinedResult */);
+/**
+ * Fast icon component which only supports font glyphs (not images) and can't be targeted by customizations.
+ * To style the icon, use `className` or reference `ms-Icon` in CSS.
+ * {@docCategory Icon}
+ */
+var FontIcon = function (props) {
+    var iconName = props.iconName, className = props.className, _a = props.style, style = _a === void 0 ? {} : _a;
+    var iconContent = getIconContent(iconName) || {};
+    var iconClassName = iconContent.iconClassName, children = iconContent.children, fontFamily = iconContent.fontFamily, mergeImageProps = iconContent.mergeImageProps;
+    var nativeProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_3__.htmlElementProperties);
+    var accessibleName = props['aria-label'] || props.title;
+    var containerProps = props['aria-label'] || props['aria-labelledby'] || props.title
+        ? {
+            role: mergeImageProps ? undefined : 'img',
+        }
+        : {
+            'aria-hidden': true,
+        };
+    var finalChildren = children;
+    if (mergeImageProps) {
+        if (typeof children === 'object' && typeof children.props === 'object' && accessibleName) {
+            finalChildren = react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(children, { alt: accessibleName });
+        }
+    }
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)({ "data-icon-name": iconName }, containerProps, nativeProps, (mergeImageProps
+        ? {
+            title: undefined,
+            'aria-label': undefined,
+        }
+        : {}), { className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.css)(_Icon_styles__WEBPACK_IMPORTED_MODULE_6__.MS_ICON, _Icon_styles__WEBPACK_IMPORTED_MODULE_6__.classNames.root, iconClassName, !iconName && _Icon_styles__WEBPACK_IMPORTED_MODULE_6__.classNames.placeholder, className), 
+        // Apply the font family this way to ensure it doesn't get overridden by Fabric Core ms-Icon styles
+        // https://github.com/microsoft/fluentui/issues/10449
+        style: (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)({ fontFamily: fontFamily }, style) }), finalChildren));
+};
+/**
+ * Memoized helper for rendering a FontIcon.
+ * @param iconName - The name of the icon to use from the icon font.
+ * @param className - Class name for styling the icon.
+ * @param ariaLabel - Label for the icon for the benefit of screen readers.
+ * {@docCategory Icon}
+ */
+var getFontIcon = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.memoizeFunction)(function (iconName, className, ariaLabel) {
+    return FontIcon({ iconName: iconName, className: className, 'aria-label': ariaLabel });
+});
+//# sourceMappingURL=FontIcon.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Icon/Icon.base.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Icon/Icon.base.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "IconBase": () => (/* binding */ IconBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Icon_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Icon.types */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.types.js");
+/* harmony import */ var _Image_Image__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Image/Image */ "./node_modules/@fluentui/react/lib/components/Image/Image.js");
+/* harmony import */ var _Image_Image_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Image/Image.types */ "./node_modules/@fluentui/react/lib/components/Image/Image.types.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _FontIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FontIcon */ "./node_modules/@fluentui/react/lib/components/Icon/FontIcon.js");
+
+
+
+
+
+
+
+var getClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.classNamesFunction)({
+    // Icon is used a lot by other components.
+    // It's likely to see expected cases which pass different className to the Icon.
+    // Therefore setting a larger cache size.
+    cacheSize: 100,
+});
+var IconBase = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__extends)(IconBase, _super);
+    function IconBase(props) {
+        var _this = _super.call(this, props) || this;
+        _this._onImageLoadingStateChange = function (state) {
+            if (_this.props.imageProps && _this.props.imageProps.onLoadingStateChange) {
+                _this.props.imageProps.onLoadingStateChange(state);
+            }
+            if (state === _Image_Image_types__WEBPACK_IMPORTED_MODULE_3__.ImageLoadState.error) {
+                _this.setState({ imageLoadError: true });
+            }
+        };
+        _this.state = {
+            imageLoadError: false,
+        };
+        return _this;
+    }
+    IconBase.prototype.render = function () {
+        var _a = this.props, children = _a.children, className = _a.className, styles = _a.styles, iconName = _a.iconName, imageErrorAs = _a.imageErrorAs, theme = _a.theme;
+        var isPlaceholder = typeof iconName === 'string' && iconName.length === 0;
+        var isImage = 
+        // eslint-disable-next-line deprecation/deprecation
+        !!this.props.imageProps || this.props.iconType === _Icon_types__WEBPACK_IMPORTED_MODULE_4__.IconType.image || this.props.iconType === _Icon_types__WEBPACK_IMPORTED_MODULE_4__.IconType.Image;
+        var iconContent = (0,_FontIcon__WEBPACK_IMPORTED_MODULE_5__.getIconContent)(iconName) || {};
+        var iconClassName = iconContent.iconClassName, iconContentChildren = iconContent.children, mergeImageProps = iconContent.mergeImageProps;
+        var classNames = getClassNames(styles, {
+            theme: theme,
+            className: className,
+            iconClassName: iconClassName,
+            isImage: isImage,
+            isPlaceholder: isPlaceholder,
+        });
+        var RootType = isImage ? 'span' : 'i';
+        var nativeProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_6__.getNativeProps)(this.props, _Utilities__WEBPACK_IMPORTED_MODULE_6__.htmlElementProperties, [
+            'aria-label',
+        ]);
+        var imageLoadError = this.state.imageLoadError;
+        var imageProps = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, this.props.imageProps), { onLoadingStateChange: this._onImageLoadingStateChange });
+        var ImageType = (imageLoadError && imageErrorAs) || _Image_Image__WEBPACK_IMPORTED_MODULE_7__.Image;
+        // eslint-disable-next-line deprecation/deprecation
+        var ariaLabel = this.props['aria-label'] || this.props.ariaLabel;
+        var accessibleName = imageProps.alt || ariaLabel || this.props.title;
+        var hasName = !!(accessibleName ||
+            this.props['aria-labelledby'] ||
+            imageProps['aria-label'] ||
+            imageProps['aria-labelledby']);
+        var containerProps = hasName
+            ? {
+                role: isImage || mergeImageProps ? undefined : 'img',
+                'aria-label': isImage || mergeImageProps ? undefined : accessibleName,
+            }
+            : {
+                'aria-hidden': true,
+            };
+        var finalIconContentChildren = iconContentChildren;
+        if (mergeImageProps && iconContentChildren && typeof iconContentChildren === 'object' && accessibleName) {
+            finalIconContentChildren = react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(iconContentChildren, {
+                alt: accessibleName,
+            });
+        }
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(RootType, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ "data-icon-name": iconName }, containerProps, nativeProps, (mergeImageProps
+            ? {
+                title: undefined,
+                'aria-label': undefined,
+            }
+            : {}), { className: classNames.root }), isImage ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(ImageType, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, imageProps)) : children || finalIconContentChildren));
+    };
+    return IconBase;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=Icon.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Icon/Icon.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Icon/Icon.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Icon": () => (/* binding */ Icon)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _Icon_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Icon.base */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.base.js");
+/* harmony import */ var _Icon_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Icon.styles */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.styles.js");
+
+
+
+/**
+ * Legacy Icon component which can be targeted by customization. It's recommended to use `FontIcon`
+ * or `ImageIcon` instead, especially in scenarios where rendering performance is important.
+ * {@docCategory Icon}
+ */
+var Icon = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_Icon_base__WEBPACK_IMPORTED_MODULE_1__.IconBase, _Icon_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles, undefined, {
+    scope: 'Icon',
+}, true);
+Icon.displayName = 'Icon';
+//# sourceMappingURL=Icon.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Icon/Icon.styles.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Icon/Icon.styles.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "classNames": () => (/* binding */ classNames),
+/* harmony export */   "MS_ICON": () => (/* binding */ MS_ICON),
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+/** Class names used in themeable and non-themeable Icon components */
+var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.mergeStyleSets)({
+    root: {
+        display: 'inline-block',
+    },
+    placeholder: [
+        'ms-Icon-placeHolder',
+        {
+            width: '1em',
+        },
+    ],
+    image: [
+        'ms-Icon-imageContainer',
+        {
+            overflow: 'hidden',
+        },
+    ],
+});
+/** Class name used only in non-themeable Icon components */
+var MS_ICON = 'ms-Icon';
+var getStyles = function (props) {
+    var className = props.className, iconClassName = props.iconClassName, isPlaceholder = props.isPlaceholder, isImage = props.isImage, styles = props.styles;
+    return {
+        root: [
+            isPlaceholder && classNames.placeholder,
+            classNames.root,
+            isImage && classNames.image,
+            iconClassName,
+            className,
+            styles && styles.root,
+            // eslint-disable-next-line deprecation/deprecation
+            styles && styles.imageContainer,
+        ],
+    };
+};
+//# sourceMappingURL=Icon.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Icon/Icon.types.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Icon/Icon.types.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "IconType": () => (/* binding */ IconType)
+/* harmony export */ });
+/**
+ * @deprecated Icon type is inferred based on presence of `IIconProps.imageProps`
+ * {@docCategory Icon}
+ */
+var IconType;
+(function (IconType) {
+    /**
+     * Render using the fabric icon font.
+     * @deprecated Icon type is inferred based on presence of `IIconProps.imageProps`
+     */
+    IconType[IconType["default"] = 0] = "default";
+    /**
+     * Render using an image, where imageProps would be used.
+     * @deprecated Icon type is inferred based on presence of `IIconProps.imageProps`
+     */
+    IconType[IconType["image"] = 1] = "image";
+    /**
+     * @deprecated Icon type is inferred based on presence of `IIconProps.imageProps`
+     */
+    IconType[IconType["Default"] = 100000] = "Default";
+    /**
+     * @deprecated Icon type is inferred based on presence of `IIconProps.imageProps`
+     */
+    IconType[IconType["Image"] = 100001] = "Image";
+})(IconType || (IconType = {}));
+//# sourceMappingURL=Icon.types.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Icon/ImageIcon.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Icon/ImageIcon.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ImageIcon": () => (/* binding */ ImageIcon)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Image_Image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Image/Image */ "./node_modules/@fluentui/react/lib/components/Image/Image.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/css.js");
+/* harmony import */ var _Icon_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Icon.styles */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.styles.js");
+
+
+
+
+
+/**
+ * Fast icon component which only supports images (not font glyphs) and can't be targeted by customizations.
+ * To style the icon, use `className` or reference `ms-Icon` in CSS.
+ * {@docCategory Icon}
+ */
+var ImageIcon = function (props) {
+    var className = props.className, imageProps = props.imageProps;
+    var nativeProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_1__.htmlElementProperties, [
+        'aria-label',
+        'aria-labelledby',
+        'title',
+        'aria-describedby',
+    ]);
+    var altText = imageProps.alt || props['aria-label'];
+    var hasName = altText ||
+        props['aria-labelledby'] ||
+        props.title ||
+        imageProps['aria-label'] ||
+        imageProps['aria-labelledby'] ||
+        imageProps.title;
+    // move naming or describing attributes from the container (where they are invalid) to the image
+    var imageNameProps = {
+        'aria-labelledby': props['aria-labelledby'],
+        'aria-describedby': props['aria-describedby'],
+        title: props.title,
+    };
+    var containerProps = hasName
+        ? {}
+        : {
+            'aria-hidden': true,
+        };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, containerProps, nativeProps, { className: (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.css)(_Icon_styles__WEBPACK_IMPORTED_MODULE_4__.MS_ICON, _Icon_styles__WEBPACK_IMPORTED_MODULE_4__.classNames.root, _Icon_styles__WEBPACK_IMPORTED_MODULE_4__.classNames.image, className) }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Image_Image__WEBPACK_IMPORTED_MODULE_5__.Image, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, imageNameProps, imageProps, { alt: hasName ? altText : '' }))));
+};
+//# sourceMappingURL=ImageIcon.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Image/Image.base.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Image/Image.base.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ImageBase": () => (/* binding */ ImageBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Image_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Image.types */ "./node_modules/@fluentui/react/lib/components/Image/Image.types.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js");
+
+
+
+
+
+var getClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.classNamesFunction)();
+var SVG_REGEX = /\.svg$/i;
+var KEY_PREFIX = 'fabricImage';
+function useLoadState(props, imageElement) {
+    var onLoadingStateChange = props.onLoadingStateChange, onLoad = props.onLoad, onError = props.onError, src = props.src;
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__.useState(_Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.notLoaded), loadState = _a[0], setLoadState = _a[1];
+    // eslint-disable-next-line no-restricted-properties
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(function () {
+        // If the src property changes, reset the load state
+        // (does nothing if the load state is already notLoaded)
+        setLoadState(_Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.notLoaded);
+    }, [src]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intended to run every render
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (loadState === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.notLoaded) {
+            // testing if naturalWidth and naturalHeight are greater than zero is better than checking
+            // .complete, because .complete will also be set to true if the image breaks. However,
+            // for some browsers, SVG images do not have a naturalWidth or naturalHeight, so fall back
+            // to checking .complete for these images.
+            var isLoaded = imageElement.current
+                ? (src && imageElement.current.naturalWidth > 0 && imageElement.current.naturalHeight > 0) ||
+                    (imageElement.current.complete && SVG_REGEX.test(src))
+                : false;
+            if (isLoaded) {
+                setLoadState(_Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.loaded);
+            }
+        }
+    });
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        onLoadingStateChange === null || onLoadingStateChange === void 0 ? void 0 : onLoadingStateChange(loadState);
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run when loadState changes
+    }, [loadState]);
+    var onImageLoaded = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (ev) {
+        onLoad === null || onLoad === void 0 ? void 0 : onLoad(ev);
+        if (src) {
+            setLoadState(_Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.loaded);
+        }
+    }, [src, onLoad]);
+    var onImageError = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (ev) {
+        onError === null || onError === void 0 ? void 0 : onError(ev);
+        setLoadState(_Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.error);
+    }, [onError]);
+    return [loadState, onImageLoaded, onImageError];
+}
+var ImageBase = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, forwardedRef) {
+    var frameElement = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var imageElement = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var _a = useLoadState(props, imageElement), loadState = _a[0], onImageLoaded = _a[1], onImageError = _a[2];
+    var imageProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_3__.imgProperties, [
+        'width',
+        'height',
+    ]);
+    var src = props.src, alt = props.alt, width = props.width, height = props.height, _b = props.shouldFadeIn, shouldFadeIn = _b === void 0 ? true : _b, shouldStartVisible = props.shouldStartVisible, className = props.className, imageFit = props.imageFit, role = props.role, maximizeFrame = props.maximizeFrame, styles = props.styles, theme = props.theme, loading = props.loading;
+    var coverStyle = useCoverStyle(props, loadState, imageElement, frameElement);
+    var classNames = getClassNames(styles, {
+        theme: theme,
+        className: className,
+        width: width,
+        height: height,
+        maximizeFrame: maximizeFrame,
+        shouldFadeIn: shouldFadeIn,
+        shouldStartVisible: shouldStartVisible,
+        isLoaded: loadState === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.loaded || (loadState === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.notLoaded && props.shouldStartVisible),
+        isLandscape: coverStyle === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageCoverStyle.landscape,
+        isCenter: imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.center,
+        isCenterContain: imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.centerContain,
+        isCenterCover: imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.centerCover,
+        isContain: imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.contain,
+        isCover: imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.cover,
+        isNone: imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.none,
+        isError: loadState === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.error,
+        isNotImageFit: imageFit === undefined,
+    });
+    // If image dimensions aren't specified, the natural size of the image is used.
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: classNames.root, style: { width: width, height: height }, ref: frameElement },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)({}, imageProps, { onLoad: onImageLoaded, onError: onImageError, key: KEY_PREFIX + props.src || '', className: classNames.image, ref: (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__.useMergedRefs)(imageElement, forwardedRef), src: src, alt: alt, role: role, loading: loading }))));
+});
+ImageBase.displayName = 'ImageBase';
+function useCoverStyle(props, loadState, imageElement, frameElement) {
+    var previousLoadState = react__WEBPACK_IMPORTED_MODULE_0__.useRef(loadState);
+    var coverStyle = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    if (coverStyle === undefined ||
+        (previousLoadState.current === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.notLoaded && loadState === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.loaded)) {
+        coverStyle.current = computeCoverStyle(props, loadState, imageElement, frameElement);
+    }
+    previousLoadState.current = loadState;
+    return coverStyle.current;
+}
+function computeCoverStyle(props, loadState, imageElement, frameElement) {
+    var imageFit = props.imageFit, width = props.width, height = props.height;
+    // Do not compute cover style if it was already specified in props
+    if (props.coverStyle !== undefined) {
+        return props.coverStyle;
+    }
+    else if (loadState === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageLoadState.loaded &&
+        (imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.cover ||
+            imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.contain ||
+            imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.centerContain ||
+            imageFit === _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.centerCover) &&
+        imageElement.current &&
+        frameElement.current) {
+        // Determine the desired ratio using the width and height props.
+        // If those props aren't available, measure measure the frame.
+        var desiredRatio = void 0;
+        if (typeof width === 'number' &&
+            typeof height === 'number' &&
+            imageFit !== _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.centerContain &&
+            imageFit !== _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageFit.centerCover) {
+            desiredRatio = width / height;
+        }
+        else {
+            desiredRatio = frameElement.current.clientWidth / frameElement.current.clientHeight;
+        }
+        // Examine the source image to determine its original ratio.
+        var naturalRatio = imageElement.current.naturalWidth / imageElement.current.naturalHeight;
+        // Should we crop from the top or the sides?
+        if (naturalRatio > desiredRatio) {
+            return _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageCoverStyle.landscape;
+        }
+    }
+    return _Image_types__WEBPACK_IMPORTED_MODULE_2__.ImageCoverStyle.portrait;
+}
+//# sourceMappingURL=Image.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Image/Image.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Image/Image.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Image": () => (/* binding */ Image)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _Image_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Image.base */ "./node_modules/@fluentui/react/lib/components/Image/Image.base.js");
+/* harmony import */ var _Image_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Image.styles */ "./node_modules/@fluentui/react/lib/components/Image/Image.styles.js");
+
+
+
+var Image = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_Image_base__WEBPACK_IMPORTED_MODULE_1__.ImageBase, _Image_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles, undefined, {
+    scope: 'Image',
+}, true);
+Image.displayName = 'Image';
+//# sourceMappingURL=Image.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Image/Image.styles.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Image/Image.styles.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+
+var GlobalClassNames = {
+    root: 'ms-Image',
+    rootMaximizeFrame: 'ms-Image--maximizeFrame',
+    image: 'ms-Image-image',
+    imageCenter: 'ms-Image-image--center',
+    imageContain: 'ms-Image-image--contain',
+    imageCover: 'ms-Image-image--cover',
+    imageCenterContain: 'ms-Image-image--centerContain',
+    imageCenterCover: 'ms-Image-image--centerCover',
+    imageNone: 'ms-Image-image--none',
+    imageLandscape: 'ms-Image-image--landscape',
+    imagePortrait: 'ms-Image-image--portrait',
+};
+var getStyles = function (props) {
+    var className = props.className, width = props.width, height = props.height, maximizeFrame = props.maximizeFrame, isLoaded = props.isLoaded, shouldFadeIn = props.shouldFadeIn, shouldStartVisible = props.shouldStartVisible, isLandscape = props.isLandscape, isCenter = props.isCenter, isContain = props.isContain, isCover = props.isCover, isCenterContain = props.isCenterContain, isCenterCover = props.isCenterCover, isNone = props.isNone, isError = props.isError, isNotImageFit = props.isNotImageFit, theme = props.theme;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    var ImageFitStyles = {
+        position: 'absolute',
+        left: '50% /* @noflip */',
+        top: '50%',
+        transform: 'translate(-50%,-50%)',
+    };
+    // Cut the mustard using msMaxTouchPoints to detect IE11 which does not support CSS object-fit
+    var window = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.getWindow)();
+    var supportsObjectFit = window !== undefined && window.navigator.msMaxTouchPoints === undefined;
+    var fallbackObjectFitStyles = (isContain && isLandscape) || (isCover && !isLandscape)
+        ? { width: '100%', height: 'auto' }
+        : { width: 'auto', height: '100%' };
+    return {
+        root: [
+            classNames.root,
+            theme.fonts.medium,
+            {
+                overflow: 'hidden',
+            },
+            maximizeFrame && [
+                classNames.rootMaximizeFrame,
+                {
+                    height: '100%',
+                    width: '100%',
+                },
+            ],
+            isLoaded && shouldFadeIn && !shouldStartVisible && _Styling__WEBPACK_IMPORTED_MODULE_0__.AnimationClassNames.fadeIn400,
+            (isCenter || isContain || isCover || isCenterContain || isCenterCover) && {
+                position: 'relative',
+            },
+            className,
+        ],
+        image: [
+            classNames.image,
+            {
+                display: 'block',
+                opacity: 0,
+            },
+            isLoaded && [
+                'is-loaded',
+                {
+                    opacity: 1,
+                },
+            ],
+            isCenter && [classNames.imageCenter, ImageFitStyles],
+            isContain && [
+                classNames.imageContain,
+                supportsObjectFit && {
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                },
+                !supportsObjectFit && fallbackObjectFitStyles,
+                !supportsObjectFit && ImageFitStyles,
+            ],
+            isCover && [
+                classNames.imageCover,
+                supportsObjectFit && {
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                },
+                !supportsObjectFit && fallbackObjectFitStyles,
+                !supportsObjectFit && ImageFitStyles,
+            ],
+            isCenterContain && [
+                classNames.imageCenterContain,
+                isLandscape && {
+                    maxWidth: '100%',
+                },
+                !isLandscape && {
+                    maxHeight: '100%',
+                },
+                ImageFitStyles,
+            ],
+            isCenterCover && [
+                classNames.imageCenterCover,
+                isLandscape && {
+                    maxHeight: '100%',
+                },
+                !isLandscape && {
+                    maxWidth: '100%',
+                },
+                ImageFitStyles,
+            ],
+            isNone && [
+                classNames.imageNone,
+                {
+                    width: 'auto',
+                    height: 'auto',
+                },
+            ],
+            isNotImageFit && [
+                !!width &&
+                    !height && {
+                    height: 'auto',
+                    width: '100%',
+                },
+                !width &&
+                    !!height && {
+                    height: '100%',
+                    width: 'auto',
+                },
+                !!width &&
+                    !!height && {
+                    height: '100%',
+                    width: '100%',
+                },
+            ],
+            isLandscape && classNames.imageLandscape,
+            !isLandscape && classNames.imagePortrait,
+            !isLoaded && 'is-notLoaded',
+            shouldFadeIn && 'is-fadeIn',
+            isError && 'is-error',
+        ],
+    };
+};
+//# sourceMappingURL=Image.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Image/Image.types.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Image/Image.types.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ImageFit": () => (/* binding */ ImageFit),
+/* harmony export */   "ImageCoverStyle": () => (/* binding */ ImageCoverStyle),
+/* harmony export */   "ImageLoadState": () => (/* binding */ ImageLoadState)
+/* harmony export */ });
+/**
+ * The possible methods that can be used to fit the image.
+ * {@docCategory Image}
+ */
+var ImageFit;
+(function (ImageFit) {
+    /**
+     * The image is not scaled. The image is centered and cropped within the content box.
+     */
+    ImageFit[ImageFit["center"] = 0] = "center";
+    /**
+     * The image is scaled to maintain its aspect ratio while being fully contained within the frame. The image will
+     * be centered horizontally and vertically within the frame. The space in the top and bottom or in the sides of
+     * the frame will be empty depending on the difference in aspect ratio between the image and the frame.
+     */
+    ImageFit[ImageFit["contain"] = 1] = "contain";
+    /**
+     * The image is scaled to maintain its aspect ratio while filling the frame. Portions of the image will be cropped
+     * from the top and bottom, or the sides, depending on the difference in aspect ratio between the image and the frame.
+     */
+    ImageFit[ImageFit["cover"] = 2] = "cover";
+    /**
+     * Neither the image nor the frame are scaled. If their sizes do not match, the image will either be cropped or the
+     * frame will have empty space.
+     */
+    ImageFit[ImageFit["none"] = 3] = "none";
+    /**
+     * The image will be centered horizontally and vertically within the frame and maintains its aspect ratio. It will
+     * behave as ImageFit.center if the image's natural height or width is less than the Image frame's height or width,
+     * but if both natural height and width are larger than the frame it will behave as ImageFit.cover.
+     */
+    ImageFit[ImageFit["centerCover"] = 4] = "centerCover";
+    /**
+     * The image will be centered horizontally and vertically within the frame and maintains its aspect ratio. It will
+     * behave as ImageFit.center if the image's natural height and width is less than the Image frame's height and width,
+     * but if either natural height or width are larger than the frame it will behave as ImageFit.contain.
+     */
+    ImageFit[ImageFit["centerContain"] = 5] = "centerContain";
+})(ImageFit || (ImageFit = {}));
+/**
+ * The cover style to be used on the image
+ * {@docCategory Image}
+ */
+var ImageCoverStyle;
+(function (ImageCoverStyle) {
+    /**
+     * The image will be shown at 100% height of container and the width will be scaled accordingly
+     */
+    ImageCoverStyle[ImageCoverStyle["landscape"] = 0] = "landscape";
+    /**
+     * The image will be shown at 100% width of container and the height will be scaled accordingly
+     */
+    ImageCoverStyle[ImageCoverStyle["portrait"] = 1] = "portrait";
+})(ImageCoverStyle || (ImageCoverStyle = {}));
+/**
+ * {@docCategory Image}
+ */
+var ImageLoadState;
+(function (ImageLoadState) {
+    /**
+     * The image has not yet been loaded, and there is no error yet.
+     */
+    ImageLoadState[ImageLoadState["notLoaded"] = 0] = "notLoaded";
+    /**
+     * The image has been loaded successfully.
+     */
+    ImageLoadState[ImageLoadState["loaded"] = 1] = "loaded";
+    /**
+     * An error has been encountered while loading the image.
+     */
+    ImageLoadState[ImageLoadState["error"] = 2] = "error";
+    /**
+     * @deprecated Not used. Use `onLoadingStateChange` and re-render the Image with a different src.
+     */
+    ImageLoadState[ImageLoadState["errorLoaded"] = 3] = "errorLoaded";
+})(ImageLoadState || (ImageLoadState = {}));
+//# sourceMappingURL=Image.types.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/KeytipData/KeytipData.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/KeytipData/KeytipData.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KeytipData": () => (/* binding */ KeytipData)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _utilities_keytips_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utilities/keytips/index */ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipConstants.js");
+/* harmony import */ var _useKeytipData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useKeytipData */ "./node_modules/@fluentui/react/lib/components/KeytipData/useKeytipData.js");
+
+
+
+/**
+ * A small element to help the target component correctly read out its aria-describedby for its Keytip
+ * {@docCategory Keytips}
+ */
+var KeytipData = function (props) {
+    var _a;
+    var children = props.children, keytipDataProps = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__rest)(props, ["children"]);
+    var _b = (0,_useKeytipData__WEBPACK_IMPORTED_MODULE_1__.useKeytipData)(keytipDataProps), keytipId = _b.keytipId, ariaDescribedBy = _b.ariaDescribedBy;
+    return children((_a = {},
+        _a[_utilities_keytips_index__WEBPACK_IMPORTED_MODULE_2__.DATAKTP_TARGET] = keytipId,
+        _a[_utilities_keytips_index__WEBPACK_IMPORTED_MODULE_2__.DATAKTP_EXECUTE_TARGET] = keytipId,
+        _a['aria-describedby'] = ariaDescribedBy,
+        _a));
+};
+//# sourceMappingURL=KeytipData.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/KeytipData/useKeytipData.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/KeytipData/useKeytipData.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useKeytipData": () => (/* binding */ useKeytipData)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useConst.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/usePrevious.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/aria.js");
+/* harmony import */ var _utilities_keytips_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utilities/keytips/index */ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipManager.js");
+/* harmony import */ var _utilities_keytips_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utilities/keytips/index */ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipUtils.js");
+
+
+
+
+
+/**
+ * Hook that creates attributes for components which are enabled with Keytip.
+ */
+function useKeytipData(options) {
+    var uniqueId = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var keytipProps = options.keytipProps
+        ? (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({ disabled: options.disabled }, options.keytipProps) : undefined;
+    var keytipManager = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_2__.useConst)(_utilities_keytips_index__WEBPACK_IMPORTED_MODULE_3__.KeytipManager.getInstance());
+    var prevOptions = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_4__.usePrevious)(options);
+    // useLayoutEffect used to strictly emulate didUpdate/didMount behavior
+    // eslint-disable-next-line no-restricted-properties
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(function () {
+        if (uniqueId.current &&
+            keytipProps &&
+            ((prevOptions === null || prevOptions === void 0 ? void 0 : prevOptions.keytipProps) !== options.keytipProps || (prevOptions === null || prevOptions === void 0 ? void 0 : prevOptions.disabled) !== options.disabled)) {
+            keytipManager.update(keytipProps, uniqueId.current);
+        }
+    });
+    // eslint-disable-next-line no-restricted-properties
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(function () {
+        // Register Keytip in KeytipManager
+        if (keytipProps) {
+            uniqueId.current = keytipManager.register(keytipProps);
+        }
+        return function () {
+            // Unregister Keytip in KeytipManager
+            keytipProps && keytipManager.unregister(keytipProps, uniqueId.current);
+        };
+        // this is meant to run only at mount, and updates are handled separately
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    var nativeKeytipProps = {
+        ariaDescribedBy: undefined,
+        keytipId: undefined,
+    };
+    if (keytipProps) {
+        nativeKeytipProps = getKeytipData(keytipManager, keytipProps, options.ariaDescribedBy);
+    }
+    return nativeKeytipProps;
+}
+/**
+ * Gets the aria- and data- attributes to attach to the component
+ * @param keytipProps - options for Keytip
+ * @param describedByPrepend - ariaDescribedBy value to prepend
+ */
+function getKeytipData(keytipManager, keytipProps, describedByPrepend) {
+    // Add the parent overflow sequence if necessary
+    var newKeytipProps = keytipManager.addParentOverflow(keytipProps);
+    // Construct aria-describedby and data-ktp-id attributes
+    var ariaDescribedBy = (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.mergeAriaAttributeValues)(describedByPrepend, (0,_utilities_keytips_index__WEBPACK_IMPORTED_MODULE_6__.getAriaDescribedBy)(newKeytipProps.keySequences));
+    var keySequences = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__spreadArrays)(newKeytipProps.keySequences);
+    if (newKeytipProps.overflowSetSequence) {
+        keySequences = (0,_utilities_keytips_index__WEBPACK_IMPORTED_MODULE_6__.mergeOverflows)(keySequences, newKeytipProps.overflowSetSequence);
+    }
+    var keytipId = (0,_utilities_keytips_index__WEBPACK_IMPORTED_MODULE_6__.sequencesToID)(keySequences);
+    return {
+        ariaDescribedBy: ariaDescribedBy,
+        keytipId: keytipId,
+    };
+}
+//# sourceMappingURL=useKeytipData.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Layer/Layer.base.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Layer/Layer.base.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LayerBase": () => (/* binding */ LayerBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _Fabric__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Fabric */ "./node_modules/@fluentui/react/lib/components/Fabric/Fabric.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/dom-utilities/lib/setPortalAttribute.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/dom-utilities/lib/setVirtualParent.js");
+/* harmony import */ var _Layer_notification__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Layer.notification */ "./node_modules/@fluentui/react/lib/components/Layer/Layer.notification.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useWarnings.js");
+/* harmony import */ var _WindowProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../WindowProvider */ "./node_modules/@fluentui/react-window-provider/lib/WindowProvider.js");
+
+
+
+
+
+
+
+
+var getClassNames = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.classNamesFunction)();
+var LayerBase = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, ref) {
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__.useState(), layerElement = _a[0], setLayerElement = _a[1];
+    var refLayerElement = react__WEBPACK_IMPORTED_MODULE_0__.useRef(layerElement);
+    refLayerElement.current = layerElement;
+    var rootRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    var mergedRef = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_3__.useMergedRefs)(rootRef, ref);
+    var doc = (0,_WindowProvider__WEBPACK_IMPORTED_MODULE_4__.useDocument)();
+    var eventBubblingEnabled = props.eventBubblingEnabled, styles = props.styles, theme = props.theme, className = props.className, children = props.children, hostId = props.hostId, _b = props.onLayerDidMount, onLayerDidMount = _b === void 0 ? function () { return undefined; } : _b, 
+    // eslint-disable-next-line deprecation/deprecation
+    _c = props.onLayerMounted, 
+    // eslint-disable-next-line deprecation/deprecation
+    onLayerMounted = _c === void 0 ? function () { return undefined; } : _c, onLayerWillUnmount = props.onLayerWillUnmount, insertFirst = props.insertFirst;
+    var classNames = getClassNames(styles, {
+        theme: theme,
+        className: className,
+        isNotHost: !hostId,
+    });
+    // Returns the user provided hostId props element, the default target selector,
+    // or undefined if document doesn't exist.
+    var getHost = function () {
+        if (!doc) {
+            return undefined;
+        }
+        if (hostId) {
+            return doc.getElementById(hostId);
+        }
+        else {
+            var defaultHostSelector = (0,_Layer_notification__WEBPACK_IMPORTED_MODULE_5__.getDefaultTarget)();
+            return defaultHostSelector ? doc.querySelector(defaultHostSelector) : doc.body;
+        }
+    };
+    // Removes the current layer element's parentNode and runs onLayerWillUnmount prop if provided.
+    var removeLayerElement = function () {
+        onLayerWillUnmount === null || onLayerWillUnmount === void 0 ? void 0 : onLayerWillUnmount();
+        var elem = refLayerElement.current;
+        if (elem && elem.parentNode) {
+            var parentNode = elem.parentNode;
+            if (parentNode) {
+                parentNode.removeChild(elem);
+            }
+        }
+    };
+    // If a doc or host exists, it will remove and update layer parentNodes.
+    var createLayerElement = function () {
+        var host = getHost();
+        if (!doc || !host) {
+            return;
+        }
+        // Remove and re-create any previous existing layer elements.
+        removeLayerElement();
+        var el = doc.createElement('div');
+        el.className = classNames.root;
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_6__.setPortalAttribute)(el);
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_7__.setVirtualParent)(el, rootRef.current);
+        insertFirst ? host.insertBefore(el, host.firstChild) : host.appendChild(el);
+        setLayerElement(el);
+        onLayerMounted === null || onLayerMounted === void 0 ? void 0 : onLayerMounted();
+        onLayerDidMount === null || onLayerDidMount === void 0 ? void 0 : onLayerDidMount();
+    };
+    // eslint-disable-next-line no-restricted-properties
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(function () {
+        createLayerElement();
+        // Check if the user provided a hostId prop and register the layer with the ID.
+        if (hostId) {
+            (0,_Layer_notification__WEBPACK_IMPORTED_MODULE_5__.registerLayer)(hostId, createLayerElement);
+        }
+        return function () {
+            removeLayerElement();
+            if (hostId) {
+                (0,_Layer_notification__WEBPACK_IMPORTED_MODULE_5__.unregisterLayer)(hostId, createLayerElement);
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- should run if the hostId updates.
+    }, [hostId]);
+    useDebugWarnings(props);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "ms-layer", ref: mergedRef }, layerElement &&
+        react_dom__WEBPACK_IMPORTED_MODULE_1__.createPortal(
+        /* eslint-disable deprecation/deprecation */
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Fabric__WEBPACK_IMPORTED_MODULE_8__.Fabric, (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__assign)({}, (!eventBubblingEnabled && getFilteredEvents()), { className: classNames.content }), children), 
+        /* eslint-enable deprecation/deprecation */
+        layerElement)));
+});
+LayerBase.displayName = 'LayerBase';
+var filteredEventProps;
+var onFilterEvent = function (ev) {
+    // We should just be able to check ev.bubble here and only stop events that are bubbling up. However, even though
+    // mouseenter and mouseleave do NOT bubble up, they are showing up as bubbling. Therefore we stop events based on
+    // event name rather than ev.bubble.
+    if (ev.eventPhase === Event.BUBBLING_PHASE &&
+        ev.type !== 'mouseenter' &&
+        ev.type !== 'mouseleave' &&
+        ev.type !== 'touchstart' &&
+        ev.type !== 'touchend') {
+        ev.stopPropagation();
+    }
+};
+function getFilteredEvents() {
+    if (!filteredEventProps) {
+        filteredEventProps = {};
+        [
+            'onClick',
+            'onContextMenu',
+            'onDoubleClick',
+            'onDrag',
+            'onDragEnd',
+            'onDragEnter',
+            'onDragExit',
+            'onDragLeave',
+            'onDragOver',
+            'onDragStart',
+            'onDrop',
+            'onMouseDown',
+            'onMouseEnter',
+            'onMouseLeave',
+            'onMouseMove',
+            'onMouseOver',
+            'onMouseOut',
+            'onMouseUp',
+            'onTouchMove',
+            'onTouchStart',
+            'onTouchCancel',
+            'onTouchEnd',
+            'onKeyDown',
+            'onKeyPress',
+            'onKeyUp',
+            'onFocus',
+            'onBlur',
+            'onChange',
+            'onInput',
+            'onInvalid',
+            'onSubmit',
+        ].forEach(function (name) { return (filteredEventProps[name] = onFilterEvent); });
+    }
+    return filteredEventProps;
+}
+function useDebugWarnings(props) {
+    if (true) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks -- build-time conditional
+        (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_10__.useWarnings)({
+            name: 'Layer',
+            props: props,
+            deprecations: { onLayerMounted: 'onLayerDidMount' },
+        });
+    }
+}
+//# sourceMappingURL=Layer.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Layer/Layer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Layer/Layer.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Layer": () => (/* binding */ Layer)
+/* harmony export */ });
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _Layer_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer.base */ "./node_modules/@fluentui/react/lib/components/Layer/Layer.base.js");
+/* harmony import */ var _Layer_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Layer.styles */ "./node_modules/@fluentui/react/lib/components/Layer/Layer.styles.js");
+
+
+
+var Layer = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_Layer_base__WEBPACK_IMPORTED_MODULE_1__.LayerBase, _Layer_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles, undefined, {
+    scope: 'Layer',
+    fields: ['hostId', 'theme', 'styles'],
+});
+//# sourceMappingURL=Layer.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Layer/Layer.notification.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Layer/Layer.notification.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "registerLayer": () => (/* binding */ registerLayer),
+/* harmony export */   "unregisterLayer": () => (/* binding */ unregisterLayer),
+/* harmony export */   "notifyHostChanged": () => (/* binding */ notifyHostChanged),
+/* harmony export */   "setDefaultTarget": () => (/* binding */ setDefaultTarget),
+/* harmony export */   "getDefaultTarget": () => (/* binding */ getDefaultTarget)
+/* harmony export */ });
+var _layersByHostId = {};
+var _defaultHostSelector;
+/**
+ * Register a layer for a given host id
+ * @param hostId Id of the layer host
+ * @param layer Layer instance
+ */
+function registerLayer(hostId, callback) {
+    if (!_layersByHostId[hostId]) {
+        _layersByHostId[hostId] = [];
+    }
+    _layersByHostId[hostId].push(callback);
+}
+/**
+ * Unregister a layer for a given host id
+ * @param hostId Id of the layer host
+ * @param layer Layer instance
+ */
+function unregisterLayer(hostId, callback) {
+    if (_layersByHostId[hostId]) {
+        var idx = _layersByHostId[hostId].indexOf(callback);
+        if (idx >= 0) {
+            _layersByHostId[hostId].splice(idx, 1);
+            if (_layersByHostId[hostId].length === 0) {
+                delete _layersByHostId[hostId];
+            }
+        }
+    }
+}
+/**
+ * Used for notifying applicable Layers that a host is available/unavailable and to re-evaluate Layers that
+ * care about the specific host.
+ */
+function notifyHostChanged(id) {
+    if (_layersByHostId[id]) {
+        _layersByHostId[id].forEach(function (callback) { return callback(); });
+    }
+}
+/**
+ * Sets the default target selector to use when determining the host in which
+ * Layered content will be injected into. If not provided, an element will be
+ * created at the end of the document body.
+ *
+ * Passing in a falsy value will clear the default target and reset back to
+ * using a created element at the end of document body.
+ */
+function setDefaultTarget(selector) {
+    _defaultHostSelector = selector;
+}
+/**
+ * Get the default target selector when determining a host
+ */
+function getDefaultTarget() {
+    return _defaultHostSelector;
+}
+//# sourceMappingURL=Layer.notification.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Layer/Layer.styles.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Layer/Layer.styles.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+var GlobalClassNames = {
+    root: 'ms-Layer',
+    rootNoHost: 'ms-Layer--fixed',
+    content: 'ms-Layer-content',
+};
+var getStyles = function (props) {
+    var className = props.className, isNotHost = props.isNotHost, theme = props.theme;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    return {
+        root: [
+            classNames.root,
+            theme.fonts.medium,
+            isNotHost && [
+                classNames.rootNoHost,
+                {
+                    position: 'fixed',
+                    zIndex: _Styling__WEBPACK_IMPORTED_MODULE_0__.ZIndexes.Layer,
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    visibility: 'hidden',
+                },
+            ],
+            className,
+        ],
+        content: [
+            classNames.content,
+            {
+                visibility: 'visible',
+            },
+        ],
+    };
+};
+//# sourceMappingURL=Layer.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Popup/Popup.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Popup/Popup.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Popup": () => (/* binding */ Popup)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/focus.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useAsync.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useOnEvent.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js");
+/* harmony import */ var _fluentui_react_window_provider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fluentui/react-window-provider */ "./node_modules/@fluentui/react-window-provider/lib/WindowProvider.js");
+
+
+
+
+
+function useScrollbarAsync(props, root) {
+    var async = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_1__.useAsync)();
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__.useState(false), needsVerticalScrollBarState = _a[0], setNeedsVerticalScrollBar = _a[1];
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        async.requestAnimationFrame(function () {
+            var _a;
+            // If overflowY is overridden, don't waste time calculating whether the scrollbar is necessary.
+            if (props.style && props.style.overflowY) {
+                return;
+            }
+            var needsVerticalScrollBar = false;
+            if (root && root.current && ((_a = root.current) === null || _a === void 0 ? void 0 : _a.firstElementChild)) {
+                // ClientHeight returns the client height of an element rounded to an
+                // integer. On some browsers at different zoom levels this rounding
+                // can generate different results for the root container and child even
+                // though they are the same height. This causes us to show a scroll bar
+                // when not needed. Ideally we would use BoundingClientRect().height
+                // instead however seems that the API is 90% slower than using ClientHeight.
+                // Therefore instead we will calculate the difference between heights and
+                // allow for a 1px difference to still be considered ok and not show the
+                // scroll bar.
+                var rootHeight = root.current.clientHeight;
+                var firstChildHeight = root.current.firstElementChild.clientHeight;
+                if (rootHeight > 0 && firstChildHeight > rootHeight) {
+                    needsVerticalScrollBar = firstChildHeight - rootHeight > 1;
+                }
+            }
+            if (needsVerticalScrollBarState !== needsVerticalScrollBar) {
+                setNeedsVerticalScrollBar(needsVerticalScrollBar);
+            }
+        });
+        return function () { return async.dispose(); };
+    });
+    return needsVerticalScrollBarState;
+}
+function defaultFocusRestorer(options) {
+    var originalElement = options.originalElement, containsFocus = options.containsFocus;
+    if (originalElement && containsFocus && originalElement !== (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.getWindow)()) {
+        // Make sure that the focus method actually exists
+        // In some cases the object might exist but not be a real element.
+        // This is primarily for IE 11 and should be removed once IE 11 is no longer in use.
+        // This is wrapped in a setTimeout because of a React 16 bug that is resolved in 17.
+        // Once we move to 17, the setTimeout should be removed (ref: https://github.com/facebook/react/issues/17894#issuecomment-656094405)
+        setTimeout(function () {
+            var _a;
+            (_a = originalElement.focus) === null || _a === void 0 ? void 0 : _a.call(originalElement);
+        }, 0);
+    }
+}
+function useRestoreFocus(props, root) {
+    var _a = props.onRestoreFocus, onRestoreFocus = _a === void 0 ? defaultFocusRestorer : _a;
+    var originalFocusedElement = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var containsFocus = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        originalFocusedElement.current = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.getDocument)().activeElement;
+        if ((0,_Utilities__WEBPACK_IMPORTED_MODULE_4__.doesElementContainFocus)(root.current)) {
+            containsFocus.current = true;
+        }
+        return function () {
+            var _a;
+            onRestoreFocus === null || onRestoreFocus === void 0 ? void 0 : onRestoreFocus({
+                originalElement: originalFocusedElement.current,
+                containsFocus: containsFocus.current,
+                documentContainsFocus: ((_a = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.getDocument)()) === null || _a === void 0 ? void 0 : _a.hasFocus()) || false,
+            });
+            // De-reference DOM Node to avoid retainment via transpiled closure of _onKeyDown
+            originalFocusedElement.current = undefined;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run on first render
+    }, []);
+    (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__.useOnEvent)(root, 'focus', react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
+        containsFocus.current = true;
+    }, []), true);
+    (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__.useOnEvent)(root, 'blur', react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (ev) {
+        /** The popup should update this._containsFocus when:
+         * relatedTarget exists AND
+         * the relatedTarget is not contained within the popup.
+         * If the relatedTarget is within the popup, that means the popup still has focus
+         * and focused moved from one element to another within the popup.
+         * If relatedTarget is undefined or null that usually means that a
+         * keyboard event occurred and focus didn't change
+         */
+        if (root.current && ev.relatedTarget && !root.current.contains(ev.relatedTarget)) {
+            containsFocus.current = false;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- should only run on first render
+    }, []), true);
+}
+function useHideSiblingNodes(props) {
+    var isModalOrPanel = props['aria-modal'];
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        var targetDocument = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.getDocument)();
+        if (isModalOrPanel && targetDocument) {
+            var children = targetDocument.body.children;
+            var nodesToHide_1 = [];
+            for (var i = 0; i < children.length - 1; i++) {
+                nodesToHide_1.push(children[i]);
+            }
+            nodesToHide_1 = nodesToHide_1.filter(function (child) {
+                return child.tagName !== 'TEMPLATE' &&
+                    child.tagName !== 'SCRIPT' &&
+                    child.tagName !== 'STYLE' &&
+                    !child.hasAttribute('aria-hidden');
+            });
+            nodesToHide_1.forEach(function (node) { return node.setAttribute('aria-hidden', 'true'); });
+            return function () { return nodesToHide_1.forEach(function (child) { return child.removeAttribute('aria-hidden'); }); };
+        }
+    }, [isModalOrPanel]);
+}
+/**
+ * This adds accessibility to Dialog and Panel controls
+ */
+var Popup = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, forwardedRef) {
+    // Default props
+    // eslint-disable-next-line deprecation/deprecation
+    props = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__assign)({ shouldRestoreFocus: true }, props);
+    var root = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var mergedRootRef = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_7__.useMergedRefs)(root, forwardedRef);
+    useHideSiblingNodes(props);
+    useRestoreFocus(props, root);
+    var role = props.role, className = props.className, ariaLabel = props.ariaLabel, ariaLabelledBy = props.ariaLabelledBy, ariaDescribedBy = props.ariaDescribedBy, style = props.style, children = props.children, onDismiss = props.onDismiss;
+    var needsVerticalScrollBar = useScrollbarAsync(props, root);
+    var onKeyDown = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (ev) {
+        // eslint-disable-next-line deprecation/deprecation
+        switch (ev.which) {
+            case _Utilities__WEBPACK_IMPORTED_MODULE_8__.KeyCodes.escape:
+                if (onDismiss) {
+                    onDismiss(ev);
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                }
+                break;
+        }
+    }, [onDismiss]);
+    var win = (0,_fluentui_react_window_provider__WEBPACK_IMPORTED_MODULE_9__.useWindow)();
+    (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__.useOnEvent)(win, 'keydown', onKeyDown);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__assign)({ ref: mergedRootRef }, (0,_Utilities__WEBPACK_IMPORTED_MODULE_10__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_10__.divProperties), { className: className, role: role, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, "aria-describedby": ariaDescribedBy, onKeyDown: onKeyDown, style: (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__assign)({ overflowY: needsVerticalScrollBar ? 'scroll' : undefined, outline: 'none' }, style) }), children));
+});
+//# sourceMappingURL=Popup.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/MenuContext/MenuContext.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/MenuContext/MenuContext.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MenuContext": () => (/* binding */ MenuContext),
+/* harmony export */   "useMenuContext": () => (/* binding */ useMenuContext)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var MenuContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
+var useMenuContext = function () {
+    return react__WEBPACK_IMPORTED_MODULE_0__.useContext(MenuContext);
+};
+//# sourceMappingURL=MenuContext.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/contextualMenu/contextualMenuUtility.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/contextualMenu/contextualMenuUtility.js ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getIsChecked": () => (/* binding */ getIsChecked),
+/* harmony export */   "hasSubmenu": () => (/* binding */ hasSubmenu),
+/* harmony export */   "isItemDisabled": () => (/* binding */ isItemDisabled),
+/* harmony export */   "getMenuItemAriaRole": () => (/* binding */ getMenuItemAriaRole)
+/* harmony export */ });
+/**
+ * Determines the effective checked state of a menu item.
+ *
+ * @param item {IContextualMenuItem} to get the check state of.
+ * @returns {true} if the item is checked.
+ * @returns {false} if the item is unchecked.
+ * @returns {null} if the item is not checkable.
+ */
+function getIsChecked(item) {
+    if (item.canCheck) {
+        return !!(item.isChecked || item.checked);
+    }
+    if (typeof item.isChecked === 'boolean') {
+        return item.isChecked;
+    }
+    if (typeof item.checked === 'boolean') {
+        return item.checked;
+    }
+    // Item is not checkable.
+    return null;
+}
+function hasSubmenu(item) {
+    return !!(item.subMenuProps || item.items);
+}
+function isItemDisabled(item) {
+    return !!(item.isDisabled || item.disabled);
+}
+function getMenuItemAriaRole(item) {
+    var isChecked = getIsChecked(item);
+    var canCheck = isChecked !== null;
+    return canCheck ? 'menuitemcheckbox' : 'menuitem';
+}
+//# sourceMappingURL=contextualMenuUtility.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/decorators/BaseDecorator.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/decorators/BaseDecorator.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BaseDecorator": () => (/* binding */ BaseDecorator)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/hoist.js");
+
+
+
+var BaseDecorator = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(BaseDecorator, _super);
+    function BaseDecorator(props) {
+        var _this = _super.call(this, props) || this;
+        _this._updateComposedComponentRef = _this._updateComposedComponentRef.bind(_this);
+        return _this;
+    }
+    /**
+     * Updates the ref to the component composed by the decorator, which will also take care of hoisting
+     * (and unhoisting as appropriate) methods from said component.
+     *
+     * Pass this method as the argument to the 'ref' property of the composed component.
+     */
+    BaseDecorator.prototype._updateComposedComponentRef = function (composedComponentInstance) {
+        this._composedComponentInstance = composedComponentInstance;
+        if (composedComponentInstance) {
+            this._hoisted = (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.hoistMethods)(this, composedComponentInstance);
+        }
+        else if (this._hoisted) {
+            (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.unhoistMethods)(this, this._hoisted);
+        }
+    };
+    return BaseDecorator;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=BaseDecorator.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/decorators/withResponsiveMode.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/decorators/withResponsiveMode.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ResponsiveMode": () => (/* binding */ ResponsiveMode),
+/* harmony export */   "setResponsiveMode": () => (/* binding */ setResponsiveMode),
+/* harmony export */   "initializeResponsiveMode": () => (/* binding */ initializeResponsiveMode),
+/* harmony export */   "getInitialResponsiveMode": () => (/* binding */ getInitialResponsiveMode),
+/* harmony export */   "withResponsiveMode": () => (/* binding */ withResponsiveMode),
+/* harmony export */   "getResponsiveMode": () => (/* binding */ getResponsiveMode)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _BaseDecorator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./BaseDecorator */ "./node_modules/@fluentui/react/lib/utilities/decorators/BaseDecorator.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/EventGroup.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/hoistStatics.js");
+/* harmony import */ var _WindowProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../WindowProvider */ "./node_modules/@fluentui/react-window-provider/lib/WindowProvider.js");
+
+
+
+
+
+var ResponsiveMode;
+(function (ResponsiveMode) {
+    /** Width \<= 479px */
+    ResponsiveMode[ResponsiveMode["small"] = 0] = "small";
+    /** Width \> 479px and \<= 639px */
+    ResponsiveMode[ResponsiveMode["medium"] = 1] = "medium";
+    /** Width \> 639px and \<= 1023px */
+    ResponsiveMode[ResponsiveMode["large"] = 2] = "large";
+    /** Width \> 1023px and \<= 1365px */
+    ResponsiveMode[ResponsiveMode["xLarge"] = 3] = "xLarge";
+    /** Width \> 1365px and \<= 1919px */
+    ResponsiveMode[ResponsiveMode["xxLarge"] = 4] = "xxLarge";
+    /** Width \> 1919px */
+    ResponsiveMode[ResponsiveMode["xxxLarge"] = 5] = "xxxLarge";
+    ResponsiveMode[ResponsiveMode["unknown"] = 999] = "unknown";
+})(ResponsiveMode || (ResponsiveMode = {}));
+var RESPONSIVE_MAX_CONSTRAINT = [479, 639, 1023, 1365, 1919, 99999999];
+/**
+ * User specified mode to default to, useful for server side rendering scenarios.
+ */
+var _defaultMode;
+/**
+ * Tracking the last mode we successfully rendered, which allows us to
+ * paint initial renders with the correct size.
+ */
+var _lastMode;
+/**
+ * Allows a server rendered scenario to provide a **default** responsive mode.
+ * This WILL NOT trigger any updates to components that have already consumed the responsive mode!
+ */
+function setResponsiveMode(responsiveMode) {
+    _defaultMode = responsiveMode;
+}
+/**
+ * Initializes the responsive mode to the current window size. This can be used to avoid
+ * a re-render during first component mount since the window would otherwise not be measured
+ * until after mounting.
+ *
+ * This WILL NOT trigger any updates to components that have already consumed the responsive mode!
+ */
+function initializeResponsiveMode(element) {
+    var currentWindow = (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__.getWindow)(element);
+    if (currentWindow) {
+        getResponsiveMode(currentWindow);
+    }
+}
+function getInitialResponsiveMode() {
+    return _defaultMode || _lastMode || ResponsiveMode.large;
+}
+/**
+ * @deprecated Decorator usage is deprecated. Either call `getResponsiveMode` manually, or
+ * use the `useResponsiveMode` hook within a function component.
+ */
+function withResponsiveMode(ComposedComponent) {
+    var _a;
+    // eslint-disable-next-line deprecation/deprecation
+    var resultClass = (_a = /** @class */ (function (_super) {
+            (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__extends)(WithResponsiveMode, _super);
+            function WithResponsiveMode(props) {
+                var _this = _super.call(this, props) || this;
+                _this._onResize = function () {
+                    var responsiveMode = getResponsiveMode(_this.context.window);
+                    if (responsiveMode !== _this.state.responsiveMode) {
+                        _this.setState({
+                            responsiveMode: responsiveMode,
+                        });
+                    }
+                };
+                _this._events = new _Utilities__WEBPACK_IMPORTED_MODULE_3__.EventGroup(_this);
+                _this._updateComposedComponentRef = _this._updateComposedComponentRef.bind(_this);
+                _this.state = {
+                    responsiveMode: getInitialResponsiveMode(),
+                };
+                return _this;
+            }
+            WithResponsiveMode.prototype.componentDidMount = function () {
+                this._events.on(this.context.window, 'resize', this._onResize);
+                this._onResize();
+            };
+            WithResponsiveMode.prototype.componentWillUnmount = function () {
+                this._events.dispose();
+            };
+            WithResponsiveMode.prototype.render = function () {
+                var responsiveMode = this.state.responsiveMode;
+                return responsiveMode === ResponsiveMode.unknown ? null : (react__WEBPACK_IMPORTED_MODULE_0__.createElement(ComposedComponent, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ ref: this._updateComposedComponentRef, responsiveMode: responsiveMode }, this.props)));
+            };
+            return WithResponsiveMode;
+        }(_BaseDecorator__WEBPACK_IMPORTED_MODULE_4__.BaseDecorator)),
+        _a.contextType = _WindowProvider__WEBPACK_IMPORTED_MODULE_5__.WindowContext,
+        _a);
+    return (0,_Utilities__WEBPACK_IMPORTED_MODULE_6__.hoistStatics)(ComposedComponent, resultClass);
+}
+/**
+ * Hook to get the current responsive mode (window size category).
+ * @param currentWindow - Use this window when determining the responsive mode.
+ */
+function getResponsiveMode(currentWindow) {
+    var responsiveMode = ResponsiveMode.small;
+    if (currentWindow) {
+        try {
+            while (currentWindow.innerWidth > RESPONSIVE_MAX_CONSTRAINT[responsiveMode]) {
+                responsiveMode++;
+            }
+        }
+        catch (e) {
+            // Return a best effort result in cases where we're in the browser but it throws on getting innerWidth.
+            responsiveMode = getInitialResponsiveMode();
+        }
+        // Tracking last mode just gives us a better default in future renders,
+        // which avoids starting with the wrong value if we've measured once.
+        _lastMode = responsiveMode;
+    }
+    else {
+        if (_defaultMode !== undefined) {
+            responsiveMode = _defaultMode;
+        }
+        else {
+            throw new Error('Content was rendered in a server environment without providing a default responsive mode. ' +
+                'Call setResponsiveMode to define what the responsive mode is.');
+        }
+    }
+    return responsiveMode;
+}
+//# sourceMappingURL=withResponsiveMode.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/hooks/useResponsiveMode.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/hooks/useResponsiveMode.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useResponsiveMode": () => (/* binding */ useResponsiveMode)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useOnEvent.js");
+/* harmony import */ var _decorators_withResponsiveMode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../decorators/withResponsiveMode */ "./node_modules/@fluentui/react/lib/utilities/decorators/withResponsiveMode.js");
+/* harmony import */ var _WindowProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../WindowProvider */ "./node_modules/@fluentui/react-window-provider/lib/WindowProvider.js");
+
+
+
+
+
+/**
+ * Hook to get the current responsive mode (window size category).
+ * @param elementRef - Use this element's parent window when determining the responsive mode.
+ * @param overrideResponsiveMode - Override the responsive mode. If this param is present, it's always returned.
+ */
+var useResponsiveMode = function (elementRef, overrideResponsiveMode) {
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__.useState((0,_decorators_withResponsiveMode__WEBPACK_IMPORTED_MODULE_1__.getInitialResponsiveMode)()), lastResponsiveMode = _a[0], setLastResponsiveMode = _a[1];
+    var onResize = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function () {
+        var newResponsiveMode = (0,_decorators_withResponsiveMode__WEBPACK_IMPORTED_MODULE_1__.getResponsiveMode)((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.getWindow)(elementRef.current));
+        // Setting the same value should not cause a re-render.
+        if (lastResponsiveMode !== newResponsiveMode) {
+            setLastResponsiveMode(newResponsiveMode);
+        }
+    }, [elementRef, lastResponsiveMode]);
+    var win = (0,_WindowProvider__WEBPACK_IMPORTED_MODULE_3__.useWindow)();
+    (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_4__.useOnEvent)(win, 'resize', onResize);
+    // Call resize function initially on mount, or if the override changes from defined to undefined
+    // (the effect will run on all override changes, but onResize will only be called if it changed to undefined)
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (overrideResponsiveMode === undefined) {
+            onResize();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- only meant to run on mount or when override changes
+    }, [overrideResponsiveMode]);
+    return overrideResponsiveMode !== null && overrideResponsiveMode !== void 0 ? overrideResponsiveMode : lastResponsiveMode;
+};
+//# sourceMappingURL=useResponsiveMode.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipConstants.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/keytips/KeytipConstants.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KTP_PREFIX": () => (/* binding */ KTP_PREFIX),
+/* harmony export */   "KTP_SEPARATOR": () => (/* binding */ KTP_SEPARATOR),
+/* harmony export */   "KTP_FULL_PREFIX": () => (/* binding */ KTP_FULL_PREFIX),
+/* harmony export */   "DATAKTP_TARGET": () => (/* binding */ DATAKTP_TARGET),
+/* harmony export */   "DATAKTP_EXECUTE_TARGET": () => (/* binding */ DATAKTP_EXECUTE_TARGET),
+/* harmony export */   "DATAKTP_ARIA_TARGET": () => (/* binding */ DATAKTP_ARIA_TARGET),
+/* harmony export */   "KTP_LAYER_ID": () => (/* binding */ KTP_LAYER_ID),
+/* harmony export */   "KTP_ARIA_SEPARATOR": () => (/* binding */ KTP_ARIA_SEPARATOR),
+/* harmony export */   "KeytipEvents": () => (/* binding */ KeytipEvents)
+/* harmony export */ });
+var KTP_PREFIX = 'ktp';
+var KTP_SEPARATOR = '-';
+var KTP_FULL_PREFIX = KTP_PREFIX + KTP_SEPARATOR;
+var DATAKTP_TARGET = 'data-ktp-target';
+var DATAKTP_EXECUTE_TARGET = 'data-ktp-execute-target';
+var DATAKTP_ARIA_TARGET = 'data-ktp-aria-target';
+var KTP_LAYER_ID = 'ktp-layer-id';
+var KTP_ARIA_SEPARATOR = ', ';
+// Events
+var KeytipEvents;
+(function (KeytipEvents) {
+    KeytipEvents.KEYTIP_ADDED = 'keytipAdded';
+    KeytipEvents.KEYTIP_REMOVED = 'keytipRemoved';
+    KeytipEvents.KEYTIP_UPDATED = 'keytipUpdated';
+    KeytipEvents.PERSISTED_KEYTIP_ADDED = 'persistedKeytipAdded';
+    KeytipEvents.PERSISTED_KEYTIP_REMOVED = 'persistedKeytipRemoved';
+    KeytipEvents.PERSISTED_KEYTIP_EXECUTE = 'persistedKeytipExecute';
+    KeytipEvents.ENTER_KEYTIP_MODE = 'enterKeytipMode';
+    KeytipEvents.EXIT_KEYTIP_MODE = 'exitKeytipMode';
+})(KeytipEvents || (KeytipEvents = {}));
+//# sourceMappingURL=KeytipConstants.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipManager.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/keytips/KeytipManager.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KeytipManager": () => (/* binding */ KeytipManager)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/EventGroup.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/getId.js");
+/* harmony import */ var _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utilities/keytips/KeytipConstants */ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipConstants.js");
+
+
+
+/**
+ * This class is responsible for handling registering, updating, and unregistering of keytips
+ */
+var KeytipManager = /** @class */ (function () {
+    function KeytipManager() {
+        this.keytips = {};
+        this.persistedKeytips = {};
+        this.sequenceMapping = {};
+        // This is (and should be) updated and kept in sync
+        // with the inKeytipMode in KeytipLayer.
+        this.inKeytipMode = false;
+        // Boolean that gets checked before entering keytip mode by the KeytipLayer
+        // Used for an override in special cases (e.g. Disable entering keytip mode when a modal is shown)
+        this.shouldEnterKeytipMode = true;
+        // Boolean to indicate whether to delay firing an event to update subscribers of
+        // keytip data changed.
+        this.delayUpdatingKeytipChange = false;
+    }
+    /**
+     * Static function to get singleton KeytipManager instance
+     *
+     * @returns Singleton KeytipManager instance
+     */
+    KeytipManager.getInstance = function () {
+        return this._instance;
+    };
+    /**
+     * Initialization code to set set parameters to define
+     * how the KeytipManager handles keytip data.
+     *
+     * @param delayUpdatingKeytipChange - T/F if we should delay notifiying keytip subscribers
+     * of keytip changes
+     */
+    KeytipManager.prototype.init = function (delayUpdatingKeytipChange) {
+        this.delayUpdatingKeytipChange = delayUpdatingKeytipChange;
+    };
+    /**
+     * Registers a keytip
+     *
+     * @param keytipProps - Keytip to register
+     * @param persisted - T/F if this keytip should be persisted, default is false
+     * @returns Unique ID for this keytip
+     */
+    KeytipManager.prototype.register = function (keytipProps, persisted) {
+        if (persisted === void 0) { persisted = false; }
+        var props = keytipProps;
+        if (!persisted) {
+            // Add the overflowSetSequence if necessary
+            props = this.addParentOverflow(keytipProps);
+            this.sequenceMapping[props.keySequences.toString()] = props;
+        }
+        // Create a unique keytip
+        var uniqueKeytip = this._getUniqueKtp(props);
+        // Add to dictionary
+        persisted
+            ? (this.persistedKeytips[uniqueKeytip.uniqueID] = uniqueKeytip)
+            : (this.keytips[uniqueKeytip.uniqueID] = uniqueKeytip);
+        // We only want to add something new if we are currently showing keytip mode
+        if (this.inKeytipMode || !this.delayUpdatingKeytipChange) {
+            var event_1 = persisted ? _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.PERSISTED_KEYTIP_ADDED : _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.KEYTIP_ADDED;
+            _Utilities__WEBPACK_IMPORTED_MODULE_1__.EventGroup.raise(this, event_1, {
+                keytip: props,
+                uniqueID: uniqueKeytip.uniqueID,
+            });
+        }
+        return uniqueKeytip.uniqueID;
+    };
+    /**
+     * Update a keytip
+     *
+     * @param keytipProps - Keytip to update
+     * @param uniqueID - Unique ID of this keytip
+     */
+    KeytipManager.prototype.update = function (keytipProps, uniqueID) {
+        var newKeytipProps = this.addParentOverflow(keytipProps);
+        var uniqueKeytip = this._getUniqueKtp(newKeytipProps, uniqueID);
+        var oldKeyTip = this.keytips[uniqueID];
+        if (oldKeyTip) {
+            // Update everything except 'visible'
+            uniqueKeytip.keytip.visible = oldKeyTip.keytip.visible;
+            // Update keytip in this.keytips
+            this.keytips[uniqueID] = uniqueKeytip;
+            // Update the sequence to be up to date
+            delete this.sequenceMapping[oldKeyTip.keytip.keySequences.toString()];
+            this.sequenceMapping[uniqueKeytip.keytip.keySequences.toString()] = uniqueKeytip.keytip;
+            // Raise event only if we are currently in keytip mode
+            if (this.inKeytipMode || !this.delayUpdatingKeytipChange) {
+                _Utilities__WEBPACK_IMPORTED_MODULE_1__.EventGroup.raise(this, _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.KEYTIP_UPDATED, {
+                    keytip: uniqueKeytip.keytip,
+                    uniqueID: uniqueKeytip.uniqueID,
+                });
+            }
+        }
+    };
+    /**
+     * Unregisters a keytip
+     *
+     * @param keytipToRemove - IKeytipProps of the keytip to remove
+     * @param uniqueID - Unique ID of this keytip
+     * @param persisted - T/F if this keytip should be persisted, default is false
+     */
+    KeytipManager.prototype.unregister = function (keytipToRemove, uniqueID, persisted) {
+        if (persisted === void 0) { persisted = false; }
+        persisted ? delete this.persistedKeytips[uniqueID] : delete this.keytips[uniqueID];
+        !persisted && delete this.sequenceMapping[keytipToRemove.keySequences.toString()];
+        var event = persisted ? _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.PERSISTED_KEYTIP_REMOVED : _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.KEYTIP_REMOVED;
+        // Update keytips only if we're in keytip mode
+        if (this.inKeytipMode || !this.delayUpdatingKeytipChange) {
+            _Utilities__WEBPACK_IMPORTED_MODULE_1__.EventGroup.raise(this, event, {
+                keytip: keytipToRemove,
+                uniqueID: uniqueID,
+            });
+        }
+    };
+    /**
+     * Manual call to enter keytip mode
+     */
+    KeytipManager.prototype.enterKeytipMode = function () {
+        _Utilities__WEBPACK_IMPORTED_MODULE_1__.EventGroup.raise(this, _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.ENTER_KEYTIP_MODE);
+    };
+    /**
+     * Manual call to exit keytip mode
+     */
+    KeytipManager.prototype.exitKeytipMode = function () {
+        _Utilities__WEBPACK_IMPORTED_MODULE_1__.EventGroup.raise(this, _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.EXIT_KEYTIP_MODE);
+    };
+    /**
+     * Gets all IKeytipProps from this.keytips
+     *
+     * @returns All keytips stored in the manager
+     */
+    KeytipManager.prototype.getKeytips = function () {
+        var _this = this;
+        return Object.keys(this.keytips).map(function (key) { return _this.keytips[key].keytip; });
+    };
+    /**
+     * Adds the overflowSetSequence to the keytipProps if its parent keytip also has it
+     *
+     * @param keytipProps - Keytip props to add overflowSetSequence to if necessary
+     * @returns - Modified keytip props, if needed to be modified
+     */
+    KeytipManager.prototype.addParentOverflow = function (keytipProps) {
+        var fullSequence = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__spreadArrays)(keytipProps.keySequences);
+        fullSequence.pop();
+        if (fullSequence.length !== 0) {
+            var parentKeytip = this.sequenceMapping[fullSequence.toString()];
+            if (parentKeytip && parentKeytip.overflowSetSequence) {
+                return (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, keytipProps), { overflowSetSequence: parentKeytip.overflowSetSequence });
+            }
+        }
+        return keytipProps;
+    };
+    /**
+     * Public function to bind for overflow items that have a submenu
+     */
+    KeytipManager.prototype.menuExecute = function (overflowButtonSequences, keytipSequences) {
+        _Utilities__WEBPACK_IMPORTED_MODULE_1__.EventGroup.raise(this, _utilities_keytips_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KeytipEvents.PERSISTED_KEYTIP_EXECUTE, {
+            overflowButtonSequences: overflowButtonSequences,
+            keytipSequences: keytipSequences,
+        });
+    };
+    /**
+     * Creates an IUniqueKeytip object
+     *
+     * @param keytipProps - IKeytipProps
+     * @param uniqueID - Unique ID, will default to the next unique ID if not passed
+     * @returns IUniqueKeytip object
+     */
+    KeytipManager.prototype._getUniqueKtp = function (keytipProps, uniqueID) {
+        if (uniqueID === void 0) { uniqueID = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.getId)(); }
+        return { keytip: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, keytipProps), uniqueID: uniqueID };
+    };
+    KeytipManager._instance = new KeytipManager();
+    return KeytipManager;
+}());
+
+//# sourceMappingURL=KeytipManager.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipUtils.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/keytips/KeytipUtils.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "sequencesToID": () => (/* binding */ sequencesToID),
+/* harmony export */   "mergeOverflows": () => (/* binding */ mergeOverflows),
+/* harmony export */   "ktpTargetFromSequences": () => (/* binding */ ktpTargetFromSequences),
+/* harmony export */   "ktpTargetFromId": () => (/* binding */ ktpTargetFromId),
+/* harmony export */   "getAriaDescribedBy": () => (/* binding */ getAriaDescribedBy)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _KeytipConstants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./KeytipConstants */ "./node_modules/@fluentui/react/lib/utilities/keytips/KeytipConstants.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/array.js");
+
+
+
+/**
+ * Converts a whole set of KeySequences into one keytip ID, which will be the ID for the last keytip sequence specified
+ * keySequences should not include the initial keytip 'start' sequence.
+ *
+ * @param keySequences - Full path of IKeySequences for one keytip.
+ * @returns String to use for the keytip ID.
+ */
+function sequencesToID(keySequences) {
+    return keySequences.reduce(function (prevValue, keySequence) {
+        return prevValue + _KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KTP_SEPARATOR + keySequence.split('').join(_KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KTP_SEPARATOR);
+    }, _KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KTP_PREFIX);
+}
+/**
+ * Merges an overflow sequence with a key sequence.
+ *
+ * @param keySequences - Full sequence for one keytip.
+ * @param overflowKeySequences - Full overflow keytip sequence.
+ * @returns Sequence that will be used by the keytip when in the overflow.
+ */
+function mergeOverflows(keySequences, overflowKeySequences) {
+    var overflowSequenceLen = overflowKeySequences.length;
+    var overflowSequence = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__spreadArrays)(overflowKeySequences).pop();
+    var newKeySequences = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__spreadArrays)(keySequences);
+    return (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.addElementAtIndex)(newKeySequences, overflowSequenceLen - 1, overflowSequence);
+}
+/**
+ * Constructs the data-ktp-target attribute selector from a full key sequence.
+ *
+ * @param keySequences - Full string[] for a Keytip.
+ * @returns String selector to use to query for the keytip target.
+ */
+function ktpTargetFromSequences(keySequences) {
+    return '[' + _KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.DATAKTP_TARGET + '="' + sequencesToID(keySequences) + '"]';
+}
+/**
+ * Constructs the data-ktp-execute-target attribute selector from a keytip ID.
+ *
+ * @param keytipId - ID of the Keytip.
+ * @returns String selector to use to query for the keytip execute target.
+ */
+function ktpTargetFromId(keytipId) {
+    return '[' + _KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.DATAKTP_EXECUTE_TARGET + '="' + keytipId + '"]';
+}
+/**
+ * Gets the aria-describedby value to put on the component with this keytip.
+ *
+ * @param keySequences - KeySequences of the keytip.
+ * @returns The aria-describedby value to set on the component with this keytip.
+ */
+function getAriaDescribedBy(keySequences) {
+    var describedby = ' ' + _KeytipConstants__WEBPACK_IMPORTED_MODULE_0__.KTP_LAYER_ID;
+    if (!keySequences.length) {
+        // Return just the layer ID
+        return describedby;
+    }
+    return describedby + ' ' + sequencesToID(keySequences);
+}
+//# sourceMappingURL=KeytipUtils.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/positioning/positioning.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/positioning/positioning.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "__positioningTestPackage": () => (/* binding */ __positioningTestPackage),
+/* harmony export */   "positionElement": () => (/* binding */ positionElement),
+/* harmony export */   "positionCallout": () => (/* binding */ positionCallout),
+/* harmony export */   "positionCard": () => (/* binding */ positionCard),
+/* harmony export */   "getMaxHeight": () => (/* binding */ getMaxHeight),
+/* harmony export */   "getOppositeEdge": () => (/* binding */ getOppositeEdge),
+/* harmony export */   "getBoundsFromTargetWindow": () => (/* binding */ getBoundsFromTargetWindow)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common/DirectionalHint */ "./node_modules/@fluentui/react/lib/common/DirectionalHint.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/scroll.js");
+/* harmony import */ var _positioning_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./positioning.types */ "./node_modules/@fluentui/react/lib/utilities/positioning/positioning.types.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/Rectangle.js");
+var _a;
+
+
+
+
+
+function _createPositionData(targetEdge, alignmentEdge, isAuto) {
+    return {
+        targetEdge: targetEdge,
+        alignmentEdge: alignmentEdge,
+        isAuto: isAuto,
+    };
+}
+// Currently the beakPercent is set to 50 for all positions meaning that it should tend to the center of the target
+var DirectionalDictionary = (_a = {},
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.topLeftEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.topCenter] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.topRightEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.topAutoEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top, undefined, true),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.bottomLeftEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.bottomCenter] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.bottomRightEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.bottomAutoEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom, undefined, true),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.leftTopEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.leftCenter] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.leftBottomEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.rightTopEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.rightCenter] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right),
+    _a[_common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.rightBottomEdge] = _createPositionData(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right, _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom),
+    _a);
+function _isRectangleWithinBounds(rect, boundingRect) {
+    if (rect.top < boundingRect.top) {
+        return false;
+    }
+    if (rect.bottom > boundingRect.bottom) {
+        return false;
+    }
+    if (rect.left < boundingRect.left) {
+        return false;
+    }
+    if (rect.right > boundingRect.right) {
+        return false;
+    }
+    return true;
+}
+/**
+ * Gets all of the edges of a rectangle that are outside of the given bounds.
+ * If there are no out of bounds edges it returns an empty array.
+ */
+function _getOutOfBoundsEdges(rect, boundingRect) {
+    var outOfBounds = [];
+    if (rect.top < boundingRect.top) {
+        outOfBounds.push(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top);
+    }
+    if (rect.bottom > boundingRect.bottom) {
+        outOfBounds.push(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom);
+    }
+    if (rect.left < boundingRect.left) {
+        outOfBounds.push(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left);
+    }
+    if (rect.right > boundingRect.right) {
+        outOfBounds.push(_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right);
+    }
+    return outOfBounds;
+}
+function _getEdgeValue(rect, edge) {
+    return rect[_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[edge]];
+}
+function _setEdgeValue(rect, edge, value) {
+    rect[_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[edge]] = value;
+    return rect;
+}
+/**
+ * Returns the middle value of an edge. Only returns 1 value rather than xy coordinates as
+ * the itself already contains the other coordinate.
+ * For instance, a bottom edge's current value is it's y coordinate, so the number returned is the x.
+ */
+function _getCenterValue(rect, edge) {
+    var edges = _getFlankingEdges(edge);
+    return (_getEdgeValue(rect, edges.positiveEdge) + _getEdgeValue(rect, edges.negativeEdge)) / 2;
+}
+/**
+ * Flips the value depending on the edge.
+ * If the edge is a "positive" edge, Top or Left, then the value should stay as it is.
+ * If the edge is a "negative" edge, Bottom or Right, then the value should be flipped.
+ * This is to account for the fact that the coordinates are effectively reveserved in certain cases for the
+ * "negative" edges.
+ *
+ * For example, when testing to see if a bottom edge 1 is within the bounds of another bottom edge 2:
+ * If edge 1 is greater than edge 2 then it is out of bounds. This is reversed for top edge 1 and top edge 2.
+ * If top edge 1 is less than edge 2 then it is out of bounds.
+ */
+function _getRelativeEdgeValue(edge, value) {
+    if (edge > 0) {
+        return value;
+    }
+    else {
+        return value * -1;
+    }
+}
+function _getRelativeRectEdgeValue(edge, rect) {
+    return _getRelativeEdgeValue(edge, _getEdgeValue(rect, edge));
+}
+function _getRelativeEdgeDifference(rect, hostRect, edge) {
+    var edgeDifference = _getEdgeValue(rect, edge) - _getEdgeValue(hostRect, edge);
+    return _getRelativeEdgeValue(edge, edgeDifference);
+}
+/**
+ * Moves the edge of a rectangle to the value given. It only moves the edge in a linear direction based on that edge.
+ * For example, if it's a bottom edge it will only change y coordinates.
+ */
+function _moveEdge(rect, edge, newValue) {
+    var difference = _getEdgeValue(rect, edge) - newValue;
+    rect = _setEdgeValue(rect, edge, newValue);
+    rect = _setEdgeValue(rect, edge * -1, _getEdgeValue(rect, edge * -1) - difference);
+    return rect;
+}
+/**
+ * Aligns the edge on the passed in rect to the target. If there is a gap then it will have that space between the two.
+ */
+function _alignEdges(rect, target, edge, gap) {
+    if (gap === void 0) { gap = 0; }
+    return _moveEdge(rect, edge, _getEdgeValue(target, edge) + _getRelativeEdgeValue(edge, gap));
+}
+/**
+ * Aligns the targetEdge on the passed in target to the rects corresponding opposite edge.
+ * For instance if targetEdge is bottom, then the rects top will be moved to match it.
+ */
+function _alignOppositeEdges(rect, target, targetEdge, gap) {
+    if (gap === void 0) { gap = 0; }
+    var oppositeEdge = targetEdge * -1;
+    var adjustedGap = _getRelativeEdgeValue(oppositeEdge, gap);
+    return _moveEdge(rect, targetEdge * -1, _getEdgeValue(target, targetEdge) + adjustedGap);
+}
+/**
+ * Tests to see if the given edge is within the bounds of the given rectangle.
+ */
+function _isEdgeInBounds(rect, bounds, edge) {
+    var adjustedRectValue = _getRelativeRectEdgeValue(edge, rect);
+    return adjustedRectValue > _getRelativeRectEdgeValue(edge, bounds);
+}
+/**
+ * Attempts to move the rectangle through various sides of the target to find a place to fit.
+ * If no fit is found, the original position should be returned.
+ */
+function _flipToFit(rect, target, bounding, positionData, gap) {
+    if (gap === void 0) { gap = 0; }
+    var directions = [
+        _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left,
+        _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right,
+        _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom,
+        _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top,
+    ];
+    // In RTL page, RectangleEdge.right has a higher priority than RectangleEdge.left, so the order should be updated.
+    if ((0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.getRTL)()) {
+        directions[0] *= -1;
+        directions[1] *= -1;
+    }
+    var currentEstimate = rect;
+    var currentEdge = positionData.targetEdge;
+    var currentAlignment = positionData.alignmentEdge;
+    // Keep switching sides until one is found with enough space.
+    // If all sides don't fit then return the unmodified element.
+    for (var i = 0; i < 4; i++) {
+        if (!_isEdgeInBounds(currentEstimate, bounding, currentEdge)) {
+            directions.splice(directions.indexOf(currentEdge), 1);
+            if (directions.length > 0) {
+                if (directions.indexOf(currentEdge * -1) > -1) {
+                    currentEdge = currentEdge * -1;
+                }
+                else {
+                    currentAlignment = currentEdge;
+                    currentEdge = directions.slice(-1)[0];
+                }
+                currentEstimate = _estimatePosition(rect, target, { targetEdge: currentEdge, alignmentEdge: currentAlignment }, gap);
+            }
+        }
+        else {
+            return {
+                elementRectangle: currentEstimate,
+                targetEdge: currentEdge,
+                alignmentEdge: currentAlignment,
+            };
+        }
+    }
+    return {
+        elementRectangle: rect,
+        targetEdge: positionData.targetEdge,
+        alignmentEdge: positionData.alignmentEdge,
+    };
+}
+/**
+ * Flips only the alignment edge of an element rectangle. This is used instead of nudging the alignment edges
+ * into position, when `alignTargetEdge` is specified.
+ */
+function _flipAlignmentEdge(elementEstimate, target, gap, coverTarget) {
+    var alignmentEdge = elementEstimate.alignmentEdge, targetEdge = elementEstimate.targetEdge, elementRectangle = elementEstimate.elementRectangle;
+    var oppositeEdge = alignmentEdge * -1;
+    var newEstimate = _estimatePosition(elementRectangle, target, { targetEdge: targetEdge, alignmentEdge: oppositeEdge }, gap, coverTarget);
+    return {
+        elementRectangle: newEstimate,
+        targetEdge: targetEdge,
+        alignmentEdge: oppositeEdge,
+    };
+}
+/**
+ * Adjusts a element rectangle to fit within the bounds given. If directionalHintFixed or covertarget is passed in
+ * then the element will not flip sides on the target. They will, however, be nudged to fit within the bounds given.
+ */
+function _adjustFitWithinBounds(element, target, bounding, positionData, gap, directionalHintFixed, coverTarget) {
+    if (gap === void 0) { gap = 0; }
+    var alignmentEdge = positionData.alignmentEdge, alignTargetEdge = positionData.alignTargetEdge;
+    var elementEstimate = {
+        elementRectangle: element,
+        targetEdge: positionData.targetEdge,
+        alignmentEdge: alignmentEdge,
+    };
+    if (!directionalHintFixed && !coverTarget) {
+        elementEstimate = _flipToFit(element, target, bounding, positionData, gap);
+    }
+    var outOfBounds = _getOutOfBoundsEdges(element, bounding);
+    if (alignTargetEdge) {
+        // The edge opposite to the alignment edge might be out of bounds.
+        // Flip alignment to see if we can get it within bounds.
+        if (elementEstimate.alignmentEdge && outOfBounds.indexOf(elementEstimate.alignmentEdge * -1) > -1) {
+            var flippedElementEstimate = _flipAlignmentEdge(elementEstimate, target, gap, coverTarget);
+            if (_isRectangleWithinBounds(flippedElementEstimate.elementRectangle, bounding)) {
+                return flippedElementEstimate;
+            }
+            else {
+                // If the flipped elements edges are still out of bounds, try nudging it.
+                elementEstimate = _alignOutOfBoundsEdges(_getOutOfBoundsEdges(flippedElementEstimate.elementRectangle, bounding), elementEstimate, bounding);
+            }
+        }
+    }
+    else {
+        elementEstimate = _alignOutOfBoundsEdges(outOfBounds, elementEstimate, bounding);
+    }
+    return elementEstimate;
+}
+/**
+ * Iterates through a list of out of bounds edges and tries to nudge and align them.
+ * @param outOfBoundsEdges - Array of edges that are out of bounds
+ * @param elementEstimate - The current element positioning estimate
+ * @param bounding - The current bounds
+ */
+function _alignOutOfBoundsEdges(outOfBoundsEdges, elementEstimate, bounding) {
+    for (var _i = 0, outOfBoundsEdges_1 = outOfBoundsEdges; _i < outOfBoundsEdges_1.length; _i++) {
+        var direction = outOfBoundsEdges_1[_i];
+        elementEstimate.elementRectangle = _alignEdges(elementEstimate.elementRectangle, bounding, direction);
+    }
+    return elementEstimate;
+}
+/**
+ * Moves the middle point on an edge to the point given.
+ * Only moves in one direction. For instance if a bottom edge is passed in, then
+ * the bottom edge will be moved in the x axis to match the point.
+ */
+function _centerEdgeToPoint(rect, edge, point) {
+    var positiveEdge = _getFlankingEdges(edge).positiveEdge;
+    var elementMiddle = _getCenterValue(rect, edge);
+    var distanceToMiddle = elementMiddle - _getEdgeValue(rect, positiveEdge);
+    return _moveEdge(rect, positiveEdge, point - distanceToMiddle);
+}
+/**
+ * Moves the element rectangle to be appropriately positioned relative to a given target.
+ * Does not flip or adjust the element.
+ */
+function _estimatePosition(elementToPosition, target, positionData, gap, coverTarget) {
+    if (gap === void 0) { gap = 0; }
+    var estimatedElementPosition;
+    var alignmentEdge = positionData.alignmentEdge, targetEdge = positionData.targetEdge;
+    var elementEdge = coverTarget ? targetEdge : targetEdge * -1;
+    estimatedElementPosition = coverTarget
+        ? _alignEdges(elementToPosition, target, targetEdge, gap)
+        : _alignOppositeEdges(elementToPosition, target, targetEdge, gap);
+    // if no alignment edge is provided it's supposed to be centered.
+    if (!alignmentEdge) {
+        var targetMiddlePoint = _getCenterValue(target, targetEdge);
+        estimatedElementPosition = _centerEdgeToPoint(estimatedElementPosition, elementEdge, targetMiddlePoint);
+    }
+    else {
+        estimatedElementPosition = _alignEdges(estimatedElementPosition, target, alignmentEdge);
+    }
+    return estimatedElementPosition;
+}
+/**
+ * Returns the non-opposite edges of the target edge.
+ * For instance if bottom is passed in then left and right will be returned.
+ */
+function _getFlankingEdges(edge) {
+    if (edge === _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top || edge === _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom) {
+        return {
+            positiveEdge: _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.left,
+            negativeEdge: _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.right,
+        };
+    }
+    else {
+        return {
+            positiveEdge: _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top,
+            negativeEdge: _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom,
+        };
+    }
+}
+/**
+ * Retrieve the final value for the return edge of `elementRectangle`. If the `elementRectangle` is closer to one side
+ * of the bounds versus the other, the return edge is flipped to grow inward.
+ */
+function _finalizeReturnEdge(elementRectangle, returnEdge, bounds) {
+    if (bounds &&
+        Math.abs(_getRelativeEdgeDifference(elementRectangle, bounds, returnEdge)) >
+            Math.abs(_getRelativeEdgeDifference(elementRectangle, bounds, returnEdge * -1))) {
+        return returnEdge * -1;
+    }
+    return returnEdge;
+}
+/**
+ * Finalizes the element positon based on the hostElement. Only returns the
+ * rectangle values to position such that they are anchored to the target.
+ * This helps prevent resizing from looking very strange.
+ * For instance, if the target edge is top and aligned with the left side then
+ * the bottom and left values are returned so as the callou shrinks it shrinks towards that corner.
+ */
+function _finalizeElementPosition(elementRectangle, hostElement, targetEdge, bounds, alignmentEdge, coverTarget, doNotFinalizeReturnEdge) {
+    var returnValue = {};
+    var hostRect = _getRectangleFromElement(hostElement);
+    var elementEdge = coverTarget ? targetEdge : targetEdge * -1;
+    var elementEdgeString = _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[elementEdge];
+    var returnEdge = alignmentEdge ? alignmentEdge : _getFlankingEdges(targetEdge).positiveEdge;
+    if (!doNotFinalizeReturnEdge) {
+        returnEdge = _finalizeReturnEdge(elementRectangle, returnEdge, bounds);
+    }
+    returnValue[elementEdgeString] = _getRelativeEdgeDifference(elementRectangle, hostRect, elementEdge);
+    returnValue[_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[returnEdge]] = _getRelativeEdgeDifference(elementRectangle, hostRect, returnEdge);
+    return returnValue;
+}
+// Since the beak is rotated 45 degrees the actual height/width is the length of the diagonal.
+// We still want to position the beak based on it's midpoint which does not change. It will
+// be at (beakwidth / 2, beakwidth / 2)
+function _calculateActualBeakWidthInPixels(beakWidth) {
+    return Math.sqrt(beakWidth * beakWidth * 2);
+}
+/**
+ * Returns the appropriate IPositionData based on the props altered for RTL.
+ * If directionalHintForRTL is passed in that is used if the page is RTL.
+ * If directionalHint is specified, no directionalHintForRTL is available, and the page is RTL, the hint will be
+ * flipped (e.g. bottomLeftEdge would become bottomRightEdge).
+ *
+ * If there is no directionalHint passed in, bottomAutoEdge is chosen automatically.
+ */
+function _getPositionData(directionalHint, directionalHintForRTL, previousPositions) {
+    if (directionalHint === void 0) { directionalHint = _common_DirectionalHint__WEBPACK_IMPORTED_MODULE_0__.DirectionalHint.bottomAutoEdge; }
+    if (previousPositions) {
+        return {
+            alignmentEdge: previousPositions.alignmentEdge,
+            isAuto: previousPositions.isAuto,
+            targetEdge: previousPositions.targetEdge,
+        };
+    }
+    var positionInformation = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, DirectionalDictionary[directionalHint]);
+    if ((0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.getRTL)()) {
+        // If alignment edge exists and that alignment edge is -2 or 2, right or left, then flip it.
+        if (positionInformation.alignmentEdge && positionInformation.alignmentEdge % 2 === 0) {
+            positionInformation.alignmentEdge = positionInformation.alignmentEdge * -1;
+        }
+        return directionalHintForRTL !== undefined ? DirectionalDictionary[directionalHintForRTL] : positionInformation;
+    }
+    return positionInformation;
+}
+/**
+ * Get's the alignment data for the given information. This only really matters if the positioning is Auto.
+ * If it is auto then the alignmentEdge should be chosen based on the target edge's position relative to
+ * the center of the page.
+ */
+function _getAlignmentData(positionData, target, boundingRect, coverTarget, alignTargetEdge) {
+    if (positionData.isAuto) {
+        positionData.alignmentEdge = getClosestEdge(positionData.targetEdge, target, boundingRect);
+    }
+    positionData.alignTargetEdge = alignTargetEdge;
+    return positionData;
+}
+function getClosestEdge(targetEdge, target, boundingRect) {
+    var targetCenter = _getCenterValue(target, targetEdge);
+    var boundingCenter = _getCenterValue(boundingRect, targetEdge);
+    var _a = _getFlankingEdges(targetEdge), positiveEdge = _a.positiveEdge, negativeEdge = _a.negativeEdge;
+    if (targetCenter <= boundingCenter) {
+        return positiveEdge;
+    }
+    else {
+        return negativeEdge;
+    }
+}
+function _positionElementWithinBounds(elementToPosition, target, bounding, positionData, gap, directionalHintFixed, coverTarget) {
+    var estimatedElementPosition = _estimatePosition(elementToPosition, target, positionData, gap, coverTarget);
+    if (_isRectangleWithinBounds(estimatedElementPosition, bounding)) {
+        return {
+            elementRectangle: estimatedElementPosition,
+            targetEdge: positionData.targetEdge,
+            alignmentEdge: positionData.alignmentEdge,
+        };
+    }
+    else {
+        return _adjustFitWithinBounds(elementToPosition, target, bounding, positionData, gap, directionalHintFixed, coverTarget);
+    }
+}
+function _finalizeBeakPosition(elementPosition, positionedBeak, bounds) {
+    var targetEdge = elementPosition.targetEdge * -1;
+    // The "host" element that we will use to help position the beak.
+    var actualElement = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(0, elementPosition.elementRectangle.width, 0, elementPosition.elementRectangle.height);
+    var returnValue = {};
+    var returnEdge = _finalizeReturnEdge(elementPosition.elementRectangle, elementPosition.alignmentEdge ? elementPosition.alignmentEdge : _getFlankingEdges(targetEdge).positiveEdge, bounds);
+    returnValue[_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[targetEdge]] = _getEdgeValue(positionedBeak, targetEdge);
+    returnValue[_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[returnEdge]] = _getRelativeEdgeDifference(positionedBeak, actualElement, returnEdge);
+    return {
+        elementPosition: (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, returnValue),
+        closestEdge: getClosestEdge(elementPosition.targetEdge, positionedBeak, actualElement),
+        targetEdge: targetEdge,
+    };
+}
+function _positionBeak(beakWidth, elementPosition) {
+    var target = elementPosition.targetRectangle;
+    /**
+     * Note about beak positioning: The actual beak width only matters for getting the gap between the callout and
+     * target, it does not impact the beak placement within the callout. For example example, if the beakWidth is 8,
+     * then the actual beakWidth is sqrroot(8^2 + 8^2) = 11.31x11.31. So the callout will need to be an extra 3 pixels
+     * away from its target. While the beak is being positioned in the callout it still acts as though it were 8x8.
+     */
+    var _a = _getFlankingEdges(elementPosition.targetEdge), positiveEdge = _a.positiveEdge, negativeEdge = _a.negativeEdge;
+    var beakTargetPoint = _getCenterValue(target, elementPosition.targetEdge);
+    var elementBounds = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(beakWidth / 2, elementPosition.elementRectangle.width - beakWidth / 2, beakWidth / 2, elementPosition.elementRectangle.height - beakWidth / 2);
+    var beakPosition = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(0, beakWidth, 0, beakWidth);
+    beakPosition = _moveEdge(beakPosition, elementPosition.targetEdge * -1, -beakWidth / 2);
+    beakPosition = _centerEdgeToPoint(beakPosition, elementPosition.targetEdge * -1, beakTargetPoint - _getRelativeRectEdgeValue(positiveEdge, elementPosition.elementRectangle));
+    if (!_isEdgeInBounds(beakPosition, elementBounds, positiveEdge)) {
+        beakPosition = _alignEdges(beakPosition, elementBounds, positiveEdge);
+    }
+    else if (!_isEdgeInBounds(beakPosition, elementBounds, negativeEdge)) {
+        beakPosition = _alignEdges(beakPosition, elementBounds, negativeEdge);
+    }
+    return beakPosition;
+}
+function _getRectangleFromElement(element) {
+    var clientRect = element.getBoundingClientRect();
+    return new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(clientRect.left, clientRect.right, clientRect.top, clientRect.bottom);
+}
+function _getRectangleFromIRect(rect) {
+    return new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(rect.left, rect.right, rect.top, rect.bottom);
+}
+function _getTargetRect(bounds, target) {
+    var targetRectangle;
+    if (target) {
+        // eslint-disable-next-line no-extra-boolean-cast
+        if (!!target.preventDefault) {
+            var ev = target;
+            targetRectangle = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(ev.clientX, ev.clientX, ev.clientY, ev.clientY);
+            // eslint-disable-next-line no-extra-boolean-cast
+        }
+        else if (!!target.getBoundingClientRect) {
+            targetRectangle = _getRectangleFromElement(target);
+            // HTMLImgElements can have x and y values. The check for it being a point must go last.
+        }
+        else {
+            var rectOrPoint = target;
+            // eslint-disable-next-line deprecation/deprecation
+            var left = rectOrPoint.left || rectOrPoint.x;
+            // eslint-disable-next-line deprecation/deprecation
+            var top_1 = rectOrPoint.top || rectOrPoint.y;
+            var right = rectOrPoint.right || left;
+            var bottom = rectOrPoint.bottom || top_1;
+            targetRectangle = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(left, right, top_1, bottom);
+        }
+        if (!_isRectangleWithinBounds(targetRectangle, bounds)) {
+            var outOfBounds = _getOutOfBoundsEdges(targetRectangle, bounds);
+            for (var _i = 0, outOfBounds_1 = outOfBounds; _i < outOfBounds_1.length; _i++) {
+                var direction = outOfBounds_1[_i];
+                targetRectangle[_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[direction]] = bounds[_positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge[direction]];
+            }
+        }
+    }
+    else {
+        targetRectangle = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(0, 0, 0, 0);
+    }
+    return targetRectangle;
+}
+/**
+ * If max height is less than zero it returns the bounds height instead.
+ */
+function _getMaxHeightFromTargetRectangle(targetRectangle, targetEdge, gapSpace, bounds, coverTarget) {
+    var maxHeight = 0;
+    var directionalHint = DirectionalDictionary[targetEdge];
+    // If cover target is set, then the max height should be calculated using the opposite of the target edge since
+    // that's the direction that the callout will expand in.
+    // For instance, if the directionalhint is bottomLeftEdge then the callout will position so it's bottom edge
+    // is aligned with the bottom of the target and expand up towards the top of the screen and the calculated max height
+    // is (bottom of target) - (top of screen) - gapSpace.
+    var target = coverTarget ? directionalHint.targetEdge * -1 : directionalHint.targetEdge;
+    if (target === _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.top) {
+        maxHeight = _getEdgeValue(targetRectangle, directionalHint.targetEdge) - bounds.top - gapSpace;
+    }
+    else if (target === _positioning_types__WEBPACK_IMPORTED_MODULE_1__.RectangleEdge.bottom) {
+        maxHeight = bounds.bottom - _getEdgeValue(targetRectangle, directionalHint.targetEdge) - gapSpace;
+    }
+    else {
+        maxHeight = bounds.bottom - targetRectangle.top - gapSpace;
+    }
+    return maxHeight > 0 ? maxHeight : bounds.height;
+}
+function _positionElementRelative(props, elementToPosition, boundingRect, previousPositions) {
+    var gap = props.gapSpace ? props.gapSpace : 0;
+    var targetRect = _getTargetRect(boundingRect, props.target);
+    var positionData = _getAlignmentData(_getPositionData(props.directionalHint, props.directionalHintForRTL, previousPositions), targetRect, boundingRect, props.coverTarget, props.alignTargetEdge);
+    var positionedElement = _positionElementWithinBounds(_getRectangleFromElement(elementToPosition), targetRect, boundingRect, positionData, gap, props.directionalHintFixed, props.coverTarget);
+    return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, positionedElement), { targetRectangle: targetRect });
+}
+function _finalizePositionData(positionedElement, hostElement, bounds, coverTarget, doNotFinalizeReturnEdge) {
+    var finalizedElement = _finalizeElementPosition(positionedElement.elementRectangle, hostElement, positionedElement.targetEdge, bounds, positionedElement.alignmentEdge, coverTarget, doNotFinalizeReturnEdge);
+    return {
+        elementPosition: finalizedElement,
+        targetEdge: positionedElement.targetEdge,
+        alignmentEdge: positionedElement.alignmentEdge,
+    };
+}
+function _positionElement(props, hostElement, elementToPosition, previousPositions) {
+    var boundingRect = props.bounds
+        ? _getRectangleFromIRect(props.bounds)
+        : new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(0, window.innerWidth - (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.getScrollbarWidth)(), 0, window.innerHeight);
+    var positionedElement = _positionElementRelative(props, elementToPosition, boundingRect, previousPositions);
+    return _finalizePositionData(positionedElement, hostElement, boundingRect, props.coverTarget);
+}
+function _positionCallout(props, hostElement, callout, previousPositions, doNotFinalizeReturnEdge) {
+    var beakWidth = props.isBeakVisible ? props.beakWidth || 0 : 0;
+    var gap = _calculateActualBeakWidthInPixels(beakWidth) / 2 + (props.gapSpace ? props.gapSpace : 0);
+    var positionProps = props;
+    positionProps.gapSpace = gap;
+    var boundingRect = props.bounds
+        ? _getRectangleFromIRect(props.bounds)
+        : new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(0, window.innerWidth - (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.getScrollbarWidth)(), 0, window.innerHeight);
+    var positionedElement = _positionElementRelative(positionProps, callout, boundingRect, previousPositions);
+    var beakPositioned = _positionBeak(beakWidth, positionedElement);
+    var finalizedBeakPosition = _finalizeBeakPosition(positionedElement, beakPositioned, boundingRect);
+    return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, _finalizePositionData(positionedElement, hostElement, boundingRect, props.coverTarget, doNotFinalizeReturnEdge)), { beakPosition: finalizedBeakPosition });
+}
+function _positionCard(props, hostElement, callout, previousPositions) {
+    return _positionCallout(props, hostElement, callout, previousPositions, true);
+}
+// END PRIVATE FUNCTIONS
+var __positioningTestPackage = {
+    _finalizePositionData: _finalizePositionData,
+    _finalizeBeakPosition: _finalizeBeakPosition,
+    _calculateActualBeakWidthInPixels: _calculateActualBeakWidthInPixels,
+    _positionElementWithinBounds: _positionElementWithinBounds,
+    _positionBeak: _positionBeak,
+    _getPositionData: _getPositionData,
+    _getMaxHeightFromTargetRectangle: _getMaxHeightFromTargetRectangle,
+};
+/**
+ * Used to position an element relative to the given positioning props.
+ * If positioning has been completed before, previousPositions can be passed to ensure that the positioning element
+ * repositions based on its previous targets rather than starting with directionalhint.
+ */
+function positionElement(props, hostElement, elementToPosition, previousPositions) {
+    return _positionElement(props, hostElement, elementToPosition, previousPositions);
+}
+function positionCallout(props, hostElement, elementToPosition, previousPositions) {
+    return _positionCallout(props, hostElement, elementToPosition, previousPositions);
+}
+function positionCard(props, hostElement, elementToPosition, previousPositions) {
+    return _positionCard(props, hostElement, elementToPosition, previousPositions);
+}
+/**
+ * Gets the maximum height that a rectangle can have in order to fit below or above a target.
+ * If the directional hint specifies a left or right edge (i.e. leftCenter) it will limit the height to the topBorder
+ * of the target given.
+ * If no bounds are provided then the window is treated as the bounds.
+ */
+function getMaxHeight(target, targetEdge, gapSpace, bounds, coverTarget) {
+    if (gapSpace === void 0) { gapSpace = 0; }
+    var mouseTarget = target;
+    var elementTarget = target;
+    var rectOrPointTarget = target;
+    var targetRect;
+    var boundingRectangle = bounds
+        ? _getRectangleFromIRect(bounds)
+        : new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(0, window.innerWidth - (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.getScrollbarWidth)(), 0, window.innerHeight);
+    // eslint-disable-next-line deprecation/deprecation
+    var left = rectOrPointTarget.left || rectOrPointTarget.x;
+    // eslint-disable-next-line deprecation/deprecation
+    var top = rectOrPointTarget.top || rectOrPointTarget.y;
+    var right = rectOrPointTarget.right || left;
+    var bottom = rectOrPointTarget.bottom || top;
+    // eslint-disable-next-line no-extra-boolean-cast -- may not actually be a MouseEvent
+    if (!!mouseTarget.stopPropagation) {
+        targetRect = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(mouseTarget.clientX, mouseTarget.clientX, mouseTarget.clientY, mouseTarget.clientY);
+    }
+    else if (left !== undefined && top !== undefined) {
+        targetRect = new _Utilities__WEBPACK_IMPORTED_MODULE_4__.Rectangle(left, right, top, bottom);
+    }
+    else {
+        targetRect = _getRectangleFromElement(elementTarget);
+    }
+    return _getMaxHeightFromTargetRectangle(targetRect, targetEdge, gapSpace, boundingRectangle, coverTarget);
+}
+/**
+ * Returns the opposite edge of the given RectangleEdge.
+ */
+function getOppositeEdge(edge) {
+    return edge * -1;
+}
+function _getBoundsFromTargetWindow(target, targetWindow) {
+    var segments = undefined;
+    if (targetWindow.getWindowSegments) {
+        segments = targetWindow.getWindowSegments();
+    }
+    // Identify if we're dealing with single screen scenarios.
+    if (segments === undefined || segments.length <= 1) {
+        return {
+            top: 0,
+            left: 0,
+            right: targetWindow.innerWidth,
+            bottom: targetWindow.innerHeight,
+            width: targetWindow.innerWidth,
+            height: targetWindow.innerHeight,
+        };
+    }
+    // Logic for determining dual screen scenarios.
+    var x = 0;
+    var y = 0;
+    // If the target is an Element get coordinates for its center.
+    if (target !== null && !!target.getBoundingClientRect) {
+        var clientRect = target.getBoundingClientRect();
+        x = (clientRect.left + clientRect.right) / 2;
+        y = (clientRect.top + clientRect.bottom) / 2;
+    }
+    // If the target is not null get x-axis and y-axis coordinates directly.
+    else if (target !== null) {
+        // eslint-disable-next-line deprecation/deprecation
+        x = target.left || target.x;
+        // eslint-disable-next-line deprecation/deprecation
+        y = target.top || target.y;
+    }
+    var bounds = { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 };
+    // Define which window segment are the coordinates in and calculate bounds based on that.
+    for (var _i = 0, segments_1 = segments; _i < segments_1.length; _i++) {
+        var segment = segments_1[_i];
+        if (x && segment.left <= x && segment.right >= x && y && segment.top <= y && segment.bottom >= y) {
+            bounds = {
+                top: segment.top,
+                left: segment.left,
+                right: segment.right,
+                bottom: segment.bottom,
+                width: segment.width,
+                height: segment.height,
+            };
+        }
+    }
+    return bounds;
+}
+function getBoundsFromTargetWindow(target, targetWindow) {
+    return _getBoundsFromTargetWindow(target, targetWindow);
+}
+//# sourceMappingURL=positioning.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/positioning/positioning.types.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/positioning/positioning.types.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "RectangleEdge": () => (/* binding */ RectangleEdge),
+/* harmony export */   "Position": () => (/* binding */ Position)
+/* harmony export */ });
+var RectangleEdge;
+(function (RectangleEdge) {
+    RectangleEdge[RectangleEdge["top"] = 1] = "top";
+    RectangleEdge[RectangleEdge["bottom"] = -1] = "bottom";
+    RectangleEdge[RectangleEdge["left"] = 2] = "left";
+    RectangleEdge[RectangleEdge["right"] = -2] = "right";
+})(RectangleEdge || (RectangleEdge = {}));
+var Position;
+(function (Position) {
+    Position[Position["top"] = 0] = "top";
+    Position[Position["bottom"] = 1] = "bottom";
+    Position[Position["start"] = 2] = "start";
+    Position[Position["end"] = 3] = "end";
+})(Position || (Position = {}));
+//# sourceMappingURL=positioning.types.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/set-version/lib/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@fluentui/set-version/lib/index.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setVersion": () => (/* reexport safe */ _setVersion__WEBPACK_IMPORTED_MODULE_0__.setVersion)
+/* harmony export */ });
+/* harmony import */ var _setVersion__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setVersion */ "./node_modules/@fluentui/set-version/lib/setVersion.js");
+
+
+(0,_setVersion__WEBPACK_IMPORTED_MODULE_0__.setVersion)('@fluentui/set-version', '6.0.0');
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/set-version/lib/setVersion.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@fluentui/set-version/lib/setVersion.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setVersion": () => (/* binding */ setVersion)
+/* harmony export */ });
+// A packages cache that makes sure that we don't inject the same packageName twice in the same bundle -
+// this cache is local to the module closure inside this bundle
+var packagesCache = {};
+// Cache access to window to avoid IE11 memory leak.
+var _win = undefined;
+try {
+    _win = window;
+}
+catch (e) {
+    /* no-op */
+}
+function setVersion(packageName, packageVersion) {
+    if (typeof _win !== 'undefined') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var packages = (_win.__packages__ = _win.__packages__ || {});
+        // We allow either the global packages or local packages caches to invalidate so testing can
+        // just clear the global to set this state
+        if (!packages[packageName] || !packagesCache[packageName]) {
+            packagesCache[packageName] = packageVersion;
+            var versions = (packages[packageName] = packages[packageName] || []);
+            versions.push(packageVersion);
+        }
+    }
+}
+//# sourceMappingURL=setVersion.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/MergeStyles.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/MergeStyles.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "InjectionMode": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.InjectionMode),
+/* harmony export */   "Stylesheet": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.Stylesheet),
+/* harmony export */   "concatStyleSets": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__.concatStyleSets),
+/* harmony export */   "concatStyleSetsWithProps": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__.concatStyleSetsWithProps),
+/* harmony export */   "fontFace": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_3__.fontFace),
+/* harmony export */   "keyframes": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__.keyframes),
+/* harmony export */   "mergeStyleSets": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_5__.mergeStyleSets),
+/* harmony export */   "mergeStyles": () => (/* reexport safe */ _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_6__.mergeStyles)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/concatStyleSets.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/concatStyleSetsWithProps.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/fontFace.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/keyframes.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyleSets.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+
+//# sourceMappingURL=MergeStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/classNames/AnimationClassNames.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/classNames/AnimationClassNames.js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AnimationClassNames": () => (/* binding */ AnimationClassNames)
+/* harmony export */ });
+/* harmony import */ var _utilities_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/index */ "./node_modules/@fluentui/style-utilities/lib/utilities/buildClassMap.js");
+/* harmony import */ var _styles_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/index */ "./node_modules/@fluentui/theme/lib/motion/AnimationStyles.js");
+
+
+/**
+ * {@docCategory AnimationClassNames}
+ */
+var AnimationClassNames = (0,_utilities_index__WEBPACK_IMPORTED_MODULE_0__.buildClassMap)(_styles_index__WEBPACK_IMPORTED_MODULE_1__.AnimationStyles);
+//# sourceMappingURL=AnimationClassNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/classNames/ColorClassNames.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/classNames/ColorClassNames.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ColorClassNames": () => (/* binding */ ColorClassNames)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+/* harmony import */ var _styles_DefaultPalette__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../styles/DefaultPalette */ "./node_modules/@fluentui/theme/lib/colors/DefaultPalette.js");
+/* harmony import */ var _styles_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/index */ "./node_modules/@fluentui/style-utilities/lib/styles/theme.js");
+
+
+
+var ColorClassNames = {};
+for (var colorName in _styles_DefaultPalette__WEBPACK_IMPORTED_MODULE_0__.DefaultPalette) {
+    if (_styles_DefaultPalette__WEBPACK_IMPORTED_MODULE_0__.DefaultPalette.hasOwnProperty(colorName)) {
+        // Foreground color
+        _defineGetter(ColorClassNames, colorName, '', false, 'color');
+        // Hover color
+        _defineGetter(ColorClassNames, colorName, 'Hover', true, 'color');
+        // Background color
+        _defineGetter(ColorClassNames, colorName, 'Background', false, 'background');
+        // Background hover
+        _defineGetter(ColorClassNames, colorName, 'BackgroundHover', true, 'background');
+        // Border color
+        _defineGetter(ColorClassNames, colorName, 'Border', false, 'borderColor');
+        // Border hover color
+        _defineGetter(ColorClassNames, colorName, 'BorderHover', true, 'borderColor');
+    }
+}
+/**
+ * Defines a getter for the given class configuration.
+ */
+function _defineGetter(obj, colorName, suffix, isHover, cssProperty) {
+    Object.defineProperty(obj, colorName + suffix, {
+        get: function () {
+            var _a;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            var style = (_a = {}, _a[cssProperty] = (0,_styles_index__WEBPACK_IMPORTED_MODULE_1__.getTheme)().palette[colorName], _a);
+            return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__.mergeStyles)(isHover ? { selectors: { ':hover': style } } : style).toString();
+        },
+        enumerable: true,
+        configurable: true,
+    });
+}
+//# sourceMappingURL=ColorClassNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/classNames/FontClassNames.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/classNames/FontClassNames.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FontClassNames": () => (/* binding */ FontClassNames)
+/* harmony export */ });
+/* harmony import */ var _utilities_buildClassMap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/buildClassMap */ "./node_modules/@fluentui/style-utilities/lib/utilities/buildClassMap.js");
+/* harmony import */ var _styles_DefaultFontStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/DefaultFontStyles */ "./node_modules/@fluentui/theme/lib/fonts/DefaultFontStyles.js");
+
+
+/**
+ * {@docCategory FontClassNames}
+ */
+var FontClassNames = (0,_utilities_buildClassMap__WEBPACK_IMPORTED_MODULE_0__.buildClassMap)(_styles_DefaultFontStyles__WEBPACK_IMPORTED_MODULE_1__.DefaultFontStyles);
+//# sourceMappingURL=FontClassNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/classNames/index.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/classNames/index.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AnimationClassNames": () => (/* reexport safe */ _AnimationClassNames__WEBPACK_IMPORTED_MODULE_0__.AnimationClassNames),
+/* harmony export */   "FontClassNames": () => (/* reexport safe */ _FontClassNames__WEBPACK_IMPORTED_MODULE_1__.FontClassNames),
+/* harmony export */   "ColorClassNames": () => (/* reexport safe */ _ColorClassNames__WEBPACK_IMPORTED_MODULE_2__.ColorClassNames)
+/* harmony export */ });
+/* harmony import */ var _AnimationClassNames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AnimationClassNames */ "./node_modules/@fluentui/style-utilities/lib/classNames/AnimationClassNames.js");
+/* harmony import */ var _FontClassNames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FontClassNames */ "./node_modules/@fluentui/style-utilities/lib/classNames/FontClassNames.js");
+/* harmony import */ var _ColorClassNames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ColorClassNames */ "./node_modules/@fluentui/style-utilities/lib/classNames/ColorClassNames.js");
+
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/index.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/index.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AnimationClassNames": () => (/* reexport safe */ _classNames_index__WEBPACK_IMPORTED_MODULE_0__.AnimationClassNames),
+/* harmony export */   "ColorClassNames": () => (/* reexport safe */ _classNames_index__WEBPACK_IMPORTED_MODULE_0__.ColorClassNames),
+/* harmony export */   "FontClassNames": () => (/* reexport safe */ _classNames_index__WEBPACK_IMPORTED_MODULE_0__.FontClassNames),
+/* harmony export */   "AnimationStyles": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.AnimationStyles),
+/* harmony export */   "AnimationVariables": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.AnimationVariables),
+/* harmony export */   "DefaultEffects": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.DefaultEffects),
+/* harmony export */   "DefaultFontStyles": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.DefaultFontStyles),
+/* harmony export */   "DefaultPalette": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.DefaultPalette),
+/* harmony export */   "EdgeChromiumHighContrastSelector": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.EdgeChromiumHighContrastSelector),
+/* harmony export */   "FontSizes": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.FontSizes),
+/* harmony export */   "FontWeights": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.FontWeights),
+/* harmony export */   "HighContrastSelector": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelector),
+/* harmony export */   "HighContrastSelectorBlack": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelectorBlack),
+/* harmony export */   "HighContrastSelectorWhite": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.HighContrastSelectorWhite),
+/* harmony export */   "IconFontSizes": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.IconFontSizes),
+/* harmony export */   "PulsingBeaconAnimationStyles": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.PulsingBeaconAnimationStyles),
+/* harmony export */   "ScreenWidthMaxLarge": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMaxLarge),
+/* harmony export */   "ScreenWidthMaxMedium": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMaxMedium),
+/* harmony export */   "ScreenWidthMaxSmall": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMaxSmall),
+/* harmony export */   "ScreenWidthMaxXLarge": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMaxXLarge),
+/* harmony export */   "ScreenWidthMaxXXLarge": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMaxXXLarge),
+/* harmony export */   "ScreenWidthMinLarge": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMinLarge),
+/* harmony export */   "ScreenWidthMinMedium": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMinMedium),
+/* harmony export */   "ScreenWidthMinSmall": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMinSmall),
+/* harmony export */   "ScreenWidthMinUhfMobile": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMinUhfMobile),
+/* harmony export */   "ScreenWidthMinXLarge": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMinXLarge),
+/* harmony export */   "ScreenWidthMinXXLarge": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMinXXLarge),
+/* harmony export */   "ScreenWidthMinXXXLarge": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ScreenWidthMinXXXLarge),
+/* harmony export */   "ThemeSettingName": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ThemeSettingName),
+/* harmony export */   "ZIndexes": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.ZIndexes),
+/* harmony export */   "createFontStyles": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.createFontStyles),
+/* harmony export */   "createTheme": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.createTheme),
+/* harmony export */   "focusClear": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.focusClear),
+/* harmony export */   "getEdgeChromiumNoHighContrastAdjustSelector": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getEdgeChromiumNoHighContrastAdjustSelector),
+/* harmony export */   "getFadedOverflowStyle": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getFadedOverflowStyle),
+/* harmony export */   "getFocusOutlineStyle": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getFocusOutlineStyle),
+/* harmony export */   "getFocusStyle": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getFocusStyle),
+/* harmony export */   "getGlobalClassNames": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getGlobalClassNames),
+/* harmony export */   "getHighContrastNoAdjustStyle": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getHighContrastNoAdjustStyle),
+/* harmony export */   "getInputFocusStyle": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getInputFocusStyle),
+/* harmony export */   "getPlaceholderStyles": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getPlaceholderStyles),
+/* harmony export */   "getScreenSelector": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getScreenSelector),
+/* harmony export */   "getTheme": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getTheme),
+/* harmony export */   "getThemedContext": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.getThemedContext),
+/* harmony export */   "hiddenContentStyle": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.hiddenContentStyle),
+/* harmony export */   "loadTheme": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.loadTheme),
+/* harmony export */   "noWrap": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.noWrap),
+/* harmony export */   "normalize": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.normalize),
+/* harmony export */   "registerDefaultFontFaces": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.registerDefaultFontFaces),
+/* harmony export */   "registerOnThemeChangeCallback": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.registerOnThemeChangeCallback),
+/* harmony export */   "removeOnThemeChangeCallback": () => (/* reexport safe */ _styles_index__WEBPACK_IMPORTED_MODULE_1__.removeOnThemeChangeCallback),
+/* harmony export */   "buildClassMap": () => (/* reexport safe */ _utilities_index__WEBPACK_IMPORTED_MODULE_2__.buildClassMap),
+/* harmony export */   "getIcon": () => (/* reexport safe */ _utilities_index__WEBPACK_IMPORTED_MODULE_2__.getIcon),
+/* harmony export */   "getIconClassName": () => (/* reexport safe */ _utilities_index__WEBPACK_IMPORTED_MODULE_2__.getIconClassName),
+/* harmony export */   "registerIconAlias": () => (/* reexport safe */ _utilities_index__WEBPACK_IMPORTED_MODULE_2__.registerIconAlias),
+/* harmony export */   "registerIcons": () => (/* reexport safe */ _utilities_index__WEBPACK_IMPORTED_MODULE_2__.registerIcons),
+/* harmony export */   "setIconOptions": () => (/* reexport safe */ _utilities_index__WEBPACK_IMPORTED_MODULE_2__.setIconOptions),
+/* harmony export */   "unregisterIcons": () => (/* reexport safe */ _utilities_index__WEBPACK_IMPORTED_MODULE_2__.unregisterIcons),
+/* harmony export */   "InjectionMode": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.InjectionMode),
+/* harmony export */   "Stylesheet": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.Stylesheet),
+/* harmony export */   "concatStyleSets": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.concatStyleSets),
+/* harmony export */   "concatStyleSetsWithProps": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.concatStyleSetsWithProps),
+/* harmony export */   "fontFace": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.fontFace),
+/* harmony export */   "keyframes": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.keyframes),
+/* harmony export */   "mergeStyleSets": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.mergeStyleSets),
+/* harmony export */   "mergeStyles": () => (/* reexport safe */ _MergeStyles__WEBPACK_IMPORTED_MODULE_3__.mergeStyles)
+/* harmony export */ });
+/* harmony import */ var _classNames_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./classNames/index */ "./node_modules/@fluentui/style-utilities/lib/classNames/index.js");
+/* harmony import */ var _styles_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/index */ "./node_modules/@fluentui/style-utilities/lib/styles/index.js");
+/* harmony import */ var _utilities_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities/index */ "./node_modules/@fluentui/style-utilities/lib/utilities/index.js");
+/* harmony import */ var _MergeStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MergeStyles */ "./node_modules/@fluentui/style-utilities/lib/MergeStyles.js");
+/* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./version */ "./node_modules/@fluentui/style-utilities/lib/version.js");
+/* harmony import */ var _styles_theme__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles/theme */ "./node_modules/@fluentui/style-utilities/lib/styles/theme.js");
+
+
+
+
+
+
+// Ensure theme is initialized when this package is referenced.
+
+(0,_styles_theme__WEBPACK_IMPORTED_MODULE_5__.initializeThemeInCustomizations)();
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/CommonStyles.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/CommonStyles.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "HighContrastSelector": () => (/* binding */ HighContrastSelector),
+/* harmony export */   "HighContrastSelectorWhite": () => (/* binding */ HighContrastSelectorWhite),
+/* harmony export */   "HighContrastSelectorBlack": () => (/* binding */ HighContrastSelectorBlack),
+/* harmony export */   "EdgeChromiumHighContrastSelector": () => (/* binding */ EdgeChromiumHighContrastSelector),
+/* harmony export */   "ScreenWidthMinSmall": () => (/* binding */ ScreenWidthMinSmall),
+/* harmony export */   "ScreenWidthMinMedium": () => (/* binding */ ScreenWidthMinMedium),
+/* harmony export */   "ScreenWidthMinLarge": () => (/* binding */ ScreenWidthMinLarge),
+/* harmony export */   "ScreenWidthMinXLarge": () => (/* binding */ ScreenWidthMinXLarge),
+/* harmony export */   "ScreenWidthMinXXLarge": () => (/* binding */ ScreenWidthMinXXLarge),
+/* harmony export */   "ScreenWidthMinXXXLarge": () => (/* binding */ ScreenWidthMinXXXLarge),
+/* harmony export */   "ScreenWidthMaxSmall": () => (/* binding */ ScreenWidthMaxSmall),
+/* harmony export */   "ScreenWidthMaxMedium": () => (/* binding */ ScreenWidthMaxMedium),
+/* harmony export */   "ScreenWidthMaxLarge": () => (/* binding */ ScreenWidthMaxLarge),
+/* harmony export */   "ScreenWidthMaxXLarge": () => (/* binding */ ScreenWidthMaxXLarge),
+/* harmony export */   "ScreenWidthMaxXXLarge": () => (/* binding */ ScreenWidthMaxXXLarge),
+/* harmony export */   "ScreenWidthMinUhfMobile": () => (/* binding */ ScreenWidthMinUhfMobile),
+/* harmony export */   "getScreenSelector": () => (/* binding */ getScreenSelector),
+/* harmony export */   "getHighContrastNoAdjustStyle": () => (/* binding */ getHighContrastNoAdjustStyle),
+/* harmony export */   "getEdgeChromiumNoHighContrastAdjustSelector": () => (/* binding */ getEdgeChromiumNoHighContrastAdjustSelector)
+/* harmony export */ });
+var HighContrastSelector = '@media screen and (-ms-high-contrast: active), (forced-colors: active)';
+var HighContrastSelectorWhite = '@media screen and (-ms-high-contrast: black-on-white), (forced-colors: black-on-white)';
+var HighContrastSelectorBlack = '@media screen and (-ms-high-contrast: white-on-black), (forced-colors: white-on-black)';
+var EdgeChromiumHighContrastSelector = '@media screen and (forced-colors: active)';
+var ScreenWidthMinSmall = 320;
+var ScreenWidthMinMedium = 480;
+var ScreenWidthMinLarge = 640;
+var ScreenWidthMinXLarge = 1024;
+var ScreenWidthMinXXLarge = 1366;
+var ScreenWidthMinXXXLarge = 1920;
+var ScreenWidthMaxSmall = ScreenWidthMinMedium - 1;
+var ScreenWidthMaxMedium = ScreenWidthMinLarge - 1;
+var ScreenWidthMaxLarge = ScreenWidthMinXLarge - 1;
+var ScreenWidthMaxXLarge = ScreenWidthMinXXLarge - 1;
+var ScreenWidthMaxXXLarge = ScreenWidthMinXXXLarge - 1;
+var ScreenWidthMinUhfMobile = 768;
+function getScreenSelector(min, max) {
+    var minSelector = typeof min === 'number' ? " and (min-width: " + min + "px)" : '';
+    var maxSelector = typeof max === 'number' ? " and (max-width: " + max + "px)" : '';
+    return "@media only screen" + minSelector + maxSelector;
+}
+/**
+ * The style which turns off high contrast adjustment in browsers.
+ */
+function getHighContrastNoAdjustStyle() {
+    return {
+        forcedColorAdjust: 'none',
+        MsHighContrastAdjust: 'none',
+    };
+}
+/**
+ * The style which turns off high contrast adjustment in (only) Edge Chromium browser.
+ *  @deprecated Use `getHighContrastNoAdjustStyle`
+ */
+function getEdgeChromiumNoHighContrastAdjustSelector() {
+    var _a;
+    return _a = {},
+        _a[EdgeChromiumHighContrastSelector] = {
+            forcedColorAdjust: 'none',
+        },
+        _a;
+}
+//# sourceMappingURL=CommonStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/GeneralStyles.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/GeneralStyles.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "normalize": () => (/* binding */ normalize),
+/* harmony export */   "noWrap": () => (/* binding */ noWrap)
+/* harmony export */ });
+// This file mimics styles and mixins from _General.Mixins.scss
+var normalize = {
+    boxShadow: 'none',
+    margin: 0,
+    padding: 0,
+    boxSizing: 'border-box',
+};
+var noWrap = {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+};
+//# sourceMappingURL=GeneralStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/PulsingBeaconAnimationStyles.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/PulsingBeaconAnimationStyles.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PulsingBeaconAnimationStyles": () => (/* binding */ PulsingBeaconAnimationStyles)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/keyframes.js");
+
+
+var DEFAULT_DURATION = '14s';
+var DEFAULT_DELAY = '2s';
+var DEFAULT_ITERATION_COUNT = '1';
+function _continuousPulseStepOne(beaconColorOne, innerDimension) {
+    return {
+        borderColor: beaconColorOne,
+        borderWidth: '0px',
+        width: innerDimension,
+        height: innerDimension,
+    };
+}
+function _continuousPulseStepTwo(borderWidth) {
+    return {
+        opacity: 1,
+        borderWidth: borderWidth,
+    };
+}
+function _continuousPulseStepThree() {
+    return {
+        opacity: 1,
+    };
+}
+function _continuousPulseStepFour(beaconColorTwo, outerDimension) {
+    return {
+        borderWidth: '0',
+        width: outerDimension,
+        height: outerDimension,
+        opacity: 0,
+        borderColor: beaconColorTwo,
+    };
+}
+function _continuousPulseStepFive(beaconColorOne, innerDimension) {
+    return (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({}, _continuousPulseStepOne(beaconColorOne, innerDimension)), {
+        opacity: 0,
+    });
+}
+function _continuousPulseAnimationDouble(beaconColorOne, beaconColorTwo, innerDimension, outerDimension, borderWidth) {
+    return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__.keyframes)({
+        '0%': _continuousPulseStepOne(beaconColorOne, innerDimension),
+        '1.42%': _continuousPulseStepTwo(borderWidth),
+        '3.57%': _continuousPulseStepThree(),
+        '7.14%': _continuousPulseStepFour(beaconColorTwo, outerDimension),
+        '8%': _continuousPulseStepFive(beaconColorOne, innerDimension),
+        '29.99%': _continuousPulseStepFive(beaconColorOne, innerDimension),
+        '30%': _continuousPulseStepOne(beaconColorOne, innerDimension),
+        '31.42%': _continuousPulseStepTwo(borderWidth),
+        '33.57%': _continuousPulseStepThree(),
+        '37.14%': _continuousPulseStepFour(beaconColorTwo, outerDimension),
+        '38%': _continuousPulseStepFive(beaconColorOne, innerDimension),
+        '79.42%': _continuousPulseStepFive(beaconColorOne, innerDimension),
+        '79.43': _continuousPulseStepOne(beaconColorOne, innerDimension),
+        '81.85': _continuousPulseStepTwo(borderWidth),
+        '83.42': _continuousPulseStepThree(),
+        '87%': _continuousPulseStepFour(beaconColorTwo, outerDimension),
+        '100%': {},
+    });
+}
+function _continuousPulseAnimationSingle(beaconColorOne, beaconColorTwo, innerDimension, outerDimension, borderWidth) {
+    return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__.keyframes)({
+        '0%': _continuousPulseStepOne(beaconColorOne, innerDimension),
+        '14.2%': _continuousPulseStepTwo(borderWidth),
+        '35.7%': _continuousPulseStepThree(),
+        '71.4%': _continuousPulseStepFour(beaconColorTwo, outerDimension),
+        '100%': {},
+    });
+}
+function _createDefaultAnimation(animationName, delayLength) {
+    return {
+        animationName: animationName,
+        animationIterationCount: DEFAULT_ITERATION_COUNT,
+        animationDuration: DEFAULT_DURATION,
+        animationDelay: delayLength || DEFAULT_DELAY,
+    };
+}
+var PulsingBeaconAnimationStyles = {
+    continuousPulseAnimationDouble: _continuousPulseAnimationDouble,
+    continuousPulseAnimationSingle: _continuousPulseAnimationSingle,
+    createDefaultAnimation: _createDefaultAnimation,
+};
+//# sourceMappingURL=PulsingBeaconAnimationStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/getFadedOverflowStyle.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/getFadedOverflowStyle.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getFadedOverflowStyle": () => (/* binding */ getFadedOverflowStyle)
+/* harmony export */ });
+var DEFAULT_HEIGHT = '50%';
+var DEFAULT_WIDTH = 20;
+/**
+ * - Generates a style used to fade out an overflowing content by defining a style for an :after pseudo element.
+ * - Apply it to the :after selector for all combination of states the parent of content might have (normal, hover,
+ * selected, focus).
+ * - Requires the target to have position set to relative and overflow set to hidden.
+ *
+ * @example
+ * ```tsx
+ * // Assuming the following DOM structure and the different background colors coming from
+ * // the parent holding the content.
+ * <div className={classNames.parent}>
+ *   <span className={classNames.content}>Overflown Content</span>
+ * </div>
+ * ```
+ * ```ts
+ * // This is how the style set would look in Component.styles.ts
+ * const { bodyBackground } = theme.semanticColors;
+ * const { neutralLighter } = theme.palette;
+ *
+ * // The second argument of getFadedOverflowStyle function is a string representing a key of
+ * // ISemanticColors or IPalette.
+ *
+ * const styles = {
+ *   parent: [
+ *     backgroundColor: bodyBackground,
+ *     selectors: {
+ *       '&:hover: {
+ *         backgroundColor: neutralLighter
+ *       },
+ *       '$content:after': {
+ *         ...getFadedOverflowStyle(theme, 'bodyBackground')
+ *       },
+ *       '&:hover $content:after': {
+ *         ...getFadedOverflowStyle(theme, 'neutralLighter')
+ *       }
+ *     }
+ *   ],
+ *   content: [
+ *     width: '100%',
+ *     display: 'inline-block',
+ *     position: 'relative',
+ *     overflow: 'hidden'
+ *   ]
+ * }
+ * ```
+ * @param theme - The theme object to use.
+ * @param color - The background color to fade out to. Accepts only keys of ISemanticColors or IPalette.
+ * Defaults to 'bodyBackground'.
+ * @param direction - The direction of the overflow. Defaults to horizontal.
+ * @param width - The width of the fading overflow. Vertical direction defaults it to 100% vs 20px when horizontal.
+ * @param height - The Height of the fading overflow. Vertical direction defaults it to 50% vs 100% when horizontal.
+ * @returns The style object.
+ */
+function getFadedOverflowStyle(theme, color, direction, width, height) {
+    if (color === void 0) { color = 'bodyBackground'; }
+    if (direction === void 0) { direction = 'horizontal'; }
+    if (width === void 0) { width = getDefaultValue('width', direction); }
+    if (height === void 0) { height = getDefaultValue('height', direction); }
+    // Get the color value string from the theme semanticColors or palette.
+    var colorValue = theme.semanticColors[color] || theme.palette[color];
+    // Get the red, green, blue values of the colorValue.
+    var rgbColor = color2rgb(colorValue);
+    // Apply opacity 0 to serve as a start color of the gradient.
+    var rgba = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", 0)";
+    // Get the direction of the gradient. (mergeStyles takes care of RTL direction)
+    var gradientDirection = direction === 'vertical' ? 'to bottom' : 'to right';
+    return {
+        content: '""',
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        width: width,
+        height: height,
+        pointerEvents: 'none',
+        backgroundImage: "linear-gradient(" + gradientDirection + ", " + rgba + " 0%, " + colorValue + " 100%)",
+    };
+}
+// TODO consider moving this to a separate module along with some more color functions from OUFR/utilities.
+/**
+ * Helper function to convert a string hex color to an RGB object.
+ *
+ * @param colorValue - Color to be converted from hex to rgba.
+ */
+function color2rgb(colorValue) {
+    if (colorValue[0] === '#') {
+        // If it's a hex code
+        return {
+            r: parseInt(colorValue.slice(1, 3), 16),
+            g: parseInt(colorValue.slice(3, 5), 16),
+            b: parseInt(colorValue.slice(5, 7), 16),
+        };
+    }
+    else if (colorValue.indexOf('rgba(') === 0) {
+        // If it's an rgba color string
+        colorValue = colorValue.match(/rgba\(([^)]+)\)/)[1];
+        var parts = colorValue.split(/ *, */).map(Number);
+        return {
+            r: parts[0],
+            g: parts[1],
+            b: parts[2],
+        };
+    }
+    // The only remaining possibility is transparent.
+    return {
+        r: 255,
+        g: 255,
+        b: 255,
+    };
+}
+/**
+ * Helper function to get the default values for parameters of main function.
+ *
+ * @param style - Which style to get the default value for.
+ * @param direction - What direction to take into consideration.
+ */
+function getDefaultValue(style, direction) {
+    if (style === 'width') {
+        return direction === 'horizontal' ? DEFAULT_WIDTH : '100%';
+    }
+    else {
+        return direction === 'vertical' ? DEFAULT_HEIGHT : '100%';
+    }
+}
+//# sourceMappingURL=getFadedOverflowStyle.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/getFocusStyle.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/getFocusStyle.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getFocusStyle": () => (/* binding */ getFocusStyle),
+/* harmony export */   "focusClear": () => (/* binding */ focusClear),
+/* harmony export */   "getFocusOutlineStyle": () => (/* binding */ getFocusOutlineStyle),
+/* harmony export */   "getInputFocusStyle": () => (/* binding */ getInputFocusStyle)
+/* harmony export */ });
+/* harmony import */ var _CommonStyles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CommonStyles */ "./node_modules/@fluentui/style-utilities/lib/styles/CommonStyles.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/setFocusVisibility.js");
+/* harmony import */ var _zIndexes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./zIndexes */ "./node_modules/@fluentui/style-utilities/lib/styles/zIndexes.js");
+
+
+
+function getFocusStyle(theme, insetOrOptions, position, highContrastStyle, borderColor, outlineColor, isFocusedOnly) {
+    if (typeof insetOrOptions === 'number' || !insetOrOptions) {
+        return _getFocusStyleInternal(theme, {
+            inset: insetOrOptions,
+            position: position,
+            highContrastStyle: highContrastStyle,
+            borderColor: borderColor,
+            outlineColor: outlineColor,
+            isFocusedOnly: isFocusedOnly,
+        });
+    }
+    else {
+        return _getFocusStyleInternal(theme, insetOrOptions);
+    }
+}
+function _getFocusStyleInternal(theme, options) {
+    var _a, _b;
+    if (options === void 0) { options = {}; }
+    var _c = options.inset, inset = _c === void 0 ? 0 : _c, _d = options.width, width = _d === void 0 ? 1 : _d, _e = options.position, position = _e === void 0 ? 'relative' : _e, highContrastStyle = options.highContrastStyle, _f = options.borderColor, borderColor = _f === void 0 ? theme.palette.white : _f, _g = options.outlineColor, outlineColor = _g === void 0 ? theme.palette.neutralSecondary : _g, _h = options.isFocusedOnly, isFocusedOnly = _h === void 0 ? true : _h;
+    return {
+        // Clear browser-specific focus styles and use 'transparent' as placeholder for focus style.
+        outline: 'transparent',
+        // Requirement because pseudo-element is absolutely positioned.
+        position: position,
+        selectors: (_a = {
+                // Clear the focus border in Firefox.
+                // Reference: http://stackoverflow.com/a/199319/1436671
+                '::-moz-focus-inner': {
+                    border: '0',
+                }
+            },
+            // When the element that uses this mixin is in a :focus state, add a pseudo-element to
+            // create a border.
+            _a["." + _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.IsFocusVisibleClassName + " &" + (isFocusedOnly ? ':focus' : '') + ":after"] = {
+                content: '""',
+                position: 'absolute',
+                left: inset + 1,
+                top: inset + 1,
+                bottom: inset + 1,
+                right: inset + 1,
+                border: width + "px solid " + borderColor,
+                outline: width + "px solid " + outlineColor,
+                zIndex: _zIndexes__WEBPACK_IMPORTED_MODULE_1__.ZIndexes.FocusStyle,
+                selectors: (_b = {},
+                    _b[_CommonStyles__WEBPACK_IMPORTED_MODULE_2__.HighContrastSelector] = highContrastStyle,
+                    _b),
+            },
+            _a),
+    };
+}
+/**
+ * Generates style to clear browser specific focus styles.
+ */
+function focusClear() {
+    return {
+        selectors: {
+            '&::-moz-focus-inner': {
+                // Clear the focus border in Firefox. Reference: http://stackoverflow.com/a/199319/1436671
+                border: 0,
+            },
+            '&': {
+                // Clear browser specific focus styles and use transparent as placeholder for focus style
+                outline: 'transparent',
+            },
+        },
+    };
+}
+/**
+ * Generates a style which can be used to set a border on focus.
+ *
+ * @param theme - The theme object to use.
+ * @param inset - The number of pixels to inset the border (default 0)
+ * @param width - The border width in pixels (default 1)
+ * @param color - Color of the outline (default `theme.palette.neutralSecondary`)
+ * @returns The style object.
+ */
+function getFocusOutlineStyle(theme, inset, width, color) {
+    var _a;
+    if (inset === void 0) { inset = 0; }
+    if (width === void 0) { width = 1; }
+    return {
+        selectors: (_a = {},
+            _a[":global(" + _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.IsFocusVisibleClassName + ") &:focus"] = {
+                outline: width + " solid " + (color || theme.palette.neutralSecondary),
+                outlineOffset: -inset + "px",
+            },
+            _a),
+    };
+}
+/**
+ * Generates text input border styles on focus.
+ *
+ * @param borderColor - Color of the border.
+ * @param borderRadius - Radius of the border.
+ * @param borderType - Type of the border.
+ * @param borderPosition - Position of the border relative to the input element (default to -1
+ * as it's the most common border width of the input element)
+ * @returns The style object.
+ */
+var getInputFocusStyle = function (borderColor, borderRadius, borderType, borderPosition) {
+    var _a, _b, _c;
+    if (borderType === void 0) { borderType = 'border'; }
+    if (borderPosition === void 0) { borderPosition = -1; }
+    var isBorderBottom = borderType === 'borderBottom';
+    return {
+        borderColor: borderColor,
+        selectors: {
+            ':after': (_a = {
+                    pointerEvents: 'none',
+                    content: "''",
+                    position: 'absolute',
+                    left: isBorderBottom ? 0 : borderPosition,
+                    top: borderPosition,
+                    bottom: borderPosition,
+                    right: isBorderBottom ? 0 : borderPosition
+                },
+                _a[borderType] = "2px solid " + borderColor,
+                _a.borderRadius = borderRadius,
+                _a.width = borderType === 'borderBottom' ? '100%' : undefined,
+                _a.selectors = (_b = {},
+                    _b[_CommonStyles__WEBPACK_IMPORTED_MODULE_2__.HighContrastSelector] = (_c = {},
+                        _c[borderType === 'border' ? 'borderColor' : 'borderBottomColor'] = 'Highlight',
+                        _c),
+                    _b),
+                _a),
+        },
+    };
+};
+//# sourceMappingURL=getFocusStyle.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/getGlobalClassNames.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/getGlobalClassNames.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getGlobalClassNames": () => (/* binding */ getGlobalClassNames)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+
+
+/**
+ * Internal memoized function which simply takes in the class map and the
+ * disable boolean. These immutable values can be memoized.
+ */
+var _getGlobalClassNames = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(function (classNames, disableGlobalClassNames) {
+    var styleSheet = _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__.Stylesheet.getInstance();
+    if (disableGlobalClassNames) {
+        // disable global classnames
+        return Object.keys(classNames).reduce(function (acc, className) {
+            acc[className] = styleSheet.getClassName(classNames[className]);
+            return acc;
+        }, {});
+    }
+    // use global classnames
+    return classNames;
+});
+/**
+ * Checks for the `disableGlobalClassNames` property on the `theme` to determine if it should return `classNames`
+ * Note that calls to this function are memoized.
+ *
+ * @param classNames - The collection of global class names that apply when the flag is false. Make sure to pass in
+ * the same instance on each call to benefit from memoization.
+ * @param theme - The theme to check the flag on
+ * @param disableGlobalClassNames - Optional. Explicitly opt in/out of disabling global classnames. Defaults to false.
+ */
+function getGlobalClassNames(classNames, theme, disableGlobalClassNames) {
+    return _getGlobalClassNames(classNames, disableGlobalClassNames !== undefined ? disableGlobalClassNames : theme.disableGlobalClassNames);
+}
+//# sourceMappingURL=getGlobalClassNames.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/getPlaceholderStyles.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/getPlaceholderStyles.js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getPlaceholderStyles": () => (/* binding */ getPlaceholderStyles)
+/* harmony export */ });
+/**
+ * Generates placeholder style for each of the browsers supported by `@fluentui/react`.
+ * @param styles - The style to use.
+ * @returns The placeholder style object for each browser depending on the placeholder directive it uses.
+ */
+function getPlaceholderStyles(styles) {
+    return {
+        selectors: {
+            '::placeholder': styles,
+            ':-ms-input-placeholder': styles,
+            '::-ms-input-placeholder': styles,
+        },
+    };
+}
+//# sourceMappingURL=getPlaceholderStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/hiddenContentStyle.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/hiddenContentStyle.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "hiddenContentStyle": () => (/* binding */ hiddenContentStyle)
+/* harmony export */ });
+var hiddenContentStyle = {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    margin: -1,
+    padding: 0,
+    border: 0,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+};
+//# sourceMappingURL=hiddenContentStyle.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AnimationStyles": () => (/* reexport safe */ _AnimationStyles__WEBPACK_IMPORTED_MODULE_0__.AnimationStyles),
+/* harmony export */   "AnimationVariables": () => (/* reexport safe */ _AnimationStyles__WEBPACK_IMPORTED_MODULE_0__.AnimationVariables),
+/* harmony export */   "DefaultPalette": () => (/* reexport safe */ _DefaultPalette__WEBPACK_IMPORTED_MODULE_1__.DefaultPalette),
+/* harmony export */   "DefaultEffects": () => (/* reexport safe */ _DefaultEffects__WEBPACK_IMPORTED_MODULE_2__.DefaultEffects),
+/* harmony export */   "DefaultFontStyles": () => (/* reexport safe */ _DefaultFontStyles__WEBPACK_IMPORTED_MODULE_3__.DefaultFontStyles),
+/* harmony export */   "registerDefaultFontFaces": () => (/* reexport safe */ _DefaultFontStyles__WEBPACK_IMPORTED_MODULE_3__.registerDefaultFontFaces),
+/* harmony export */   "FontSizes": () => (/* reexport safe */ _fonts__WEBPACK_IMPORTED_MODULE_4__.FontSizes),
+/* harmony export */   "FontWeights": () => (/* reexport safe */ _fonts__WEBPACK_IMPORTED_MODULE_4__.FontWeights),
+/* harmony export */   "IconFontSizes": () => (/* reexport safe */ _fonts__WEBPACK_IMPORTED_MODULE_4__.IconFontSizes),
+/* harmony export */   "createFontStyles": () => (/* reexport safe */ _fonts__WEBPACK_IMPORTED_MODULE_5__.createFontStyles),
+/* harmony export */   "focusClear": () => (/* reexport safe */ _getFocusStyle__WEBPACK_IMPORTED_MODULE_6__.focusClear),
+/* harmony export */   "getFocusOutlineStyle": () => (/* reexport safe */ _getFocusStyle__WEBPACK_IMPORTED_MODULE_6__.getFocusOutlineStyle),
+/* harmony export */   "getFocusStyle": () => (/* reexport safe */ _getFocusStyle__WEBPACK_IMPORTED_MODULE_6__.getFocusStyle),
+/* harmony export */   "getInputFocusStyle": () => (/* reexport safe */ _getFocusStyle__WEBPACK_IMPORTED_MODULE_6__.getInputFocusStyle),
+/* harmony export */   "hiddenContentStyle": () => (/* reexport safe */ _hiddenContentStyle__WEBPACK_IMPORTED_MODULE_7__.hiddenContentStyle),
+/* harmony export */   "PulsingBeaconAnimationStyles": () => (/* reexport safe */ _PulsingBeaconAnimationStyles__WEBPACK_IMPORTED_MODULE_8__.PulsingBeaconAnimationStyles),
+/* harmony export */   "getGlobalClassNames": () => (/* reexport safe */ _getGlobalClassNames__WEBPACK_IMPORTED_MODULE_9__.getGlobalClassNames),
+/* harmony export */   "getThemedContext": () => (/* reexport safe */ _scheme__WEBPACK_IMPORTED_MODULE_10__.getThemedContext),
+/* harmony export */   "ThemeSettingName": () => (/* reexport safe */ _theme__WEBPACK_IMPORTED_MODULE_11__.ThemeSettingName),
+/* harmony export */   "getTheme": () => (/* reexport safe */ _theme__WEBPACK_IMPORTED_MODULE_11__.getTheme),
+/* harmony export */   "loadTheme": () => (/* reexport safe */ _theme__WEBPACK_IMPORTED_MODULE_11__.loadTheme),
+/* harmony export */   "createTheme": () => (/* reexport safe */ _theme__WEBPACK_IMPORTED_MODULE_12__.createTheme),
+/* harmony export */   "registerOnThemeChangeCallback": () => (/* reexport safe */ _theme__WEBPACK_IMPORTED_MODULE_11__.registerOnThemeChangeCallback),
+/* harmony export */   "removeOnThemeChangeCallback": () => (/* reexport safe */ _theme__WEBPACK_IMPORTED_MODULE_11__.removeOnThemeChangeCallback),
+/* harmony export */   "EdgeChromiumHighContrastSelector": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.EdgeChromiumHighContrastSelector),
+/* harmony export */   "HighContrastSelector": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.HighContrastSelector),
+/* harmony export */   "HighContrastSelectorBlack": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.HighContrastSelectorBlack),
+/* harmony export */   "HighContrastSelectorWhite": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.HighContrastSelectorWhite),
+/* harmony export */   "ScreenWidthMaxLarge": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMaxLarge),
+/* harmony export */   "ScreenWidthMaxMedium": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMaxMedium),
+/* harmony export */   "ScreenWidthMaxSmall": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMaxSmall),
+/* harmony export */   "ScreenWidthMaxXLarge": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMaxXLarge),
+/* harmony export */   "ScreenWidthMaxXXLarge": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMaxXXLarge),
+/* harmony export */   "ScreenWidthMinLarge": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMinLarge),
+/* harmony export */   "ScreenWidthMinMedium": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMinMedium),
+/* harmony export */   "ScreenWidthMinSmall": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMinSmall),
+/* harmony export */   "ScreenWidthMinUhfMobile": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMinUhfMobile),
+/* harmony export */   "ScreenWidthMinXLarge": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMinXLarge),
+/* harmony export */   "ScreenWidthMinXXLarge": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMinXXLarge),
+/* harmony export */   "ScreenWidthMinXXXLarge": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.ScreenWidthMinXXXLarge),
+/* harmony export */   "getEdgeChromiumNoHighContrastAdjustSelector": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.getEdgeChromiumNoHighContrastAdjustSelector),
+/* harmony export */   "getHighContrastNoAdjustStyle": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.getHighContrastNoAdjustStyle),
+/* harmony export */   "getScreenSelector": () => (/* reexport safe */ _CommonStyles__WEBPACK_IMPORTED_MODULE_13__.getScreenSelector),
+/* harmony export */   "noWrap": () => (/* reexport safe */ _GeneralStyles__WEBPACK_IMPORTED_MODULE_14__.noWrap),
+/* harmony export */   "normalize": () => (/* reexport safe */ _GeneralStyles__WEBPACK_IMPORTED_MODULE_14__.normalize),
+/* harmony export */   "getFadedOverflowStyle": () => (/* reexport safe */ _getFadedOverflowStyle__WEBPACK_IMPORTED_MODULE_15__.getFadedOverflowStyle),
+/* harmony export */   "getPlaceholderStyles": () => (/* reexport safe */ _getPlaceholderStyles__WEBPACK_IMPORTED_MODULE_16__.getPlaceholderStyles),
+/* harmony export */   "ZIndexes": () => (/* reexport safe */ _zIndexes__WEBPACK_IMPORTED_MODULE_17__.ZIndexes)
+/* harmony export */ });
+/* harmony import */ var _AnimationStyles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AnimationStyles */ "./node_modules/@fluentui/theme/lib/motion/AnimationStyles.js");
+/* harmony import */ var _DefaultPalette__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DefaultPalette */ "./node_modules/@fluentui/theme/lib/colors/DefaultPalette.js");
+/* harmony import */ var _DefaultEffects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DefaultEffects */ "./node_modules/@fluentui/theme/lib/effects/DefaultEffects.js");
+/* harmony import */ var _DefaultFontStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DefaultFontStyles */ "./node_modules/@fluentui/theme/lib/fonts/DefaultFontStyles.js");
+/* harmony import */ var _fonts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fonts */ "./node_modules/@fluentui/theme/lib/fonts/FluentFonts.js");
+/* harmony import */ var _fonts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fonts */ "./node_modules/@fluentui/theme/lib/fonts/createFontStyles.js");
+/* harmony import */ var _getFocusStyle__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getFocusStyle */ "./node_modules/@fluentui/style-utilities/lib/styles/getFocusStyle.js");
+/* harmony import */ var _hiddenContentStyle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hiddenContentStyle */ "./node_modules/@fluentui/style-utilities/lib/styles/hiddenContentStyle.js");
+/* harmony import */ var _PulsingBeaconAnimationStyles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PulsingBeaconAnimationStyles */ "./node_modules/@fluentui/style-utilities/lib/styles/PulsingBeaconAnimationStyles.js");
+/* harmony import */ var _getGlobalClassNames__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./getGlobalClassNames */ "./node_modules/@fluentui/style-utilities/lib/styles/getGlobalClassNames.js");
+/* harmony import */ var _scheme__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./scheme */ "./node_modules/@fluentui/style-utilities/lib/styles/scheme.js");
+/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./theme */ "./node_modules/@fluentui/style-utilities/lib/styles/theme.js");
+/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./theme */ "./node_modules/@fluentui/theme/lib/createTheme.js");
+/* harmony import */ var _CommonStyles__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./CommonStyles */ "./node_modules/@fluentui/style-utilities/lib/styles/CommonStyles.js");
+/* harmony import */ var _GeneralStyles__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./GeneralStyles */ "./node_modules/@fluentui/style-utilities/lib/styles/GeneralStyles.js");
+/* harmony import */ var _getFadedOverflowStyle__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./getFadedOverflowStyle */ "./node_modules/@fluentui/style-utilities/lib/styles/getFadedOverflowStyle.js");
+/* harmony import */ var _getPlaceholderStyles__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./getPlaceholderStyles */ "./node_modules/@fluentui/style-utilities/lib/styles/getPlaceholderStyles.js");
+/* harmony import */ var _zIndexes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./zIndexes */ "./node_modules/@fluentui/style-utilities/lib/styles/zIndexes.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/scheme.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/scheme.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getThemedContext": () => (/* binding */ getThemedContext)
+/* harmony export */ });
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/customizations/Customizations.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/customizations/mergeSettings.js");
+
+/**
+ * @internal
+ * This function is still in experimental phase in support of Foundation experimental development.
+ * Its API signature and existence are subject to change.
+ *
+ * Modify context to activate the specified scheme or theme. For schemes, look in context (if available) and fall back
+ * to global Customizations. If both scheme and theme are specified, scheme will be looked up in theme. In this case,
+ * scheme must be present in theme arg, otherwise new context will default to theme arg (there is no fallback to
+ * settings to look up scheme.)
+ *
+ * @param context - Context in which to get schemed customizations.
+ * @param scheme - Scheme to get customizations for from theme arg (if supplied) OR from context and global settings.
+ * @param theme - Theme to merge into context.
+ * @returns modified schemed context if scheme is valid and not already applied, unmodified context otherwise.
+ */
+function getThemedContext(context, scheme, theme) {
+    var newContext = context;
+    var newSettings;
+    // Only fall back to context and customizations when theme arg is not provided.
+    var schemeSource = theme || _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.Customizations.getSettings(['theme'], undefined, context.customizations).theme;
+    if (theme) {
+        newSettings = { theme: theme };
+    }
+    var schemeTheme = scheme && schemeSource && schemeSource.schemes && schemeSource.schemes[scheme];
+    // These first two checks are logically redundant but TS doesn't infer schemeSource.schemes is defined
+    // when schemeTheme is defined.
+    if (schemeSource && schemeTheme && schemeSource !== schemeTheme) {
+        newSettings = { theme: schemeTheme };
+        newSettings.theme.schemes = schemeSource.schemes;
+    }
+    if (newSettings) {
+        newContext = {
+            customizations: {
+                settings: (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__.mergeSettings)(context.customizations.settings, newSettings),
+                scopedSettings: context.customizations.scopedSettings,
+            },
+        };
+    }
+    return newContext;
+}
+//# sourceMappingURL=scheme.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/theme.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/theme.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createTheme": () => (/* reexport safe */ _fluentui_theme_lib_createTheme__WEBPACK_IMPORTED_MODULE_1__.createTheme),
+/* harmony export */   "ThemeSettingName": () => (/* binding */ ThemeSettingName),
+/* harmony export */   "initializeThemeInCustomizations": () => (/* binding */ initializeThemeInCustomizations),
+/* harmony export */   "getTheme": () => (/* binding */ getTheme),
+/* harmony export */   "registerOnThemeChangeCallback": () => (/* binding */ registerOnThemeChangeCallback),
+/* harmony export */   "removeOnThemeChangeCallback": () => (/* binding */ removeOnThemeChangeCallback),
+/* harmony export */   "loadTheme": () => (/* binding */ loadTheme)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/customizations/Customizations.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _microsoft_load_themed_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @microsoft/load-themed-styles */ "./node_modules/@microsoft/load-themed-styles/lib-es6/index.js");
+/* harmony import */ var _fluentui_theme_lib_createTheme__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/theme/lib/createTheme */ "./node_modules/@fluentui/theme/lib/createTheme.js");
+
+
+
+
+
+var _theme = (0,_fluentui_theme_lib_createTheme__WEBPACK_IMPORTED_MODULE_1__.createTheme)({});
+var _onThemeChangeCallbacks = [];
+var ThemeSettingName = 'theme';
+function initializeThemeInCustomizations() {
+    var _a;
+    var _b;
+    if (!_fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.Customizations.getSettings([ThemeSettingName]).theme) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var win = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__.getWindow)();
+        if ((_b = win === null || win === void 0 ? void 0 : win.FabricConfig) === null || _b === void 0 ? void 0 : _b.theme) {
+            _theme = (0,_fluentui_theme_lib_createTheme__WEBPACK_IMPORTED_MODULE_1__.createTheme)(win.FabricConfig.theme);
+        }
+        // Set the default theme.
+        _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.Customizations.applySettings((_a = {}, _a[ThemeSettingName] = _theme, _a));
+    }
+}
+initializeThemeInCustomizations();
+/**
+ * Gets the theme object
+ * @param depComments - Whether to include deprecated tags as comments for deprecated slots.
+ */
+function getTheme(depComments) {
+    if (depComments === void 0) { depComments = false; }
+    if (depComments === true) {
+        _theme = (0,_fluentui_theme_lib_createTheme__WEBPACK_IMPORTED_MODULE_1__.createTheme)({}, depComments);
+    }
+    return _theme;
+}
+/**
+ * Registers a callback that gets called whenever the theme changes.
+ * This should only be used when the component cannot automatically get theme changes through its state.
+ * This will not register duplicate callbacks.
+ */
+function registerOnThemeChangeCallback(callback) {
+    if (_onThemeChangeCallbacks.indexOf(callback) === -1) {
+        _onThemeChangeCallbacks.push(callback);
+    }
+}
+/**
+ * See registerOnThemeChangeCallback().
+ * Removes previously registered callbacks.
+ */
+function removeOnThemeChangeCallback(callback) {
+    var i = _onThemeChangeCallbacks.indexOf(callback);
+    if (i === -1) {
+        return;
+    }
+    _onThemeChangeCallbacks.splice(i, 1);
+}
+/**
+ * Applies the theme, while filling in missing slots.
+ * @param theme - Partial theme object.
+ * @param depComments - Whether to include deprecated tags as comments for deprecated slots.
+ */
+function loadTheme(theme, depComments) {
+    var _a;
+    if (depComments === void 0) { depComments = false; }
+    _theme = (0,_fluentui_theme_lib_createTheme__WEBPACK_IMPORTED_MODULE_1__.createTheme)(theme, depComments);
+    // Invoke the legacy method of theming the page as well.
+    (0,_microsoft_load_themed_styles__WEBPACK_IMPORTED_MODULE_0__.loadTheme)((0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_4__.__assign)({}, _theme.palette), _theme.semanticColors), _theme.effects), _loadFonts(_theme)));
+    _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.Customizations.applySettings((_a = {}, _a[ThemeSettingName] = _theme, _a));
+    _onThemeChangeCallbacks.forEach(function (callback) {
+        try {
+            callback(_theme);
+        }
+        catch (e) {
+            // don't let a bad callback break everything else
+        }
+    });
+    return _theme;
+}
+/**
+ * Loads font variables into a JSON object.
+ * @param theme - The theme object
+ */
+function _loadFonts(theme) {
+    var lines = {};
+    for (var _i = 0, _a = Object.keys(theme.fonts); _i < _a.length; _i++) {
+        var fontName = _a[_i];
+        var font = theme.fonts[fontName];
+        for (var _b = 0, _c = Object.keys(font); _b < _c.length; _b++) {
+            var propName = _c[_b];
+            var name_1 = fontName + propName.charAt(0).toUpperCase() + propName.slice(1);
+            var value = font[propName];
+            if (propName === 'fontSize' && typeof value === 'number') {
+                // if it's a number, convert it to px by default like our theming system does
+                value = value + 'px';
+            }
+            lines[name_1] = value;
+        }
+    }
+    return lines;
+}
+//# sourceMappingURL=theme.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/styles/zIndexes.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/styles/zIndexes.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ZIndexes": () => (/* binding */ ZIndexes)
+/* harmony export */ });
+var ZIndexes;
+(function (ZIndexes) {
+    ZIndexes.Nav = 1;
+    /**
+     * @deprecated Do not use
+     */
+    ZIndexes.ScrollablePane = 1;
+    ZIndexes.FocusStyle = 1;
+    ZIndexes.Coachmark = 1000;
+    ZIndexes.Layer = 1000000;
+    ZIndexes.KeytipLayer = 1000001;
+})(ZIndexes || (ZIndexes = {}));
+//# sourceMappingURL=zIndexes.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/utilities/buildClassMap.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/utilities/buildClassMap.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "buildClassMap": () => (/* binding */ buildClassMap)
+/* harmony export */ });
+/* harmony import */ var _MergeStyles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../MergeStyles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+
+/**
+ * Builds a class names object from a given map.
+ *
+ * @param styles - Map of unprocessed styles.
+ * @returns Map of property name to class name.
+ */
+function buildClassMap(styles) {
+    var classes = {};
+    var _loop_1 = function (styleName) {
+        if (styles.hasOwnProperty(styleName)) {
+            var className_1;
+            Object.defineProperty(classes, styleName, {
+                get: function () {
+                    if (className_1 === undefined) {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        className_1 = (0,_MergeStyles__WEBPACK_IMPORTED_MODULE_0__.mergeStyles)(styles[styleName]).toString();
+                    }
+                    return className_1;
+                },
+                enumerable: true,
+                configurable: true,
+            });
+        }
+    };
+    for (var styleName in styles) {
+        _loop_1(styleName);
+    }
+    return classes;
+}
+//# sourceMappingURL=buildClassMap.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/utilities/getIconClassName.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/utilities/getIconClassName.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getIconClassName": () => (/* binding */ getIconClassName)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./icons */ "./node_modules/@fluentui/style-utilities/lib/utilities/icons.js");
+
+
+var defaultIconStyles = {
+    display: 'inline-block',
+};
+/**
+ * Gets an icon classname. You should be able to add this classname to an I tag with no
+ * additional classnames, and render the icon.
+ *
+ * @public
+ */
+function getIconClassName(name) {
+    var className = '';
+    var icon = (0,_icons__WEBPACK_IMPORTED_MODULE_0__.getIcon)(name);
+    if (icon) {
+        className = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__.mergeStyles)(icon.subset.className, defaultIconStyles, {
+            selectors: {
+                '::before': {
+                    content: "\"" + icon.code + "\"",
+                },
+            },
+        });
+    }
+    return className;
+}
+//# sourceMappingURL=getIconClassName.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/utilities/icons.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/utilities/icons.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "registerIcons": () => (/* binding */ registerIcons),
+/* harmony export */   "unregisterIcons": () => (/* binding */ unregisterIcons),
+/* harmony export */   "registerIconAlias": () => (/* binding */ registerIconAlias),
+/* harmony export */   "getIcon": () => (/* binding */ getIcon),
+/* harmony export */   "setIconOptions": () => (/* binding */ setIconOptions)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/GlobalSettings.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/warn/warn.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/fontFace.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+
+
+
+var ICON_SETTING_NAME = 'icons';
+var _iconSettings = _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.GlobalSettings.getValue(ICON_SETTING_NAME, {
+    __options: {
+        disableWarnings: false,
+        warnOnMissingIcons: true,
+    },
+    __remapped: {},
+});
+// Reset icon registration on stylesheet resets.
+var stylesheet = _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__.Stylesheet.getInstance();
+if (stylesheet && stylesheet.onReset) {
+    stylesheet.onReset(function () {
+        for (var name_1 in _iconSettings) {
+            if (_iconSettings.hasOwnProperty(name_1) && !!_iconSettings[name_1].subset) {
+                _iconSettings[name_1].subset.className = undefined;
+            }
+        }
+    });
+}
+/**
+ * Normalizes an icon name for consistent mapping.
+ * Current implementation is to convert the icon name to lower case.
+ *
+ * @param name - Icon name to normalize.
+ * @returns {string} Normalized icon name to use for indexing and mapping.
+ */
+var normalizeIconName = function (name) { return name.toLowerCase(); };
+/**
+ * Registers a given subset of icons.
+ *
+ * @param iconSubset - the icon subset definition.
+ */
+function registerIcons(iconSubset, options) {
+    var subset = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, iconSubset), { isRegistered: false, className: undefined });
+    var icons = iconSubset.icons;
+    // Grab options, optionally mix user provided ones on top.
+    options = options ? (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, _iconSettings.__options), options) : _iconSettings.__options;
+    for (var iconName in icons) {
+        if (icons.hasOwnProperty(iconName)) {
+            var code = icons[iconName];
+            var normalizedIconName = normalizeIconName(iconName);
+            if (_iconSettings[normalizedIconName]) {
+                _warnDuplicateIcon(iconName);
+            }
+            else {
+                _iconSettings[normalizedIconName] = {
+                    code: code,
+                    subset: subset,
+                };
+            }
+        }
+    }
+}
+/**
+ * Unregisters icons by name.
+ *
+ * @param iconNames - List of icons to unregister.
+ */
+function unregisterIcons(iconNames) {
+    var options = _iconSettings.__options;
+    var _loop_1 = function (iconName) {
+        var normalizedIconName = normalizeIconName(iconName);
+        if (_iconSettings[normalizedIconName]) {
+            delete _iconSettings[normalizedIconName];
+        }
+        else {
+            // Warn that we are trying to delete an icon that doesn't exist
+            if (!options.disableWarnings) {
+                (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__.warn)("The icon \"" + iconName + "\" tried to unregister but was not registered.");
+            }
+        }
+        // Delete any aliases for this iconName
+        if (_iconSettings.__remapped[normalizedIconName]) {
+            delete _iconSettings.__remapped[normalizedIconName];
+        }
+        // Delete any items that were an alias for this iconName
+        Object.keys(_iconSettings.__remapped).forEach(function (key) {
+            if (_iconSettings.__remapped[key] === normalizedIconName) {
+                delete _iconSettings.__remapped[key];
+            }
+        });
+    };
+    for (var _i = 0, iconNames_1 = iconNames; _i < iconNames_1.length; _i++) {
+        var iconName = iconNames_1[_i];
+        _loop_1(iconName);
+    }
+}
+/**
+ * Remaps one icon name to another.
+ */
+function registerIconAlias(iconName, mappedToName) {
+    _iconSettings.__remapped[normalizeIconName(iconName)] = normalizeIconName(mappedToName);
+}
+/**
+ * Gets an icon definition. If an icon is requested but the subset has yet to be registered,
+ * it will get registered immediately.
+ *
+ * @public
+ * @param name - Name of icon.
+ */
+function getIcon(name) {
+    var icon = undefined;
+    var options = _iconSettings.__options;
+    name = name ? normalizeIconName(name) : '';
+    name = _iconSettings.__remapped[name] || name;
+    if (name) {
+        icon = _iconSettings[name];
+        if (icon) {
+            var subset = icon.subset;
+            if (subset && subset.fontFace) {
+                if (!subset.isRegistered) {
+                    (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__.fontFace)(subset.fontFace);
+                    subset.isRegistered = true;
+                }
+                if (!subset.className) {
+                    subset.className = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_5__.mergeStyles)(subset.style, {
+                        fontFamily: subset.fontFace.fontFamily,
+                        fontWeight: subset.fontFace.fontWeight || 'normal',
+                        fontStyle: subset.fontFace.fontStyle || 'normal',
+                    });
+                }
+            }
+        }
+        else {
+            // eslint-disable-next-line deprecation/deprecation
+            if (!options.disableWarnings && options.warnOnMissingIcons) {
+                (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__.warn)("The icon \"" + name + "\" was used but not registered. See https://github.com/microsoft/fluentui/wiki/Using-icons for more information.");
+            }
+        }
+    }
+    return icon;
+}
+/**
+ * Sets the icon options.
+ *
+ * @public
+ */
+function setIconOptions(options) {
+    _iconSettings.__options = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, _iconSettings.__options), options);
+}
+var _missingIcons = [];
+var _missingIconsTimer = undefined;
+function _warnDuplicateIcon(iconName) {
+    var options = _iconSettings.__options;
+    var warningDelay = 2000;
+    var maxIconsInMessage = 10;
+    if (!options.disableWarnings) {
+        _missingIcons.push(iconName);
+        if (_missingIconsTimer === undefined) {
+            _missingIconsTimer = setTimeout(function () {
+                (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__.warn)("Some icons were re-registered. Applications should only call registerIcons for any given " +
+                    "icon once. Redefining what an icon is may have unintended consequences. Duplicates " +
+                    "include: \n" +
+                    _missingIcons.slice(0, maxIconsInMessage).join(', ') +
+                    (_missingIcons.length > maxIconsInMessage ? " (+ " + (_missingIcons.length - maxIconsInMessage) + " more)" : ''));
+                _missingIconsTimer = undefined;
+                _missingIcons = [];
+            }, warningDelay);
+        }
+    }
+}
+//# sourceMappingURL=icons.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/utilities/index.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/utilities/index.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "buildClassMap": () => (/* reexport safe */ _buildClassMap__WEBPACK_IMPORTED_MODULE_0__.buildClassMap),
+/* harmony export */   "getIcon": () => (/* reexport safe */ _icons__WEBPACK_IMPORTED_MODULE_1__.getIcon),
+/* harmony export */   "registerIcons": () => (/* reexport safe */ _icons__WEBPACK_IMPORTED_MODULE_1__.registerIcons),
+/* harmony export */   "registerIconAlias": () => (/* reexport safe */ _icons__WEBPACK_IMPORTED_MODULE_1__.registerIconAlias),
+/* harmony export */   "unregisterIcons": () => (/* reexport safe */ _icons__WEBPACK_IMPORTED_MODULE_1__.unregisterIcons),
+/* harmony export */   "setIconOptions": () => (/* reexport safe */ _icons__WEBPACK_IMPORTED_MODULE_1__.setIconOptions),
+/* harmony export */   "getIconClassName": () => (/* reexport safe */ _getIconClassName__WEBPACK_IMPORTED_MODULE_2__.getIconClassName)
+/* harmony export */ });
+/* harmony import */ var _buildClassMap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./buildClassMap */ "./node_modules/@fluentui/style-utilities/lib/utilities/buildClassMap.js");
+/* harmony import */ var _icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./icons */ "./node_modules/@fluentui/style-utilities/lib/utilities/icons.js");
+/* harmony import */ var _getIconClassName__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getIconClassName */ "./node_modules/@fluentui/style-utilities/lib/utilities/getIconClassName.js");
+
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/style-utilities/lib/version.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/style-utilities/lib/version.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _fluentui_set_version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/set-version */ "./node_modules/@fluentui/set-version/lib/index.js");
+// Do not modify this file; it is generated as part of publish.
+// The checked in version is a placeholder only and will not be updated.
+
+(0,_fluentui_set_version__WEBPACK_IMPORTED_MODULE_0__.setVersion)('@fluentui/style-utilities', '8.2.0');
+//# sourceMappingURL=version.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/colors/DefaultPalette.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/colors/DefaultPalette.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DefaultPalette": () => (/* binding */ DefaultPalette)
+/* harmony export */ });
+// When adding or removing a color, make sure you keep this consistent with IColorClassNames
+// by adding the color variants.
+var DefaultPalette = {
+    themeDarker: '#004578',
+    themeDark: '#005a9e',
+    themeDarkAlt: '#106ebe',
+    themePrimary: '#0078d4',
+    themeSecondary: '#2b88d8',
+    themeTertiary: '#71afe5',
+    themeLight: '#c7e0f4',
+    themeLighter: '#deecf9',
+    themeLighterAlt: '#eff6fc',
+    black: '#000000',
+    blackTranslucent40: 'rgba(0,0,0,.4)',
+    neutralDark: '#201f1e',
+    neutralPrimary: '#323130',
+    neutralPrimaryAlt: '#3b3a39',
+    neutralSecondary: '#605e5c',
+    neutralSecondaryAlt: '#8a8886',
+    neutralTertiary: '#a19f9d',
+    neutralTertiaryAlt: '#c8c6c4',
+    neutralQuaternary: '#d2d0ce',
+    neutralQuaternaryAlt: '#e1dfdd',
+    neutralLight: '#edebe9',
+    neutralLighter: '#f3f2f1',
+    neutralLighterAlt: '#faf9f8',
+    accent: '#0078d4',
+    white: '#ffffff',
+    whiteTranslucent40: 'rgba(255,255,255,.4)',
+    yellowDark: '#d29200',
+    yellow: '#ffb900',
+    yellowLight: '#fff100',
+    orange: '#d83b01',
+    orangeLight: '#ea4300',
+    orangeLighter: '#ff8c00',
+    redDark: '#a4262c',
+    red: '#e81123',
+    magentaDark: '#5c005c',
+    magenta: '#b4009e',
+    magentaLight: '#e3008c',
+    purpleDark: '#32145a',
+    purple: '#5c2d91',
+    purpleLight: '#b4a0ff',
+    blueDark: '#002050',
+    blueMid: '#00188f',
+    blue: '#0078d4',
+    blueLight: '#00bcf2',
+    tealDark: '#004b50',
+    teal: '#008272',
+    tealLight: '#00b294',
+    greenDark: '#004b1c',
+    green: '#107c10',
+    greenLight: '#bad80a',
+};
+//# sourceMappingURL=DefaultPalette.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/createTheme.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/createTheme.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createTheme": () => (/* binding */ createTheme)
+/* harmony export */ });
+/* harmony import */ var _colors_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./colors/index */ "./node_modules/@fluentui/theme/lib/colors/DefaultPalette.js");
+/* harmony import */ var _effects_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./effects/index */ "./node_modules/@fluentui/theme/lib/effects/DefaultEffects.js");
+/* harmony import */ var _fonts_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fonts/index */ "./node_modules/@fluentui/theme/lib/fonts/DefaultFontStyles.js");
+/* harmony import */ var _mergeThemes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mergeThemes */ "./node_modules/@fluentui/theme/lib/mergeThemes.js");
+/* harmony import */ var _spacing_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./spacing/index */ "./node_modules/@fluentui/theme/lib/spacing/DefaultSpacing.js");
+/* harmony import */ var _utilities_makeSemanticColors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utilities/makeSemanticColors */ "./node_modules/@fluentui/theme/lib/utilities/makeSemanticColors.js");
+
+
+
+
+
+
+/**
+ * Creates a custom theme definition.
+ * @param theme - Partial theme object.
+ * @param depComments - Whether to include deprecated tags as comments for deprecated slots.
+ */
+function createTheme(theme, depComments) {
+    if (theme === void 0) { theme = {}; }
+    if (depComments === void 0) { depComments = false; }
+    var isInverted = !!theme.isInverted;
+    var baseTheme = {
+        palette: _colors_index__WEBPACK_IMPORTED_MODULE_0__.DefaultPalette,
+        effects: _effects_index__WEBPACK_IMPORTED_MODULE_1__.DefaultEffects,
+        fonts: _fonts_index__WEBPACK_IMPORTED_MODULE_2__.DefaultFontStyles,
+        spacing: _spacing_index__WEBPACK_IMPORTED_MODULE_3__.DefaultSpacing,
+        isInverted: isInverted,
+        disableGlobalClassNames: false,
+        semanticColors: (0,_utilities_makeSemanticColors__WEBPACK_IMPORTED_MODULE_4__.makeSemanticColors)(_colors_index__WEBPACK_IMPORTED_MODULE_0__.DefaultPalette, _effects_index__WEBPACK_IMPORTED_MODULE_1__.DefaultEffects, undefined, isInverted, depComments),
+        rtl: undefined,
+    };
+    return (0,_mergeThemes__WEBPACK_IMPORTED_MODULE_5__.mergeThemes)(baseTheme, theme);
+}
+//# sourceMappingURL=createTheme.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/effects/DefaultEffects.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/effects/DefaultEffects.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DefaultEffects": () => (/* binding */ DefaultEffects)
+/* harmony export */ });
+/* harmony import */ var _FluentDepths__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FluentDepths */ "./node_modules/@fluentui/theme/lib/effects/FluentDepths.js");
+
+var DefaultEffects = {
+    elevation4: _FluentDepths__WEBPACK_IMPORTED_MODULE_0__.Depths.depth4,
+    elevation8: _FluentDepths__WEBPACK_IMPORTED_MODULE_0__.Depths.depth8,
+    elevation16: _FluentDepths__WEBPACK_IMPORTED_MODULE_0__.Depths.depth16,
+    elevation64: _FluentDepths__WEBPACK_IMPORTED_MODULE_0__.Depths.depth64,
+    roundedCorner2: '2px',
+    roundedCorner4: '4px',
+    roundedCorner6: '6px',
+};
+//# sourceMappingURL=DefaultEffects.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/effects/FluentDepths.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/effects/FluentDepths.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Depths": () => (/* binding */ Depths)
+/* harmony export */ });
+var Depths;
+(function (Depths) {
+    Depths.depth0 = '0 0 0 0 transparent';
+    Depths.depth4 = '0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108)';
+    Depths.depth8 = '0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108)';
+    Depths.depth16 = '0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)';
+    Depths.depth64 = '0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)';
+})(Depths || (Depths = {}));
+//# sourceMappingURL=FluentDepths.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/fonts/DefaultFontStyles.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/fonts/DefaultFontStyles.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DefaultFontStyles": () => (/* binding */ DefaultFontStyles),
+/* harmony export */   "registerDefaultFontFaces": () => (/* binding */ registerDefaultFontFaces)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/fontFace.js");
+/* harmony import */ var _FluentFonts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FluentFonts */ "./node_modules/@fluentui/theme/lib/fonts/FluentFonts.js");
+/* harmony import */ var _createFontStyles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createFontStyles */ "./node_modules/@fluentui/theme/lib/fonts/createFontStyles.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/language.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+
+
+
+// Default urls.
+var DefaultBaseUrl = 'https://static2.sharepointonline.com/files/fabric/assets';
+// Standard font styling.
+var DefaultFontStyles = (0,_createFontStyles__WEBPACK_IMPORTED_MODULE_0__.createFontStyles)((0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__.getLanguage)());
+function _registerFontFace(fontFamily, url, fontWeight, localFontName) {
+    fontFamily = "'" + fontFamily + "'";
+    var localFontSrc = localFontName !== undefined ? "local('" + localFontName + "')," : '';
+    (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__.fontFace)({
+        fontFamily: fontFamily,
+        src: localFontSrc + ("url('" + url + ".woff2') format('woff2'),") + ("url('" + url + ".woff') format('woff')"),
+        fontWeight: fontWeight,
+        fontStyle: 'normal',
+        fontDisplay: 'swap',
+    });
+}
+function _registerFontFaceSet(baseUrl, fontFamily, cdnFolder, cdnFontName, localFontName) {
+    if (cdnFontName === void 0) { cdnFontName = 'segoeui'; }
+    var urlBase = baseUrl + "/" + cdnFolder + "/" + cdnFontName;
+    _registerFontFace(fontFamily, urlBase + '-light', _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.FontWeights.light, localFontName && localFontName + ' Light');
+    _registerFontFace(fontFamily, urlBase + '-semilight', _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.FontWeights.semilight, localFontName && localFontName + ' SemiLight');
+    _registerFontFace(fontFamily, urlBase + '-regular', _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.FontWeights.regular, localFontName);
+    _registerFontFace(fontFamily, urlBase + '-semibold', _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.FontWeights.semibold, localFontName && localFontName + ' SemiBold');
+    _registerFontFace(fontFamily, urlBase + '-bold', _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.FontWeights.bold, localFontName && localFontName + ' Bold');
+}
+function registerDefaultFontFaces(baseUrl) {
+    if (baseUrl) {
+        var fontUrl = baseUrl + "/fonts";
+        // Produce @font-face definitions for all supported web fonts.
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Thai, 'leelawadeeui-thai', 'leelawadeeui');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Arabic, 'segoeui-arabic');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Cyrillic, 'segoeui-cyrillic');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.EastEuropean, 'segoeui-easteuropean');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Greek, 'segoeui-greek');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Hebrew, 'segoeui-hebrew');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Vietnamese, 'segoeui-vietnamese');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.WestEuropean, 'segoeui-westeuropean', 'segoeui', 'Segoe UI');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontFamilies.Selawik, 'selawik', 'selawik');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Armenian, 'segoeui-armenian');
+        _registerFontFaceSet(fontUrl, _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.LocalizedFontNames.Georgian, 'segoeui-georgian');
+        // Leelawadee UI (Thai) does not have a 'light' weight, so we override
+        // the font-face generated above to use the 'semilight' weight instead.
+        _registerFontFace('Leelawadee UI Web', fontUrl + "/leelawadeeui-thai/leelawadeeui-semilight", _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.FontWeights.light);
+        // Leelawadee UI (Thai) does not have a 'semibold' weight, so we override
+        // the font-face generated above to use the 'bold' weight instead.
+        _registerFontFace('Leelawadee UI Web', fontUrl + "/leelawadeeui-thai/leelawadeeui-bold", _FluentFonts__WEBPACK_IMPORTED_MODULE_3__.FontWeights.semibold);
+    }
+}
+/**
+ * Reads the fontBaseUrl from window.FabricConfig.fontBaseUrl or falls back to a default.
+ */
+function _getFontBaseUrl() {
+    var _a, _b;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var fabricConfig = (_a = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_4__.getWindow)()) === null || _a === void 0 ? void 0 : _a.FabricConfig;
+    return (_b = fabricConfig === null || fabricConfig === void 0 ? void 0 : fabricConfig.fontBaseUrl) !== null && _b !== void 0 ? _b : DefaultBaseUrl;
+}
+/**
+ * Register the font faces.
+ */
+registerDefaultFontFaces(_getFontBaseUrl());
+//# sourceMappingURL=DefaultFontStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/fonts/FluentFonts.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/fonts/FluentFonts.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LocalizedFontNames": () => (/* binding */ LocalizedFontNames),
+/* harmony export */   "LocalizedFontFamilies": () => (/* binding */ LocalizedFontFamilies),
+/* harmony export */   "FontSizes": () => (/* binding */ FontSizes),
+/* harmony export */   "FontWeights": () => (/* binding */ FontWeights),
+/* harmony export */   "IconFontSizes": () => (/* binding */ IconFontSizes)
+/* harmony export */ });
+// Font face names to be registered.
+var LocalizedFontNames;
+(function (LocalizedFontNames) {
+    LocalizedFontNames.Arabic = 'Segoe UI Web (Arabic)';
+    LocalizedFontNames.Cyrillic = 'Segoe UI Web (Cyrillic)';
+    LocalizedFontNames.EastEuropean = 'Segoe UI Web (East European)';
+    LocalizedFontNames.Greek = 'Segoe UI Web (Greek)';
+    LocalizedFontNames.Hebrew = 'Segoe UI Web (Hebrew)';
+    LocalizedFontNames.Thai = 'Leelawadee UI Web';
+    LocalizedFontNames.Vietnamese = 'Segoe UI Web (Vietnamese)';
+    LocalizedFontNames.WestEuropean = 'Segoe UI Web (West European)';
+    LocalizedFontNames.Selawik = 'Selawik Web';
+    LocalizedFontNames.Armenian = 'Segoe UI Web (Armenian)';
+    LocalizedFontNames.Georgian = 'Segoe UI Web (Georgian)';
+})(LocalizedFontNames || (LocalizedFontNames = {}));
+// Font families with fallbacks, for the general regions.
+var LocalizedFontFamilies;
+(function (LocalizedFontFamilies) {
+    LocalizedFontFamilies.Arabic = "'" + LocalizedFontNames.Arabic + "'";
+    LocalizedFontFamilies.ChineseSimplified = "'Microsoft Yahei UI', Verdana, Simsun";
+    LocalizedFontFamilies.ChineseTraditional = "'Microsoft Jhenghei UI', Pmingliu";
+    LocalizedFontFamilies.Cyrillic = "'" + LocalizedFontNames.Cyrillic + "'";
+    LocalizedFontFamilies.EastEuropean = "'" + LocalizedFontNames.EastEuropean + "'";
+    LocalizedFontFamilies.Greek = "'" + LocalizedFontNames.Greek + "'";
+    LocalizedFontFamilies.Hebrew = "'" + LocalizedFontNames.Hebrew + "'";
+    LocalizedFontFamilies.Hindi = "'Nirmala UI'";
+    LocalizedFontFamilies.Japanese = "'Yu Gothic UI', 'Meiryo UI', Meiryo, 'MS Pgothic', Osaka";
+    LocalizedFontFamilies.Korean = "'Malgun Gothic', Gulim";
+    LocalizedFontFamilies.Selawik = "'" + LocalizedFontNames.Selawik + "'";
+    LocalizedFontFamilies.Thai = "'Leelawadee UI Web', 'Kmer UI'";
+    LocalizedFontFamilies.Vietnamese = "'" + LocalizedFontNames.Vietnamese + "'";
+    LocalizedFontFamilies.WestEuropean = "'" + LocalizedFontNames.WestEuropean + "'";
+    LocalizedFontFamilies.Armenian = "'" + LocalizedFontNames.Armenian + "'";
+    LocalizedFontFamilies.Georgian = "'" + LocalizedFontNames.Georgian + "'";
+})(LocalizedFontFamilies || (LocalizedFontFamilies = {}));
+// Standard font sizes.
+var FontSizes;
+(function (FontSizes) {
+    FontSizes.size10 = '10px';
+    FontSizes.size12 = '12px';
+    FontSizes.size14 = '14px';
+    FontSizes.size16 = '16px';
+    FontSizes.size18 = '18px';
+    FontSizes.size20 = '20px';
+    FontSizes.size24 = '24px';
+    FontSizes.size28 = '28px';
+    FontSizes.size32 = '32px';
+    FontSizes.size42 = '42px';
+    FontSizes.size68 = '68px';
+    FontSizes.mini = '10px';
+    FontSizes.xSmall = '10px';
+    FontSizes.small = '12px';
+    FontSizes.smallPlus = '12px';
+    FontSizes.medium = '14px';
+    FontSizes.mediumPlus = '16px';
+    FontSizes.icon = '16px';
+    FontSizes.large = '18px';
+    FontSizes.xLarge = '20px';
+    FontSizes.xLargePlus = '24px';
+    FontSizes.xxLarge = '28px';
+    FontSizes.xxLargePlus = '32px';
+    FontSizes.superLarge = '42px';
+    FontSizes.mega = '68px';
+})(FontSizes || (FontSizes = {}));
+// Standard font weights.
+var FontWeights;
+(function (FontWeights) {
+    FontWeights.light = 100;
+    FontWeights.semilight = 300;
+    FontWeights.regular = 400;
+    FontWeights.semibold = 600;
+    FontWeights.bold = 700;
+})(FontWeights || (FontWeights = {}));
+// Standard Icon Sizes.
+var IconFontSizes;
+(function (IconFontSizes) {
+    IconFontSizes.xSmall = '10px';
+    IconFontSizes.small = '12px';
+    IconFontSizes.medium = '16px';
+    IconFontSizes.large = '20px';
+})(IconFontSizes || (IconFontSizes = {}));
+//# sourceMappingURL=FluentFonts.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/fonts/createFontStyles.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/fonts/createFontStyles.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createFontStyles": () => (/* binding */ createFontStyles)
+/* harmony export */ });
+/* harmony import */ var _FluentFonts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FluentFonts */ "./node_modules/@fluentui/theme/lib/fonts/FluentFonts.js");
+
+// Fallback fonts, if specified system or web fonts are unavailable.
+var FontFamilyFallbacks = "'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif";
+// By default, we favor system fonts for the default.
+// All localized fonts use a web font and never use the system font.
+var defaultFontFamily = "'Segoe UI', '" + _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontNames.WestEuropean + "'";
+// Mapping of language prefix to to font family.
+var LanguageToFontMap = {
+    ar: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Arabic,
+    bg: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Cyrillic,
+    cs: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    el: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Greek,
+    et: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    he: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Hebrew,
+    hi: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Hindi,
+    hr: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    hu: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    ja: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Japanese,
+    kk: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    ko: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Korean,
+    lt: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    lv: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    pl: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    ru: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Cyrillic,
+    sk: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    'sr-latn': _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    th: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Thai,
+    tr: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.EastEuropean,
+    uk: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Cyrillic,
+    vi: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Vietnamese,
+    'zh-hans': _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.ChineseSimplified,
+    'zh-hant': _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.ChineseTraditional,
+    hy: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Armenian,
+    ka: _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.LocalizedFontFamilies.Georgian,
+};
+function _fontFamilyWithFallbacks(fontFamily) {
+    return fontFamily + ", " + FontFamilyFallbacks;
+}
+/**
+ * If there is a localized font for this language, return that.
+ * Returns undefined if there is no localized font for that language.
+ */
+function _getLocalizedFontFamily(language) {
+    for (var lang in LanguageToFontMap) {
+        if (LanguageToFontMap.hasOwnProperty(lang) && language && lang.indexOf(language) === 0) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return LanguageToFontMap[lang];
+        }
+    }
+    return defaultFontFamily;
+}
+function _createFont(size, weight, fontFamily) {
+    return {
+        fontFamily: fontFamily,
+        MozOsxFontSmoothing: 'grayscale',
+        WebkitFontSmoothing: 'antialiased',
+        fontSize: size,
+        fontWeight: weight,
+    };
+}
+function createFontStyles(localeCode) {
+    var localizedFont = _getLocalizedFontFamily(localeCode);
+    var fontFamilyWithFallback = _fontFamilyWithFallbacks(localizedFont);
+    var fontStyles = {
+        tiny: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.mini, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular, fontFamilyWithFallback),
+        xSmall: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.xSmall, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular, fontFamilyWithFallback),
+        small: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.small, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular, fontFamilyWithFallback),
+        smallPlus: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.smallPlus, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular, fontFamilyWithFallback),
+        medium: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.medium, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular, fontFamilyWithFallback),
+        mediumPlus: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.mediumPlus, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular, fontFamilyWithFallback),
+        large: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.large, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular, fontFamilyWithFallback),
+        xLarge: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.xLarge, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold, fontFamilyWithFallback),
+        xLargePlus: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.xLargePlus, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold, fontFamilyWithFallback),
+        xxLarge: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.xxLarge, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold, fontFamilyWithFallback),
+        xxLargePlus: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.xxLargePlus, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold, fontFamilyWithFallback),
+        superLarge: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.superLarge, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold, fontFamilyWithFallback),
+        mega: _createFont(_FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontSizes.mega, _FluentFonts__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold, fontFamilyWithFallback),
+    };
+    return fontStyles;
+}
+//# sourceMappingURL=createFontStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/mergeThemes.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/mergeThemes.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mergeThemes": () => (/* binding */ mergeThemes)
+/* harmony export */ });
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/merge.js");
+/* harmony import */ var _utilities_makeSemanticColors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utilities/makeSemanticColors */ "./node_modules/@fluentui/theme/lib/utilities/makeSemanticColors.js");
+
+
+/**
+ * Merge a partial/full theme into a full theme and returns a merged full theme.
+ */
+function mergeThemes(theme, partialTheme) {
+    var _a, _b, _c;
+    if (partialTheme === void 0) { partialTheme = {}; }
+    var mergedTheme = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.merge)({}, theme, partialTheme, {
+        semanticColors: (0,_utilities_makeSemanticColors__WEBPACK_IMPORTED_MODULE_1__.getSemanticColors)(partialTheme.palette, partialTheme.effects, partialTheme.semanticColors, partialTheme.isInverted === undefined ? theme.isInverted : partialTheme.isInverted),
+    });
+    if (((_a = partialTheme.palette) === null || _a === void 0 ? void 0 : _a.themePrimary) && !((_b = partialTheme.palette) === null || _b === void 0 ? void 0 : _b.accent)) {
+        mergedTheme.palette.accent = partialTheme.palette.themePrimary;
+    }
+    if (partialTheme.defaultFontStyle) {
+        for (var _i = 0, _d = Object.keys(mergedTheme.fonts); _i < _d.length; _i++) {
+            var fontStyle = _d[_i];
+            mergedTheme.fonts[fontStyle] = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.merge)(mergedTheme.fonts[fontStyle], partialTheme.defaultFontStyle, (_c = partialTheme === null || partialTheme === void 0 ? void 0 : partialTheme.fonts) === null || _c === void 0 ? void 0 : _c[fontStyle]);
+        }
+    }
+    return mergedTheme;
+}
+//# sourceMappingURL=mergeThemes.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/motion/AnimationStyles.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/motion/AnimationStyles.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AnimationVariables": () => (/* binding */ AnimationVariables),
+/* harmony export */   "AnimationStyles": () => (/* binding */ AnimationStyles)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/keyframes.js");
+
+/* Register the keyframes */
+var EASING_FUNCTION_1 = 'cubic-bezier(.1,.9,.2,1)';
+var EASING_FUNCTION_2 = 'cubic-bezier(.1,.25,.75,.9)';
+var DURATION_1 = '0.167s';
+var DURATION_2 = '0.267s';
+var DURATION_3 = '0.367s';
+var DURATION_4 = '0.467s';
+var FADE_IN = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+});
+var FADE_OUT = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { opacity: 1 },
+    to: { opacity: 0, visibility: 'hidden' },
+});
+var SLIDE_RIGHT_IN10 = _createSlideInX(-10);
+var SLIDE_RIGHT_IN20 = _createSlideInX(-20);
+var SLIDE_RIGHT_IN40 = _createSlideInX(-40);
+var SLIDE_RIGHT_IN400 = _createSlideInX(-400);
+var SLIDE_LEFT_IN10 = _createSlideInX(10);
+var SLIDE_LEFT_IN20 = _createSlideInX(20);
+var SLIDE_LEFT_IN40 = _createSlideInX(40);
+var SLIDE_LEFT_IN400 = _createSlideInX(400);
+var SLIDE_UP_IN10 = _createSlideInY(10);
+var SLIDE_UP_IN20 = _createSlideInY(20);
+var SLIDE_DOWN_IN10 = _createSlideInY(-10);
+var SLIDE_DOWN_IN20 = _createSlideInY(-20);
+var SLIDE_RIGHT_OUT10 = _createSlideOutX(10);
+var SLIDE_RIGHT_OUT20 = _createSlideOutX(20);
+var SLIDE_RIGHT_OUT40 = _createSlideOutX(40);
+var SLIDE_RIGHT_OUT400 = _createSlideOutX(400);
+var SLIDE_LEFT_OUT10 = _createSlideOutX(-10);
+var SLIDE_LEFT_OUT20 = _createSlideOutX(-20);
+var SLIDE_LEFT_OUT40 = _createSlideOutX(-40);
+var SLIDE_LEFT_OUT400 = _createSlideOutX(-400);
+var SLIDE_UP_OUT10 = _createSlideOutY(-10);
+var SLIDE_UP_OUT20 = _createSlideOutY(-20);
+var SLIDE_DOWN_OUT10 = _createSlideOutY(10);
+var SLIDE_DOWN_OUT20 = _createSlideOutY(20);
+var SCALE_UP100 = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { transform: 'scale3d(.98,.98,1)' },
+    to: { transform: 'scale3d(1,1,1)' },
+});
+var SCALE_DOWN98 = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { transform: 'scale3d(1,1,1)' },
+    to: { transform: 'scale3d(.98,.98,1)' },
+});
+var SCALE_DOWN100 = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { transform: 'scale3d(1.03,1.03,1)' },
+    to: { transform: 'scale3d(1,1,1)' },
+});
+var SCALE_UP103 = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { transform: 'scale3d(1,1,1)' },
+    to: { transform: 'scale3d(1.03,1.03,1)' },
+});
+var ROTATE90 = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { transform: 'rotateZ(0deg)' },
+    to: { transform: 'rotateZ(90deg)' },
+});
+var ROTATE_N90 = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+    from: { transform: 'rotateZ(0deg)' },
+    to: { transform: 'rotateZ(-90deg)' },
+});
+/**
+ * Exporting raw duraction values and easing functions to be used in custom animations
+ */
+var AnimationVariables = {
+    easeFunction1: EASING_FUNCTION_1,
+    easeFunction2: EASING_FUNCTION_2,
+    durationValue1: DURATION_1,
+    durationValue2: DURATION_2,
+    durationValue3: DURATION_3,
+    durationValue4: DURATION_4,
+};
+/**
+ * All Fabric standard animations, exposed as json objects referencing predefined
+ * keyframes. These objects can be mixed in with other class definitions.
+ */
+var AnimationStyles = {
+    slideRightIn10: _createAnimation(FADE_IN + "," + SLIDE_RIGHT_IN10, DURATION_3, EASING_FUNCTION_1),
+    slideRightIn20: _createAnimation(FADE_IN + "," + SLIDE_RIGHT_IN20, DURATION_3, EASING_FUNCTION_1),
+    slideRightIn40: _createAnimation(FADE_IN + "," + SLIDE_RIGHT_IN40, DURATION_3, EASING_FUNCTION_1),
+    slideRightIn400: _createAnimation(FADE_IN + "," + SLIDE_RIGHT_IN400, DURATION_3, EASING_FUNCTION_1),
+    slideLeftIn10: _createAnimation(FADE_IN + "," + SLIDE_LEFT_IN10, DURATION_3, EASING_FUNCTION_1),
+    slideLeftIn20: _createAnimation(FADE_IN + "," + SLIDE_LEFT_IN20, DURATION_3, EASING_FUNCTION_1),
+    slideLeftIn40: _createAnimation(FADE_IN + "," + SLIDE_LEFT_IN40, DURATION_3, EASING_FUNCTION_1),
+    slideLeftIn400: _createAnimation(FADE_IN + "," + SLIDE_LEFT_IN400, DURATION_3, EASING_FUNCTION_1),
+    slideUpIn10: _createAnimation(FADE_IN + "," + SLIDE_UP_IN10, DURATION_3, EASING_FUNCTION_1),
+    slideUpIn20: _createAnimation(FADE_IN + "," + SLIDE_UP_IN20, DURATION_3, EASING_FUNCTION_1),
+    slideDownIn10: _createAnimation(FADE_IN + "," + SLIDE_DOWN_IN10, DURATION_3, EASING_FUNCTION_1),
+    slideDownIn20: _createAnimation(FADE_IN + "," + SLIDE_DOWN_IN20, DURATION_3, EASING_FUNCTION_1),
+    slideRightOut10: _createAnimation(FADE_OUT + "," + SLIDE_RIGHT_OUT10, DURATION_3, EASING_FUNCTION_1),
+    slideRightOut20: _createAnimation(FADE_OUT + "," + SLIDE_RIGHT_OUT20, DURATION_3, EASING_FUNCTION_1),
+    slideRightOut40: _createAnimation(FADE_OUT + "," + SLIDE_RIGHT_OUT40, DURATION_3, EASING_FUNCTION_1),
+    slideRightOut400: _createAnimation(FADE_OUT + "," + SLIDE_RIGHT_OUT400, DURATION_3, EASING_FUNCTION_1),
+    slideLeftOut10: _createAnimation(FADE_OUT + "," + SLIDE_LEFT_OUT10, DURATION_3, EASING_FUNCTION_1),
+    slideLeftOut20: _createAnimation(FADE_OUT + "," + SLIDE_LEFT_OUT20, DURATION_3, EASING_FUNCTION_1),
+    slideLeftOut40: _createAnimation(FADE_OUT + "," + SLIDE_LEFT_OUT40, DURATION_3, EASING_FUNCTION_1),
+    slideLeftOut400: _createAnimation(FADE_OUT + "," + SLIDE_LEFT_OUT400, DURATION_3, EASING_FUNCTION_1),
+    slideUpOut10: _createAnimation(FADE_OUT + "," + SLIDE_UP_OUT10, DURATION_3, EASING_FUNCTION_1),
+    slideUpOut20: _createAnimation(FADE_OUT + "," + SLIDE_UP_OUT20, DURATION_3, EASING_FUNCTION_1),
+    slideDownOut10: _createAnimation(FADE_OUT + "," + SLIDE_DOWN_OUT10, DURATION_3, EASING_FUNCTION_1),
+    slideDownOut20: _createAnimation(FADE_OUT + "," + SLIDE_DOWN_OUT20, DURATION_3, EASING_FUNCTION_1),
+    scaleUpIn100: _createAnimation(FADE_IN + "," + SCALE_UP100, DURATION_3, EASING_FUNCTION_1),
+    scaleDownIn100: _createAnimation(FADE_IN + "," + SCALE_DOWN100, DURATION_3, EASING_FUNCTION_1),
+    scaleUpOut103: _createAnimation(FADE_OUT + "," + SCALE_UP103, DURATION_1, EASING_FUNCTION_2),
+    scaleDownOut98: _createAnimation(FADE_OUT + "," + SCALE_DOWN98, DURATION_1, EASING_FUNCTION_2),
+    fadeIn100: _createAnimation(FADE_IN, DURATION_1, EASING_FUNCTION_2),
+    fadeIn200: _createAnimation(FADE_IN, DURATION_2, EASING_FUNCTION_2),
+    fadeIn400: _createAnimation(FADE_IN, DURATION_3, EASING_FUNCTION_2),
+    fadeIn500: _createAnimation(FADE_IN, DURATION_4, EASING_FUNCTION_2),
+    fadeOut100: _createAnimation(FADE_OUT, DURATION_1, EASING_FUNCTION_2),
+    fadeOut200: _createAnimation(FADE_OUT, DURATION_2, EASING_FUNCTION_2),
+    fadeOut400: _createAnimation(FADE_OUT, DURATION_3, EASING_FUNCTION_2),
+    fadeOut500: _createAnimation(FADE_OUT, DURATION_4, EASING_FUNCTION_2),
+    rotate90deg: _createAnimation(ROTATE90, '0.1s', EASING_FUNCTION_2),
+    rotateN90deg: _createAnimation(ROTATE_N90, '0.1s', EASING_FUNCTION_2),
+};
+function _createAnimation(animationName, animationDuration, animationTimingFunction) {
+    return {
+        animationName: animationName,
+        animationDuration: animationDuration,
+        animationTimingFunction: animationTimingFunction,
+        animationFillMode: 'both',
+    };
+}
+function _createSlideInX(fromX) {
+    return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+        from: { transform: "translate3d(" + fromX + "px,0,0)", pointerEvents: 'none' },
+        to: { transform: "translate3d(0,0,0)", pointerEvents: 'auto' },
+    });
+}
+function _createSlideInY(fromY) {
+    return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+        from: { transform: "translate3d(0," + fromY + "px,0)", pointerEvents: 'none' },
+        to: { transform: "translate3d(0,0,0)", pointerEvents: 'auto' },
+    });
+}
+function _createSlideOutX(toX) {
+    return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+        from: { transform: "translate3d(0,0,0)" },
+        to: { transform: "translate3d(" + toX + "px,0,0)" },
+    });
+}
+function _createSlideOutY(toY) {
+    return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.keyframes)({
+        from: { transform: "translate3d(0,0,0)" },
+        to: { transform: "translate3d(0," + toY + "px,0)" },
+    });
+}
+//# sourceMappingURL=AnimationStyles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/spacing/DefaultSpacing.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/spacing/DefaultSpacing.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DefaultSpacing": () => (/* binding */ DefaultSpacing)
+/* harmony export */ });
+var DefaultSpacing = {
+    s2: '4px',
+    s1: '8px',
+    m: '16px',
+    l1: '20px',
+    l2: '32px',
+};
+//# sourceMappingURL=DefaultSpacing.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/theme/lib/utilities/makeSemanticColors.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@fluentui/theme/lib/utilities/makeSemanticColors.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "makeSemanticColors": () => (/* binding */ makeSemanticColors),
+/* harmony export */   "getSemanticColors": () => (/* binding */ getSemanticColors)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+/** Generates all the semantic slot colors based on the theme so far
+ * We'll use these as fallbacks for semantic slots that the passed in theme did not define.
+ * The caller must still mix in the customized semantic slots at the end.
+ */
+function makeSemanticColors(p, e, s, isInverted, depComments) {
+    if (depComments === void 0) { depComments = false; }
+    var semanticColors = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({ primaryButtonBorder: 'transparent', errorText: !isInverted ? '#a4262c' : '#F1707B', messageText: !isInverted ? '#323130' : '#F3F2F1', messageLink: !isInverted ? '#005A9E' : '#6CB8F6', messageLinkHovered: !isInverted ? '#004578' : '#82C7FF', infoIcon: !isInverted ? '#605e5c' : '#C8C6C4', errorIcon: !isInverted ? '#A80000' : '#F1707B', blockingIcon: !isInverted ? '#FDE7E9' : '#442726', warningIcon: !isInverted ? '#797775' : '#C8C6C4', severeWarningIcon: !isInverted ? '#D83B01' : '#FCE100', successIcon: !isInverted ? '#107C10' : '#92C353', infoBackground: !isInverted ? '#f3f2f1' : '#323130', errorBackground: !isInverted ? '#FDE7E9' : '#442726', blockingBackground: !isInverted ? '#FDE7E9' : '#442726', warningBackground: !isInverted ? '#FFF4CE' : '#433519', severeWarningBackground: !isInverted ? '#FED9CC' : '#4F2A0F', successBackground: !isInverted ? '#DFF6DD' : '#393D1B', 
+        // deprecated
+        warningHighlight: !isInverted ? '#ffb900' : '#fff100', successText: !isInverted ? '#107C10' : '#92c353' }, s);
+    var fullSemanticColors = getSemanticColors(p, e, semanticColors, isInverted);
+    return _fixDeprecatedSlots(fullSemanticColors, depComments);
+}
+/**
+ * Map partial platte and effects to partial semantic colors.
+ */
+function getSemanticColors(p, e, s, isInverted, depComments) {
+    if (depComments === void 0) { depComments = false; }
+    var result = {};
+    // map palette
+    var _a = p || {}, white = _a.white, black = _a.black, themePrimary = _a.themePrimary, themeDark = _a.themeDark, themeDarker = _a.themeDarker, themeDarkAlt = _a.themeDarkAlt, themeLighter = _a.themeLighter, neutralLight = _a.neutralLight, neutralLighter = _a.neutralLighter, neutralDark = _a.neutralDark, neutralQuaternary = _a.neutralQuaternary, neutralQuaternaryAlt = _a.neutralQuaternaryAlt, neutralPrimary = _a.neutralPrimary, neutralSecondary = _a.neutralSecondary, neutralSecondaryAlt = _a.neutralSecondaryAlt, neutralTertiary = _a.neutralTertiary, neutralTertiaryAlt = _a.neutralTertiaryAlt, neutralLighterAlt = _a.neutralLighterAlt, accent = _a.accent;
+    if (white) {
+        result.bodyBackground = white;
+        result.bodyFrameBackground = white;
+        result.accentButtonText = white;
+        result.buttonBackground = white;
+        result.primaryButtonText = white;
+        result.primaryButtonTextHovered = white;
+        result.primaryButtonTextPressed = white;
+        result.inputBackground = white;
+        result.inputForegroundChecked = white;
+        result.listBackground = white;
+        result.menuBackground = white;
+        result.cardStandoutBackground = white;
+    }
+    if (black) {
+        result.bodyTextChecked = black;
+        result.buttonTextCheckedHovered = black;
+    }
+    if (themePrimary) {
+        result.link = themePrimary;
+        result.primaryButtonBackground = themePrimary;
+        result.inputBackgroundChecked = themePrimary;
+        result.inputIcon = themePrimary;
+        result.inputFocusBorderAlt = themePrimary;
+        result.menuIcon = themePrimary;
+        result.menuHeader = themePrimary;
+        result.accentButtonBackground = themePrimary;
+    }
+    if (themeDark) {
+        result.primaryButtonBackgroundPressed = themeDark;
+        result.inputBackgroundCheckedHovered = themeDark;
+        result.inputIconHovered = themeDark;
+    }
+    if (themeDarker) {
+        result.linkHovered = themeDarker;
+    }
+    if (themeDarkAlt) {
+        result.primaryButtonBackgroundHovered = themeDarkAlt;
+    }
+    if (themeLighter) {
+        result.inputPlaceholderBackgroundChecked = themeLighter;
+    }
+    if (neutralLight) {
+        result.bodyBackgroundChecked = neutralLight;
+        result.bodyFrameDivider = neutralLight;
+        result.bodyDivider = neutralLight;
+        result.variantBorder = neutralLight;
+        result.buttonBackgroundCheckedHovered = neutralLight;
+        result.buttonBackgroundPressed = neutralLight;
+        result.listItemBackgroundChecked = neutralLight;
+        result.listHeaderBackgroundPressed = neutralLight;
+        result.menuItemBackgroundPressed = neutralLight;
+        // eslint-disable-next-line deprecation/deprecation
+        result.menuItemBackgroundChecked = neutralLight;
+    }
+    if (neutralLighter) {
+        result.bodyBackgroundHovered = neutralLighter;
+        result.buttonBackgroundHovered = neutralLighter;
+        result.buttonBackgroundDisabled = neutralLighter;
+        result.buttonBorderDisabled = neutralLighter;
+        result.primaryButtonBackgroundDisabled = neutralLighter;
+        result.disabledBackground = neutralLighter;
+        result.listItemBackgroundHovered = neutralLighter;
+        result.listHeaderBackgroundHovered = neutralLighter;
+        result.menuItemBackgroundHovered = neutralLighter;
+    }
+    if (neutralQuaternary) {
+        result.primaryButtonTextDisabled = neutralQuaternary;
+        result.disabledSubtext = neutralQuaternary;
+    }
+    if (neutralQuaternaryAlt) {
+        result.listItemBackgroundCheckedHovered = neutralQuaternaryAlt;
+    }
+    if (neutralTertiary) {
+        result.disabledBodyText = neutralTertiary;
+        result.variantBorderHovered = (s === null || s === void 0 ? void 0 : s.variantBorderHovered) || neutralTertiary;
+        result.buttonTextDisabled = neutralTertiary;
+        result.inputIconDisabled = neutralTertiary;
+        result.disabledText = neutralTertiary;
+    }
+    if (neutralPrimary) {
+        result.bodyText = neutralPrimary;
+        result.actionLink = neutralPrimary;
+        result.buttonText = neutralPrimary;
+        result.inputBorderHovered = neutralPrimary;
+        result.inputText = neutralPrimary;
+        result.listText = neutralPrimary;
+        result.menuItemText = neutralPrimary;
+    }
+    if (neutralLighterAlt) {
+        result.bodyStandoutBackground = neutralLighterAlt;
+        result.defaultStateBackground = neutralLighterAlt;
+    }
+    if (neutralDark) {
+        result.actionLinkHovered = neutralDark;
+        result.buttonTextHovered = neutralDark;
+        result.buttonTextChecked = neutralDark;
+        result.buttonTextPressed = neutralDark;
+        result.inputTextHovered = neutralDark;
+        result.menuItemTextHovered = neutralDark;
+    }
+    if (neutralSecondary) {
+        result.bodySubtext = neutralSecondary;
+        result.focusBorder = neutralSecondary;
+        result.inputBorder = neutralSecondary;
+        result.smallInputBorder = neutralSecondary;
+        result.inputPlaceholderText = neutralSecondary;
+    }
+    if (neutralSecondaryAlt) {
+        result.buttonBorder = neutralSecondaryAlt;
+    }
+    if (neutralTertiaryAlt) {
+        result.disabledBodySubtext = neutralTertiaryAlt;
+        result.disabledBorder = neutralTertiaryAlt;
+        result.buttonBackgroundChecked = neutralTertiaryAlt;
+        result.menuDivider = neutralTertiaryAlt;
+    }
+    if (accent) {
+        result.accentButtonBackground = accent;
+    }
+    // map effects
+    if (e === null || e === void 0 ? void 0 : e.elevation4) {
+        result.cardShadow = e.elevation4;
+    }
+    if (!isInverted && (e === null || e === void 0 ? void 0 : e.elevation8)) {
+        result.cardShadowHovered = e.elevation8;
+    }
+    else if (result.variantBorderHovered) {
+        result.cardShadowHovered = '0 0 1px ' + result.variantBorderHovered;
+    }
+    result = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({}, result), s);
+    return result;
+}
+function _fixDeprecatedSlots(s, depComments) {
+    // Add @deprecated tag as comment if enabled
+    var dep = '';
+    if (depComments === true) {
+        dep = ' /* @deprecated */';
+    }
+    /* eslint-disable deprecation/deprecation */
+    s.listTextColor = s.listText + dep;
+    s.menuItemBackgroundChecked += dep;
+    s.warningHighlight += dep;
+    s.warningText = s.messageText + dep;
+    s.successText += dep;
+    /* eslint-enable deprecation/deprecation */
+    return s;
+}
+//# sourceMappingURL=makeSemanticColors.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/Async.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/Async.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Async": () => (/* binding */ Async)
+/* harmony export */ });
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+/**
+ * Bugs often appear in async code when stuff gets disposed, but async operations don't get canceled.
+ * This Async helper class solves these issues by tying async code to the lifetime of a disposable object.
+ *
+ * Usage: Anything class extending from BaseModel can access this helper via this.async. Otherwise create a
+ * new instance of the class and remember to call dispose() during your code's dispose handler.
+ *
+ * @public
+ */
+var Async = /** @class */ (function () {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function Async(parent, onError) {
+        this._timeoutIds = null;
+        this._immediateIds = null;
+        this._intervalIds = null;
+        this._animationFrameIds = null;
+        this._isDisposed = false;
+        this._parent = parent || null;
+        this._onErrorHandler = onError;
+        this._noop = function () {
+            /* do nothing */
+        };
+    }
+    /**
+     * Dispose function, clears all async operations.
+     */
+    Async.prototype.dispose = function () {
+        var id;
+        this._isDisposed = true;
+        this._parent = null;
+        // Clear timeouts.
+        if (this._timeoutIds) {
+            for (id in this._timeoutIds) {
+                if (this._timeoutIds.hasOwnProperty(id)) {
+                    this.clearTimeout(parseInt(id, 10));
+                }
+            }
+            this._timeoutIds = null;
+        }
+        // Clear immediates.
+        if (this._immediateIds) {
+            for (id in this._immediateIds) {
+                if (this._immediateIds.hasOwnProperty(id)) {
+                    this.clearImmediate(parseInt(id, 10));
+                }
+            }
+            this._immediateIds = null;
+        }
+        // Clear intervals.
+        if (this._intervalIds) {
+            for (id in this._intervalIds) {
+                if (this._intervalIds.hasOwnProperty(id)) {
+                    this.clearInterval(parseInt(id, 10));
+                }
+            }
+            this._intervalIds = null;
+        }
+        // Clear animation frames.
+        if (this._animationFrameIds) {
+            for (id in this._animationFrameIds) {
+                if (this._animationFrameIds.hasOwnProperty(id)) {
+                    this.cancelAnimationFrame(parseInt(id, 10));
+                }
+            }
+            this._animationFrameIds = null;
+        }
+    };
+    /**
+     * SetTimeout override, which will auto cancel the timeout during dispose.
+     * @param callback - Callback to execute.
+     * @param duration - Duration in milliseconds.
+     * @returns The setTimeout id.
+     */
+    Async.prototype.setTimeout = function (callback, duration) {
+        var _this = this;
+        var timeoutId = 0;
+        if (!this._isDisposed) {
+            if (!this._timeoutIds) {
+                this._timeoutIds = {};
+            }
+            timeoutId = setTimeout(function () {
+                // Time to execute the timeout, enqueue it as a foreground task to be executed.
+                try {
+                    // Now delete the record and call the callback.
+                    if (_this._timeoutIds) {
+                        delete _this._timeoutIds[timeoutId];
+                    }
+                    callback.apply(_this._parent);
+                }
+                catch (e) {
+                    _this._logError(e);
+                }
+            }, duration);
+            this._timeoutIds[timeoutId] = true;
+        }
+        return timeoutId;
+    };
+    /**
+     * Clears the timeout.
+     * @param id - Id to cancel.
+     */
+    Async.prototype.clearTimeout = function (id) {
+        if (this._timeoutIds && this._timeoutIds[id]) {
+            clearTimeout(id);
+            delete this._timeoutIds[id];
+        }
+    };
+    /**
+     * SetImmediate override, which will auto cancel the immediate during dispose.
+     * @param callback - Callback to execute.
+     * @param targetElement - Optional target element to use for identifying the correct window.
+     * @returns The setTimeout id.
+     */
+    Async.prototype.setImmediate = function (callback, targetElement) {
+        var _this = this;
+        var immediateId = 0;
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)(targetElement);
+        if (!this._isDisposed) {
+            if (!this._immediateIds) {
+                this._immediateIds = {};
+            }
+            var setImmediateCallback = function () {
+                // Time to execute the timeout, enqueue it as a foreground task to be executed.
+                try {
+                    // Now delete the record and call the callback.
+                    if (_this._immediateIds) {
+                        delete _this._immediateIds[immediateId];
+                    }
+                    callback.apply(_this._parent);
+                }
+                catch (e) {
+                    _this._logError(e);
+                }
+            };
+            immediateId = win.setTimeout(setImmediateCallback, 0);
+            this._immediateIds[immediateId] = true;
+        }
+        return immediateId;
+    };
+    /**
+     * Clears the immediate.
+     * @param id - Id to cancel.
+     * @param targetElement - Optional target element to use for identifying the correct window.
+     */
+    Async.prototype.clearImmediate = function (id, targetElement) {
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)(targetElement);
+        if (this._immediateIds && this._immediateIds[id]) {
+            win.clearTimeout(id);
+            delete this._immediateIds[id];
+        }
+    };
+    /**
+     * SetInterval override, which will auto cancel the timeout during dispose.
+     * @param callback - Callback to execute.
+     * @param duration - Duration in milliseconds.
+     * @returns The setTimeout id.
+     */
+    Async.prototype.setInterval = function (callback, duration) {
+        var _this = this;
+        var intervalId = 0;
+        if (!this._isDisposed) {
+            if (!this._intervalIds) {
+                this._intervalIds = {};
+            }
+            intervalId = setInterval(function () {
+                // Time to execute the interval callback, enqueue it as a foreground task to be executed.
+                try {
+                    callback.apply(_this._parent);
+                }
+                catch (e) {
+                    _this._logError(e);
+                }
+            }, duration);
+            this._intervalIds[intervalId] = true;
+        }
+        return intervalId;
+    };
+    /**
+     * Clears the interval.
+     * @param id - Id to cancel.
+     */
+    Async.prototype.clearInterval = function (id) {
+        if (this._intervalIds && this._intervalIds[id]) {
+            clearInterval(id);
+            delete this._intervalIds[id];
+        }
+    };
+    /**
+     * Creates a function that, when executed, will only call the func function at most once per
+     * every wait milliseconds. Provide an options object to indicate that func should be invoked
+     * on the leading and/or trailing edge of the wait timeout. Subsequent calls to the throttled
+     * function will return the result of the last func call.
+     *
+     * Note: If leading and trailing options are true func will be called on the trailing edge of
+     * the timeout only if the throttled function is invoked more than once during the wait timeout.
+     *
+     * @param func - The function to throttle.
+     * @param wait - The number of milliseconds to throttle executions to. Defaults to 0.
+     * @param options - The options object.
+     * @returns The new throttled function.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Async.prototype.throttle = function (func, wait, options) {
+        var _this = this;
+        if (this._isDisposed) {
+            return this._noop;
+        }
+        var waitMS = wait || 0;
+        var leading = true;
+        var trailing = true;
+        var lastExecuteTime = 0;
+        var lastResult;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var lastArgs;
+        var timeoutId = null;
+        if (options && typeof options.leading === 'boolean') {
+            leading = options.leading;
+        }
+        if (options && typeof options.trailing === 'boolean') {
+            trailing = options.trailing;
+        }
+        var callback = function (userCall) {
+            var now = Date.now();
+            var delta = now - lastExecuteTime;
+            var waitLength = leading ? waitMS - delta : waitMS;
+            if (delta >= waitMS && (!userCall || leading)) {
+                lastExecuteTime = now;
+                if (timeoutId) {
+                    _this.clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                lastResult = func.apply(_this._parent, lastArgs);
+            }
+            else if (timeoutId === null && trailing) {
+                timeoutId = _this.setTimeout(callback, waitLength);
+            }
+            return lastResult;
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var resultFunction = (function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            lastArgs = args;
+            return callback(true);
+        });
+        return resultFunction;
+    };
+    /**
+     * Creates a function that will delay the execution of func until after wait milliseconds have
+     * elapsed since the last time it was invoked. Provide an options object to indicate that func
+     * should be invoked on the leading and/or trailing edge of the wait timeout. Subsequent calls
+     * to the debounced function will return the result of the last func call.
+     *
+     * Note: If leading and trailing options are true func will be called on the trailing edge of
+     * the timeout only if the debounced function is invoked more than once during the wait
+     * timeout.
+     *
+     * @param func - The function to debounce.
+     * @param wait - The number of milliseconds to delay.
+     * @param options - The options object.
+     * @returns The new debounced function.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Async.prototype.debounce = function (func, wait, options) {
+        var _this = this;
+        if (this._isDisposed) {
+            var noOpFunction = (function () {
+                /** Do nothing */
+            });
+            noOpFunction.cancel = function () {
+                return;
+            };
+            noOpFunction.flush = (function () { return null; });
+            noOpFunction.pending = function () { return false; };
+            return noOpFunction;
+        }
+        var waitMS = wait || 0;
+        var leading = false;
+        var trailing = true;
+        var maxWait = null;
+        var lastCallTime = 0;
+        var lastExecuteTime = Date.now();
+        var lastResult;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var lastArgs;
+        var timeoutId = null;
+        if (options && typeof options.leading === 'boolean') {
+            leading = options.leading;
+        }
+        if (options && typeof options.trailing === 'boolean') {
+            trailing = options.trailing;
+        }
+        if (options && typeof options.maxWait === 'number' && !isNaN(options.maxWait)) {
+            maxWait = options.maxWait;
+        }
+        var markExecuted = function (time) {
+            if (timeoutId) {
+                _this.clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+            lastExecuteTime = time;
+        };
+        var invokeFunction = function (time) {
+            markExecuted(time);
+            lastResult = func.apply(_this._parent, lastArgs);
+        };
+        var callback = function (userCall) {
+            var now = Date.now();
+            var executeImmediately = false;
+            if (userCall) {
+                if (leading && now - lastCallTime >= waitMS) {
+                    executeImmediately = true;
+                }
+                lastCallTime = now;
+            }
+            var delta = now - lastCallTime;
+            var waitLength = waitMS - delta;
+            var maxWaitDelta = now - lastExecuteTime;
+            var maxWaitExpired = false;
+            if (maxWait !== null) {
+                // maxWait only matters when there is a pending callback
+                if (maxWaitDelta >= maxWait && timeoutId) {
+                    maxWaitExpired = true;
+                }
+                else {
+                    waitLength = Math.min(waitLength, maxWait - maxWaitDelta);
+                }
+            }
+            if (delta >= waitMS || maxWaitExpired || executeImmediately) {
+                invokeFunction(now);
+            }
+            else if ((timeoutId === null || !userCall) && trailing) {
+                timeoutId = _this.setTimeout(callback, waitLength);
+            }
+            return lastResult;
+        };
+        var pending = function () {
+            return !!timeoutId;
+        };
+        var cancel = function () {
+            if (pending()) {
+                // Mark the debounced function as having executed
+                markExecuted(Date.now());
+            }
+        };
+        var flush = function () {
+            if (pending()) {
+                invokeFunction(Date.now());
+            }
+            return lastResult;
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var resultFunction = (function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            lastArgs = args;
+            return callback(true);
+        });
+        resultFunction.cancel = cancel;
+        resultFunction.flush = flush;
+        resultFunction.pending = pending;
+        return resultFunction;
+    };
+    Async.prototype.requestAnimationFrame = function (callback, targetElement) {
+        var _this = this;
+        var animationFrameId = 0;
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)(targetElement);
+        if (!this._isDisposed) {
+            if (!this._animationFrameIds) {
+                this._animationFrameIds = {};
+            }
+            var animationFrameCallback = function () {
+                try {
+                    // Now delete the record and call the callback.
+                    if (_this._animationFrameIds) {
+                        delete _this._animationFrameIds[animationFrameId];
+                    }
+                    callback.apply(_this._parent);
+                }
+                catch (e) {
+                    _this._logError(e);
+                }
+            };
+            animationFrameId = win.requestAnimationFrame
+                ? win.requestAnimationFrame(animationFrameCallback)
+                : win.setTimeout(animationFrameCallback, 0);
+            this._animationFrameIds[animationFrameId] = true;
+        }
+        return animationFrameId;
+    };
+    Async.prototype.cancelAnimationFrame = function (id, targetElement) {
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)(targetElement);
+        if (this._animationFrameIds && this._animationFrameIds[id]) {
+            win.cancelAnimationFrame ? win.cancelAnimationFrame(id) : win.clearTimeout(id);
+            delete this._animationFrameIds[id];
+        }
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Async.prototype._logError = function (e) {
+        if (this._onErrorHandler) {
+            this._onErrorHandler(e);
+        }
+    };
+    return Async;
+}());
+
+//# sourceMappingURL=Async.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/BaseComponent.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/BaseComponent.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BaseComponent": () => (/* binding */ BaseComponent),
+/* harmony export */   "nullRender": () => (/* binding */ nullRender)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Async__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Async */ "./node_modules/@fluentui/utilities/lib/Async.js");
+/* harmony import */ var _EventGroup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./EventGroup */ "./node_modules/@fluentui/utilities/lib/EventGroup.js");
+/* harmony import */ var _warn_warnConditionallyRequiredProps__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./warn/warnConditionallyRequiredProps */ "./node_modules/@fluentui/utilities/lib/warn/warnConditionallyRequiredProps.js");
+/* harmony import */ var _warn_warnMutuallyExclusive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./warn/warnMutuallyExclusive */ "./node_modules/@fluentui/utilities/lib/warn/warnMutuallyExclusive.js");
+/* harmony import */ var _warn_warnDeprecations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./warn/warnDeprecations */ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js");
+
+
+
+
+
+
+
+/**
+ * BaseComponent class, which provides basic helpers for all components.
+ *
+ * @public
+ * {@docCategory BaseComponent}
+ *
+ * @deprecated Do not use. We are moving away from class component.
+ */
+var BaseComponent = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(BaseComponent, _super);
+    /**
+     * BaseComponent constructor
+     * @param props - The props for the component.
+     * @param context - The context for the component.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function BaseComponent(props, context) {
+        var _this = _super.call(this, props, context) || this;
+        // eslint-disable-next-line deprecation/deprecation
+        _makeAllSafe(_this, BaseComponent.prototype, [
+            'componentDidMount',
+            'shouldComponentUpdate',
+            'getSnapshotBeforeUpdate',
+            'render',
+            'componentDidUpdate',
+            'componentWillUnmount',
+        ]);
+        return _this;
+    }
+    /**
+     * When the component receives props, make sure the componentRef is updated.
+     */
+    BaseComponent.prototype.componentDidUpdate = function (prevProps, prevState) {
+        this._updateComponentRef(prevProps, this.props);
+    };
+    /**
+     * When the component has mounted, update the componentRef.
+     */
+    BaseComponent.prototype.componentDidMount = function () {
+        this._setComponentRef(this.props.componentRef, this);
+    };
+    /**
+     * If we have disposables, dispose them automatically on unmount.
+     */
+    BaseComponent.prototype.componentWillUnmount = function () {
+        this._setComponentRef(this.props.componentRef, null);
+        if (this.__disposables) {
+            for (var i = 0, len = this._disposables.length; i < len; i++) {
+                var disposable = this.__disposables[i];
+                if (disposable.dispose) {
+                    disposable.dispose();
+                }
+            }
+            this.__disposables = null;
+        }
+    };
+    Object.defineProperty(BaseComponent.prototype, "className", {
+        /**
+         * Gets the object's class name.
+         */
+        get: function () {
+            if (!this.__className) {
+                var funcNameRegex = /function (.{1,})\(/;
+                var results = funcNameRegex.exec(this.constructor.toString());
+                this.__className = results && results.length > 1 ? results[1] : '';
+            }
+            return this.__className;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(BaseComponent.prototype, "_disposables", {
+        /**
+         * Allows subclasses to push things to this._disposables to be auto disposed.
+         */
+        get: function () {
+            if (!this.__disposables) {
+                this.__disposables = [];
+            }
+            return this.__disposables;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(BaseComponent.prototype, "_async", {
+        /**
+         * Gets the async instance associated with the component, created on demand. The async instance gives
+         * subclasses a way to execute setTimeout/setInterval async calls safely, where the callbacks
+         * will be cleared/ignored automatically after unmounting. The helpers within the async object also
+         * preserve the this pointer so that you don't need to "bind" the callbacks.
+         */
+        get: function () {
+            if (!this.__async) {
+                this.__async = new _Async__WEBPACK_IMPORTED_MODULE_2__.Async(this);
+                this._disposables.push(this.__async);
+            }
+            return this.__async;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(BaseComponent.prototype, "_events", {
+        /**
+         * Gets the event group instance assocaited with the component, created on demand. The event instance
+         * provides on/off methods for listening to DOM (or regular javascript object) events. The event callbacks
+         * will be automatically disconnected after unmounting. The helpers within the events object also
+         * preserve the this reference so that you don't need to "bind" the callbacks.
+         */
+        get: function () {
+            if (!this.__events) {
+                this.__events = new _EventGroup__WEBPACK_IMPORTED_MODULE_3__.EventGroup(this);
+                this._disposables.push(this.__events);
+            }
+            return this.__events;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     * Helper to return a memoized ref resolver function.
+     * @param refName - Name of the member to assign the ref to.
+     * @returns A function instance keyed from the given refname.
+     * @deprecated Use `createRef` from React.createRef.
+     */
+    BaseComponent.prototype._resolveRef = function (refName) {
+        var _this = this;
+        if (!this.__resolves) {
+            this.__resolves = {};
+        }
+        if (!this.__resolves[refName]) {
+            this.__resolves[refName] = function (ref) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                return (_this[refName] = ref);
+            };
+        }
+        return this.__resolves[refName];
+    };
+    /**
+     * Updates the componentRef (by calling it with "this" when necessary.)
+     */
+    BaseComponent.prototype._updateComponentRef = function (currentProps, newProps) {
+        if (newProps === void 0) { newProps = {}; }
+        // currentProps *should* always be defined, but verify that just in case a subclass is manually
+        // calling a lifecycle method with no parameters (which has happened) or other odd usage.
+        if (currentProps && newProps && currentProps.componentRef !== newProps.componentRef) {
+            this._setComponentRef(currentProps.componentRef, null);
+            this._setComponentRef(newProps.componentRef, this);
+        }
+    };
+    /**
+     * Warns when a deprecated props are being used.
+     *
+     * @param deprecationMap - The map of deprecations, where key is the prop name and the value is
+     * either null or a replacement prop name.
+     */
+    BaseComponent.prototype._warnDeprecations = function (deprecationMap) {
+        (0,_warn_warnDeprecations__WEBPACK_IMPORTED_MODULE_4__.warnDeprecations)(this.className, this.props, deprecationMap);
+    };
+    /**
+     * Warns when props which are mutually exclusive with each other are both used.
+     *
+     * @param mutuallyExclusiveMap - The map of mutually exclusive props.
+     */
+    BaseComponent.prototype._warnMutuallyExclusive = function (mutuallyExclusiveMap) {
+        (0,_warn_warnMutuallyExclusive__WEBPACK_IMPORTED_MODULE_5__.warnMutuallyExclusive)(this.className, this.props, mutuallyExclusiveMap);
+    };
+    /**
+     * Warns when props are required if a condition is met.
+     *
+     * @param requiredProps - The name of the props that are required when the condition is met.
+     * @param conditionalPropName - The name of the prop that the condition is based on.
+     * @param condition - Whether the condition is met.
+     */
+    BaseComponent.prototype._warnConditionallyRequiredProps = function (requiredProps, conditionalPropName, condition) {
+        (0,_warn_warnConditionallyRequiredProps__WEBPACK_IMPORTED_MODULE_6__.warnConditionallyRequiredProps)(this.className, this.props, requiredProps, conditionalPropName, condition);
+    };
+    BaseComponent.prototype._setComponentRef = function (ref, value) {
+        if (!this._skipComponentRefResolution && ref) {
+            if (typeof ref === 'function') {
+                ref(value);
+            }
+            if (typeof ref === 'object') {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ref.current = value;
+            }
+        }
+    };
+    return BaseComponent;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+/**
+ * Helper to override a given method with a wrapper method that can try/catch the original, but also
+ * ensures that the BaseComponent's methods are called before the subclass's. This ensures that
+ * componentWillUnmount in the base is called and that things in the _disposables array are disposed.
+ */
+// eslint-disable-next-line deprecation/deprecation
+function _makeAllSafe(obj, prototype, methodNames) {
+    for (var i = 0, len = methodNames.length; i < len; i++) {
+        _makeSafe(obj, prototype, methodNames[i]);
+    }
+}
+// eslint-disable-next-line deprecation/deprecation
+function _makeSafe(obj, prototype, methodName) {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    var classMethod = obj[methodName];
+    var prototypeMethod = prototype[methodName];
+    if (classMethod || prototypeMethod) {
+        obj[methodName] = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            /* eslint-enable @typescript-eslint/no-explicit-any */
+            var retVal;
+            if (prototypeMethod) {
+                retVal = prototypeMethod.apply(this, args);
+            }
+            if (classMethod !== prototypeMethod) {
+                retVal = classMethod.apply(this, args);
+            }
+            return retVal;
+        };
+    }
+}
+/**
+ * Simple constant function for returning null, used to render empty templates in JSX.
+ *
+ * @public
+ */
+function nullRender() {
+    return null;
+}
+//# sourceMappingURL=BaseComponent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/EventGroup.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/EventGroup.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EventGroup": () => (/* binding */ EventGroup)
+/* harmony export */ });
+/* harmony import */ var _object__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./object */ "./node_modules/@fluentui/utilities/lib/object.js");
+
+/** An instance of EventGroup allows anything with a handle to it to trigger events on it.
+ *  If the target is an HTMLElement, the event will be attached to the element and can be
+ *  triggered as usual (like clicking for onClick).
+ *  The event can be triggered by calling EventGroup.raise() here. If the target is an
+ *  HTMLElement, the event gets raised and is handled by the browser. Otherwise, it gets
+ *  handled here in EventGroup, and the handler is called in the context of the parent
+ *  (which is passed in in the constructor).
+ *
+ * @public
+ * {@docCategory EventGroup}
+ */
+var EventGroup = /** @class */ (function () {
+    /** parent: the context in which events attached to non-HTMLElements are called */
+    function EventGroup(parent) {
+        this._id = EventGroup._uniqueId++;
+        this._parent = parent;
+        this._eventRecords = [];
+    }
+    /** For IE8, bubbleEvent is ignored here and must be dealt with by the handler.
+     *  Events raised here by default have bubbling set to false and cancelable set to true.
+     *  This applies also to built-in events being raised manually here on HTMLElements,
+     *  which may lead to unexpected behavior if it differs from the defaults.
+     *
+     */
+    EventGroup.raise = function (target, eventName, eventArgs, bubbleEvent) {
+        var retVal;
+        if (EventGroup._isElement(target)) {
+            if (typeof document !== 'undefined' && document.createEvent) {
+                var ev = document.createEvent('HTMLEvents');
+                ev.initEvent(eventName, bubbleEvent || false, true);
+                (0,_object__WEBPACK_IMPORTED_MODULE_0__.assign)(ev, eventArgs);
+                retVal = target.dispatchEvent(ev);
+            }
+            else if (typeof document !== 'undefined' && document.createEventObject) {
+                // IE8
+                var evObj = document.createEventObject(eventArgs);
+                // cannot set cancelBubble on evObj, fireEvent will overwrite it
+                target.fireEvent('on' + eventName, evObj);
+            }
+        }
+        else {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore  -- FIXME: strictBindCallApply error - https://github.com/microsoft/fluentui/issues/17331
+            while (target && retVal !== false) {
+                var events = target.__events__;
+                var eventRecords = events ? events[eventName] : null;
+                if (eventRecords) {
+                    for (var id in eventRecords) {
+                        if (eventRecords.hasOwnProperty(id)) {
+                            var eventRecordList = eventRecords[id];
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore  -- FIXME: strictBindCallApply error - https://github.com/microsoft/fluentui/issues/17331
+                            for (var listIndex = 0; retVal !== false && listIndex < eventRecordList.length; listIndex++) {
+                                var record = eventRecordList[listIndex];
+                                if (record.objectCallback) {
+                                    retVal = record.objectCallback.call(record.parent, eventArgs);
+                                }
+                            }
+                        }
+                    }
+                }
+                // If the target has a parent, bubble the event up.
+                target = bubbleEvent ? target.parent : null;
+            }
+        }
+        return retVal;
+    };
+    EventGroup.isObserved = function (target, eventName) {
+        var events = target && target.__events__;
+        return !!events && !!events[eventName];
+    };
+    /** Check to see if the target has declared support of the given event. */
+    EventGroup.isDeclared = function (target, eventName) {
+        var declaredEvents = target && target.__declaredEvents;
+        return !!declaredEvents && !!declaredEvents[eventName];
+    };
+    EventGroup.stopPropagation = function (event) {
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
+        else {
+            // IE8
+            event.cancelBubble = true;
+        }
+    };
+    EventGroup._isElement = function (target) {
+        return (!!target && (!!target.addEventListener || (typeof HTMLElement !== 'undefined' && target instanceof HTMLElement)));
+    };
+    EventGroup.prototype.dispose = function () {
+        if (!this._isDisposed) {
+            this._isDisposed = true;
+            this.off();
+            this._parent = null;
+        }
+    };
+    /** On the target, attach a set of events, where the events object is a name to function mapping. */
+    EventGroup.prototype.onAll = function (target, events, useCapture) {
+        for (var eventName in events) {
+            if (events.hasOwnProperty(eventName)) {
+                this.on(target, eventName, events[eventName], useCapture);
+            }
+        }
+    };
+    /**
+     * On the target, attach an event whose handler will be called in the context of the parent
+     * of this instance of EventGroup.
+     */
+    EventGroup.prototype.on = function (target, eventName, callback, options) {
+        var _this = this;
+        if (eventName.indexOf(',') > -1) {
+            var events = eventName.split(/[ ,]+/);
+            for (var i = 0; i < events.length; i++) {
+                this.on(target, events[i], callback, options);
+            }
+        }
+        else {
+            var parent_1 = this._parent;
+            var eventRecord = {
+                target: target,
+                eventName: eventName,
+                parent: parent_1,
+                callback: callback,
+                options: options,
+            };
+            // Initialize and wire up the record on the target, so that it can call the callback if the event fires.
+            var events = (target.__events__ = target.__events__ || {});
+            events[eventName] =
+                events[eventName] ||
+                    {
+                        count: 0,
+                    };
+            events[eventName][this._id] = events[eventName][this._id] || [];
+            events[eventName][this._id].push(eventRecord);
+            events[eventName].count++;
+            if (EventGroup._isElement(target)) {
+                var processElementEvent = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    if (_this._isDisposed) {
+                        return;
+                    }
+                    var result;
+                    try {
+                        result = callback.apply(parent_1, args);
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore  -- FIXME: strictBindCallApply error - https://github.com/microsoft/fluentui/issues/17331
+                        if (result === false && args[0]) {
+                            var e = args[0];
+                            if (e.preventDefault) {
+                                e.preventDefault();
+                            }
+                            if (e.stopPropagation) {
+                                e.stopPropagation();
+                            }
+                            e.cancelBubble = true;
+                        }
+                    }
+                    catch (e) {
+                        // ignore
+                    }
+                    return result;
+                };
+                eventRecord.elementCallback = processElementEvent;
+                if (target.addEventListener) {
+                    target.addEventListener(eventName, processElementEvent, options);
+                }
+                else if (target.attachEvent) {
+                    // IE8
+                    target.attachEvent('on' + eventName, processElementEvent);
+                }
+            }
+            else {
+                var processObjectEvent = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    if (_this._isDisposed) {
+                        return;
+                    }
+                    return callback.apply(parent_1, args);
+                };
+                eventRecord.objectCallback = processObjectEvent;
+            }
+            // Remember the record locally, so that it can be removed.
+            this._eventRecords.push(eventRecord);
+        }
+    };
+    EventGroup.prototype.off = function (target, eventName, callback, options) {
+        for (var i = 0; i < this._eventRecords.length; i++) {
+            var eventRecord = this._eventRecords[i];
+            if ((!target || target === eventRecord.target) &&
+                (!eventName || eventName === eventRecord.eventName) &&
+                (!callback || callback === eventRecord.callback) &&
+                (typeof options !== 'boolean' || options === eventRecord.options)) {
+                var events = eventRecord.target.__events__;
+                var targetArrayLookup = events[eventRecord.eventName];
+                var targetArray = targetArrayLookup ? targetArrayLookup[this._id] : null;
+                // We may have already target's entries, so check for null.
+                if (targetArray) {
+                    if (targetArray.length === 1 || !callback) {
+                        targetArrayLookup.count -= targetArray.length;
+                        delete events[eventRecord.eventName][this._id];
+                    }
+                    else {
+                        targetArrayLookup.count--;
+                        targetArray.splice(targetArray.indexOf(eventRecord), 1);
+                    }
+                    if (!targetArrayLookup.count) {
+                        delete events[eventRecord.eventName];
+                    }
+                }
+                if (eventRecord.elementCallback) {
+                    if (eventRecord.target.removeEventListener) {
+                        eventRecord.target.removeEventListener(eventRecord.eventName, eventRecord.elementCallback, eventRecord.options);
+                    }
+                    else if (eventRecord.target.detachEvent) {
+                        // IE8
+                        eventRecord.target.detachEvent('on' + eventRecord.eventName, eventRecord.elementCallback);
+                    }
+                }
+                this._eventRecords.splice(i--, 1);
+            }
+        }
+    };
+    /** Trigger the given event in the context of this instance of EventGroup. */
+    EventGroup.prototype.raise = function (eventName, eventArgs, bubbleEvent) {
+        return EventGroup.raise(this._parent, eventName, eventArgs, bubbleEvent);
+    };
+    /** Declare an event as being supported by this instance of EventGroup. */
+    EventGroup.prototype.declare = function (event) {
+        var declaredEvents = (this._parent.__declaredEvents = this._parent.__declaredEvents || {});
+        if (typeof event === 'string') {
+            declaredEvents[event] = true;
+        }
+        else {
+            for (var i = 0; i < event.length; i++) {
+                declaredEvents[event[i]] = true;
+            }
+        }
+    };
+    EventGroup._uniqueId = 0;
+    return EventGroup;
+}());
+
+//# sourceMappingURL=EventGroup.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/GlobalSettings.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/GlobalSettings.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "GlobalSettings": () => (/* binding */ GlobalSettings)
+/* harmony export */ });
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+/**
+ * Storing global state in local module variables has issues when more than one copy
+ * if the module gets loaded on the page (due to a bundling error or simply by consuming
+ * a prebundled script.)
+ *
+ * This file contains helpers to deal with the getting and setting local state, and allows
+ * callers to get called back when it mutates.
+ */
+var GLOBAL_SETTINGS_PROP_NAME = '__globalSettings__';
+var CALLBACK_STATE_PROP_NAME = '__callbacks__';
+var _counter = 0;
+/**
+ * Global settings helper, which stores settings in the global (window) namespace.
+ * If window is not provided, it will store settings in module scope. Provides a
+ * way to observe changes as well when their values change.
+ *
+ * @public
+ * {@docCategory GlobalSettings}
+ */
+var GlobalSettings = /** @class */ (function () {
+    function GlobalSettings() {
+    }
+    GlobalSettings.getValue = function (key, defaultValue) {
+        var globalSettings = _getGlobalSettings();
+        if (globalSettings[key] === undefined) {
+            globalSettings[key] = typeof defaultValue === 'function' ? defaultValue() : defaultValue;
+        }
+        return globalSettings[key];
+    };
+    GlobalSettings.setValue = function (key, value) {
+        var globalSettings = _getGlobalSettings();
+        var callbacks = globalSettings[CALLBACK_STATE_PROP_NAME];
+        var oldValue = globalSettings[key];
+        if (value !== oldValue) {
+            globalSettings[key] = value;
+            var changeDescription = {
+                oldValue: oldValue,
+                value: value,
+                key: key,
+            };
+            for (var id in callbacks) {
+                if (callbacks.hasOwnProperty(id)) {
+                    callbacks[id](changeDescription);
+                }
+            }
+        }
+        return value;
+    };
+    GlobalSettings.addChangeListener = function (cb) {
+        // Note: we use generated ids on the callbacks to create a map of the callbacks, which optimizes removal.
+        // (It's faster to delete a key than it is to look up the index of an object and splice an array.)
+        var id = cb.__id__;
+        var callbacks = _getCallbacks();
+        if (!id) {
+            id = cb.__id__ = String(_counter++);
+        }
+        callbacks[id] = cb;
+    };
+    GlobalSettings.removeChangeListener = function (cb) {
+        var callbacks = _getCallbacks();
+        delete callbacks[cb.__id__];
+    };
+    return GlobalSettings;
+}());
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function _getGlobalSettings() {
+    var _a;
+    var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var globalObj = win || {};
+    if (!globalObj[GLOBAL_SETTINGS_PROP_NAME]) {
+        globalObj[GLOBAL_SETTINGS_PROP_NAME] = (_a = {},
+            _a[CALLBACK_STATE_PROP_NAME] = {},
+            _a);
+    }
+    return globalObj[GLOBAL_SETTINGS_PROP_NAME];
+}
+function _getCallbacks() {
+    var globalSettings = _getGlobalSettings();
+    return globalSettings[CALLBACK_STATE_PROP_NAME];
+}
+//# sourceMappingURL=GlobalSettings.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/KeyCodes.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/KeyCodes.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KeyCodes": () => (/* binding */ KeyCodes)
+/* harmony export */ });
+/**
+ * Simulated enum for keycodes. These will get inlined by uglify when used much like an enum
+ *
+ * @public
+ * {@docCategory KeyCodes}
+ */
+var KeyCodes = {
+    backspace: 8,
+    tab: 9,
+    enter: 13,
+    shift: 16,
+    ctrl: 17,
+    alt: 18,
+    pauseBreak: 19,
+    capslock: 20,
+    escape: 27,
+    space: 32,
+    pageUp: 33,
+    pageDown: 34,
+    end: 35,
+    home: 36,
+    left: 37,
+    up: 38,
+    right: 39,
+    down: 40,
+    insert: 45,
+    del: 46,
+    zero: 48,
+    one: 49,
+    two: 50,
+    three: 51,
+    four: 52,
+    five: 53,
+    six: 54,
+    seven: 55,
+    eight: 56,
+    nine: 57,
+    colon: 58,
+    a: 65,
+    b: 66,
+    c: 67,
+    d: 68,
+    e: 69,
+    f: 70,
+    g: 71,
+    h: 72,
+    i: 73,
+    j: 74,
+    k: 75,
+    l: 76,
+    m: 77,
+    n: 78,
+    o: 79,
+    p: 80,
+    q: 81,
+    r: 82,
+    s: 83,
+    t: 84,
+    u: 85,
+    v: 86,
+    w: 87,
+    x: 88,
+    y: 89,
+    z: 90,
+    leftWindow: 91,
+    rightWindow: 92,
+    select: 93,
+    /* eslint-disable @typescript-eslint/naming-convention */
+    zero_numpad: 96,
+    one_numpad: 97,
+    two_numpad: 98,
+    three_numpad: 99,
+    four_numpad: 100,
+    five_numpad: 101,
+    six_numpad: 102,
+    seven_numpad: 103,
+    eight_numpad: 104,
+    nine_numpad: 105,
+    /* eslint-enable @typescript-eslint/naming-convention */
+    multiply: 106,
+    add: 107,
+    subtract: 109,
+    decimalPoint: 110,
+    divide: 111,
+    f1: 112,
+    f2: 113,
+    f3: 114,
+    f4: 115,
+    f5: 116,
+    f6: 117,
+    f7: 118,
+    f8: 119,
+    f9: 120,
+    f10: 121,
+    f11: 122,
+    f12: 123,
+    numlock: 144,
+    scrollLock: 145,
+    semicolon: 186,
+    equalSign: 187,
+    comma: 188,
+    dash: 189,
+    period: 190,
+    forwardSlash: 191,
+    graveAccent: 192,
+    openBracket: 219,
+    backSlash: 220,
+    closeBracket: 221,
+    singleQuote: 222,
+};
+//# sourceMappingURL=KeyCodes.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/Rectangle.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/Rectangle.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Rectangle": () => (/* binding */ Rectangle)
+/* harmony export */ });
+/**
+ * Rectangle helper class.
+ *
+ * @public
+ * {@docCategory Rectangle}
+ */
+var Rectangle = /** @class */ (function () {
+    function Rectangle(left, right, top, bottom) {
+        if (left === void 0) { left = 0; }
+        if (right === void 0) { right = 0; }
+        if (top === void 0) { top = 0; }
+        if (bottom === void 0) { bottom = 0; }
+        this.top = top;
+        this.bottom = bottom;
+        this.left = left;
+        this.right = right;
+    }
+    Object.defineProperty(Rectangle.prototype, "width", {
+        /**
+         * Calculated automatically by subtracting the right from left
+         */
+        get: function () {
+            return this.right - this.left;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Rectangle.prototype, "height", {
+        /**
+         * Calculated automatically by subtracting the bottom from top.
+         */
+        get: function () {
+            return this.bottom - this.top;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     * Tests if another rect is approximately equal to this rect (within 4 decimal places.)
+     */
+    Rectangle.prototype.equals = function (rect) {
+        // Fixing to 4 decimal places because it allows enough precision and will handle cases when something
+        // should be rounded, like .999999 should round to 1.
+        return (parseFloat(this.top.toFixed(4)) === parseFloat(rect.top.toFixed(4)) &&
+            parseFloat(this.bottom.toFixed(4)) === parseFloat(rect.bottom.toFixed(4)) &&
+            parseFloat(this.left.toFixed(4)) === parseFloat(rect.left.toFixed(4)) &&
+            parseFloat(this.right.toFixed(4)) === parseFloat(rect.right.toFixed(4)));
+    };
+    return Rectangle;
+}());
+
+//# sourceMappingURL=Rectangle.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/appendFunction.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/appendFunction.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "appendFunction": () => (/* binding */ appendFunction)
+/* harmony export */ });
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * Returns a single function which will call each of the given functions in the context of the
+ * parent.
+ */
+function appendFunction(parent) {
+    var functions = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        functions[_i - 1] = arguments[_i];
+    }
+    if (functions.length < 2) {
+        return functions[0];
+    }
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        functions.forEach(function (f) { return f && f.apply(parent, args); });
+    };
+}
+//# sourceMappingURL=appendFunction.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/aria.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/aria.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mergeAriaAttributeValues": () => (/* binding */ mergeAriaAttributeValues)
+/* harmony export */ });
+/**
+ * ARIA helper to concatenate attributes, returning undefined if all attributes
+ * are undefined. (Empty strings are not a valid ARIA attribute value.)
+ *
+ * @param ariaAttributes - ARIA attributes to merge
+ */
+function mergeAriaAttributeValues() {
+    var ariaAttributes = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        ariaAttributes[_i] = arguments[_i];
+    }
+    var mergedAttribute = ariaAttributes
+        .filter(function (arg) { return arg; })
+        .join(' ')
+        .trim();
+    return mergedAttribute === '' ? undefined : mergedAttribute;
+}
+//# sourceMappingURL=aria.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/array.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/array.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "findIndex": () => (/* binding */ findIndex),
+/* harmony export */   "find": () => (/* binding */ find),
+/* harmony export */   "createArray": () => (/* binding */ createArray),
+/* harmony export */   "toMatrix": () => (/* binding */ toMatrix),
+/* harmony export */   "removeIndex": () => (/* binding */ removeIndex),
+/* harmony export */   "replaceElement": () => (/* binding */ replaceElement),
+/* harmony export */   "addElementAtIndex": () => (/* binding */ addElementAtIndex),
+/* harmony export */   "flatten": () => (/* binding */ flatten),
+/* harmony export */   "arraysEqual": () => (/* binding */ arraysEqual)
+/* harmony export */ });
+/**
+ * Helper to find the index of an item within an array, using a callback to
+ * determine the match.
+ *
+ * @public
+ * @param array - Array to search.
+ * @param cb - Callback which returns true on matches.
+ * @param fromIndex - Optional index to start from (defaults to 0)
+ */
+function findIndex(array, cb, fromIndex) {
+    if (fromIndex === void 0) { fromIndex = 0; }
+    var index = -1;
+    for (var i = fromIndex; array && i < array.length; i++) {
+        if (cb(array[i], i)) {
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
+/**
+ * Helper to find the first item within an array that satisfies the callback.
+ * @param array - Array to search
+ * @param cb - Callback which returns true on matches
+ */
+function find(array, cb) {
+    var index = findIndex(array, cb);
+    if (index < 0) {
+        return undefined;
+    }
+    return array[index];
+}
+/**
+ * Creates an array of a given size and helper method to populate.
+ *
+ * @public
+ * @param size - Size of array.
+ * @param getItem - Callback to populate given cell index.
+ */
+function createArray(size, getItem) {
+    var array = [];
+    for (var i = 0; i < size; i++) {
+        array.push(getItem(i));
+    }
+    return array;
+}
+/**
+ * Convert the given array to a matrix with columnCount number
+ * of columns.
+ *
+ * @public
+ * @param items - The array to convert
+ * @param columnCount - The number of columns for the resulting matrix
+ * @returns A matrix of items
+ */
+function toMatrix(items, columnCount) {
+    return items.reduce(function (rows, currentValue, index) {
+        if (index % columnCount === 0) {
+            rows.push([currentValue]);
+        }
+        else {
+            rows[rows.length - 1].push(currentValue);
+        }
+        return rows;
+    }, []);
+}
+/**
+ * Given an array, it returns a new array that does not contain the item at the given index.
+ * @param array - The array to operate on
+ * @param index - The index of the element to remove
+ */
+function removeIndex(array, index) {
+    return array.filter(function (_, i) { return index !== i; });
+}
+/**
+ * Given an array, this function returns a new array where the element at a given index has been replaced.
+ * @param array - The array to operate on
+ * @param newElement - The element that will be placed in the new array
+ * @param index - The index of the element that should be replaced
+ */
+function replaceElement(array, newElement, index) {
+    var copy = array.slice();
+    copy[index] = newElement;
+    return copy;
+}
+/**
+ * Given an array, this function returns a new array where an element has been inserted at the given index.
+ * @param array - The array to operate on
+ * @param index - The index where an element should be inserted
+ * @param itemToAdd - The element to insert
+ */
+function addElementAtIndex(array, index, itemToAdd) {
+    var copy = array.slice();
+    copy.splice(index, 0, itemToAdd);
+    return copy;
+}
+/**
+ * Given an array where each element is of type T or T[], flatten it into an array of T
+ * @param array - The array where each element can optionally also be an array
+ */
+function flatten(array) {
+    var result = [];
+    array.forEach(function (item) { return (result = result.concat(item)); });
+    return result;
+}
+/**
+ * Returns a boolean indicating if the two given arrays are equal in length and values.
+ *
+ * @param array1 - First array to compare
+ * @param array2 - Second array to compare
+ * @returns True if the arrays are the same length and have the same values in the same positions, false otherwise.
+ */
+function arraysEqual(array1, array2) {
+    if (array1.length !== array2.length) {
+        return false;
+    }
+    for (var i = 0; i < array1.length; i++) {
+        if (array1[i] !== array2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+//# sourceMappingURL=array.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/classNamesFunction.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "classNamesFunction": () => (/* binding */ classNamesFunction)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyleSets.js");
+/* harmony import */ var _rtl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rtl */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dom */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+
+
+var MAX_CACHE_COUNT = 50;
+var DEFAULT_SPECIFICITY_MULTIPLIER = 5;
+var _memoizedClassNames = 0;
+var stylesheet = _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance();
+if (stylesheet && stylesheet.onReset) {
+    stylesheet.onReset(function () { return _memoizedClassNames++; });
+}
+// Note that because of the caching nature within the classNames memoization,
+// I've disabled this rule to simply be able to work with any types.
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// This represents a prop we attach to each Map to indicate the cached return value
+// associated with the graph node.
+var retVal = '__retval__';
+/**
+ * Creates a getClassNames function which calls getStyles given the props, and injects them
+ * into mergeStyleSets.
+ *
+ * Note that the props you pass in on every render should be in the same order and
+ * immutable (numbers, strings, and booleans). This will allow the results to be memoized. Violating
+ * these will cause extra recalcs to occur.
+ */
+function classNamesFunction(options) {
+    // We build a trie where each node is a Map. The map entry key represents an argument
+    // value, and the entry value is another node (Map). Each node has a `__retval__`
+    // property which is used to hold the cached response.
+    if (options === void 0) { options = {}; }
+    // To derive the response, we can simply ensure the arguments are added or already
+    // exist in the trie. At the last node, if there is a `__retval__` we return that. Otherwise
+    // we call the `getStyles` api to evaluate, cache on the property, and return that.
+    var map = new Map();
+    var styleCalcCount = 0;
+    var getClassNamesCount = 0;
+    var currentMemoizedClassNames = _memoizedClassNames;
+    var getClassNames = function (styleFunctionOrObject, styleProps) {
+        var _a;
+        if (styleProps === void 0) { styleProps = {}; }
+        // If useStaticStyles is true, styleFunctionOrObject returns slot to classname mappings.
+        // If there is also no style overrides, we can skip merge styles completely and
+        // simply return the result from the style funcion.
+        if (options.useStaticStyles &&
+            typeof styleFunctionOrObject === 'function' &&
+            styleFunctionOrObject.__noStyleOverride__) {
+            return styleFunctionOrObject(styleProps);
+        }
+        getClassNamesCount++;
+        var current = map;
+        var theme = styleProps.theme;
+        var rtl = theme && theme.rtl !== undefined ? theme.rtl : (0,_rtl__WEBPACK_IMPORTED_MODULE_1__.getRTL)();
+        var disableCaching = options.disableCaching;
+        // On reset of our stylesheet, reset memoized cache.
+        if (currentMemoizedClassNames !== _memoizedClassNames) {
+            currentMemoizedClassNames = _memoizedClassNames;
+            map = new Map();
+            styleCalcCount = 0;
+        }
+        if (!options.disableCaching) {
+            current = _traverseMap(map, styleFunctionOrObject);
+            current = _traverseMap(current, styleProps);
+        }
+        if (disableCaching || !current[retVal]) {
+            if (styleFunctionOrObject === undefined) {
+                current[retVal] = {};
+            }
+            else {
+                current[retVal] = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__.mergeCssSets)([
+                    (typeof styleFunctionOrObject === 'function'
+                        ? styleFunctionOrObject(styleProps)
+                        : styleFunctionOrObject),
+                ], { rtl: !!rtl, specificityMultiplier: options.useStaticStyles ? DEFAULT_SPECIFICITY_MULTIPLIER : undefined });
+            }
+            if (!disableCaching) {
+                styleCalcCount++;
+            }
+        }
+        if (styleCalcCount > (options.cacheSize || MAX_CACHE_COUNT)) {
+            var win = (0,_dom__WEBPACK_IMPORTED_MODULE_3__.getWindow)();
+            if ((_a = win === null || win === void 0 ? void 0 : win.FabricConfig) === null || _a === void 0 ? void 0 : _a.enableClassNameCacheFullWarning) {
+                // eslint-disable-next-line no-console
+                console.warn("Styles are being recalculated too frequently. Cache miss rate is " + styleCalcCount + "/" + getClassNamesCount + ".");
+                // eslint-disable-next-line no-console
+                console.trace();
+            }
+            map.clear();
+            styleCalcCount = 0;
+            // Mutate the options passed in, that's all we can do.
+            options.disableCaching = true;
+        }
+        // Note: the retVal is an attached property on the Map; not a key in the Map. We use this attached property to
+        // cache the return value for this branch of the graph.
+        return current[retVal];
+    };
+    return getClassNames;
+}
+function _traverseEdge(current, value) {
+    value = _normalizeValue(value);
+    if (!current.has(value)) {
+        current.set(value, new Map());
+    }
+    return current.get(value);
+}
+function _traverseMap(current, inputs) {
+    if (typeof inputs === 'function') {
+        var cachedInputsFromStyled = inputs.__cachedInputs__;
+        if (cachedInputsFromStyled) {
+            // The styled helper will generate the styles function and will attach the cached
+            // inputs (consisting of the default styles, customzied styles, and user provided styles.)
+            // These should be used as cache keys for deriving the memoized value.
+            for (var _i = 0, _a = inputs.__cachedInputs__; _i < _a.length; _i++) {
+                var input = _a[_i];
+                current = _traverseEdge(current, input);
+            }
+        }
+        else {
+            current = _traverseEdge(current, inputs);
+        }
+    }
+    else if (typeof inputs === 'object') {
+        for (var propName in inputs) {
+            if (inputs.hasOwnProperty(propName)) {
+                current = _traverseEdge(current, inputs[propName]);
+            }
+        }
+    }
+    return current;
+}
+function _normalizeValue(value) {
+    switch (value) {
+        case undefined:
+            return '__undefined__';
+        case null:
+            return '__null__';
+        default:
+            return value;
+    }
+}
+//# sourceMappingURL=classNamesFunction.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/controlled.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/controlled.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isControlled": () => (/* binding */ isControlled)
+/* harmony export */ });
+/**
+ * Determines whether a component is controlled.
+ * @param props - Component props
+ * @param valueProp - Prop containing the controlled value
+ * @returns true if controlled, false if uncontrolled
+ */
+function isControlled(props, valueProp) {
+    // React's built-in <input> considers a prop to be provided if its value is non-null/undefined.
+    // Mirror that behavior here (rather than checking for just undefined).
+    return props[valueProp] !== undefined && props[valueProp] !== null;
+}
+//# sourceMappingURL=controlled.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/createMergedRef.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/createMergedRef.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createMergedRef": () => (/* binding */ createMergedRef)
+/* harmony export */ });
+/* harmony import */ var _array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./array */ "./node_modules/@fluentui/utilities/lib/array.js");
+
+/**
+ * Set up a ref resolver function given internal state managed for the ref.
+ * @param local Set
+ */
+var createResolver = function (local) { return function (newValue) {
+    for (var _i = 0, _a = local.refs; _i < _a.length; _i++) {
+        var ref = _a[_i];
+        if (typeof ref === 'function') {
+            ref(newValue);
+        }
+        else if (ref) {
+            // work around the immutability of the React.Ref type
+            ref.current = newValue;
+        }
+    }
+}; };
+/**
+ * Helper to merge refs from within class components.
+ */
+var createMergedRef = function (value) {
+    var local = {
+        refs: [],
+    };
+    return function () {
+        var newRefs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            newRefs[_i] = arguments[_i];
+        }
+        if (!local.resolver || !(0,_array__WEBPACK_IMPORTED_MODULE_0__.arraysEqual)(local.refs, newRefs)) {
+            local.resolver = createResolver(local);
+        }
+        local.refs = newRefs;
+        return local.resolver;
+    };
+};
+//# sourceMappingURL=createMergedRef.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/css.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/css.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "css": () => (/* binding */ css)
+/* harmony export */ });
+/**
+ * Concatination helper, which can merge class names together. Skips over falsey values.
+ *
+ * @public
+ */
+function css() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    var classes = [];
+    for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
+        var arg = args_1[_a];
+        if (arg) {
+            if (typeof arg === 'string') {
+                classes.push(arg);
+            }
+            else if (arg.hasOwnProperty('toString') && typeof arg.toString === 'function') {
+                classes.push(arg.toString());
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                for (var key in arg) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    if (arg[key]) {
+                        classes.push(key);
+                    }
+                }
+            }
+        }
+    }
+    return classes.join(' ');
+}
+//# sourceMappingURL=css.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/customizations/Customizations.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/customizations/Customizations.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Customizations": () => (/* binding */ Customizations)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _GlobalSettings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../GlobalSettings */ "./node_modules/@fluentui/utilities/lib/GlobalSettings.js");
+
+
+var CustomizationsGlobalKey = 'customizations';
+var NO_CUSTOMIZATIONS = { settings: {}, scopedSettings: {}, inCustomizerContext: false };
+var _allSettings = _GlobalSettings__WEBPACK_IMPORTED_MODULE_0__.GlobalSettings.getValue(CustomizationsGlobalKey, {
+    settings: {},
+    scopedSettings: {},
+    inCustomizerContext: false,
+});
+var _events = [];
+var Customizations = /** @class */ (function () {
+    function Customizations() {
+    }
+    Customizations.reset = function () {
+        _allSettings.settings = {};
+        _allSettings.scopedSettings = {};
+    };
+    /** Apply global Customization settings.
+     * @example Customizations.applySettings(\{ theme: \{...\} \});
+     */
+    Customizations.applySettings = function (settings) {
+        _allSettings.settings = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, _allSettings.settings), settings);
+        Customizations._raiseChange();
+    };
+    /** Apply Customizations to a particular named scope, like a component.
+     * @example Customizations.applyScopedSettings('Nav', \{ styles: () =\> \{\} \});
+     */
+    Customizations.applyScopedSettings = function (scopeName, settings) {
+        _allSettings.scopedSettings[scopeName] = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, _allSettings.scopedSettings[scopeName]), settings);
+        Customizations._raiseChange();
+    };
+    Customizations.getSettings = function (properties, scopeName, localSettings) {
+        if (localSettings === void 0) { localSettings = NO_CUSTOMIZATIONS; }
+        var settings = {};
+        var localScopedSettings = (scopeName && localSettings.scopedSettings[scopeName]) || {};
+        var globalScopedSettings = (scopeName && _allSettings.scopedSettings[scopeName]) || {};
+        for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
+            var property = properties_1[_i];
+            settings[property] =
+                localScopedSettings[property] ||
+                    localSettings.settings[property] ||
+                    globalScopedSettings[property] ||
+                    _allSettings.settings[property];
+        }
+        return settings;
+    };
+    /** Used to run some code that sets Customizations without triggering an update until the end.
+     * Useful for applying Customizations that don't affect anything currently rendered, or for
+     * applying many customizations at once.
+     * @param suppressUpdate - Do not raise the change event at the end, preventing all updates
+     */
+    Customizations.applyBatchedUpdates = function (code, suppressUpdate) {
+        Customizations._suppressUpdates = true;
+        try {
+            code();
+        }
+        catch (_a) {
+            /* do nothing */
+        }
+        Customizations._suppressUpdates = false;
+        if (!suppressUpdate) {
+            Customizations._raiseChange();
+        }
+    };
+    Customizations.observe = function (onChange) {
+        _events.push(onChange);
+    };
+    Customizations.unobserve = function (onChange) {
+        _events = _events.filter(function (cb) { return cb !== onChange; });
+    };
+    Customizations._raiseChange = function () {
+        if (!Customizations._suppressUpdates) {
+            _events.forEach(function (cb) { return cb(); });
+        }
+    };
+    return Customizations;
+}());
+
+//# sourceMappingURL=Customizations.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/customizations/Customizer.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/customizations/Customizer.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Customizer": () => (/* binding */ Customizer)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Customizations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Customizations */ "./node_modules/@fluentui/utilities/lib/customizations/Customizations.js");
+/* harmony import */ var _CustomizerContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CustomizerContext */ "./node_modules/@fluentui/utilities/lib/customizations/CustomizerContext.js");
+/* harmony import */ var _mergeCustomizations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mergeCustomizations */ "./node_modules/@fluentui/utilities/lib/customizations/mergeCustomizations.js");
+
+
+
+
+
+/**
+ * The Customizer component allows for default props to be mixed into components which
+ * are decorated with the customizable() decorator, or use the styled HOC. This enables
+ * injection scenarios like:
+ *
+ * 1. render svg icons instead of the icon font within all buttons
+ * 2. inject a custom theme object into a component
+ *
+ * Props are provided via the settings prop which should be one of the following:
+ * - A json map which contains 1 or more name/value pairs representing injectable props.
+ * - A function that receives the current settings and returns the new ones that apply to the scope
+ *
+ * @public
+ *
+ * @deprecated This component is deprecated for purpose of applying theme to components
+ * as of `@fluentui/react` version 8. Use `ThemeProvider` for applying theme instead.
+ */
+var Customizer = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(Customizer, _super);
+    function Customizer() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._onCustomizationChange = function () { return _this.forceUpdate(); };
+        return _this;
+    }
+    Customizer.prototype.componentDidMount = function () {
+        _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.observe(this._onCustomizationChange);
+    };
+    Customizer.prototype.componentWillUnmount = function () {
+        _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.unobserve(this._onCustomizationChange);
+    };
+    Customizer.prototype.render = function () {
+        var _this = this;
+        var contextTransform = this.props.contextTransform;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_CustomizerContext__WEBPACK_IMPORTED_MODULE_3__.CustomizerContext.Consumer, null, function (parentContext) {
+            var newContext = (0,_mergeCustomizations__WEBPACK_IMPORTED_MODULE_4__.mergeCustomizations)(_this.props, parentContext);
+            if (contextTransform) {
+                newContext = contextTransform(newContext);
+            }
+            return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_CustomizerContext__WEBPACK_IMPORTED_MODULE_3__.CustomizerContext.Provider, { value: newContext }, _this.props.children);
+        }));
+    };
+    return Customizer;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=Customizer.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/customizations/CustomizerContext.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/customizations/CustomizerContext.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CustomizerContext": () => (/* binding */ CustomizerContext)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var CustomizerContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({
+    customizations: {
+        inCustomizerContext: false,
+        settings: {},
+        scopedSettings: {},
+    },
+});
+//# sourceMappingURL=CustomizerContext.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/customizations/customizable.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/customizations/customizable.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "customizable": () => (/* binding */ customizable)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Customizations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Customizations */ "./node_modules/@fluentui/utilities/lib/customizations/Customizations.js");
+/* harmony import */ var _hoistStatics__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../hoistStatics */ "./node_modules/@fluentui/utilities/lib/hoistStatics.js");
+/* harmony import */ var _CustomizerContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CustomizerContext */ "./node_modules/@fluentui/utilities/lib/customizations/CustomizerContext.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/concatStyleSets.js");
+
+
+
+
+
+
+function customizable(scope, fields, concatStyles) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return function customizableFactory(ComposedComponent) {
+        var _a;
+        var resultClass = (_a = /** @class */ (function (_super) {
+                (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(ComponentWithInjectedProps, _super);
+                function ComponentWithInjectedProps(props) {
+                    var _this = _super.call(this, props) || this;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    _this._styleCache = {};
+                    _this._onSettingChanged = _this._onSettingChanged.bind(_this);
+                    return _this;
+                }
+                ComponentWithInjectedProps.prototype.componentDidMount = function () {
+                    _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.observe(this._onSettingChanged);
+                };
+                ComponentWithInjectedProps.prototype.componentWillUnmount = function () {
+                    _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.unobserve(this._onSettingChanged);
+                };
+                ComponentWithInjectedProps.prototype.render = function () {
+                    var _this = this;
+                    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_CustomizerContext__WEBPACK_IMPORTED_MODULE_3__.CustomizerContext.Consumer, null, function (context) {
+                        var defaultProps = _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.getSettings(fields, scope, context.customizations);
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        var componentProps = _this.props;
+                        // If defaultProps.styles is a function, evaluate it before calling concatStyleSets
+                        if (defaultProps.styles && typeof defaultProps.styles === 'function') {
+                            defaultProps.styles = defaultProps.styles((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, defaultProps), componentProps));
+                        }
+                        // If concatStyles is true and custom styles have been defined compute those styles
+                        if (concatStyles && defaultProps.styles) {
+                            if (_this._styleCache.default !== defaultProps.styles ||
+                                _this._styleCache.component !== componentProps.styles) {
+                                var mergedStyles = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__.concatStyleSets)(defaultProps.styles, componentProps.styles);
+                                _this._styleCache.default = defaultProps.styles;
+                                _this._styleCache.component = componentProps.styles;
+                                _this._styleCache.merged = mergedStyles;
+                            }
+                            return react__WEBPACK_IMPORTED_MODULE_0__.createElement(ComposedComponent, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, defaultProps, componentProps, { styles: _this._styleCache.merged }));
+                        }
+                        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(ComposedComponent, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, defaultProps, componentProps));
+                    }));
+                };
+                ComponentWithInjectedProps.prototype._onSettingChanged = function () {
+                    this.forceUpdate();
+                };
+                return ComponentWithInjectedProps;
+            }(react__WEBPACK_IMPORTED_MODULE_0__.Component)),
+            _a.displayName = 'Customized' + scope,
+            _a);
+        return (0,_hoistStatics__WEBPACK_IMPORTED_MODULE_5__.hoistStatics)(ComposedComponent, resultClass);
+    };
+}
+//# sourceMappingURL=customizable.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/customizations/mergeCustomizations.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/customizations/mergeCustomizations.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mergeCustomizations": () => (/* binding */ mergeCustomizations)
+/* harmony export */ });
+/* harmony import */ var _mergeSettings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mergeSettings */ "./node_modules/@fluentui/utilities/lib/customizations/mergeSettings.js");
+
+/**
+ * Merge props and customizations giving priority to props over context.
+ * NOTE: This function will always perform multiple merge operations. Use with caution.
+ * @param props - New settings to merge in.
+ * @param parentContext - Context containing current settings.
+ * @returns Merged customizations.
+ */
+function mergeCustomizations(props, parentContext) {
+    var _a = (parentContext || {}).customizations, customizations = _a === void 0 ? { settings: {}, scopedSettings: {} } : _a;
+    return {
+        customizations: {
+            settings: (0,_mergeSettings__WEBPACK_IMPORTED_MODULE_0__.mergeSettings)(customizations.settings, props.settings),
+            scopedSettings: (0,_mergeSettings__WEBPACK_IMPORTED_MODULE_0__.mergeScopedSettings)(customizations.scopedSettings, props.scopedSettings),
+            inCustomizerContext: true,
+        },
+    };
+}
+//# sourceMappingURL=mergeCustomizations.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/customizations/mergeSettings.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/customizations/mergeSettings.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mergeSettings": () => (/* binding */ mergeSettings),
+/* harmony export */   "mergeScopedSettings": () => (/* binding */ mergeScopedSettings)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+/**
+ * Merge new and old settings, giving priority to new settings.
+ * New settings is optional in which case oldSettings is returned as-is.
+ * @param oldSettings - Old settings to fall back to.
+ * @param newSettings - New settings that will be merged over oldSettings.
+ * @returns Merged settings.
+ */
+function mergeSettings(oldSettings, newSettings) {
+    if (oldSettings === void 0) { oldSettings = {}; }
+    var mergeSettingsWith = _isSettingsFunction(newSettings) ? newSettings : _settingsMergeWith(newSettings);
+    return mergeSettingsWith(oldSettings);
+}
+function mergeScopedSettings(oldSettings, newSettings) {
+    if (oldSettings === void 0) { oldSettings = {}; }
+    var mergeSettingsWith = _isSettingsFunction(newSettings) ? newSettings : _scopedSettingsMergeWith(newSettings);
+    return mergeSettingsWith(oldSettings);
+}
+function _isSettingsFunction(settings) {
+    return typeof settings === 'function';
+}
+function _settingsMergeWith(newSettings) {
+    return function (settings) { return (newSettings ? (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({}, settings), newSettings) : settings); };
+}
+function _scopedSettingsMergeWith(scopedSettingsFromProps) {
+    if (scopedSettingsFromProps === void 0) { scopedSettingsFromProps = {}; }
+    return function (oldScopedSettings) {
+        var newScopedSettings = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({}, oldScopedSettings);
+        for (var scopeName in scopedSettingsFromProps) {
+            if (scopedSettingsFromProps.hasOwnProperty(scopeName)) {
+                newScopedSettings[scopeName] = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({}, oldScopedSettings[scopeName]), scopedSettingsFromProps[scopeName]);
+            }
+        }
+        return newScopedSettings;
+    };
+}
+//# sourceMappingURL=mergeSettings.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/customizations/useCustomizationSettings.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/customizations/useCustomizationSettings.js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useCustomizationSettings": () => (/* binding */ useCustomizationSettings)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Customizations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Customizations */ "./node_modules/@fluentui/utilities/lib/customizations/Customizations.js");
+/* harmony import */ var _CustomizerContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CustomizerContext */ "./node_modules/@fluentui/utilities/lib/customizations/CustomizerContext.js");
+
+
+
+/**
+ * Hook to get Customizations settings from Customizations singleton or CustomizerContext.
+ * It will trigger component state update on settings change observed.
+ */
+function useCustomizationSettings(properties, scopeName) {
+    var forceUpdate = useForceUpdate();
+    var customizations = react__WEBPACK_IMPORTED_MODULE_0__.useContext(_CustomizerContext__WEBPACK_IMPORTED_MODULE_1__.CustomizerContext).customizations;
+    var inCustomizerContext = customizations.inCustomizerContext;
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        if (!inCustomizerContext) {
+            _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.observe(forceUpdate);
+        }
+        return function () {
+            if (!inCustomizerContext) {
+                _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.unobserve(forceUpdate);
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- exclude forceUpdate
+    }, [inCustomizerContext]);
+    return _Customizations__WEBPACK_IMPORTED_MODULE_2__.Customizations.getSettings(properties, scopeName, customizations);
+}
+function useForceUpdate() {
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__.useState(0), setValue = _a[1];
+    return function () { return setValue(function (value) { return ++value; }); };
+}
+//# sourceMappingURL=useCustomizationSettings.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/dom/getDocument.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getDocument": () => (/* binding */ getDocument)
+/* harmony export */ });
+/* harmony import */ var _setSSR__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setSSR */ "./node_modules/@fluentui/utilities/lib/dom/setSSR.js");
+
+/**
+ * Helper to get the document object. Note that in popup window cases, document
+ * might be the wrong document, which is why we look at ownerDocument for the
+ * truth. Also note that the SSR flag is used to test ssr scenarios even if
+ * document is defined (from JSDOM for example.)
+ *
+ * @public
+ */
+function getDocument(rootElement) {
+    if (_setSSR__WEBPACK_IMPORTED_MODULE_0__._isSSR || typeof document === 'undefined') {
+        return undefined;
+    }
+    else {
+        var el = rootElement;
+        return el && el.ownerDocument ? el.ownerDocument : document;
+    }
+}
+//# sourceMappingURL=getDocument.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/dom/getWindow.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getWindow": () => (/* binding */ getWindow)
+/* harmony export */ });
+/* harmony import */ var _setSSR__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setSSR */ "./node_modules/@fluentui/utilities/lib/dom/setSSR.js");
+
+var _window = undefined;
+// Note: Accessing "window" in IE11 is somewhat expensive, and calling "typeof window"
+// hits a memory leak, whereas aliasing it and calling "typeof _window" does not.
+// Caching the window value at the file scope lets us minimize the impact.
+try {
+    _window = window;
+}
+catch (e) {
+    /* no-op */
+}
+/**
+ * Helper to get the window object. The helper will make sure to use a cached variable
+ * of "window", to avoid overhead and memory leaks in IE11. Note that in popup scenarios the
+ * window object won't match the "global" window object, and for these scenarios, you should
+ * pass in an element hosted within the popup.
+ *
+ * @public
+ */
+function getWindow(rootElement) {
+    if (_setSSR__WEBPACK_IMPORTED_MODULE_0__._isSSR || typeof _window === 'undefined') {
+        return undefined;
+    }
+    else {
+        var el = rootElement;
+        return el && el.ownerDocument && el.ownerDocument.defaultView ? el.ownerDocument.defaultView : _window;
+    }
+}
+//# sourceMappingURL=getWindow.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/dom/on.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/dom/on.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "on": () => (/* binding */ on)
+/* harmony export */ });
+function on(element, eventName, callback, options) {
+    element.addEventListener(eventName, callback, options);
+    return function () { return element.removeEventListener(eventName, callback, options); };
+}
+//# sourceMappingURL=on.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/dom/raiseClick.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/dom/raiseClick.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "raiseClick": () => (/* binding */ raiseClick)
+/* harmony export */ });
+/** Raises a click event. */
+function raiseClick(target) {
+    var event = createNewEvent('MouseEvents');
+    event.initEvent('click', true, true);
+    target.dispatchEvent(event);
+}
+function createNewEvent(eventName) {
+    var event;
+    if (typeof Event === 'function') {
+        // Chrome, Opera, Firefox
+        event = new Event(eventName);
+    }
+    else {
+        // IE
+        event = document.createEvent('Event');
+        event.initEvent(eventName, true, true);
+    }
+    return event;
+}
+//# sourceMappingURL=raiseClick.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/dom/setSSR.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/dom/setSSR.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "_isSSR": () => (/* binding */ _isSSR),
+/* harmony export */   "setSSR": () => (/* binding */ setSSR)
+/* harmony export */ });
+var _isSSR = false;
+/**
+ * Helper to set ssr mode to simulate no window object returned from getWindow helper.
+ *
+ * @public
+ */
+function setSSR(isEnabled) {
+    _isSSR = isEnabled;
+}
+//# sourceMappingURL=setSSR.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/extendComponent.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/extendComponent.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "extendComponent": () => (/* binding */ extendComponent)
+/* harmony export */ });
+/* harmony import */ var _appendFunction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appendFunction */ "./node_modules/@fluentui/utilities/lib/appendFunction.js");
+
+/**
+ * Extends a component's lifetime methods by appending new functions to the existing lifetime functions.
+ */
+function extendComponent(parent, methods) {
+    for (var name_1 in methods) {
+        if (methods.hasOwnProperty(name_1)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            parent[name_1] = (0,_appendFunction__WEBPACK_IMPORTED_MODULE_0__.appendFunction)(parent, parent[name_1], methods[name_1]);
+        }
+    }
+}
+//# sourceMappingURL=extendComponent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/focus.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/focus.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getFirstFocusable": () => (/* binding */ getFirstFocusable),
+/* harmony export */   "getLastFocusable": () => (/* binding */ getLastFocusable),
+/* harmony export */   "getFirstTabbable": () => (/* binding */ getFirstTabbable),
+/* harmony export */   "getLastTabbable": () => (/* binding */ getLastTabbable),
+/* harmony export */   "focusFirstChild": () => (/* binding */ focusFirstChild),
+/* harmony export */   "getPreviousElement": () => (/* binding */ getPreviousElement),
+/* harmony export */   "getNextElement": () => (/* binding */ getNextElement),
+/* harmony export */   "isElementVisible": () => (/* binding */ isElementVisible),
+/* harmony export */   "isElementTabbable": () => (/* binding */ isElementTabbable),
+/* harmony export */   "isElementFocusZone": () => (/* binding */ isElementFocusZone),
+/* harmony export */   "isElementFocusSubZone": () => (/* binding */ isElementFocusSubZone),
+/* harmony export */   "doesElementContainFocus": () => (/* binding */ doesElementContainFocus),
+/* harmony export */   "shouldWrapFocus": () => (/* binding */ shouldWrapFocus),
+/* harmony export */   "focusAsync": () => (/* binding */ focusAsync),
+/* harmony export */   "getFocusableByIndexPath": () => (/* binding */ getFocusableByIndexPath),
+/* harmony export */   "getElementIndexPath": () => (/* binding */ getElementIndexPath)
+/* harmony export */ });
+/* harmony import */ var _dom_elementContainsAttribute__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dom/elementContainsAttribute */ "./node_modules/@fluentui/dom-utilities/lib/elementContainsAttribute.js");
+/* harmony import */ var _dom_elementContains__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom/elementContains */ "./node_modules/@fluentui/dom-utilities/lib/elementContains.js");
+/* harmony import */ var _dom_getParent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dom/getParent */ "./node_modules/@fluentui/dom-utilities/lib/getParent.js");
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _dom_getDocument__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getDocument */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+
+
+
+
+
+var IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
+var IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
+var FOCUSZONE_ID_ATTRIBUTE = 'data-focuszone-id';
+var FOCUSZONE_SUB_ATTRIBUTE = 'data-is-sub-focuszone';
+/**
+ * Gets the first focusable element.
+ *
+ * @public
+ */
+function getFirstFocusable(rootElement, currentElement, includeElementsInFocusZones) {
+    return getNextElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones);
+}
+/**
+ * Gets the last focusable element.
+ *
+ * @public
+ */
+function getLastFocusable(rootElement, currentElement, includeElementsInFocusZones) {
+    return getPreviousElement(rootElement, currentElement, true /*checkNode*/, false /*suppressParentTraversal*/, true /*traverseChildren*/, includeElementsInFocusZones);
+}
+/**
+ * Gets the first tabbable element. (The difference between focusable and tabbable is that tabbable elements are
+ * focusable elements that also have tabIndex != -1.)
+ * @param rootElement - The parent element to search beneath.
+ * @param currentElement - The descendant of rootElement to start the search at.  This element is the first one checked,
+ * and iteration continues forward.  Typical use passes rootElement.firstChild.
+ * @param includeElementsInFocusZones - true if traversal should go into FocusZone descendants.
+ * @param checkNode - Include currentElement in search when true. Defaults to true.
+ * @public
+ */
+function getFirstTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
+    if (checkNode === void 0) { checkNode = true; }
+    return getNextElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, false /*suppressChildTraversal*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
+}
+/**
+ * Gets the last tabbable element. (The difference between focusable and tabbable is that tabbable elements are
+ * focusable elements that also have tabIndex != -1.)
+ * @param rootElement - The parent element to search beneath.
+ * @param currentElement - The descendant of rootElement to start the search at.  This element is the first one checked,
+ * and iteration continues in reverse.  Typical use passes rootElement.lastChild.
+ * @param includeElementsInFocusZones - true if traversal should go into FocusZone descendants.
+ * @param checkNode - Include currentElement in search when true. Defaults to true.
+ * @public
+ */
+function getLastTabbable(rootElement, currentElement, includeElementsInFocusZones, checkNode) {
+    if (checkNode === void 0) { checkNode = true; }
+    return getPreviousElement(rootElement, currentElement, checkNode, false /*suppressParentTraversal*/, true /*traverseChildren*/, includeElementsInFocusZones, false /*allowFocusRoot*/, true /*tabbable*/);
+}
+/**
+ * Attempts to focus the first focusable element that is a child or child's child of the rootElement.
+ *
+ * @public
+ * @param rootElement - Element to start the search for a focusable child.
+ * @returns True if focus was set, false if it was not.
+ */
+function focusFirstChild(rootElement) {
+    var element = getNextElement(rootElement, rootElement, true, false, false, true);
+    if (element) {
+        focusAsync(element);
+        return true;
+    }
+    return false;
+}
+/**
+ * Traverse to find the previous element.
+ * If tabbable is true, the element must have tabIndex != -1.
+ *
+ * @public
+ */
+function getPreviousElement(rootElement, currentElement, checkNode, suppressParentTraversal, traverseChildren, includeElementsInFocusZones, allowFocusRoot, tabbable) {
+    if (!currentElement || (!allowFocusRoot && currentElement === rootElement)) {
+        return null;
+    }
+    var isCurrentElementVisible = isElementVisible(currentElement);
+    // Check its children.
+    if (traverseChildren &&
+        isCurrentElementVisible &&
+        (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
+        var childMatch = getPreviousElement(rootElement, currentElement.lastElementChild, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        if (childMatch) {
+            if ((tabbable && isElementTabbable(childMatch, true)) || !tabbable) {
+                return childMatch;
+            }
+            var childMatchSiblingMatch = getPreviousElement(rootElement, childMatch.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+            if (childMatchSiblingMatch) {
+                return childMatchSiblingMatch;
+            }
+            var childMatchParent = childMatch.parentElement;
+            // At this point if we have not found any potential matches
+            // start looking at the rest of the subtree under the currentParent.
+            // NOTE: We do not want to recurse here because doing so could
+            // cause elements to get skipped.
+            while (childMatchParent && childMatchParent !== currentElement) {
+                var childMatchParentMatch = getPreviousElement(rootElement, childMatchParent.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+                if (childMatchParentMatch) {
+                    return childMatchParentMatch;
+                }
+                childMatchParent = childMatchParent.parentElement;
+            }
+        }
+    }
+    // Check the current node, if it's not the first traversal.
+    if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
+        return currentElement;
+    }
+    // Check its previous sibling.
+    var siblingMatch = getPreviousElement(rootElement, currentElement.previousElementSibling, true, true, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+    if (siblingMatch) {
+        return siblingMatch;
+    }
+    // Check its parent.
+    if (!suppressParentTraversal) {
+        return getPreviousElement(rootElement, currentElement.parentElement, true, false, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+    }
+    return null;
+}
+/**
+ * Traverse to find the next focusable element.
+ * If tabbable is true, the element must have tabIndex != -1.
+ *
+ * @public
+ * @param checkNode - Include currentElement in search when true.
+ */
+function getNextElement(rootElement, currentElement, checkNode, suppressParentTraversal, suppressChildTraversal, includeElementsInFocusZones, allowFocusRoot, tabbable) {
+    if (!currentElement || (currentElement === rootElement && suppressChildTraversal && !allowFocusRoot)) {
+        return null;
+    }
+    var isCurrentElementVisible = isElementVisible(currentElement);
+    // Check the current node, if it's not the first traversal.
+    if (checkNode && isCurrentElementVisible && isElementTabbable(currentElement, tabbable)) {
+        return currentElement;
+    }
+    // Check its children.
+    if (!suppressChildTraversal &&
+        isCurrentElementVisible &&
+        (includeElementsInFocusZones || !(isElementFocusZone(currentElement) || isElementFocusSubZone(currentElement)))) {
+        var childMatch = getNextElement(rootElement, currentElement.firstElementChild, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+        if (childMatch) {
+            return childMatch;
+        }
+    }
+    if (currentElement === rootElement) {
+        return null;
+    }
+    // Check its sibling.
+    var siblingMatch = getNextElement(rootElement, currentElement.nextElementSibling, true, true, false, includeElementsInFocusZones, allowFocusRoot, tabbable);
+    if (siblingMatch) {
+        return siblingMatch;
+    }
+    if (!suppressParentTraversal) {
+        return getNextElement(rootElement, currentElement.parentElement, false, false, true, includeElementsInFocusZones, allowFocusRoot, tabbable);
+    }
+    return null;
+}
+/**
+ * Determines if an element is visible.
+ *
+ * @public
+ */
+function isElementVisible(element) {
+    // If the element is not valid, return false.
+    if (!element || !element.getAttribute) {
+        return false;
+    }
+    var visibilityAttribute = element.getAttribute(IS_VISIBLE_ATTRIBUTE);
+    // If the element is explicitly marked with the visibility attribute, return that value as boolean.
+    if (visibilityAttribute !== null && visibilityAttribute !== undefined) {
+        return visibilityAttribute === 'true';
+    }
+    // Fallback to other methods of determining actual visibility.
+    return (element.offsetHeight !== 0 ||
+        element.offsetParent !== null ||
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        element.isVisible === true); // used as a workaround for testing.
+}
+/**
+ * Determines if an element can receive focus programmatically or via a mouse click.
+ * If checkTabIndex is true, additionally checks to ensure the element can be focused with the tab key,
+ * meaning tabIndex != -1.
+ *
+ * @public
+ */
+function isElementTabbable(element, checkTabIndex) {
+    // If this element is null or is disabled, it is not considered tabbable.
+    if (!element || element.disabled) {
+        return false;
+    }
+    var tabIndex = 0;
+    var tabIndexAttributeValue = null;
+    if (element && element.getAttribute) {
+        tabIndexAttributeValue = element.getAttribute('tabIndex');
+        if (tabIndexAttributeValue) {
+            tabIndex = parseInt(tabIndexAttributeValue, 10);
+        }
+    }
+    var isFocusableAttribute = element.getAttribute ? element.getAttribute(IS_FOCUSABLE_ATTRIBUTE) : null;
+    var isTabIndexSet = tabIndexAttributeValue !== null && tabIndex >= 0;
+    var result = !!element &&
+        isFocusableAttribute !== 'false' &&
+        (element.tagName === 'A' ||
+            element.tagName === 'BUTTON' ||
+            element.tagName === 'INPUT' ||
+            element.tagName === 'TEXTAREA' ||
+            element.tagName === 'SELECT' ||
+            isFocusableAttribute === 'true' ||
+            isTabIndexSet);
+    return checkTabIndex ? tabIndex !== -1 && result : result;
+}
+/**
+ * Determines if a given element is a focus zone.
+ *
+ * @public
+ */
+function isElementFocusZone(element) {
+    return !!(element && element.getAttribute && !!element.getAttribute(FOCUSZONE_ID_ATTRIBUTE));
+}
+/**
+ * Determines if a given element is a focus sub zone.
+ *
+ * @public
+ */
+function isElementFocusSubZone(element) {
+    return !!(element && element.getAttribute && element.getAttribute(FOCUSZONE_SUB_ATTRIBUTE) === 'true');
+}
+/**
+ * Determines if an element, or any of its children, contain focus.
+ *
+ * @public
+ */
+function doesElementContainFocus(element) {
+    var document = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_0__.getDocument)(element);
+    var currentActiveElement = document && document.activeElement;
+    if (currentActiveElement && (0,_dom_elementContains__WEBPACK_IMPORTED_MODULE_1__.elementContains)(element, currentActiveElement)) {
+        return true;
+    }
+    return false;
+}
+/**
+ * Determines if an, or any of its ancestors, sepcificies that it doesn't want focus to wrap
+ * @param element - element to start searching from
+ * @param noWrapDataAttribute - the no wrap data attribute to match (either)
+ * @returns true if focus should wrap, false otherwise
+ */
+function shouldWrapFocus(element, noWrapDataAttribute) {
+    return (0,_dom_elementContainsAttribute__WEBPACK_IMPORTED_MODULE_2__.elementContainsAttribute)(element, noWrapDataAttribute) === 'true' ? false : true;
+}
+var targetToFocusOnNextRepaint = undefined;
+/**
+ * Sets focus to an element asynchronously. The focus will be set at the next browser repaint,
+ * meaning it won't cause any extra recalculations. If more than one focusAsync is called during one frame,
+ * only the latest called focusAsync element will actually be focused
+ * @param element - The element to focus
+ */
+function focusAsync(element) {
+    if (element) {
+        // An element was already queued to be focused, so replace that one with the new element
+        if (targetToFocusOnNextRepaint) {
+            targetToFocusOnNextRepaint = element;
+            return;
+        }
+        targetToFocusOnNextRepaint = element;
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_3__.getWindow)(element);
+        if (win) {
+            // element.focus() is a no-op if the element is no longer in the DOM, meaning this is always safe
+            win.requestAnimationFrame(function () {
+                targetToFocusOnNextRepaint && targetToFocusOnNextRepaint.focus();
+                // We are done focusing for this frame, so reset the queued focus element
+                targetToFocusOnNextRepaint = undefined;
+            });
+        }
+    }
+}
+/**
+ * Finds the closest focusable element via an index path from a parent. See
+ * `getElementIndexPath` for getting an index path from an element to a child.
+ */
+function getFocusableByIndexPath(parent, path) {
+    var element = parent;
+    for (var _i = 0, path_1 = path; _i < path_1.length; _i++) {
+        var index = path_1[_i];
+        var nextChild = element.children[Math.min(index, element.children.length - 1)];
+        if (!nextChild) {
+            break;
+        }
+        element = nextChild;
+    }
+    element =
+        isElementTabbable(element) && isElementVisible(element)
+            ? element
+            : getNextElement(parent, element, true) || getPreviousElement(parent, element);
+    return element;
+}
+/**
+ * Finds the element index path from a parent element to a child element.
+ *
+ * If you had this node structure: "A has children [B, C] and C has child D",
+ * the index path from A to D would be [1, 0], or `parent.chidren[1].children[0]`.
+ */
+function getElementIndexPath(fromElement, toElement) {
+    var path = [];
+    while (toElement && fromElement && toElement !== fromElement) {
+        var parent_1 = (0,_dom_getParent__WEBPACK_IMPORTED_MODULE_4__.getParent)(toElement, true);
+        if (parent_1 === null) {
+            return [];
+        }
+        path.unshift(Array.prototype.indexOf.call(parent_1.children, toElement));
+        toElement = parent_1;
+    }
+    return path;
+}
+//# sourceMappingURL=focus.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/getId.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/getId.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getId": () => (/* binding */ getId),
+/* harmony export */   "resetIds": () => (/* binding */ resetIds)
+/* harmony export */ });
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+
+
+// Initialize global window id.
+var CURRENT_ID_PROPERTY = '__currentId__';
+var DEFAULT_ID_STRING = 'id__';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+var _global = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)() || {};
+if (_global[CURRENT_ID_PROPERTY] === undefined) {
+    _global[CURRENT_ID_PROPERTY] = 0;
+}
+var _initializedStylesheetResets = false;
+/**
+ * Generates a unique id in the global scope (this spans across duplicate copies of the same library.)
+ *
+ * @public
+ */
+function getId(prefix) {
+    if (!_initializedStylesheetResets) {
+        // Configure ids to reset on stylesheet resets.
+        var stylesheet = _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_1__.Stylesheet.getInstance();
+        if (stylesheet && stylesheet.onReset) {
+            stylesheet.onReset(resetIds);
+        }
+        _initializedStylesheetResets = true;
+    }
+    var index = _global[CURRENT_ID_PROPERTY]++;
+    return (prefix === undefined ? DEFAULT_ID_STRING : prefix) + index;
+}
+/**
+ * Resets id counter to an (optional) number.
+ *
+ * @public
+ */
+function resetIds(counter) {
+    if (counter === void 0) { counter = 0; }
+    _global[CURRENT_ID_PROPERTY] = counter;
+}
+//# sourceMappingURL=getId.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/getPropsWithDefaults.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/getPropsWithDefaults.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getPropsWithDefaults": () => (/* binding */ getPropsWithDefaults)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+/**
+ * Function to apply default values to a component props object. This function is intended for function components,
+ * to maintain parity with the `defaultProps` feature of class components. It accounts for properties that are
+ * specified, but undefined.
+ * @param defaultProps- An object with default values for various properties
+ * @param propsWithoutDefaults- The props object passed into the component
+ */
+function getPropsWithDefaults(defaultProps, propsWithoutDefaults) {
+    var props = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)({}, propsWithoutDefaults);
+    for (var _i = 0, _a = Object.keys(defaultProps); _i < _a.length; _i++) {
+        var key = _a[_i];
+        if (props[key] === undefined) {
+            props[key] = defaultProps[key];
+        }
+    }
+    return props;
+}
+//# sourceMappingURL=getPropsWithDefaults.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/hoist.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/hoist.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "hoistMethods": () => (/* binding */ hoistMethods),
+/* harmony export */   "unhoistMethods": () => (/* binding */ unhoistMethods)
+/* harmony export */ });
+var REACT_LIFECYCLE_EXCLUSIONS = [
+    'setState',
+    'render',
+    'componentWillMount',
+    'UNSAFE_componentWillMount',
+    'componentDidMount',
+    'componentWillReceiveProps',
+    'UNSAFE_componentWillReceiveProps',
+    'shouldComponentUpdate',
+    'componentWillUpdate',
+    'getSnapshotBeforeUpdate',
+    'UNSAFE_componentWillUpdate',
+    'componentDidUpdate',
+    'componentWillUnmount',
+];
+/**
+ * Allows you to hoist methods, except those in an exclusion set from a source object into a destination object.
+ *
+ * @public
+ * @param destination - The instance of the object to hoist the methods onto.
+ * @param source - The instance of the object where the methods are hoisted from.
+ * @param exclusions - (Optional) What methods to exclude from being hoisted.
+ * @returns An array of names of methods that were hoisted.
+ */
+function hoistMethods(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+destination, 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+source, exclusions) {
+    if (exclusions === void 0) { exclusions = REACT_LIFECYCLE_EXCLUSIONS; }
+    var hoisted = [];
+    var _loop_1 = function (methodName) {
+        if (typeof source[methodName] === 'function' &&
+            destination[methodName] === undefined &&
+            (!exclusions || exclusions.indexOf(methodName) === -1)) {
+            hoisted.push(methodName);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            destination[methodName] = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
+                source[methodName].apply(source, args);
+            };
+        }
+    };
+    for (var methodName in source) {
+        _loop_1(methodName);
+    }
+    return hoisted;
+}
+/**
+ * Provides a method for convenience to unhoist hoisted methods.
+ *
+ * @public
+ * @param source - The source object upon which methods were hoisted.
+ * @param methodNames - An array of method names to unhoist.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function unhoistMethods(source, methodNames) {
+    methodNames.forEach(function (methodName) { return delete source[methodName]; });
+}
+//# sourceMappingURL=hoist.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/hoistStatics.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/hoistStatics.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "hoistStatics": () => (/* binding */ hoistStatics)
+/* harmony export */ });
+/**
+ * Allows you to hoist static functions in components.
+ * Created for the purpose of fixing broken static functions in classes
+ * that utilize decorators.
+ *
+ * @public
+ * @param source - The object where the methods are hoisted from.
+ * @param dest - The object to hoist the methods onto.
+ * @returns The dest object with methods added
+ */
+function hoistStatics(source, dest) {
+    for (var name_1 in source) {
+        if (source.hasOwnProperty(name_1)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            dest[name_1] = source[name_1];
+        }
+    }
+    return dest;
+}
+//# sourceMappingURL=hoistStatics.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/initializeComponentRef.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/initializeComponentRef.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "initializeComponentRef": () => (/* binding */ initializeComponentRef)
+/* harmony export */ });
+/* harmony import */ var _extendComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./extendComponent */ "./node_modules/@fluentui/utilities/lib/extendComponent.js");
+
+/**
+ * Helper to manage componentRef resolution. Internally appends logic to
+ * lifetime methods to resolve componentRef to the passed in object.
+ *
+ * Usage: call initializeComponentRef(this) in the constructor,
+ */
+function initializeComponentRef(obj) {
+    (0,_extendComponent__WEBPACK_IMPORTED_MODULE_0__.extendComponent)(obj, {
+        componentDidMount: _onMount,
+        componentDidUpdate: _onUpdate,
+        componentWillUnmount: _onUnmount,
+    });
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function _onMount() {
+    _setComponentRef(this.props.componentRef, this);
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function _onUpdate(prevProps) {
+    if (prevProps.componentRef !== this.props.componentRef) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        _setComponentRef(prevProps.componentRef, null);
+        _setComponentRef(this.props.componentRef, this);
+    }
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function _onUnmount() {
+    _setComponentRef(this.props.componentRef, null);
+}
+function _setComponentRef(componentRef, value) {
+    if (componentRef) {
+        if (typeof componentRef === 'object') {
+            componentRef.current = value;
+        }
+        else if (typeof componentRef === 'function') {
+            componentRef(value);
+        }
+    }
+}
+//# sourceMappingURL=initializeComponentRef.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/keyboard.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/keyboard.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isDirectionalKeyCode": () => (/* binding */ isDirectionalKeyCode),
+/* harmony export */   "addDirectionalKeyCode": () => (/* binding */ addDirectionalKeyCode)
+/* harmony export */ });
+/* harmony import */ var _KeyCodes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./KeyCodes */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+var _a;
+
+var DirectionalKeyCodes = (_a = {},
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.up] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.down] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.left] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.right] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.home] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.end] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.tab] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.pageUp] = 1,
+    _a[_KeyCodes__WEBPACK_IMPORTED_MODULE_0__.KeyCodes.pageDown] = 1,
+    _a);
+/**
+ * Returns true if the keycode is a directional keyboard key.
+ */
+function isDirectionalKeyCode(which) {
+    return !!DirectionalKeyCodes[which];
+}
+/**
+ * Adds a keycode to the list of keys that, when pressed, should cause the focus outlines to be visible.
+ * This can be used to add global shortcut keys that directionally move from section to section within
+ * an app or between focus trap zones.
+ */
+function addDirectionalKeyCode(which) {
+    DirectionalKeyCodes[which] = 1;
+}
+//# sourceMappingURL=keyboard.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/language.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/language.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getLanguage": () => (/* binding */ getLanguage),
+/* harmony export */   "setLanguage": () => (/* binding */ setLanguage)
+/* harmony export */ });
+/* harmony import */ var _dom_getDocument__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getDocument */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var _localStorage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./localStorage */ "./node_modules/@fluentui/utilities/lib/localStorage.js");
+/* harmony import */ var _sessionStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sessionStorage */ "./node_modules/@fluentui/utilities/lib/sessionStorage.js");
+
+
+
+// Default to undefined so that we initialize on first read.
+var _language;
+var STORAGE_KEY = 'language';
+/**
+ * Gets the language set for the page.
+ * @param persistenceType - Where to persist the value. Default is `sessionStorage` if available.
+ */
+function getLanguage(persistenceType) {
+    if (persistenceType === void 0) { persistenceType = 'sessionStorage'; }
+    if (_language === undefined) {
+        var doc = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_0__.getDocument)();
+        var savedLanguage = persistenceType === 'localStorage'
+            ? _localStorage__WEBPACK_IMPORTED_MODULE_1__.getItem(STORAGE_KEY)
+            : persistenceType === 'sessionStorage'
+                ? _sessionStorage__WEBPACK_IMPORTED_MODULE_2__.getItem(STORAGE_KEY)
+                : undefined;
+        if (savedLanguage) {
+            _language = savedLanguage;
+        }
+        if (_language === undefined && doc) {
+            _language = doc.documentElement.getAttribute('lang');
+        }
+        if (_language === undefined) {
+            _language = 'en';
+        }
+    }
+    return _language;
+}
+function setLanguage(language, persistenceParam) {
+    var doc = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_0__.getDocument)();
+    if (doc) {
+        doc.documentElement.setAttribute('lang', language);
+    }
+    var persistenceType = persistenceParam === true ? 'none' : !persistenceParam ? 'sessionStorage' : persistenceParam;
+    if (persistenceType === 'localStorage') {
+        _localStorage__WEBPACK_IMPORTED_MODULE_1__.setItem(STORAGE_KEY, language);
+    }
+    else if (persistenceType === 'sessionStorage') {
+        _sessionStorage__WEBPACK_IMPORTED_MODULE_2__.setItem(STORAGE_KEY, language);
+    }
+    _language = language;
+}
+//# sourceMappingURL=language.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/localStorage.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/localStorage.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getItem": () => (/* binding */ getItem),
+/* harmony export */   "setItem": () => (/* binding */ setItem)
+/* harmony export */ });
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+/**
+ * Fetches an item from local storage without throwing an exception
+ * @param key The key of the item to fetch from local storage
+ */
+function getItem(key) {
+    var result = null;
+    try {
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)();
+        result = win ? win.localStorage.getItem(key) : null;
+    }
+    catch (e) {
+        /* Eat the exception */
+    }
+    return result;
+}
+/**
+ * Inserts an item into local storage without throwing an exception
+ * @param key The key of the item to add to local storage
+ * @param data The data to put into local storage
+ */
+function setItem(key, data) {
+    try {
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)();
+        win && win.localStorage.setItem(key, data);
+    }
+    catch (e) {
+        /* Eat the exception */
+    }
+}
+//# sourceMappingURL=localStorage.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/memoize.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/memoize.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setMemoizeWeakMap": () => (/* binding */ setMemoizeWeakMap),
+/* harmony export */   "resetMemoizations": () => (/* binding */ resetMemoizations),
+/* harmony export */   "memoize": () => (/* binding */ memoize),
+/* harmony export */   "memoizeFunction": () => (/* binding */ memoizeFunction),
+/* harmony export */   "createMemoizer": () => (/* binding */ createMemoizer)
+/* harmony export */ });
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/Stylesheet.js");
+
+var _initializedStylesheetResets = false;
+var _resetCounter = 0;
+var _emptyObject = { empty: true };
+var _dictionary = {};
+var _weakMap = typeof WeakMap === 'undefined' ? null : WeakMap;
+/**
+ *  Test utility for providing a custom weakmap.
+ *
+ * @internal
+ * */
+function setMemoizeWeakMap(weakMap) {
+    _weakMap = weakMap;
+}
+/**
+ * Reset memoizations.
+ */
+function resetMemoizations() {
+    _resetCounter++;
+}
+/**
+ * Memoize decorator to be used on class methods. WARNING: the `this` reference
+ * will be inaccessible within a memoized method, given that a cached method's `this`
+ * would not be instance-specific.
+ *
+ * @public
+ */
+function memoize(_target, _key, descriptor) {
+    // We bind to "null" to prevent people from inadvertently pulling values from "this",
+    // rather than passing them in as input values which can be memoized.
+    var fn = memoizeFunction(descriptor.value && descriptor.value.bind(null));
+    return {
+        configurable: true,
+        get: function () {
+            return fn;
+        },
+    };
+}
+/**
+ * Memoizes a function; when you pass in the same parameters multiple times, it returns a cached result.
+ * Be careful when passing in objects, you need to pass in the same INSTANCE for caching to work. Otherwise
+ * it will grow the cache unnecessarily. Also avoid using default values that evaluate functions; passing in
+ * undefined for a value and relying on a default function will execute it the first time, but will not
+ * re-evaluate subsequent times which may have been unexpected.
+ *
+ * By default, the cache will reset after 100 permutations, to avoid abuse cases where the function is
+ * unintendedly called with unique objects. Without a reset, the cache could grow infinitely, so we safeguard
+ * by resetting. To override this behavior, pass a value of 0 to the maxCacheSize parameter.
+ *
+ * @public
+ * @param cb - The function to memoize.
+ * @param maxCacheSize - Max results to cache. If the cache exceeds this value, it will reset on the next call.
+ * @param ignoreNullOrUndefinedResult - Flag to decide whether to cache callback result if it is undefined/null.
+ * If the flag is set to true, the callback result is recomputed every time till the callback result is
+ * not undefined/null for the first time, and then the non-undefined/null version gets cached.
+ * @returns A memoized version of the function.
+ */
+function memoizeFunction(cb, maxCacheSize, ignoreNullOrUndefinedResult) {
+    if (maxCacheSize === void 0) { maxCacheSize = 100; }
+    if (ignoreNullOrUndefinedResult === void 0) { ignoreNullOrUndefinedResult = false; }
+    // Avoid breaking scenarios which don't have weak map.
+    if (!_weakMap) {
+        return cb;
+    }
+    if (!_initializedStylesheetResets) {
+        var stylesheet = _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance();
+        if (stylesheet && stylesheet.onReset) {
+            _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.Stylesheet.getInstance().onReset(resetMemoizations);
+        }
+        _initializedStylesheetResets = true;
+    }
+    var rootNode;
+    var cacheSize = 0;
+    var localResetCounter = _resetCounter;
+    return function memoizedFunction() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var currentNode = rootNode;
+        if (rootNode === undefined ||
+            localResetCounter !== _resetCounter ||
+            (maxCacheSize > 0 && cacheSize > maxCacheSize)) {
+            rootNode = _createNode();
+            cacheSize = 0;
+            localResetCounter = _resetCounter;
+        }
+        currentNode = rootNode;
+        // Traverse the tree until we find the match.
+        for (var i = 0; i < args.length; i++) {
+            var arg = _normalizeArg(args[i]);
+            if (!currentNode.map.has(arg)) {
+                currentNode.map.set(arg, _createNode());
+            }
+            currentNode = currentNode.map.get(arg);
+        }
+        if (!currentNode.hasOwnProperty('value')) {
+            currentNode.value = cb.apply(void 0, args);
+            cacheSize++;
+        }
+        if (ignoreNullOrUndefinedResult && (currentNode.value === null || currentNode.value === undefined)) {
+            currentNode.value = cb.apply(void 0, args);
+        }
+        return currentNode.value;
+    };
+}
+/**
+ * Creates a memoizer for a single-value function, backed by a WeakMap.
+ * With a WeakMap, the memoized values are only kept as long as the source objects,
+ * ensuring that there is no memory leak.
+ *
+ * This function assumes that the input values passed to the wrapped function will be
+ * `function` or `object` types. To memoize functions which accept other inputs, use
+ * `memoizeFunction`, which memoizes against arbitrary inputs using a lookup cache.
+ *
+ * @public
+ */
+function createMemoizer(getValue) {
+    if (!_weakMap) {
+        // Without a `WeakMap` implementation, memoization is not possible.
+        return getValue;
+    }
+    var cache = new _weakMap();
+    function memoizedGetValue(input) {
+        if (!input || (typeof input !== 'function' && typeof input !== 'object')) {
+            // A WeakMap can only be used to test against reference values, i.e. 'function' and 'object'.
+            // All other inputs cannot be memoized against in this manner.
+            return getValue(input);
+        }
+        if (cache.has(input)) {
+            return cache.get(input);
+        }
+        var value = getValue(input);
+        cache.set(input, value);
+        return value;
+    }
+    return memoizedGetValue;
+}
+function _normalizeArg(val) {
+    if (!val) {
+        return _emptyObject;
+    }
+    else if (typeof val === 'object' || typeof val === 'function') {
+        return val;
+    }
+    else if (!_dictionary[val]) {
+        _dictionary[val] = { val: val };
+    }
+    return _dictionary[val];
+}
+function _createNode() {
+    return {
+        map: _weakMap ? new _weakMap() : null,
+    };
+}
+//# sourceMappingURL=memoize.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/merge.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/merge.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "merge": () => (/* binding */ merge)
+/* harmony export */ });
+/**
+ * Simple deep merge function. Takes all arguments and returns a deep copy of the objects merged
+ * together in the order provided. If an object creates a circular reference, it will assign the
+ * original reference.
+ */
+function merge(target) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
+        var arg = args_1[_a];
+        _merge(target || {}, arg);
+    }
+    return target;
+}
+/**
+ * The _merge helper iterates through all props on source and assigns them to target.
+ * When the value is an object, we will create a deep clone of the object. However if
+ * there is a circular reference, the value will not be deep cloned and will persist
+ * the reference.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function _merge(target, source, circularReferences) {
+    if (circularReferences === void 0) { circularReferences = []; }
+    circularReferences.push(source);
+    for (var name_1 in source) {
+        if (source.hasOwnProperty(name_1)) {
+            if (name_1 !== '__proto__' && name_1 !== 'constructor' && name_1 !== 'prototype') {
+                var value = source[name_1];
+                if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                    var isCircularReference = circularReferences.indexOf(value) > -1;
+                    target[name_1] = (isCircularReference
+                        ? value
+                        : _merge(target[name_1] || {}, value, circularReferences));
+                }
+                else {
+                    target[name_1] = value;
+                }
+            }
+        }
+    }
+    circularReferences.pop();
+    return target;
+}
+//# sourceMappingURL=merge.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/mobileDetector.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/mobileDetector.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isIOS": () => (/* binding */ isIOS)
+/* harmony export */ });
+/**
+ * Returns true if and only if the user is on a iOS device.
+ * Used to determine whether iOS-specific behavior should be applied.
+ */
+var isIOS = function () {
+    if (!window || !window.navigator || !window.navigator.userAgent) {
+        return false;
+    }
+    return /iPad|iPhone|iPod/i.test(window.navigator.userAgent);
+};
+//# sourceMappingURL=mobileDetector.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/object.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/object.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "shallowCompare": () => (/* binding */ shallowCompare),
+/* harmony export */   "assign": () => (/* binding */ assign),
+/* harmony export */   "filteredAssign": () => (/* binding */ filteredAssign),
+/* harmony export */   "mapEnumByName": () => (/* binding */ mapEnumByName),
+/* harmony export */   "values": () => (/* binding */ values),
+/* harmony export */   "omit": () => (/* binding */ omit)
+/* harmony export */ });
+/**
+ * Compares a to b and b to a.
+ *
+ * @public
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function shallowCompare(a, b) {
+    for (var propName in a) {
+        if (a.hasOwnProperty(propName)) {
+            if (!b.hasOwnProperty(propName) || b[propName] !== a[propName]) {
+                return false;
+            }
+        }
+    }
+    for (var propName in b) {
+        if (b.hasOwnProperty(propName)) {
+            if (!a.hasOwnProperty(propName)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+/**
+ * Makes a resulting merge of a bunch of objects. Pass in the target object followed by 1 or more
+ * objects as arguments and they will be merged sequentially into the target. Note that this will
+ * shallow merge; it will not create new cloned values for target members.
+ *
+ * @public
+ * @param target - Target object to merge following object arguments into.
+ * @param args - One or more objects that will be mixed into the target in the order they are provided.
+ * @returns Resulting merged target.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function assign(target) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    return filteredAssign.apply(this, [null, target].concat(args));
+}
+/**
+ * Makes a resulting merge of a bunch of objects, but allows a filter function to be passed in to filter
+ * the resulting merges. This allows for scenarios where you want to merge "everything except that one thing"
+ * or "properties that start with data-". Note that this will shallow merge; it will not create new cloned
+ * values for target members.
+ *
+ * @public
+ * @param isAllowed - Callback to determine if the given propName is allowed in the result.
+ * @param target - Target object to merge following object arguments into.
+ * @param args - One or more objects that will be mixed into the target in the order they are provided.
+ * @returns Resulting merged target.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function filteredAssign(isAllowed, target) {
+    var args = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        args[_i - 2] = arguments[_i];
+    }
+    target = target || {};
+    for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
+        var sourceObject = args_1[_a];
+        if (sourceObject) {
+            for (var propName in sourceObject) {
+                if (sourceObject.hasOwnProperty(propName) && (!isAllowed || isAllowed(propName))) {
+                    target[propName] = sourceObject[propName];
+                }
+            }
+        }
+    }
+    return target;
+}
+/**
+ * Takes an enum and iterates over each value of the enum (as a string), running the callback on each,
+ * returning a mapped array.
+ * @param theEnum - Enum to iterate over
+ * @param callback - The first parameter the name of the entry, and the second parameter is the value
+ * of that entry, which is the value you'd normally use when using the enum (usually a number).
+ */
+function mapEnumByName(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+theEnum, callback) {
+    // map<any> to satisfy compiler since it doesn't realize we strip out undefineds in the .filter() call
+    return Object.keys(theEnum)
+        .map(function (p) {
+        // map on each property name as a string
+        if (String(Number(p)) !== p) {
+            // if the property is not just a number (because enums in TypeScript will map both ways)
+            return callback(p, theEnum[p]);
+        }
+        return undefined;
+    })
+        .filter(function (v) { return !!v; }); // only return elements with values
+}
+/**
+ * Get all values in an object dictionary
+ *
+ * @param obj - The dictionary to get values for
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function values(obj) {
+    return Object.keys(obj).reduce(function (arr, key) {
+        arr.push(obj[key]);
+        return arr;
+    }, []);
+}
+/**
+ * Tiny helper to do the minimal amount of work in duplicating an object but omitting some
+ * props. This ends up faster than using object ...rest or reduce to filter.
+ *
+ * This behaves very much like filteredAssign, but does not merge many objects together,
+ * uses an exclusion object map, and avoids spreads all for optimal performance.
+ *
+ * See perf test for background:
+ * https://jsperf.com/omit-vs-rest-vs-reduce/1
+ *
+ * @param obj - The object to clone
+ * @param exclusions - The array of keys to exclude
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function omit(obj, exclusions) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var result = {};
+    for (var key in obj) {
+        if (exclusions.indexOf(key) === -1 && obj.hasOwnProperty(key)) {
+            result[key] = obj[key];
+        }
+    }
+    return result;
+}
+//# sourceMappingURL=object.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/osDetector.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/osDetector.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isMac": () => (/* binding */ isMac)
+/* harmony export */ });
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+var isMacResult;
+/**
+ * Returns true if the user is on a Mac. Caches the result value.
+ * @param reset - Reset the cached result value (mainly for testing).
+ */
+function isMac(reset) {
+    if (typeof isMacResult === 'undefined' || reset) {
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)();
+        var userAgent = win && win.navigator.userAgent;
+        isMacResult = !!userAgent && userAgent.indexOf('Macintosh') !== -1;
+    }
+    return !!isMacResult;
+}
+//# sourceMappingURL=osDetector.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/properties.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/properties.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "baseElementEvents": () => (/* binding */ baseElementEvents),
+/* harmony export */   "baseElementProperties": () => (/* binding */ baseElementProperties),
+/* harmony export */   "htmlElementProperties": () => (/* binding */ htmlElementProperties),
+/* harmony export */   "labelProperties": () => (/* binding */ labelProperties),
+/* harmony export */   "audioProperties": () => (/* binding */ audioProperties),
+/* harmony export */   "videoProperties": () => (/* binding */ videoProperties),
+/* harmony export */   "olProperties": () => (/* binding */ olProperties),
+/* harmony export */   "liProperties": () => (/* binding */ liProperties),
+/* harmony export */   "anchorProperties": () => (/* binding */ anchorProperties),
+/* harmony export */   "buttonProperties": () => (/* binding */ buttonProperties),
+/* harmony export */   "inputProperties": () => (/* binding */ inputProperties),
+/* harmony export */   "textAreaProperties": () => (/* binding */ textAreaProperties),
+/* harmony export */   "selectProperties": () => (/* binding */ selectProperties),
+/* harmony export */   "optionProperties": () => (/* binding */ optionProperties),
+/* harmony export */   "tableProperties": () => (/* binding */ tableProperties),
+/* harmony export */   "trProperties": () => (/* binding */ trProperties),
+/* harmony export */   "thProperties": () => (/* binding */ thProperties),
+/* harmony export */   "tdProperties": () => (/* binding */ tdProperties),
+/* harmony export */   "colGroupProperties": () => (/* binding */ colGroupProperties),
+/* harmony export */   "colProperties": () => (/* binding */ colProperties),
+/* harmony export */   "formProperties": () => (/* binding */ formProperties),
+/* harmony export */   "iframeProperties": () => (/* binding */ iframeProperties),
+/* harmony export */   "imgProperties": () => (/* binding */ imgProperties),
+/* harmony export */   "imageProperties": () => (/* binding */ imageProperties),
+/* harmony export */   "divProperties": () => (/* binding */ divProperties),
+/* harmony export */   "getNativeProps": () => (/* binding */ getNativeProps)
+/* harmony export */ });
+var toObjectMap = function () {
+    var items = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        items[_i] = arguments[_i];
+    }
+    var result = {};
+    for (var _a = 0, items_1 = items; _a < items_1.length; _a++) {
+        var item = items_1[_a];
+        var keys = Array.isArray(item) ? item : Object.keys(item);
+        for (var _b = 0, keys_1 = keys; _b < keys_1.length; _b++) {
+            var key = keys_1[_b];
+            result[key] = 1;
+        }
+    }
+    return result;
+};
+/**
+ * An array of events that are allowed on every html element type.
+ *
+ * @public
+ */
+var baseElementEvents = toObjectMap([
+    'onCopy',
+    'onCut',
+    'onPaste',
+    'onCompositionEnd',
+    'onCompositionStart',
+    'onCompositionUpdate',
+    'onFocus',
+    'onFocusCapture',
+    'onBlur',
+    'onBlurCapture',
+    'onChange',
+    'onInput',
+    'onSubmit',
+    'onLoad',
+    'onError',
+    'onKeyDown',
+    'onKeyDownCapture',
+    'onKeyPress',
+    'onKeyUp',
+    'onAbort',
+    'onCanPlay',
+    'onCanPlayThrough',
+    'onDurationChange',
+    'onEmptied',
+    'onEncrypted',
+    'onEnded',
+    'onLoadedData',
+    'onLoadedMetadata',
+    'onLoadStart',
+    'onPause',
+    'onPlay',
+    'onPlaying',
+    'onProgress',
+    'onRateChange',
+    'onSeeked',
+    'onSeeking',
+    'onStalled',
+    'onSuspend',
+    'onTimeUpdate',
+    'onVolumeChange',
+    'onWaiting',
+    'onClick',
+    'onClickCapture',
+    'onContextMenu',
+    'onDoubleClick',
+    'onDrag',
+    'onDragEnd',
+    'onDragEnter',
+    'onDragExit',
+    'onDragLeave',
+    'onDragOver',
+    'onDragStart',
+    'onDrop',
+    'onMouseDown',
+    'onMouseDownCapture',
+    'onMouseEnter',
+    'onMouseLeave',
+    'onMouseMove',
+    'onMouseOut',
+    'onMouseOver',
+    'onMouseUp',
+    'onMouseUpCapture',
+    'onSelect',
+    'onTouchCancel',
+    'onTouchEnd',
+    'onTouchMove',
+    'onTouchStart',
+    'onScroll',
+    'onWheel',
+    'onPointerCancel',
+    'onPointerDown',
+    'onPointerEnter',
+    'onPointerLeave',
+    'onPointerMove',
+    'onPointerOut',
+    'onPointerOver',
+    'onPointerUp',
+    'onGotPointerCapture',
+    'onLostPointerCapture',
+]);
+/**
+ * An array of element attributes which are allowed on every html element type.
+ *
+ * @public
+ */
+var baseElementProperties = toObjectMap([
+    'accessKey',
+    'children',
+    'className',
+    'contentEditable',
+    'dir',
+    'draggable',
+    'hidden',
+    'htmlFor',
+    'id',
+    'lang',
+    'ref',
+    'role',
+    'style',
+    'tabIndex',
+    'title',
+    'translate',
+    'spellCheck',
+    'name',
+]);
+/**
+ * An array of HTML element properties and events.
+ *
+ * @public
+ */
+var htmlElementProperties = toObjectMap(baseElementProperties, baseElementEvents);
+/**
+ * An array of LABEL tag properties and events.
+ *
+ * @public
+ */
+var labelProperties = toObjectMap(htmlElementProperties, [
+    'form',
+]);
+/**
+ * An array of AUDIO tag properties and events.
+
+ * @public
+ */
+var audioProperties = toObjectMap(htmlElementProperties, [
+    'height',
+    'loop',
+    'muted',
+    'preload',
+    'src',
+    'width',
+]);
+/**
+ * An array of VIDEO tag properties and events.
+ *
+ * @public
+ */
+var videoProperties = toObjectMap(audioProperties, [
+    'poster',
+]);
+/**
+ * An array of OL tag properties and events.
+ *
+ * @public
+ */
+var olProperties = toObjectMap(htmlElementProperties, [
+    'start',
+]);
+/**
+ * An array of LI tag properties and events.
+ *
+ * @public
+ */
+var liProperties = toObjectMap(htmlElementProperties, [
+    'value',
+]);
+/**
+ * An array of A tag properties and events.
+ *
+ * @public
+ */
+var anchorProperties = toObjectMap(htmlElementProperties, [
+    'download',
+    'href',
+    'hrefLang',
+    'media',
+    'rel',
+    'target',
+    'type',
+]);
+/**
+ * An array of BUTTON tag properties and events.
+ *
+ * @public
+ */
+var buttonProperties = toObjectMap(htmlElementProperties, [
+    'autoFocus',
+    'disabled',
+    'form',
+    'formAction',
+    'formEncType',
+    'formMethod',
+    'formNoValidate',
+    'formTarget',
+    'type',
+    'value',
+]);
+/**
+ * An array of INPUT tag properties and events.
+ *
+ * @public
+ */
+var inputProperties = toObjectMap(buttonProperties, [
+    'accept',
+    'alt',
+    'autoCapitalize',
+    'autoComplete',
+    'checked',
+    'dirname',
+    'form',
+    'height',
+    'inputMode',
+    'list',
+    'max',
+    'maxLength',
+    'min',
+    'multiple',
+    'pattern',
+    'placeholder',
+    'readOnly',
+    'required',
+    'src',
+    'step',
+    'size',
+    'type',
+    'value',
+    'width',
+]);
+/**
+ * An array of TEXTAREA tag properties and events.
+ *
+ * @public
+ */
+var textAreaProperties = toObjectMap(buttonProperties, [
+    'autoCapitalize',
+    'cols',
+    'dirname',
+    'form',
+    'maxLength',
+    'placeholder',
+    'readOnly',
+    'required',
+    'rows',
+    'wrap',
+]);
+/**
+ * An array of SELECT tag properties and events.
+ *
+ * @public
+ */
+var selectProperties = toObjectMap(buttonProperties, [
+    'form',
+    'multiple',
+    'required',
+]);
+var optionProperties = toObjectMap(htmlElementProperties, [
+    'selected',
+    'value',
+]);
+/**
+ * An array of TABLE tag properties and events.
+ *
+ * @public
+ */
+var tableProperties = toObjectMap(htmlElementProperties, [
+    'cellPadding',
+    'cellSpacing',
+]);
+/**
+ * An array of TR tag properties and events.
+ *
+ * @public
+ */
+var trProperties = htmlElementProperties;
+/**
+ * An array of TH tag properties and events.
+ *
+ * @public
+ */
+var thProperties = toObjectMap(htmlElementProperties, [
+    'rowSpan',
+    'scope',
+]);
+/**
+ * An array of TD tag properties and events.
+ *
+ * @public
+ */
+var tdProperties = toObjectMap(htmlElementProperties, [
+    'colSpan',
+    'headers',
+    'rowSpan',
+    'scope',
+]);
+var colGroupProperties = toObjectMap(htmlElementProperties, [
+    'span',
+]);
+var colProperties = toObjectMap(htmlElementProperties, [
+    'span',
+]);
+/**
+ * An array of FORM tag properties and events.
+ *
+ * @public
+ */
+var formProperties = toObjectMap(htmlElementProperties, [
+    'acceptCharset',
+    'action',
+    'encType',
+    'encType',
+    'method',
+    'noValidate',
+    'target',
+]);
+/**
+ * An array of IFRAME tag properties and events.
+ *
+ * @public
+ */
+var iframeProperties = toObjectMap(htmlElementProperties, [
+    'allow',
+    'allowFullScreen',
+    'allowPaymentRequest',
+    'allowTransparency',
+    'csp',
+    'height',
+    'importance',
+    'referrerPolicy',
+    'sandbox',
+    'src',
+    'srcDoc',
+    'width',
+]);
+/**
+ * An array of IMAGE tag properties and events.
+ *
+ * @public
+ */
+var imgProperties = toObjectMap(htmlElementProperties, [
+    'alt',
+    'crossOrigin',
+    'height',
+    'src',
+    'srcSet',
+    'useMap',
+    'width',
+]);
+/**
+ * @deprecated Use imgProperties for img elements.
+ */
+var imageProperties = imgProperties;
+/**
+ * An array of DIV tag properties and events.
+ *
+ * @public
+ */
+var divProperties = htmlElementProperties;
+/**
+ * Gets native supported props for an html element provided the allowance set. Use one of the property
+ * sets defined (divProperties, buttonPropertes, etc) to filter out supported properties from a given
+ * props set. Note that all data- and aria- prefixed attributes will be allowed.
+ * NOTE: getNativeProps should always be applied first when adding props to a react component. The
+ * non-native props should be applied second. This will prevent getNativeProps from overriding your custom props.
+ * For example, if props passed to getNativeProps has an onClick function and getNativeProps is added to
+ * the component after an onClick function is added, then the getNativeProps onClick will override it.
+ *
+ * @public
+ * @param props - The unfiltered input props
+ * @param allowedPropsNames - The array or record of allowed prop names.
+ * @returns The filtered props
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getNativeProps(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+props, allowedPropNames, excludedPropNames) {
+    // It'd be great to properly type this while allowing 'aria-` and 'data-' attributes like TypeScript does for
+    // JSX attributes, but that ability is hardcoded into the TS compiler with no analog in TypeScript typings.
+    // Then we'd be able to enforce props extends native props (including aria- and data- attributes), and then
+    // return native props.
+    // We should be able to do this once this PR is merged: https://github.com/microsoft/TypeScript/pull/26797
+    var isArray = Array.isArray(allowedPropNames);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var result = {};
+    var keys = Object.keys(props);
+    for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
+        var key = keys_2[_i];
+        var isNativeProp = (!isArray && allowedPropNames[key]) ||
+            (isArray && allowedPropNames.indexOf(key) >= 0) ||
+            key.indexOf('data-') === 0 ||
+            key.indexOf('aria-') === 0;
+        if (isNativeProp && (!excludedPropNames || (excludedPropNames === null || excludedPropNames === void 0 ? void 0 : excludedPropNames.indexOf(key)) === -1)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            result[key] = props[key];
+        }
+    }
+    return result;
+}
+//# sourceMappingURL=properties.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/rtl.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/rtl.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getRTL": () => (/* binding */ getRTL),
+/* harmony export */   "setRTL": () => (/* binding */ setRTL),
+/* harmony export */   "getRTLSafeKeyCode": () => (/* binding */ getRTLSafeKeyCode)
+/* harmony export */ });
+/* harmony import */ var _KeyCodes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./KeyCodes */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+/* harmony import */ var _dom_getDocument__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom/getDocument */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var _sessionStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sessionStorage */ "./node_modules/@fluentui/utilities/lib/sessionStorage.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js");
+
+
+
+
+var RTL_LOCAL_STORAGE_KEY = 'isRTL';
+// Default to undefined so that we initialize on first read.
+var _isRTL;
+/**
+ * Gets the rtl state of the page (returns true if in rtl.)
+ */
+function getRTL(theme) {
+    if (theme === void 0) { theme = {}; }
+    if (theme.rtl !== undefined) {
+        return theme.rtl;
+    }
+    if (_isRTL === undefined) {
+        // Fabric supports persisting the RTL setting between page refreshes via session storage
+        var savedRTL = (0,_sessionStorage__WEBPACK_IMPORTED_MODULE_0__.getItem)(RTL_LOCAL_STORAGE_KEY);
+        if (savedRTL !== null) {
+            _isRTL = savedRTL === '1';
+            setRTL(_isRTL);
+        }
+        var doc = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_1__.getDocument)();
+        if (_isRTL === undefined && doc) {
+            _isRTL = ((doc.body && doc.body.getAttribute('dir')) || doc.documentElement.getAttribute('dir')) === 'rtl';
+            (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__.setRTL)(_isRTL);
+        }
+    }
+    return !!_isRTL;
+}
+/**
+ * Sets the rtl state of the page (by adjusting the dir attribute of the html element.)
+ */
+function setRTL(isRTL, persistSetting) {
+    if (persistSetting === void 0) { persistSetting = false; }
+    var doc = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_1__.getDocument)();
+    if (doc) {
+        doc.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+    }
+    if (persistSetting) {
+        (0,_sessionStorage__WEBPACK_IMPORTED_MODULE_0__.setItem)(RTL_LOCAL_STORAGE_KEY, isRTL ? '1' : '0');
+    }
+    _isRTL = isRTL;
+    (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_2__.setRTL)(_isRTL);
+}
+/**
+ * Returns the given key, but flips right/left arrows if necessary.
+ */
+function getRTLSafeKeyCode(key, theme) {
+    if (theme === void 0) { theme = {}; }
+    if (getRTL(theme)) {
+        if (key === _KeyCodes__WEBPACK_IMPORTED_MODULE_3__.KeyCodes.left) {
+            key = _KeyCodes__WEBPACK_IMPORTED_MODULE_3__.KeyCodes.right;
+        }
+        else if (key === _KeyCodes__WEBPACK_IMPORTED_MODULE_3__.KeyCodes.right) {
+            key = _KeyCodes__WEBPACK_IMPORTED_MODULE_3__.KeyCodes.left;
+        }
+    }
+    return key;
+}
+//# sourceMappingURL=rtl.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/scroll.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/scroll.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DATA_IS_SCROLLABLE_ATTRIBUTE": () => (/* binding */ DATA_IS_SCROLLABLE_ATTRIBUTE),
+/* harmony export */   "allowScrollOnElement": () => (/* binding */ allowScrollOnElement),
+/* harmony export */   "allowOverscrollOnElement": () => (/* binding */ allowOverscrollOnElement),
+/* harmony export */   "disableBodyScroll": () => (/* binding */ disableBodyScroll),
+/* harmony export */   "enableBodyScroll": () => (/* binding */ enableBodyScroll),
+/* harmony export */   "getScrollbarWidth": () => (/* binding */ getScrollbarWidth),
+/* harmony export */   "findScrollableParent": () => (/* binding */ findScrollableParent)
+/* harmony export */ });
+/* harmony import */ var _dom_getDocument__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom/getDocument */ "./node_modules/@fluentui/utilities/lib/dom/getDocument.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+
+
+var _scrollbarWidth;
+var _bodyScrollDisabledCount = 0;
+var DisabledScrollClassName = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_0__.mergeStyles)({
+    overflow: 'hidden !important',
+});
+/**
+ * Placing this attribute on scrollable divs optimizes detection to know
+ * if the div is scrollable or not (given we can avoid expensive operations
+ * like getComputedStyle.)
+ *
+ * @public
+ */
+var DATA_IS_SCROLLABLE_ATTRIBUTE = 'data-is-scrollable';
+/**
+ * Allows the user to scroll within a element,
+ * while preventing the user from scrolling the body
+ */
+var allowScrollOnElement = function (element, events) {
+    if (!element) {
+        return;
+    }
+    var _previousClientY = 0;
+    var _element = null;
+    // remember the clientY for future calls of _preventOverscrolling
+    var _saveClientY = function (event) {
+        if (event.targetTouches.length === 1) {
+            _previousClientY = event.targetTouches[0].clientY;
+        }
+    };
+    // prevent the body from scrolling when the user attempts
+    // to scroll past the top or bottom of the element
+    var _preventOverscrolling = function (event) {
+        // only respond to a single-finger touch
+        if (event.targetTouches.length !== 1) {
+            return;
+        }
+        // prevent the body touchmove handler from firing
+        // so that scrolling is allowed within the element
+        event.stopPropagation();
+        if (!_element) {
+            return;
+        }
+        var clientY = event.targetTouches[0].clientY - _previousClientY;
+        var scrollableParent = findScrollableParent(event.target);
+        if (scrollableParent) {
+            _element = scrollableParent;
+        }
+        // if the element is scrolled to the top,
+        // prevent the user from scrolling up
+        if (_element.scrollTop === 0 && clientY > 0) {
+            event.preventDefault();
+        }
+        // if the element is scrolled to the bottom,
+        // prevent the user from scrolling down
+        if (_element.scrollHeight - Math.ceil(_element.scrollTop) <= _element.clientHeight && clientY < 0) {
+            event.preventDefault();
+        }
+    };
+    events.on(element, 'touchstart', _saveClientY, { passive: false });
+    events.on(element, 'touchmove', _preventOverscrolling, { passive: false });
+    _element = element;
+};
+/**
+ * Same as allowScrollOnElement but does not prevent overscrolling.
+ */
+var allowOverscrollOnElement = function (element, events) {
+    if (!element) {
+        return;
+    }
+    var _allowElementScroll = function (event) {
+        event.stopPropagation();
+    };
+    events.on(element, 'touchmove', _allowElementScroll, { passive: false });
+};
+var _disableIosBodyScroll = function (event) {
+    event.preventDefault();
+};
+/**
+ * Disables the body scrolling.
+ *
+ * @public
+ */
+function disableBodyScroll() {
+    var doc = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_1__.getDocument)();
+    if (doc && doc.body && !_bodyScrollDisabledCount) {
+        doc.body.classList.add(DisabledScrollClassName);
+        doc.body.addEventListener('touchmove', _disableIosBodyScroll, { passive: false, capture: false });
+    }
+    _bodyScrollDisabledCount++;
+}
+/**
+ * Enables the body scrolling.
+ *
+ * @public
+ */
+function enableBodyScroll() {
+    if (_bodyScrollDisabledCount > 0) {
+        var doc = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_1__.getDocument)();
+        if (doc && doc.body && _bodyScrollDisabledCount === 1) {
+            doc.body.classList.remove(DisabledScrollClassName);
+            doc.body.removeEventListener('touchmove', _disableIosBodyScroll);
+        }
+        _bodyScrollDisabledCount--;
+    }
+}
+/**
+ * Calculates the width of a scrollbar for the browser/os.
+ *
+ * @public
+ */
+function getScrollbarWidth() {
+    if (_scrollbarWidth === undefined) {
+        var scrollDiv = document.createElement('div');
+        scrollDiv.style.setProperty('width', '100px');
+        scrollDiv.style.setProperty('height', '100px');
+        scrollDiv.style.setProperty('overflow', 'scroll');
+        scrollDiv.style.setProperty('position', 'absolute');
+        scrollDiv.style.setProperty('top', '-9999px');
+        document.body.appendChild(scrollDiv);
+        // Get the scrollbar width
+        _scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+        // Delete the DIV
+        document.body.removeChild(scrollDiv);
+    }
+    return _scrollbarWidth;
+}
+/**
+ * Traverses up the DOM for the element with the data-is-scrollable=true attribute, or returns
+ * document.body.
+ *
+ * @public
+ */
+function findScrollableParent(startingElement) {
+    var el = startingElement;
+    var doc = (0,_dom_getDocument__WEBPACK_IMPORTED_MODULE_1__.getDocument)(startingElement);
+    // First do a quick scan for the scrollable attribute.
+    while (el && el !== doc.body) {
+        if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) === 'true') {
+            return el;
+        }
+        el = el.parentElement;
+    }
+    // If we haven't found it, the use the slower method: compute styles to evaluate if overflow is set.
+    el = startingElement;
+    while (el && el !== doc.body) {
+        if (el.getAttribute(DATA_IS_SCROLLABLE_ATTRIBUTE) !== 'false') {
+            var computedStyles = getComputedStyle(el);
+            var overflowY = computedStyles ? computedStyles.getPropertyValue('overflow-y') : '';
+            if (overflowY && (overflowY === 'scroll' || overflowY === 'auto')) {
+                return el;
+            }
+        }
+        el = el.parentElement;
+    }
+    // Fall back to window scroll.
+    if (!el || el === doc.body) {
+        el = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_2__.getWindow)(startingElement);
+    }
+    return el;
+}
+//# sourceMappingURL=scroll.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/sessionStorage.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/sessionStorage.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getItem": () => (/* binding */ getItem),
+/* harmony export */   "setItem": () => (/* binding */ setItem)
+/* harmony export */ });
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+/**
+ * Fetches an item from session storage without throwing an exception
+ * @param key The key of the item to fetch from session storage
+ */
+function getItem(key) {
+    var result = null;
+    try {
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)();
+        result = win ? win.sessionStorage.getItem(key) : null;
+    }
+    catch (e) {
+        /* Eat the exception */
+    }
+    return result;
+}
+/**
+ * Inserts an item into session storage without throwing an exception
+ * @param key The key of the item to add to session storage
+ * @param data The data to put into session storage
+ */
+function setItem(key, data) {
+    var _a;
+    try {
+        (_a = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)()) === null || _a === void 0 ? void 0 : _a.sessionStorage.setItem(key, data);
+    }
+    catch (e) {
+        /* Eat the exception */
+    }
+}
+//# sourceMappingURL=sessionStorage.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/setFocusVisibility.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/setFocusVisibility.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "IsFocusVisibleClassName": () => (/* binding */ IsFocusVisibleClassName),
+/* harmony export */   "IsFocusHiddenClassName": () => (/* binding */ IsFocusHiddenClassName),
+/* harmony export */   "setFocusVisibility": () => (/* binding */ setFocusVisibility)
+/* harmony export */ });
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+var IsFocusVisibleClassName = 'ms-Fabric--isFocusVisible';
+var IsFocusHiddenClassName = 'ms-Fabric--isFocusHidden';
+/**
+ * Sets the visibility of focus styling.
+ *
+ * By default, focus styles (the box surrounding a focused Button, for example) only show up when navigational
+ * keypresses occur (through Tab, arrows, PgUp/PgDn, Home and End), and are hidden when mouse interactions occur.
+ * This API provides an imperative way to turn them on/off.
+ *
+ * A use case might be when you have a keypress like ctrl-f6 navigate to a particular region on the page,
+ * and want focus to show up.
+ *
+ * @param enabled - whether to remove or add focus
+ * @param target - optional target
+ */
+function setFocusVisibility(enabled, target) {
+    var win = target ? (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)(target) : (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_0__.getWindow)();
+    if (win) {
+        var classList = win.document.body.classList;
+        classList.add(enabled ? IsFocusVisibleClassName : IsFocusHiddenClassName);
+        classList.remove(enabled ? IsFocusHiddenClassName : IsFocusVisibleClassName);
+    }
+}
+//# sourceMappingURL=setFocusVisibility.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/styled.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/styled.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "styled": () => (/* binding */ styled)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/concatStyleSetsWithProps.js");
+/* harmony import */ var _customizations_useCustomizationSettings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./customizations/useCustomizationSettings */ "./node_modules/@fluentui/utilities/lib/customizations/useCustomizationSettings.js");
+
+
+
+
+var DefaultFields = ['theme', 'styles'];
+function styled(Component, baseStyles, getProps, customizable, pure) {
+    customizable = customizable || { scope: '', fields: undefined };
+    var scope = customizable.scope, _a = customizable.fields, fields = _a === void 0 ? DefaultFields : _a;
+    var Wrapped = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, forwardedRef) {
+        var styles = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+        var settings = (0,_customizations_useCustomizationSettings__WEBPACK_IMPORTED_MODULE_1__.useCustomizationSettings)(fields, scope);
+        var customizedStyles = settings.styles, dir = settings.dir, rest = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__rest)(settings, ["styles", "dir"]);
+        var additionalProps = getProps ? getProps(props) : undefined;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        var cache = (styles.current && styles.current.__cachedInputs__) || [];
+        if (!styles.current || customizedStyles !== cache[1] || props.styles !== cache[2]) {
+            // Using styled components as the Component arg will result in nested styling arrays.
+            var concatenatedStyles = function (styleProps) {
+                return (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_3__.concatStyleSetsWithProps)(styleProps, baseStyles, customizedStyles, props.styles);
+            };
+            // The __cachedInputs__ array is attached to the function and consumed by the
+            // classNamesFunction as a list of keys to include for memoizing classnames.
+            concatenatedStyles.__cachedInputs__ = [
+                baseStyles,
+                customizedStyles,
+                props.styles,
+            ];
+            concatenatedStyles.__noStyleOverride__ =
+                !customizedStyles && !props.styles;
+            styles.current = concatenatedStyles;
+        }
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ ref: forwardedRef }, rest, additionalProps, props, { styles: styles.current }));
+    });
+    // Function.prototype.name is an ES6 feature, so the cast to any is required until we're
+    // able to drop IE 11 support and compile with ES6 libs
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Wrapped.displayName = "Styled" + (Component.displayName || Component.name);
+    // This preserves backwards compatibility.
+    var pureComponent = pure ? react__WEBPACK_IMPORTED_MODULE_0__.memo(Wrapped) : Wrapped;
+    // Check if the wrapper has a displayName after it has been memoized. Then assign it to the pure component.
+    if (Wrapped.displayName) {
+        pureComponent.displayName = Wrapped.displayName;
+    }
+    return pureComponent;
+}
+//# sourceMappingURL=styled.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/useFocusRects.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/useFocusRects.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useFocusRects": () => (/* binding */ useFocusRects),
+/* harmony export */   "FocusRects": () => (/* binding */ FocusRects)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _dom_getWindow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom/getWindow */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _keyboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./keyboard */ "./node_modules/@fluentui/utilities/lib/keyboard.js");
+/* harmony import */ var _setFocusVisibility__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./setFocusVisibility */ "./node_modules/@fluentui/utilities/lib/setFocusVisibility.js");
+
+
+
+
+/**
+ * Counter for mounted component that uses focus rectangle.
+ * We want to cleanup the listners before last component that uses focus rectangle unmounts.
+ */
+var mountCounters = new WeakMap();
+function setMountCounters(key, delta) {
+    var newValue;
+    var currValue = mountCounters.get(key);
+    if (currValue) {
+        newValue = currValue + delta;
+    }
+    else {
+        newValue = 1;
+    }
+    mountCounters.set(key, newValue);
+    return newValue;
+}
+/**
+ * Initializes the logic which:
+ *
+ * 1. Subscribes keydown and mousedown events. (It will only do it once per window,
+ *    so it's safe to call this method multiple times.)
+ * 2. When the user presses directional keyboard keys, adds the 'ms-Fabric--isFocusVisible' classname
+ *    to the document body, removes the 'ms-Fabric-isFocusHidden' classname.
+ * 3. When the user clicks a mouse button, adds the 'ms-Fabric-isFocusHidden' classname to the
+ *    document body, removes the 'ms-Fabric--isFocusVisible' classname.
+ *
+ * This logic allows components on the page to conditionally render focus treatments based on
+ * the existence of global classnames, which simplifies logic overall.
+ *
+ * @param rootRef - A Ref object. Focus rectangle can be applied on itself and all its children.
+ */
+function useFocusRects(rootRef) {
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        var _a;
+        var win = (0,_dom_getWindow__WEBPACK_IMPORTED_MODULE_1__.getWindow)(rootRef === null || rootRef === void 0 ? void 0 : rootRef.current);
+        if (!win || ((_a = win.FabricConfig) === null || _a === void 0 ? void 0 : _a.disableFocusRects) === true) {
+            return undefined;
+        }
+        var count = setMountCounters(win, 1);
+        if (count <= 1) {
+            win.addEventListener('mousedown', _onMouseDown, true);
+            win.addEventListener('pointerdown', _onPointerDown, true);
+            win.addEventListener('keydown', _onKeyDown, true);
+        }
+        return function () {
+            var _a;
+            if (!win || ((_a = win.FabricConfig) === null || _a === void 0 ? void 0 : _a.disableFocusRects) === true) {
+                return;
+            }
+            count = setMountCounters(win, -1);
+            if (count === 0) {
+                win.removeEventListener('mousedown', _onMouseDown, true);
+                win.removeEventListener('pointerdown', _onPointerDown, true);
+                win.removeEventListener('keydown', _onKeyDown, true);
+            }
+        };
+    }, [rootRef]);
+}
+/**
+ * Function Component wrapper which enables calling `useFocusRects` hook.
+ * Renders nothing.
+ */
+var FocusRects = function (props) {
+    useFocusRects(props.rootRef);
+    return null;
+};
+function _onMouseDown(ev) {
+    (0,_setFocusVisibility__WEBPACK_IMPORTED_MODULE_2__.setFocusVisibility)(false, ev.target);
+}
+function _onPointerDown(ev) {
+    if (ev.pointerType !== 'mouse') {
+        (0,_setFocusVisibility__WEBPACK_IMPORTED_MODULE_2__.setFocusVisibility)(false, ev.target);
+    }
+}
+function _onKeyDown(ev) {
+    // eslint-disable-next-line deprecation/deprecation
+    if ((0,_keyboard__WEBPACK_IMPORTED_MODULE_3__.isDirectionalKeyCode)(ev.which)) {
+        (0,_setFocusVisibility__WEBPACK_IMPORTED_MODULE_2__.setFocusVisibility)(true, ev.target);
+    }
+}
+//# sourceMappingURL=useFocusRects.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/warn/warn.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/warn/warn.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "warn": () => (/* binding */ warn),
+/* harmony export */   "setWarningCallback": () => (/* binding */ setWarningCallback)
+/* harmony export */ });
+/* eslint-disable no-console */
+var _warningCallback = undefined;
+/**
+ * Sends a warning to console, if the api is present.
+ *
+ * @public
+ * @param message - Warning message.
+ */
+function warn(message) {
+    if (_warningCallback && "development" !== 'production') {
+        _warningCallback(message);
+    }
+    else if (console && console.warn) {
+        console.warn(message);
+    }
+}
+/**
+ * Configures the warning callback. Passing in undefined will reset it to use the default
+ * console.warn function.
+ *
+ * @public
+ * @param warningCallback - Callback to override the generated warnings.
+ */
+function setWarningCallback(warningCallback) {
+    _warningCallback = warningCallback;
+}
+//# sourceMappingURL=warn.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/warn/warnConditionallyRequiredProps.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/warn/warnConditionallyRequiredProps.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "warnConditionallyRequiredProps": () => (/* binding */ warnConditionallyRequiredProps)
+/* harmony export */ });
+/* harmony import */ var _warn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./warn */ "./node_modules/@fluentui/utilities/lib/warn/warn.js");
+
+/**
+ * Warns when props are required if a condition is met.
+ *
+ * @public
+ * @param componentName - The name of the component being used.
+ * @param props - The props passed into the component.
+ * @param requiredProps - The name of the props that are required when the condition is met.
+ * @param conditionalPropName - The name of the prop that the condition is based on.
+ * @param condition - Whether the condition is met.
+ */
+function warnConditionallyRequiredProps(componentName, props, requiredProps, conditionalPropName, condition) {
+    if (condition === true && "development" !== 'production') {
+        for (var _i = 0, requiredProps_1 = requiredProps; _i < requiredProps_1.length; _i++) {
+            var requiredPropName = requiredProps_1[_i];
+            if (!(requiredPropName in props)) {
+                (0,_warn__WEBPACK_IMPORTED_MODULE_0__.warn)(componentName + " property '" + requiredPropName + "' is required when '" + conditionalPropName + "' is used.'");
+            }
+        }
+    }
+}
+//# sourceMappingURL=warnConditionallyRequiredProps.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/warn/warnControlledUsage.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/warn/warnControlledUsage.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "resetControlledWarnings": () => (/* binding */ resetControlledWarnings),
+/* harmony export */   "warnControlledUsage": () => (/* binding */ warnControlledUsage)
+/* harmony export */ });
+/* harmony import */ var _warn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./warn */ "./node_modules/@fluentui/utilities/lib/warn/warn.js");
+/* harmony import */ var _controlled__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controlled */ "./node_modules/@fluentui/utilities/lib/controlled.js");
+
+
+var warningsMap;
+if (true) {
+    warningsMap = {
+        valueOnChange: {},
+        valueDefaultValue: {},
+        controlledToUncontrolled: {},
+        uncontrolledToControlled: {},
+    };
+}
+/** Reset controlled usage warnings for testing purposes. */
+function resetControlledWarnings() {
+    if (true) {
+        warningsMap.valueOnChange = {};
+        warningsMap.valueDefaultValue = {};
+        warningsMap.controlledToUncontrolled = {};
+        warningsMap.uncontrolledToControlled = {};
+    }
+}
+/**
+ * Check for and warn on the following error conditions with a form component:
+ * - A value prop is provided (indicated it's being used as controlled) without a change handler,
+ *    and the component is not read-only
+ * - Both the value and defaultValue props are provided
+ * - The component is attempting to switch between controlled and uncontrolled
+ *
+ * The messages mimic the warnings React gives for these error conditions on input elements.
+ * The warning will only be displayed once per component ID.
+ */
+function warnControlledUsage(params) {
+    if (true) {
+        var componentId = params.componentId, componentName = params.componentName, defaultValueProp = params.defaultValueProp, props = params.props, oldProps = params.oldProps, onChangeProp = params.onChangeProp, readOnlyProp = params.readOnlyProp, valueProp = params.valueProp;
+        // This warning logic closely follows what React does for native <input> elements.
+        var oldIsControlled = oldProps ? (0,_controlled__WEBPACK_IMPORTED_MODULE_0__.isControlled)(oldProps, valueProp) : undefined;
+        var newIsControlled = (0,_controlled__WEBPACK_IMPORTED_MODULE_0__.isControlled)(props, valueProp);
+        if (newIsControlled) {
+            // onChange (or readOnly) must be provided if value is provided
+            var hasOnChange = !!props[onChangeProp];
+            var isReadOnly = !!(readOnlyProp && props[readOnlyProp]);
+            if (!(hasOnChange || isReadOnly) && !warningsMap.valueOnChange[componentId]) {
+                warningsMap.valueOnChange[componentId] = true;
+                (0,_warn__WEBPACK_IMPORTED_MODULE_1__.warn)("Warning: You provided a '" + valueProp + "' prop to a " + componentName + " without an '" + onChangeProp + "' handler. " +
+                    ("This will render a read-only field. If the field should be mutable use '" + defaultValueProp + "'. ") +
+                    ("Otherwise, set '" + onChangeProp + "'" + (readOnlyProp ? " or '" + readOnlyProp + "'" : '') + "."));
+            }
+            // value and defaultValue are mutually exclusive
+            var defaultValue = props[defaultValueProp];
+            if (defaultValue !== undefined && defaultValue !== null && !warningsMap.valueDefaultValue[componentId]) {
+                warningsMap.valueDefaultValue[componentId] = true;
+                (0,_warn__WEBPACK_IMPORTED_MODULE_1__.warn)("Warning: You provided both '" + valueProp + "' and '" + defaultValueProp + "' to a " + componentName + ". " +
+                    ("Form fields must be either controlled or uncontrolled (specify either the '" + valueProp + "' prop, ") +
+                    ("or the '" + defaultValueProp + "' prop, but not both). Decide between using a controlled or uncontrolled ") +
+                    (componentName + " and remove one of these props. More info: https://fb.me/react-controlled-components"));
+            }
+        }
+        // Warn if switching between uncontrolled and controlled. (One difference between this implementation
+        // and React's <input> is that if oldIsControlled is indeterminate and newIsControlled true, we don't warn.)
+        if (oldProps && newIsControlled !== oldIsControlled) {
+            var oldType = oldIsControlled ? 'a controlled' : 'an uncontrolled';
+            var newType = oldIsControlled ? 'uncontrolled' : 'controlled';
+            var warnMap = oldIsControlled ? warningsMap.controlledToUncontrolled : warningsMap.uncontrolledToControlled;
+            if (!warnMap[componentId]) {
+                warnMap[componentId] = true;
+                (0,_warn__WEBPACK_IMPORTED_MODULE_1__.warn)("Warning: A component is changing " + oldType + " " + componentName + " to be " + newType + ". " +
+                    (componentName + "s should not switch from controlled to uncontrolled (or vice versa). ") +
+                    "Decide between using controlled or uncontrolled for the lifetime of the component. " +
+                    "More info: https://fb.me/react-controlled-components");
+            }
+        }
+    }
+}
+//# sourceMappingURL=warnControlledUsage.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "warnDeprecations": () => (/* binding */ warnDeprecations)
+/* harmony export */ });
+/* harmony import */ var _warn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./warn */ "./node_modules/@fluentui/utilities/lib/warn/warn.js");
+
+/**
+ * Warns when a deprecated props are being used.
+ *
+ * @public
+ * @param componentName - The name of the component being used.
+ * @param props - The props passed into the component.
+ * @param deprecationMap - The map of deprecations, where key is the prop name and the value is
+ * either null or a replacement prop name.
+ */
+function warnDeprecations(componentName, props, deprecationMap) {
+    if (true) {
+        for (var propName in deprecationMap) {
+            if (props && propName in props) {
+                var deprecationMessage = componentName + " property '" + propName + "' was used but has been deprecated.";
+                var replacementPropName = deprecationMap[propName];
+                if (replacementPropName) {
+                    deprecationMessage += " Use '" + replacementPropName + "' instead.";
+                }
+                (0,_warn__WEBPACK_IMPORTED_MODULE_0__.warn)(deprecationMessage);
+            }
+        }
+    }
+}
+//# sourceMappingURL=warnDeprecations.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/utilities/lib/warn/warnMutuallyExclusive.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@fluentui/utilities/lib/warn/warnMutuallyExclusive.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "warnMutuallyExclusive": () => (/* binding */ warnMutuallyExclusive)
+/* harmony export */ });
+/* harmony import */ var _warn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./warn */ "./node_modules/@fluentui/utilities/lib/warn/warn.js");
+
+/**
+ * Warns when two props which are mutually exclusive are both being used.
+ *
+ * @public
+ * @param componentName - The name of the component being used.
+ * @param props - The props passed into the component.
+ * @param exclusiveMap - A map where the key is a parameter, and the value is the other parameter.
+ */
+function warnMutuallyExclusive(componentName, props, exclusiveMap) {
+    if (true) {
+        for (var propName in exclusiveMap) {
+            if (props && props[propName] !== undefined) {
+                var propInExclusiveMapValue = exclusiveMap[propName];
+                if (propInExclusiveMapValue && props[propInExclusiveMapValue] !== undefined) {
+                    (0,_warn__WEBPACK_IMPORTED_MODULE_0__.warn)(componentName + " property '" + propName + "' is mutually exclusive with '" + exclusiveMap[propName] + "'. " +
+                        "Use one or the other.");
+                }
+            }
+        }
+    }
+}
+//# sourceMappingURL=warnMutuallyExclusive.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@microsoft/load-themed-styles/lib-es6/index.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@microsoft/load-themed-styles/lib-es6/index.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "loadStyles": () => (/* binding */ loadStyles),
+/* harmony export */   "configureLoadStyles": () => (/* binding */ configureLoadStyles),
+/* harmony export */   "configureRunMode": () => (/* binding */ configureRunMode),
+/* harmony export */   "flush": () => (/* binding */ flush),
+/* harmony export */   "loadTheme": () => (/* binding */ loadTheme),
+/* harmony export */   "clearStyles": () => (/* binding */ clearStyles),
+/* harmony export */   "detokenize": () => (/* binding */ detokenize),
+/* harmony export */   "splitStyles": () => (/* binding */ splitStyles)
+/* harmony export */ });
+// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+// See LICENSE in the project root for license information.
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+// Store the theming state in __themeState__ global scope for reuse in the case of duplicate
+// load-themed-styles hosted on the page.
+var _root = typeof window === 'undefined' ? __webpack_require__.g : window; // eslint-disable-line @typescript-eslint/no-explicit-any
+// Nonce string to inject into script tag if one provided. This is used in CSP (Content Security Policy).
+var _styleNonce = _root && _root.CSPSettings && _root.CSPSettings.nonce;
+var _themeState = initializeThemeState();
+/**
+ * Matches theming tokens. For example, "[theme: themeSlotName, default: #FFF]" (including the quotes).
+ */
+var _themeTokenRegex = /[\'\"]\[theme:\s*(\w+)\s*(?:\,\s*default:\s*([\\"\']?[\.\,\(\)\#\-\s\w]*[\.\,\(\)\#\-\w][\"\']?))?\s*\][\'\"]/g;
+var now = function () {
+    return typeof performance !== 'undefined' && !!performance.now ? performance.now() : Date.now();
+};
+function measure(func) {
+    var start = now();
+    func();
+    var end = now();
+    _themeState.perf.duration += end - start;
+}
+/**
+ * initialize global state object
+ */
+function initializeThemeState() {
+    var state = _root.__themeState__ || {
+        theme: undefined,
+        lastStyleElement: undefined,
+        registeredStyles: []
+    };
+    if (!state.runState) {
+        state = __assign(__assign({}, state), { perf: {
+                count: 0,
+                duration: 0
+            }, runState: {
+                flushTimer: 0,
+                mode: 0 /* sync */,
+                buffer: []
+            } });
+    }
+    if (!state.registeredThemableStyles) {
+        state = __assign(__assign({}, state), { registeredThemableStyles: [] });
+    }
+    _root.__themeState__ = state;
+    return state;
+}
+/**
+ * Loads a set of style text. If it is registered too early, we will register it when the window.load
+ * event is fired.
+ * @param {string | ThemableArray} styles Themable style text to register.
+ * @param {boolean} loadAsync When true, always load styles in async mode, irrespective of current sync mode.
+ */
+function loadStyles(styles, loadAsync) {
+    if (loadAsync === void 0) { loadAsync = false; }
+    measure(function () {
+        var styleParts = Array.isArray(styles) ? styles : splitStyles(styles);
+        var _a = _themeState.runState, mode = _a.mode, buffer = _a.buffer, flushTimer = _a.flushTimer;
+        if (loadAsync || mode === 1 /* async */) {
+            buffer.push(styleParts);
+            if (!flushTimer) {
+                _themeState.runState.flushTimer = asyncLoadStyles();
+            }
+        }
+        else {
+            applyThemableStyles(styleParts);
+        }
+    });
+}
+/**
+ * Allows for customizable loadStyles logic. e.g. for server side rendering application
+ * @param {(processedStyles: string, rawStyles?: string | ThemableArray) => void}
+ * a loadStyles callback that gets called when styles are loaded or reloaded
+ */
+function configureLoadStyles(loadStylesFn) {
+    _themeState.loadStyles = loadStylesFn;
+}
+/**
+ * Configure run mode of load-themable-styles
+ * @param mode load-themable-styles run mode, async or sync
+ */
+function configureRunMode(mode) {
+    _themeState.runState.mode = mode;
+}
+/**
+ * external code can call flush to synchronously force processing of currently buffered styles
+ */
+function flush() {
+    measure(function () {
+        var styleArrays = _themeState.runState.buffer.slice();
+        _themeState.runState.buffer = [];
+        var mergedStyleArray = [].concat.apply([], styleArrays);
+        if (mergedStyleArray.length > 0) {
+            applyThemableStyles(mergedStyleArray);
+        }
+    });
+}
+/**
+ * register async loadStyles
+ */
+function asyncLoadStyles() {
+    return setTimeout(function () {
+        _themeState.runState.flushTimer = 0;
+        flush();
+    }, 0);
+}
+/**
+ * Loads a set of style text. If it is registered too early, we will register it when the window.load event
+ * is fired.
+ * @param {string} styleText Style to register.
+ * @param {IStyleRecord} styleRecord Existing style record to re-apply.
+ */
+function applyThemableStyles(stylesArray, styleRecord) {
+    if (_themeState.loadStyles) {
+        _themeState.loadStyles(resolveThemableArray(stylesArray).styleString, stylesArray);
+    }
+    else {
+        registerStyles(stylesArray);
+    }
+}
+/**
+ * Registers a set theme tokens to find and replace. If styles were already registered, they will be
+ * replaced.
+ * @param {theme} theme JSON object of theme tokens to values.
+ */
+function loadTheme(theme) {
+    _themeState.theme = theme;
+    // reload styles.
+    reloadStyles();
+}
+/**
+ * Clear already registered style elements and style records in theme_State object
+ * @param option - specify which group of registered styles should be cleared.
+ * Default to be both themable and non-themable styles will be cleared
+ */
+function clearStyles(option) {
+    if (option === void 0) { option = 3 /* all */; }
+    if (option === 3 /* all */ || option === 2 /* onlyNonThemable */) {
+        clearStylesInternal(_themeState.registeredStyles);
+        _themeState.registeredStyles = [];
+    }
+    if (option === 3 /* all */ || option === 1 /* onlyThemable */) {
+        clearStylesInternal(_themeState.registeredThemableStyles);
+        _themeState.registeredThemableStyles = [];
+    }
+}
+function clearStylesInternal(records) {
+    records.forEach(function (styleRecord) {
+        var styleElement = styleRecord && styleRecord.styleElement;
+        if (styleElement && styleElement.parentElement) {
+            styleElement.parentElement.removeChild(styleElement);
+        }
+    });
+}
+/**
+ * Reloads styles.
+ */
+function reloadStyles() {
+    if (_themeState.theme) {
+        var themableStyles = [];
+        for (var _i = 0, _a = _themeState.registeredThemableStyles; _i < _a.length; _i++) {
+            var styleRecord = _a[_i];
+            themableStyles.push(styleRecord.themableStyle);
+        }
+        if (themableStyles.length > 0) {
+            clearStyles(1 /* onlyThemable */);
+            applyThemableStyles([].concat.apply([], themableStyles));
+        }
+    }
+}
+/**
+ * Find theme tokens and replaces them with provided theme values.
+ * @param {string} styles Tokenized styles to fix.
+ */
+function detokenize(styles) {
+    if (styles) {
+        styles = resolveThemableArray(splitStyles(styles)).styleString;
+    }
+    return styles;
+}
+/**
+ * Resolves ThemingInstruction objects in an array and joins the result into a string.
+ * @param {ThemableArray} splitStyleArray ThemableArray to resolve and join.
+ */
+function resolveThemableArray(splitStyleArray) {
+    var theme = _themeState.theme;
+    var themable = false;
+    // Resolve the array of theming instructions to an array of strings.
+    // Then join the array to produce the final CSS string.
+    var resolvedArray = (splitStyleArray || []).map(function (currentValue) {
+        var themeSlot = currentValue.theme;
+        if (themeSlot) {
+            themable = true;
+            // A theming annotation. Resolve it.
+            var themedValue = theme ? theme[themeSlot] : undefined;
+            var defaultValue = currentValue.defaultValue || 'inherit';
+            // Warn to console if we hit an unthemed value even when themes are provided, but only if "DEBUG" is true.
+            // Allow the themedValue to be undefined to explicitly request the default value.
+            if (theme &&
+                !themedValue &&
+                console &&
+                !(themeSlot in theme) &&
+                typeof DEBUG !== 'undefined' &&
+                DEBUG) {
+                console.warn("Theming value not provided for \"" + themeSlot + "\". Falling back to \"" + defaultValue + "\".");
+            }
+            return themedValue || defaultValue;
+        }
+        else {
+            // A non-themable string. Preserve it.
+            return currentValue.rawString;
+        }
+    });
+    return {
+        styleString: resolvedArray.join(''),
+        themable: themable
+    };
+}
+/**
+ * Split tokenized CSS into an array of strings and theme specification objects
+ * @param {string} styles Tokenized styles to split.
+ */
+function splitStyles(styles) {
+    var result = [];
+    if (styles) {
+        var pos = 0; // Current position in styles.
+        var tokenMatch = void 0;
+        while ((tokenMatch = _themeTokenRegex.exec(styles))) {
+            var matchIndex = tokenMatch.index;
+            if (matchIndex > pos) {
+                result.push({
+                    rawString: styles.substring(pos, matchIndex)
+                });
+            }
+            result.push({
+                theme: tokenMatch[1],
+                defaultValue: tokenMatch[2] // May be undefined
+            });
+            // index of the first character after the current match
+            pos = _themeTokenRegex.lastIndex;
+        }
+        // Push the rest of the string after the last match.
+        result.push({
+            rawString: styles.substring(pos)
+        });
+    }
+    return result;
+}
+/**
+ * Registers a set of style text. If it is registered too early, we will register it when the
+ * window.load event is fired.
+ * @param {ThemableArray} styleArray Array of IThemingInstruction objects to register.
+ * @param {IStyleRecord} styleRecord May specify a style Element to update.
+ */
+function registerStyles(styleArray) {
+    if (typeof document === 'undefined') {
+        return;
+    }
+    var head = document.getElementsByTagName('head')[0];
+    var styleElement = document.createElement('style');
+    var _a = resolveThemableArray(styleArray), styleString = _a.styleString, themable = _a.themable;
+    styleElement.setAttribute('data-load-themed-styles', 'true');
+    if (_styleNonce) {
+        styleElement.setAttribute('nonce', _styleNonce);
+    }
+    styleElement.appendChild(document.createTextNode(styleString));
+    _themeState.perf.count++;
+    head.appendChild(styleElement);
+    var ev = document.createEvent('HTMLEvents');
+    ev.initEvent('styleinsert', true /* bubbleEvent */, false /* cancelable */);
+    ev.args = {
+        newStyle: styleElement
+    };
+    document.dispatchEvent(ev);
+    var record = {
+        styleElement: styleElement,
+        themableStyle: styleArray
+    };
+    if (themable) {
+        _themeState.registeredThemableStyles.push(record);
+    }
+    else {
+        _themeState.registeredStyles.push(record);
+    }
+}
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ "./src/main/webapp/javascript/Icon.jsx":
 /*!*********************************************!*\
   !*** ./src/main/webapp/javascript/Icon.jsx ***!
@@ -85,7 +17896,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: 'Courier New', Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}", "",{"version":3,"sources":["webpack://./src/main/webapp/css/main.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,cAAc;IACd,YAAY;AAChB;;AAEA;IACI,iBAAiB;IACjB,8CAA8C;IAC9C,eAAe;IACf,kBAAkB;IAClB,YAAY;IACZ,YAAY;AAChB","sourcesContent":["#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: 'Courier New', Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}\n\n.indexButton {\n    width: 200px;\n}\n", "",{"version":3,"sources":["webpack://./src/main/webapp/css/main.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,cAAc;IACd,YAAY;AAChB;;AAEA;IACI,iBAAiB;IACjB,8CAA8C;IAC9C,eAAe;IACf,kBAAkB;IAClB,YAAY;IACZ,YAAY;AAChB;;AAEA;IACI,YAAY;AAChB","sourcesContent":["#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}\n\n.indexButton {\n    width: 200px;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30324,6 +48135,282 @@ module.exports = function (list, options) {
   };
 };
 
+/***/ }),
+
+/***/ "./node_modules/tslib/tslib.es6.js":
+/*!*****************************************!*\
+  !*** ./node_modules/tslib/tslib.es6.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "__extends": () => (/* binding */ __extends),
+/* harmony export */   "__assign": () => (/* binding */ __assign),
+/* harmony export */   "__rest": () => (/* binding */ __rest),
+/* harmony export */   "__decorate": () => (/* binding */ __decorate),
+/* harmony export */   "__param": () => (/* binding */ __param),
+/* harmony export */   "__metadata": () => (/* binding */ __metadata),
+/* harmony export */   "__awaiter": () => (/* binding */ __awaiter),
+/* harmony export */   "__generator": () => (/* binding */ __generator),
+/* harmony export */   "__createBinding": () => (/* binding */ __createBinding),
+/* harmony export */   "__exportStar": () => (/* binding */ __exportStar),
+/* harmony export */   "__values": () => (/* binding */ __values),
+/* harmony export */   "__read": () => (/* binding */ __read),
+/* harmony export */   "__spread": () => (/* binding */ __spread),
+/* harmony export */   "__spreadArrays": () => (/* binding */ __spreadArrays),
+/* harmony export */   "__spreadArray": () => (/* binding */ __spreadArray),
+/* harmony export */   "__await": () => (/* binding */ __await),
+/* harmony export */   "__asyncGenerator": () => (/* binding */ __asyncGenerator),
+/* harmony export */   "__asyncDelegator": () => (/* binding */ __asyncDelegator),
+/* harmony export */   "__asyncValues": () => (/* binding */ __asyncValues),
+/* harmony export */   "__makeTemplateObject": () => (/* binding */ __makeTemplateObject),
+/* harmony export */   "__importStar": () => (/* binding */ __importStar),
+/* harmony export */   "__importDefault": () => (/* binding */ __importDefault),
+/* harmony export */   "__classPrivateFieldGet": () => (/* binding */ __classPrivateFieldGet),
+/* harmony export */   "__classPrivateFieldSet": () => (/* binding */ __classPrivateFieldSet)
+/* harmony export */ });
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+/** @deprecated */
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+/** @deprecated */
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || from);
+}
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+
 /***/ })
 
 /******/ 	});
@@ -30377,6 +48464,18 @@ module.exports = function (list, options) {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -30405,6 +48504,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Icon */ "./src/main/webapp/javascript/Icon.jsx");
 /* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../css/main.css */ "./src/main/webapp/css/main.css");
+/* harmony import */ var _fluentui_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/react */ "./node_modules/@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30432,6 +48532,14 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+var page = {
+  Index: "Index",
+  CreateRoom: "CreateRoom",
+  JoinRoom: "JoinRoom",
+  GamePlay: "GamePlay"
+};
+
 var Main = /*#__PURE__*/function (_Component) {
   _inherits(Main, _Component);
 
@@ -30444,37 +48552,44 @@ var Main = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      greeting: null
+      currentPage: page.Index
     };
     return _this;
   }
 
   _createClass(Main, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      fetch("api/greeting").then(function (res) {
-        return res.json();
-      }).then(function (response) {
-        _this2.setState({
-          greeting: response
-        });
-      }, function (error) {
-        alert(error);
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_2__.default, null));
+      var _this2 = this;
+
+      var currentPage = this.state.currentPage;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_2__.default, null), currentPage == page.Index && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Index"), currentPage == page.CreateRoom && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "CreateRoom"), currentPage == page.JoinRoom && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "JoinRoom"), currentPage == page.GamePlay && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "GamePlay"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_4__.PrimaryButton, {
+        text: "Create a Room",
+        onClick: function onClick() {
+          return _this2.setPage(page.CreateRoom);
+        },
+        className: "indexButton"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_4__.PrimaryButton, {
+        text: "Join a Room",
+        onClick: function onClick() {
+          return _this2.setPage(page.JoinRoom);
+        },
+        className: "indexButton"
+      }));
+    }
+  }, {
+    key: "setPage",
+    value: function setPage(page) {
+      this.setState({
+        currentPage: page
+      });
     }
   }]);
 
   return Main;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Main, null), document.getElementById('react-mountpoint'));
+react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Main, null), document.getElementById("react-mountpoint"));
 })();
 
 /******/ })()
