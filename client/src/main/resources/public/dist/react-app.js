@@ -282,6 +282,356 @@ function setVirtualParent(child, parent) {
 
 /***/ }),
 
+/***/ "./node_modules/@fluentui/foundation-legacy/lib/createComponent.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@fluentui/foundation-legacy/lib/createComponent.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createComponent": () => (/* binding */ createComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/style-utilities */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/customizations/CustomizerContext.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/customizations/Customizations.js");
+/* harmony import */ var _slots__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./slots */ "./node_modules/@fluentui/foundation-legacy/lib/slots.js");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utilities */ "./node_modules/@fluentui/foundation-legacy/lib/utilities.js");
+
+
+
+
+
+
+/**
+ * Assembles a higher order component based on the following: styles, theme, view, and state.
+ * Imposes a separation of concern and centralizes styling processing to increase ease of use and robustness
+ * in how components use and apply styling and theming.
+ *
+ * Automatically merges and applies themes and styles with theme / styleprops having the highest priority.
+ * State component, if provided, is passed in props for processing. Props from state / user are automatically processed
+ * and styled before finally being passed to view.
+ *
+ * State components should contain all stateful behavior and should not generate any JSX, but rather simply call
+ * the view prop.
+ *
+ * Views should simply be stateless pure functions that receive all props needed for rendering their output.
+ *
+ * State component is optional. If state is not provided, created component is essentially a functional
+ * stateless component.
+ *
+ * @param options - component Component options. See IComponentOptions for more detail.
+ */
+function createComponent(view, options) {
+    if (options === void 0) { options = {}; }
+    var _a = options.factoryOptions, factoryOptions = _a === void 0 ? {} : _a;
+    var defaultProp = factoryOptions.defaultProp;
+    var ResultComponent = function (componentProps) {
+        var settings = _getCustomizations(options.displayName, react__WEBPACK_IMPORTED_MODULE_0__.useContext(_fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.CustomizerContext), options.fields);
+        var stateReducer = options.state;
+        if (stateReducer) {
+            // Don't assume state will return all props, so spread useState result over component props.
+            componentProps = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, componentProps), stateReducer(componentProps));
+        }
+        var theme = componentProps.theme || settings.theme;
+        var tokens = _resolveTokens(componentProps, theme, options.tokens, settings.tokens, componentProps.tokens);
+        var styles = _resolveStyles(componentProps, theme, tokens, options.styles, settings.styles, componentProps.styles);
+        var viewProps = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, componentProps), { styles: styles,
+            tokens: tokens, _defaultStyles: styles, theme: theme });
+        return view(viewProps);
+    };
+    ResultComponent.displayName = options.displayName || view.name;
+    // If a shorthand prop is defined, create a factory for the component.
+    // TODO: This shouldn't be a concern of createComponent.. factoryOptions should just be forwarded.
+    //       Need to weigh creating default factories on component creation vs. memoizing them on use in slots.tsx.
+    if (defaultProp) {
+        ResultComponent.create = (0,_slots__WEBPACK_IMPORTED_MODULE_4__.createFactory)(ResultComponent, { defaultProp: defaultProp });
+    }
+    (0,_utilities__WEBPACK_IMPORTED_MODULE_5__.assign)(ResultComponent, options.statics);
+    // Later versions of TypeSript should allow us to merge objects in a type safe way and avoid this cast.
+    return ResultComponent;
+}
+/**
+ * Resolve all styles functions with both props and tokens and flatten results along with all styles objects.
+ */
+function _resolveStyles(props, theme, tokens) {
+    var allStyles = [];
+    for (var _i = 3; _i < arguments.length; _i++) {
+        allStyles[_i - 3] = arguments[_i];
+    }
+    return _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_1__.concatStyleSets.apply(void 0, allStyles.map(function (styles) {
+        return typeof styles === 'function' ? styles(props, theme, tokens) : styles;
+    }));
+}
+/**
+ * Resolve all tokens functions with props flatten results along with all tokens objects.
+ */
+function _resolveTokens(props, theme) {
+    var allTokens = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        allTokens[_i - 2] = arguments[_i];
+    }
+    var tokens = {};
+    for (var _a = 0, allTokens_1 = allTokens; _a < allTokens_1.length; _a++) {
+        var currentTokens = allTokens_1[_a];
+        if (currentTokens) {
+            // TODO: why is this cast needed? TS seems to think there is a (TToken | Function) union from somewhere.
+            currentTokens =
+                typeof currentTokens === 'function'
+                    ? currentTokens(props, theme)
+                    : currentTokens;
+            if (Array.isArray(currentTokens)) {
+                currentTokens = _resolveTokens.apply(void 0, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__spreadArrays)([props, theme], currentTokens));
+            }
+            (0,_utilities__WEBPACK_IMPORTED_MODULE_5__.assign)(tokens, currentTokens);
+        }
+    }
+    return tokens;
+}
+/**
+ * Helper function for calling Customizations.getSettings falling back to default fields.
+ *
+ * @param displayName Displayable name for component.
+ * @param context React context passed to component containing contextual settings.
+ * @param fields Optional list of properties to grab from global store and context.
+ */
+function _getCustomizations(displayName, context, fields) {
+    // TODO: do we want field props? should fields be part of IComponent and used here?
+    // TODO: should we centrally define DefaultFields? (not exported from styling)
+    // TODO: tie this array to ICustomizationProps, such that each array element is keyof ICustomizationProps
+    var DefaultFields = ['theme', 'styles', 'tokens'];
+    return _fluentui_utilities__WEBPACK_IMPORTED_MODULE_6__.Customizations.getSettings(fields || DefaultFields, displayName, context.customizations);
+}
+//# sourceMappingURL=createComponent.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/foundation-legacy/lib/slots.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@fluentui/foundation-legacy/lib/slots.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+var react__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "withSlots": () => (/* binding */ withSlots),
+/* harmony export */   "createFactory": () => (/* binding */ createFactory),
+/* harmony export */   "getSlots": () => (/* binding */ getSlots)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/merge-styles */ "./node_modules/@fluentui/merge-styles/lib/mergeStyles.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utilities */ "./node_modules/@fluentui/foundation-legacy/lib/utilities.js");
+
+
+
+
+
+/**
+ * This function is required for any module that uses slots.
+ *
+ * This function is a slot resolver that automatically evaluates slot functions to generate React elements.
+ * A byproduct of this resolver is that it removes slots from the React hierarchy by bypassing React.createElement.
+ *
+ * To use this function on a per-file basis, use the jsx directive targeting withSlots.
+ * This directive must be the FIRST LINE in the file to work correctly.
+ * Usage of this pragma also requires withSlots import statement.
+ *
+ * See React.createElement
+ */
+// Can't use typeof on React.createElement since it's overloaded. Approximate createElement's signature for now
+// and widen as needed.
+function withSlots(type, props) {
+    var children = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        children[_i - 2] = arguments[_i];
+    }
+    var slotType = type;
+    if (slotType.isSlot) {
+        // Since we are bypassing createElement, use React.Children.toArray to make sure children are
+        // properly assigned keys.
+        // TODO: should this be mutating? does React mutate children subprop with createElement?
+        // TODO: will toArray clobber existing keys?
+        // TODO: React generates warnings because it doesn't detect hidden member _store that is set in createElement.
+        //        Even children passed to createElement without keys don't generate this warning.
+        //        Is there a better way to prevent slots from appearing in hierarchy? toArray doesn't address root issue.
+        children = react__WEBPACK_IMPORTED_MODULE_0__.Children.toArray(children);
+        // TODO: There is something weird going on here with children embedded in props vs. rest args.
+        // Comment out these lines to see. Make sure this function is doing the right things.
+        if (children.length === 0) {
+            return slotType(props);
+        }
+        return slotType((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, props), { children: children }));
+    }
+    else {
+        // TODO: Are there some cases where children should NOT be spread? Also, spreading reraises perf question.
+        //        Children had to be spread to avoid breaking KeytipData in Toggle.view:
+        //        react-dom.development.js:18931 Uncaught TypeError: children is not a function
+        //        Without spread, function child is a child array of one element
+        // TODO: is there a reason this can't be:
+        // return React.createElement.apply(this, arguments);
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement.apply(/*#__PURE__*/ (react__WEBPACK_IMPORTED_MODULE_0___namespace_cache || (react__WEBPACK_IMPORTED_MODULE_0___namespace_cache = __webpack_require__.t(react__WEBPACK_IMPORTED_MODULE_0__, 2))), (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__spreadArrays)([type, props], children));
+    }
+}
+/**
+ * This function creates factories that render ouput depending on the user ISlotProp props passed in.
+ * @param DefaultComponent - Base component to render when not overridden by user props.
+ * @param options - Factory options, including defaultProp value for shorthand prop mapping.
+ * @returns ISlotFactory function used for rendering slots.
+ */
+function createFactory(DefaultComponent, options) {
+    if (options === void 0) { options = {}; }
+    var _a = options.defaultProp, defaultProp = _a === void 0 ? 'children' : _a;
+    var result = function (componentProps, userProps, userSlotOptions, defaultStyles, theme) {
+        // If they passed in raw JSX, just return that.
+        if (react__WEBPACK_IMPORTED_MODULE_0__.isValidElement(userProps)) {
+            return userProps;
+        }
+        var flattenedUserProps = _translateShorthand(defaultProp, userProps);
+        var finalProps = _constructFinalProps(defaultStyles, theme, componentProps, flattenedUserProps);
+        if (userSlotOptions) {
+            if (userSlotOptions.component) {
+                // TODO: Remove cast if possible. This cast is needed because TS errors on the intrinsic portion of ReactType.
+                // return <userSlotOptions.component {...finalProps} />;
+                var UserComponent = userSlotOptions.component;
+                return react__WEBPACK_IMPORTED_MODULE_0__.createElement(UserComponent, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, finalProps));
+            }
+            if (userSlotOptions.render) {
+                return userSlotOptions.render(finalProps, DefaultComponent);
+            }
+        }
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(DefaultComponent, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, finalProps));
+    };
+    return result;
+}
+/**
+ * Default factory for components without explicit factories.
+ */
+var defaultFactory = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.memoizeFunction)(function (type) { return createFactory(type); });
+/**
+ * This function generates slots that can be used in JSX given a definition of slots and their corresponding types.
+ * @param userProps - Props as pass to component.
+ * @param slots - Slot definition object defining the default slot component for each slot.
+ * @returns A set of created slots that components can render in JSX.
+ */
+function getSlots(userProps, slots) {
+    var result = {};
+    // userProps already has default props mixed in by createComponent. Recast here to gain typing for this function.
+    var mixedProps = userProps;
+    var _loop_1 = function (name_1) {
+        if (slots.hasOwnProperty(name_1)) {
+            // This closure method requires the use of withSlots to prevent unnecessary rerenders. This is because React
+            // detects each closure as a different component (since it is a new instance) from the previous one and then
+            // forces a rerender of the entire slot subtree. For now, the only way to avoid this is to use withSlots, which
+            // bypasses the call to React.createElement.
+            var slot = function (componentProps) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                if (args.length > 0) {
+                    // If React.createElement is being incorrectly used with slots, there will be additional arguments.
+                    // We can detect these additional arguments and error on their presence.
+                    throw new Error('Any module using getSlots must use withSlots. Please see withSlots javadoc for more info.');
+                }
+                // TODO: having TS infer types here seems to cause infinite loop.
+                //   use explicit types or casting to preserve typing if possible.
+                // TODO: this should be a lookup on TProps property instead of being TProps directly, which is probably
+                //   causing the infinite loop
+                return _renderSlot(slots[name_1], 
+                // TODO: this cast to any is hiding a relationship issue between the first two args
+                componentProps, mixedProps[name_1], mixedProps.slots && mixedProps.slots[name_1], 
+                // _defaultStyles should always be present, but a check for existence is added to make view tests
+                // easier to use.
+                mixedProps._defaultStyles && mixedProps._defaultStyles[name_1], mixedProps.theme);
+            };
+            slot.isSlot = true;
+            result[name_1] = slot;
+        }
+    };
+    for (var name_1 in slots) {
+        _loop_1(name_1);
+    }
+    return result;
+}
+/**
+ * Helper function that translates shorthand as needed.
+ * @param defaultProp
+ * @param slotProps
+ */
+function _translateShorthand(defaultProp, slotProps) {
+    var _a;
+    var transformedProps;
+    if (typeof slotProps === 'string' || typeof slotProps === 'number' || typeof slotProps === 'boolean') {
+        transformedProps = (_a = {},
+            _a[defaultProp] = slotProps,
+            _a);
+    }
+    else {
+        transformedProps = slotProps;
+    }
+    return transformedProps;
+}
+/**
+ * Helper function that constructs final styles and props given a series of props ordered by increasing priority.
+ */
+function _constructFinalProps(defaultStyles, theme) {
+    var allProps = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        allProps[_i - 2] = arguments[_i];
+    }
+    var finalProps = {};
+    var classNames = [];
+    for (var _a = 0, allProps_1 = allProps; _a < allProps_1.length; _a++) {
+        var props = allProps_1[_a];
+        classNames.push(props && props.className);
+        (0,_utilities__WEBPACK_IMPORTED_MODULE_3__.assign)(finalProps, props);
+    }
+    finalProps.className = (0,_fluentui_merge_styles__WEBPACK_IMPORTED_MODULE_4__.mergeCss)([defaultStyles, classNames], { rtl: (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_5__.getRTL)(theme) });
+    return finalProps;
+}
+/**
+ * Render a slot given component and user props. Uses component factory if available, otherwise falls back
+ * to default factory.
+ * @param ComponentType Factory component type.
+ * @param componentProps The properties passed into slot from within the component.
+ * @param userProps The user properties passed in from outside of the component.
+ */
+function _renderSlot(ComponentType, componentProps, userProps, slotOptions, defaultStyles, theme) {
+    if (ComponentType.create !== undefined) {
+        return ComponentType.create(componentProps, userProps, slotOptions, defaultStyles);
+    }
+    else {
+        // TODO: need to resolve typing / generic issues passing through memoizeFunction. for now, cast to 'unknown'
+        return defaultFactory(ComponentType)(componentProps, userProps, slotOptions, defaultStyles, theme);
+    }
+}
+//# sourceMappingURL=slots.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/foundation-legacy/lib/utilities.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fluentui/foundation-legacy/lib/utilities.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "assign": () => (/* binding */ assign)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+
+var assign = tslib__WEBPACK_IMPORTED_MODULE_0__.__assign;
+//# sourceMappingURL=utilities.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js":
 /*!**********************************************************************!*\
   !*** ./node_modules/@fluentui/merge-styles/lib/StyleOptionsState.js ***!
@@ -2746,6 +3096,86 @@ function useConst(initialValue) {
 
 /***/ }),
 
+/***/ "./node_modules/@fluentui/react-hooks/lib/useControllableValue.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useControllableValue.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useControllableValue": () => (/* binding */ useControllableValue)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _useConst__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useConst */ "./node_modules/@fluentui/react-hooks/lib/useConst.js");
+
+
+function useControllableValue(controlledValue, defaultUncontrolledValue, onChange) {
+    var _a = react__WEBPACK_IMPORTED_MODULE_0__.useState(defaultUncontrolledValue), value = _a[0], setValue = _a[1];
+    var isControlled = (0,_useConst__WEBPACK_IMPORTED_MODULE_1__.useConst)(controlledValue !== undefined);
+    var currentValue = isControlled ? controlledValue : value;
+    // Duplicate the current value and onChange in refs so they're accessible from
+    // setValueOrCallOnChange without creating a new callback every time
+    var valueRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(currentValue);
+    var onChangeRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(onChange);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
+        valueRef.current = currentValue;
+        onChangeRef.current = onChange;
+    });
+    // To match the behavior of the setter returned by React.useState, this callback's identity
+    // should never change. This means it MUST NOT directly reference variables that can change.
+    var setValueOrCallOnChange = (0,_useConst__WEBPACK_IMPORTED_MODULE_1__.useConst)(function () { return function (update, ev) {
+        // Assuming here that TValue is not a function, because a controllable value will typically
+        // be something a user can enter as input
+        var newValue = typeof update === 'function' ? update(valueRef.current) : update;
+        if (onChangeRef.current) {
+            onChangeRef.current(ev, newValue);
+        }
+        if (!isControlled) {
+            setValue(newValue);
+        }
+    }; });
+    return [currentValue, setValueOrCallOnChange];
+}
+//# sourceMappingURL=useControllableValue.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useId.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useId.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useId": () => (/* binding */ useId)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_utilities_lib_getId__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/utilities/lib/getId */ "./node_modules/@fluentui/utilities/lib/getId.js");
+
+
+/**
+ * Hook to generate a unique ID in the global scope (spanning across duplicate copies of the same library).
+ *
+ * @param prefix - Optional prefix for the ID
+ * @param providedId - Optional id provided by a parent component. Defaults to the provided value if present,
+ *  without conditioning the hook call
+ * @returns The ID
+ */
+function useId(prefix, providedId) {
+    // getId should only be called once since it updates the global constant for the next ID value.
+    // (While an extra update isn't likely to cause problems in practice, it's better to avoid it.)
+    var ref = react__WEBPACK_IMPORTED_MODULE_0__.useRef(providedId);
+    if (!ref.current) {
+        ref.current = (0,_fluentui_utilities_lib_getId__WEBPACK_IMPORTED_MODULE_1__.getId)(prefix);
+    }
+    return ref.current;
+}
+//# sourceMappingURL=useId.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/@fluentui/react-hooks/lib/useMergedRefs.js ***!
@@ -2854,6 +3284,68 @@ function usePrevious(value) {
     return ref.current;
 }
 //# sourceMappingURL=usePrevious.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react-hooks/lib/useRefEffect.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@fluentui/react-hooks/lib/useRefEffect.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useRefEffect": () => (/* binding */ useRefEffect)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+/**
+ * Creates a ref, and calls a callback whenever the ref changes to a non-null value. The callback can optionally return
+ * a cleanup function that'll be called before the value changes, and when the ref is unmounted.
+ *
+ * This can be used to work around a limitation that useEffect cannot depend on `ref.current` (see
+ * https://github.com/facebook/react/issues/14387#issuecomment-503616820).
+ *
+ * Usage example:
+ * ```ts
+ * const myRef = useRefEffect<HTMLElement>(element => {
+ *  ...
+ *  return () => { ... cleanup ... };
+ * });
+ * ```
+ * ```jsx
+ * <div ref={myRef} />
+ * ```
+ *
+ * @param callback - Called whenever the ref's value changes to non-null. Can optionally return a cleanup function.
+ * @param initial - (Optional) The initial value for the ref.
+ *
+ * @returns A function that should be called to set the ref's value. The object also has a `.current` member that can be
+ * used to access the ref's value (like a normal RefObject). It can be hooked up to an element's `ref` property.
+ */
+function useRefEffect(callback, initial) {
+    if (initial === void 0) { initial = null; }
+    var data = react__WEBPACK_IMPORTED_MODULE_0__.useRef({
+        ref: Object.assign(function (value) {
+            if (data.ref.current !== value) {
+                if (data.cleanup) {
+                    data.cleanup();
+                    data.cleanup = undefined;
+                }
+                data.ref.current = value;
+                if (value !== null) {
+                    data.cleanup = data.callback(value);
+                }
+            }
+        }, {
+            current: initial,
+        }),
+        callback: callback,
+    }).current;
+    data.callback = callback;
+    return data.ref;
+}
+//# sourceMappingURL=useRefEffect.js.map
 
 /***/ }),
 
@@ -3096,6 +3588,141 @@ var DirectionalHint = {
     rightBottomEdge: 13,
 };
 //# sourceMappingURL=DirectionalHint.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/ActionButton/ActionButton.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/ActionButton/ActionButton.js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ActionButton": () => (/* binding */ ActionButton)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _BaseButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../BaseButton */ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/BaseComponent.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/customizations/customizable.js");
+/* harmony import */ var _ActionButton_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ActionButton.styles */ "./node_modules/@fluentui/react/lib/components/Button/ActionButton/ActionButton.styles.js");
+
+
+
+
+
+/**
+ * {@docCategory Button}
+ */
+var ActionButton = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(ActionButton, _super);
+    function ActionButton() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ActionButton.prototype.render = function () {
+        var _a = this.props, styles = _a.styles, theme = _a.theme;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_BaseButton__WEBPACK_IMPORTED_MODULE_2__.BaseButton, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, this.props, { variantClassName: "ms-Button--action ms-Button--command", styles: (0,_ActionButton_styles__WEBPACK_IMPORTED_MODULE_3__.getStyles)(theme, styles), onRenderDescription: _Utilities__WEBPACK_IMPORTED_MODULE_4__.nullRender })));
+    };
+    ActionButton = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+        (0,_Utilities__WEBPACK_IMPORTED_MODULE_5__.customizable)('ActionButton', ['theme', 'styles'], true)
+    ], ActionButton);
+    return ActionButton;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=ActionButton.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/ActionButton/ActionButton.styles.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/ActionButton/ActionButton.styles.js ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/memoize.js");
+/* harmony import */ var _BaseButton_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../BaseButton.styles */ "./node_modules/@fluentui/react/lib/components/Button/BaseButton.styles.js");
+
+
+
+var DEFAULT_BUTTON_HEIGHT = '40px';
+var DEFAULT_PADDING = '0 4px';
+var getStyles = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.memoizeFunction)(function (theme, customStyles) {
+    var _a, _b, _c;
+    var baseButtonStyles = (0,_BaseButton_styles__WEBPACK_IMPORTED_MODULE_1__.getStyles)(theme);
+    var actionButtonStyles = {
+        root: {
+            padding: DEFAULT_PADDING,
+            height: DEFAULT_BUTTON_HEIGHT,
+            color: theme.palette.neutralPrimary,
+            backgroundColor: 'transparent',
+            border: '1px solid transparent',
+            selectors: (_a = {},
+                _a[_Styling__WEBPACK_IMPORTED_MODULE_2__.HighContrastSelector] = {
+                    borderColor: 'Window',
+                },
+                _a),
+        },
+        rootHovered: {
+            color: theme.palette.themePrimary,
+            selectors: (_b = {},
+                _b[_Styling__WEBPACK_IMPORTED_MODULE_2__.HighContrastSelector] = {
+                    color: 'Highlight',
+                },
+                _b),
+        },
+        iconHovered: {
+            color: theme.palette.themePrimary,
+        },
+        rootPressed: {
+            color: theme.palette.black,
+        },
+        rootExpanded: {
+            color: theme.palette.themePrimary,
+        },
+        iconPressed: {
+            color: theme.palette.themeDarker,
+        },
+        rootDisabled: {
+            color: theme.palette.neutralTertiary,
+            backgroundColor: 'transparent',
+            borderColor: 'transparent',
+            selectors: (_c = {},
+                _c[_Styling__WEBPACK_IMPORTED_MODULE_2__.HighContrastSelector] = {
+                    color: 'GrayText',
+                },
+                _c),
+        },
+        rootChecked: {
+            color: theme.palette.black,
+        },
+        iconChecked: {
+            color: theme.palette.themeDarker,
+        },
+        flexContainer: {
+            justifyContent: 'flex-start',
+        },
+        icon: {
+            color: theme.palette.themeDarkAlt,
+        },
+        iconDisabled: {
+            color: 'inherit',
+        },
+        menuIcon: {
+            color: theme.palette.neutralSecondary,
+        },
+        textContainer: {
+            flexGrow: 0,
+        },
+    };
+    return (0,_Styling__WEBPACK_IMPORTED_MODULE_2__.concatStyleSets)(baseButtonStyles, actionButtonStyles, customStyles);
+});
+//# sourceMappingURL=ActionButton.styles.js.map
 
 /***/ }),
 
@@ -4270,6 +4897,26 @@ function primaryStyles(theme) {
     };
 }
 //# sourceMappingURL=ButtonThemes.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Button/CommandButton/CommandButton.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Button/CommandButton/CommandButton.js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CommandButton": () => (/* binding */ CommandButton)
+/* harmony export */ });
+/* harmony import */ var _ActionButton_ActionButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ActionButton/ActionButton */ "./node_modules/@fluentui/react/lib/components/Button/ActionButton/ActionButton.js");
+
+/**
+ * {@docCategory Button}
+ */
+var CommandButton = _ActionButton_ActionButton__WEBPACK_IMPORTED_MODULE_0__.ActionButton;
+//# sourceMappingURL=CommandButton.js.map
 
 /***/ }),
 
@@ -8927,6 +9574,568 @@ var getStyles = function (props) {
 
 /***/ }),
 
+/***/ "./node_modules/@fluentui/react/lib/components/Pivot/Pivot.base.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Pivot/Pivot.base.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PivotBase": () => (/* binding */ PivotBase)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useId.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useControllableValue.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/classNamesFunction.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/warn/warn.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/css.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/KeyCodes.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/rtl.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Button */ "./node_modules/@fluentui/react/lib/components/Button/CommandButton/CommandButton.js");
+/* harmony import */ var _utilities_useOverflow__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../utilities/useOverflow */ "./node_modules/@fluentui/react/lib/utilities/useOverflow.js");
+/* harmony import */ var _FocusZone__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../FocusZone */ "./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.js");
+/* harmony import */ var _FocusZone__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../FocusZone */ "./node_modules/@fluentui/react-focus/lib/components/FocusZone/FocusZone.types.js");
+/* harmony import */ var _ContextualMenu_ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ContextualMenu/ContextualMenu.types */ "./node_modules/@fluentui/react/lib/common/DirectionalHint.js");
+/* harmony import */ var _Icon_Icon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Icon/Icon */ "./node_modules/@fluentui/react/lib/components/Icon/Icon.js");
+/* harmony import */ var _PivotItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PivotItem */ "./node_modules/@fluentui/react/lib/components/Pivot/PivotItem.js");
+
+
+
+
+
+
+
+
+
+
+var getClassNames = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__.classNamesFunction)();
+var COMPONENT_NAME = 'Pivot';
+var getTabId = function (props, pivotId, itemKey, index) {
+    if (props.getTabId) {
+        return props.getTabId(itemKey, index);
+    }
+    return pivotId + ("-Tab" + index);
+};
+// Gets the set of PivotLinks as array of IPivotItemProps
+// The set of Links is determined by child components of type PivotItem
+var getLinkItems = function (props, pivotId) {
+    var result = {
+        links: [],
+        keyToIndexMapping: {},
+        keyToTabIdMapping: {},
+    };
+    react__WEBPACK_IMPORTED_MODULE_0__.Children.forEach(react__WEBPACK_IMPORTED_MODULE_0__.Children.toArray(props.children), function (child, index) {
+        if (isPivotItem(child)) {
+            // eslint-disable-next-line deprecation/deprecation
+            var _a = child.props, linkText = _a.linkText, pivotItemProps = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__rest)(_a, ["linkText"]);
+            var itemKey = child.props.itemKey || index.toString();
+            result.links.push((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ headerText: linkText }, pivotItemProps), { itemKey: itemKey }));
+            result.keyToIndexMapping[itemKey] = index;
+            result.keyToTabIdMapping[itemKey] = getTabId(props, pivotId, itemKey, index);
+        }
+        else if (child) {
+            (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__.warn)('The children of a Pivot component must be of type PivotItem to be rendered.');
+        }
+    });
+    return result;
+};
+var isPivotItem = function (item) {
+    var _a, _b;
+    return ((_b = (_a = item) === null || _a === void 0 ? void 0 : _a.type) === null || _b === void 0 ? void 0 : _b.name) === _PivotItem__WEBPACK_IMPORTED_MODULE_4__.PivotItem.name;
+};
+var PivotBase = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, ref) {
+    var focusZoneRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    var overflowMenuButtonComponentRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    var pivotId = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_5__.useId)('Pivot');
+    var _a = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_6__.useControllableValue)(props.selectedKey, props.defaultSelectedKey), selectedKey = _a[0], setSelectedKey = _a[1];
+    var componentRef = props.componentRef, theme = props.theme, linkSize = props.linkSize, linkFormat = props.linkFormat, overflowBehavior = props.overflowBehavior, focusZoneProps = props.focusZoneProps;
+    var classNames;
+    var divProps = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.getNativeProps)(props, _fluentui_utilities__WEBPACK_IMPORTED_MODULE_7__.divProperties);
+    var linkCollection = getLinkItems(props, pivotId);
+    react__WEBPACK_IMPORTED_MODULE_0__.useImperativeHandle(componentRef, function () { return ({
+        focus: function () {
+            var _a;
+            (_a = focusZoneRef.current) === null || _a === void 0 ? void 0 : _a.focus();
+        },
+    }); });
+    var renderLinkContent = function (link) {
+        if (!link) {
+            return null;
+        }
+        var itemCount = link.itemCount, itemIcon = link.itemIcon, headerText = link.headerText;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.linkContent },
+            itemIcon !== undefined && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.icon },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon_Icon__WEBPACK_IMPORTED_MODULE_8__.Icon, { iconName: itemIcon }))),
+            headerText !== undefined && react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.text },
+                " ",
+                link.headerText),
+            itemCount !== undefined && react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: classNames.count },
+                " (",
+                itemCount,
+                ")")));
+    };
+    var renderPivotLink = function (renderLinkCollection, link, renderPivotLinkSelectedKey, className) {
+        var itemKey = link.itemKey, headerButtonProps = link.headerButtonProps, onRenderItemLink = link.onRenderItemLink;
+        var tabId = renderLinkCollection.keyToTabIdMapping[itemKey];
+        var linkContent;
+        var isSelected = renderPivotLinkSelectedKey === itemKey;
+        if (onRenderItemLink) {
+            linkContent = onRenderItemLink(link, renderLinkContent);
+        }
+        else {
+            linkContent = renderLinkContent(link);
+        }
+        var contentString = link.headerText || '';
+        contentString += link.itemCount ? ' (' + link.itemCount + ')' : '';
+        // Adding space supplementary for icon
+        contentString += link.itemIcon ? ' xx' : '';
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Button__WEBPACK_IMPORTED_MODULE_9__.CommandButton, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, headerButtonProps, { id: tabId, key: itemKey, className: (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_10__.css)(className, isSelected && classNames.linkIsSelected), 
+            // eslint-disable-next-line react/jsx-no-bind
+            onClick: function (ev) { return onLinkClick(itemKey, ev); }, 
+            // eslint-disable-next-line react/jsx-no-bind
+            onKeyDown: function (ev) { return onKeyDown(itemKey, ev); }, "aria-label": link.ariaLabel, role: link.role || 'tab', "aria-selected": isSelected, name: link.headerText, keytipProps: link.keytipProps, "data-content": contentString }), linkContent));
+    };
+    var onLinkClick = function (itemKey, ev) {
+        ev.preventDefault();
+        updateSelectedItem(itemKey, ev);
+    };
+    var onKeyDown = function (itemKey, ev) {
+        // eslint-disable-next-line deprecation/deprecation
+        if (ev.which === _fluentui_utilities__WEBPACK_IMPORTED_MODULE_11__.KeyCodes.enter) {
+            ev.preventDefault();
+            updateSelectedItem(itemKey);
+        }
+    };
+    var updateSelectedItem = function (itemKey, ev) {
+        var _a;
+        setSelectedKey(itemKey);
+        linkCollection = getLinkItems(props, pivotId);
+        if (props.onLinkClick && linkCollection.keyToIndexMapping[itemKey] >= 0) {
+            var selectedIndex = linkCollection.keyToIndexMapping[itemKey];
+            var item = react__WEBPACK_IMPORTED_MODULE_0__.Children.toArray(props.children)[selectedIndex];
+            if (isPivotItem(item)) {
+                props.onLinkClick(item, ev);
+            }
+        }
+        (_a = overflowMenuButtonComponentRef.current) === null || _a === void 0 ? void 0 : _a.dismissMenu();
+    };
+    var renderPivotItem = function (itemKey, isActive) {
+        if (props.headersOnly || !itemKey) {
+            return null;
+        }
+        var index = linkCollection.keyToIndexMapping[itemKey];
+        var selectedTabId = linkCollection.keyToTabIdMapping[itemKey];
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { role: "tabpanel", hidden: !isActive, key: itemKey, "aria-hidden": !isActive, "aria-labelledby": selectedTabId, className: classNames.itemContainer }, react__WEBPACK_IMPORTED_MODULE_0__.Children.toArray(props.children)[index]));
+    };
+    var isKeyValid = function (itemKey) {
+        return itemKey === null || (itemKey !== undefined && linkCollection.keyToIndexMapping[itemKey] !== undefined);
+    };
+    var getSelectedKey = function () {
+        if (isKeyValid(selectedKey)) {
+            return selectedKey;
+        }
+        if (linkCollection.links.length) {
+            return linkCollection.links[0].itemKey;
+        }
+        return undefined;
+    };
+    classNames = getClassNames(props.styles, {
+        theme: theme,
+        linkSize: linkSize,
+        linkFormat: linkFormat,
+    });
+    var renderedSelectedKey = getSelectedKey();
+    var renderedSelectedIndex = renderedSelectedKey ? linkCollection.keyToIndexMapping[renderedSelectedKey] : 0;
+    var items = linkCollection.links.map(function (l) {
+        return renderPivotLink(linkCollection, l, renderedSelectedKey, classNames.link);
+    });
+    // The overflow menu starts empty and items[] is updated as the overflow items change
+    var overflowMenuProps = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(function () { return ({
+        items: [],
+        alignTargetEdge: true,
+        directionalHint: _ContextualMenu_ContextualMenu_types__WEBPACK_IMPORTED_MODULE_12__.DirectionalHint.bottomRightEdge,
+    }); }, []);
+    var overflowMenuButtonRef = (0,_utilities_useOverflow__WEBPACK_IMPORTED_MODULE_13__.useOverflow)({
+        onOverflowItemsChanged: function (overflowIndex, elements) {
+            // Set data-is-overflowing on each item
+            elements.forEach(function (_a) {
+                var ele = _a.ele, isOverflowing = _a.isOverflowing;
+                return (ele.dataset.isOverflowing = "" + isOverflowing);
+            });
+            // Update the menu items
+            overflowMenuProps.items = linkCollection.links.slice(overflowIndex).map(function (link, index) { return ({
+                key: link.itemKey || "" + (overflowIndex + index),
+                onRender: function () { return renderPivotLink(linkCollection, link, renderedSelectedKey, classNames.linkInMenu); },
+            }); });
+        },
+        rtl: (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_14__.getRTL)(theme),
+        pinnedIndex: renderedSelectedIndex,
+    }).menuButtonRef;
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ role: "toolbar" }, divProps, { ref: ref }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FocusZone__WEBPACK_IMPORTED_MODULE_15__.FocusZone, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ componentRef: focusZoneRef, role: "tablist", direction: _FocusZone__WEBPACK_IMPORTED_MODULE_16__.FocusZoneDirection.horizontal }, focusZoneProps, { className: (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_10__.css)(classNames.root, focusZoneProps === null || focusZoneProps === void 0 ? void 0 : focusZoneProps.className) }),
+            items,
+            overflowBehavior === 'menu' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Button__WEBPACK_IMPORTED_MODULE_9__.CommandButton, { className: (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_10__.css)(classNames.link, classNames.overflowMenuButton), elementRef: overflowMenuButtonRef, componentRef: overflowMenuButtonComponentRef, menuProps: overflowMenuProps, menuIconProps: { iconName: 'More', style: { color: 'inherit' } } }))),
+        renderedSelectedKey &&
+            linkCollection.links.map(function (link) {
+                return (link.alwaysRender === true || renderedSelectedKey === link.itemKey) &&
+                    renderPivotItem(link.itemKey, renderedSelectedKey === link.itemKey);
+            })));
+});
+PivotBase.displayName = COMPONENT_NAME;
+//# sourceMappingURL=Pivot.base.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Pivot/Pivot.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Pivot/Pivot.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Pivot": () => (/* binding */ Pivot)
+/* harmony export */ });
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/styled.js");
+/* harmony import */ var _Pivot_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pivot.base */ "./node_modules/@fluentui/react/lib/components/Pivot/Pivot.base.js");
+/* harmony import */ var _Pivot_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Pivot.styles */ "./node_modules/@fluentui/react/lib/components/Pivot/Pivot.styles.js");
+
+
+
+/**
+ * The Pivot control and related tabs pattern are used for navigating frequently accessed,
+ * distinct content categories. Pivots allow for navigation between two or more content
+ * views and relies on text headers to articulate the different sections of content.
+ */
+var Pivot = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.styled)(_Pivot_base__WEBPACK_IMPORTED_MODULE_1__.PivotBase, _Pivot_styles__WEBPACK_IMPORTED_MODULE_2__.getStyles, undefined, {
+    scope: 'Pivot',
+});
+//# sourceMappingURL=Pivot.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Pivot/Pivot.styles.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Pivot/Pivot.styles.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getStyles": () => (/* binding */ getStyles)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/style-utilities */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/setFocusVisibility.js");
+
+
+
+var globalClassNames = {
+    count: 'ms-Pivot-count',
+    icon: 'ms-Pivot-icon',
+    linkIsSelected: 'is-selected',
+    link: 'ms-Pivot-link',
+    linkContent: 'ms-Pivot-linkContent',
+    root: 'ms-Pivot',
+    rootIsLarge: 'ms-Pivot--large',
+    rootIsTabs: 'ms-Pivot--tabs',
+    text: 'ms-Pivot-text',
+    linkInMenu: 'ms-Pivot-linkInMenu',
+    overflowMenuButton: 'ms-Pivot-overflowMenuButton',
+};
+var getLinkStyles = function (props, classNames, isLinkInOverflowMenu) {
+    var _a, _b, _c;
+    if (isLinkInOverflowMenu === void 0) { isLinkInOverflowMenu = false; }
+    var linkSize = props.linkSize, linkFormat = props.linkFormat;
+    var _d = props.theme, semanticColors = _d.semanticColors, fonts = _d.fonts;
+    var rootIsLarge = linkSize === 'large';
+    var rootIsTabs = linkFormat === 'tabs';
+    return [
+        fonts.medium,
+        {
+            color: semanticColors.actionLink,
+            padding: '0 8px',
+            position: 'relative',
+            backgroundColor: 'transparent',
+            border: 0,
+            borderRadius: 0,
+            selectors: (_a = {
+                    ':hover': {
+                        backgroundColor: semanticColors.buttonBackgroundHovered,
+                        color: semanticColors.buttonTextHovered,
+                        cursor: 'pointer',
+                    },
+                    ':active': {
+                        backgroundColor: semanticColors.buttonBackgroundPressed,
+                        color: semanticColors.buttonTextHovered,
+                    },
+                    ':focus': {
+                        outline: 'none',
+                    }
+                },
+                _a["." + _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__.IsFocusVisibleClassName + " &:focus"] = {
+                    outline: "1px solid " + semanticColors.focusBorder,
+                },
+                _a["." + _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__.IsFocusVisibleClassName + " &:focus:after"] = {
+                    content: 'attr(data-content)',
+                    position: 'relative',
+                    border: 0,
+                },
+                _a),
+        },
+        !isLinkInOverflowMenu && [
+            {
+                display: 'inline-block',
+                lineHeight: 44,
+                height: 44,
+                marginRight: 8,
+                textAlign: 'center',
+                selectors: {
+                    ':before': {
+                        backgroundColor: 'transparent',
+                        bottom: 0,
+                        content: '""',
+                        height: 2,
+                        left: 8,
+                        position: 'absolute',
+                        right: 8,
+                        transition: "left " + _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.AnimationVariables.durationValue2 + " " + _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.AnimationVariables.easeFunction2 + ",\n                        right " + _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.AnimationVariables.durationValue2 + " " + _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.AnimationVariables.easeFunction2,
+                    },
+                    ':after': {
+                        color: 'transparent',
+                        content: 'attr(data-content)',
+                        display: 'block',
+                        fontWeight: _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.FontWeights.bold,
+                        height: 1,
+                        overflow: 'hidden',
+                        visibility: 'hidden',
+                    },
+                },
+            },
+            rootIsLarge && {
+                fontSize: fonts.large.fontSize,
+            },
+            rootIsTabs && [
+                {
+                    marginRight: 0,
+                    height: 44,
+                    lineHeight: 44,
+                    backgroundColor: semanticColors.buttonBackground,
+                    padding: '0 10px',
+                    verticalAlign: 'top',
+                    selectors: (_b = {
+                            ':focus': {
+                                outlineOffset: '-1px',
+                            }
+                        },
+                        _b["." + _fluentui_utilities__WEBPACK_IMPORTED_MODULE_1__.IsFocusVisibleClassName + " &:focus::before"] = {
+                            height: 'auto',
+                            background: 'transparent',
+                            transition: 'none',
+                        },
+                        _b['&:hover, &:focus'] = {
+                            color: semanticColors.buttonTextCheckedHovered,
+                        },
+                        _b['&:active, &:hover'] = {
+                            color: semanticColors.primaryButtonText,
+                            backgroundColor: semanticColors.primaryButtonBackground,
+                        },
+                        _b["&." + classNames.linkIsSelected] = {
+                            backgroundColor: semanticColors.primaryButtonBackground,
+                            color: semanticColors.primaryButtonText,
+                            fontWeight: _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.FontWeights.regular,
+                            selectors: (_c = {
+                                    ':before': {
+                                        backgroundColor: 'transparent',
+                                        transition: 'none',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        content: '""',
+                                        height: 0,
+                                    },
+                                    ':hover': {
+                                        backgroundColor: semanticColors.primaryButtonBackgroundHovered,
+                                        color: semanticColors.primaryButtonText,
+                                    },
+                                    '&:active': {
+                                        backgroundColor: semanticColors.primaryButtonBackgroundPressed,
+                                        color: semanticColors.primaryButtonText,
+                                    }
+                                },
+                                _c[_fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ fontWeight: _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold, color: 'HighlightText', background: 'Highlight' }, (0,_fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.getHighContrastNoAdjustStyle)()),
+                                _c),
+                        },
+                        _b),
+                },
+            ],
+        ],
+    ];
+};
+var getStyles = function (props) {
+    var _a, _b, _c, _d;
+    var className = props.className, linkSize = props.linkSize, linkFormat = props.linkFormat, theme = props.theme;
+    var semanticColors = theme.semanticColors, fonts = theme.fonts;
+    var classNames = (0,_fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(globalClassNames, theme);
+    var rootIsLarge = linkSize === 'large';
+    var rootIsTabs = linkFormat === 'tabs';
+    return {
+        root: [
+            classNames.root,
+            fonts.medium,
+            _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.normalize,
+            {
+                position: 'relative',
+                color: semanticColors.link,
+                whiteSpace: 'nowrap',
+            },
+            rootIsLarge && classNames.rootIsLarge,
+            rootIsTabs && classNames.rootIsTabs,
+            className,
+        ],
+        itemContainer: {
+            selectors: {
+                '&[hidden]': {
+                    display: 'none',
+                },
+            },
+        },
+        link: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__spreadArrays)([
+            classNames.link
+        ], getLinkStyles(props, classNames), [
+            (_a = {},
+                _a["&[data-is-overflowing='true']"] = {
+                    display: 'none',
+                },
+                _a),
+        ]),
+        overflowMenuButton: [
+            classNames.overflowMenuButton,
+            (_b = {
+                    visibility: 'hidden',
+                    position: 'absolute',
+                    right: 0
+                },
+                _b["." + classNames.link + "[data-is-overflowing='true'] ~ &"] = {
+                    visibility: 'visible',
+                    position: 'relative',
+                },
+                _b),
+        ],
+        linkInMenu: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__spreadArrays)([
+            classNames.linkInMenu
+        ], getLinkStyles(props, classNames, true), [
+            {
+                textAlign: 'left',
+                width: '100%',
+                height: 36,
+                lineHeight: 36,
+            },
+        ]),
+        linkIsSelected: [
+            classNames.link,
+            classNames.linkIsSelected,
+            {
+                fontWeight: _fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.FontWeights.semibold,
+                selectors: (_c = {
+                        ':before': {
+                            backgroundColor: semanticColors.inputBackgroundChecked,
+                            selectors: (_d = {},
+                                _d[_fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                                    backgroundColor: 'Highlight',
+                                },
+                                _d),
+                        },
+                        ':hover::before': {
+                            left: 0,
+                            right: 0,
+                        }
+                    },
+                    _c[_fluentui_style_utilities__WEBPACK_IMPORTED_MODULE_0__.HighContrastSelector] = {
+                        color: 'Highlight',
+                    },
+                    _c),
+            },
+        ],
+        linkContent: [
+            classNames.linkContent,
+            {
+                flex: '0 1 100%',
+                selectors: {
+                    '& > * ': {
+                        marginLeft: 4,
+                    },
+                    '& > *:first-child': {
+                        marginLeft: 0,
+                    },
+                },
+            },
+        ],
+        text: [
+            classNames.text,
+            {
+                display: 'inline-block',
+                verticalAlign: 'top',
+            },
+        ],
+        count: [
+            classNames.count,
+            {
+                display: 'inline-block',
+                verticalAlign: 'top',
+            },
+        ],
+        icon: classNames.icon,
+    };
+};
+//# sourceMappingURL=Pivot.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Pivot/PivotItem.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Pivot/PivotItem.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PivotItem": () => (/* binding */ PivotItem)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/initializeComponentRef.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+
+
+
+var COMPONENT_NAME = 'PivotItem';
+var PivotItem = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__extends)(PivotItem, _super);
+    function PivotItem(props) {
+        var _this = _super.call(this, props) || this;
+        (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_2__.initializeComponentRef)(_this);
+        (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__.warnDeprecations)(COMPONENT_NAME, props, {
+            linkText: 'headerText',
+        });
+        return _this;
+    }
+    PivotItem.prototype.render = function () {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_4__.getNativeProps)(this.props, _fluentui_utilities__WEBPACK_IMPORTED_MODULE_4__.divProperties)), this.props.children);
+    };
+    return PivotItem;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+//# sourceMappingURL=PivotItem.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@fluentui/react/lib/components/Popup/Popup.js":
 /*!********************************************************************!*\
   !*** ./node_modules/@fluentui/react/lib/components/Popup/Popup.js ***!
@@ -9092,6 +10301,455 @@ var Popup = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, forwa
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__assign)({ ref: mergedRootRef }, (0,_Utilities__WEBPACK_IMPORTED_MODULE_10__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_10__.divProperties), { className: className, role: role, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, "aria-describedby": ariaDescribedBy, onKeyDown: onKeyDown, style: (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__assign)({ overflowY: needsVerticalScrollBar ? 'scroll' : undefined, outline: 'none' }, style) }), children));
 });
 //# sourceMappingURL=Popup.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Stack/Stack.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Stack/Stack.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Stack": () => (/* binding */ Stack),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/foundation-legacy */ "./node_modules/@fluentui/foundation-legacy/lib/slots.js");
+/* harmony import */ var _fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fluentui/foundation-legacy */ "./node_modules/@fluentui/foundation-legacy/lib/createComponent.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/warn/warnDeprecations.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _Stack_styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Stack.styles */ "./node_modules/@fluentui/react/lib/components/Stack/Stack.styles.js");
+/* harmony import */ var _StackItem_StackItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./StackItem/StackItem */ "./node_modules/@fluentui/react/lib/components/Stack/StackItem/StackItem.js");
+
+/** @jsxRuntime classic */
+/** @jsx withSlots */
+
+
+
+
+
+var StackView = function (props) {
+    var _a = props.as, RootType = _a === void 0 ? 'div' : _a, disableShrink = props.disableShrink, wrap = props.wrap, rest = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__rest)(props, ["as", "disableShrink", "wrap"]);
+    (0,_Utilities__WEBPACK_IMPORTED_MODULE_2__.warnDeprecations)('Stack', props, {
+        gap: 'tokens.childrenGap',
+        maxHeight: 'tokens.maxHeight',
+        maxWidth: 'tokens.maxWidth',
+        padding: 'tokens.padding',
+    });
+    var stackChildren = react__WEBPACK_IMPORTED_MODULE_0__.Children.map(props.children, function (child, index) {
+        if (!child) {
+            return null;
+        }
+        if (_isStackItem(child)) {
+            var defaultItemProps = {
+                shrink: !disableShrink,
+            };
+            return react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(child, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, defaultItemProps), child.props));
+        }
+        return child;
+    });
+    var nativeProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_3__.getNativeProps)(rest, _Utilities__WEBPACK_IMPORTED_MODULE_3__.htmlElementProperties);
+    var Slots = (0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_4__.getSlots)(props, {
+        root: RootType,
+        inner: 'div',
+    });
+    if (wrap) {
+        return ((0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_4__.withSlots)(Slots.root, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, nativeProps),
+            (0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_4__.withSlots)(Slots.inner, null, stackChildren)));
+    }
+    return (0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_4__.withSlots)(Slots.root, (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__assign)({}, nativeProps), stackChildren);
+};
+function _isStackItem(item) {
+    // In theory, we should be able to just check item.type === StackItem.
+    // However, under certain unclear circumstances (see https://github.com/microsoft/fluentui/issues/10785),
+    // the object identity is different despite the function implementation being the same.
+    return (!!item &&
+        typeof item === 'object' &&
+        !!item.type &&
+        // StackItem is generated by createComponent, so we need to check its displayName instead of name
+        item.type.displayName === _StackItem_StackItem__WEBPACK_IMPORTED_MODULE_5__.StackItem.displayName);
+}
+var StackStatics = {
+    Item: _StackItem_StackItem__WEBPACK_IMPORTED_MODULE_5__.StackItem,
+};
+var Stack = (0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_6__.createComponent)(StackView, {
+    displayName: 'Stack',
+    styles: _Stack_styles__WEBPACK_IMPORTED_MODULE_7__.styles,
+    statics: StackStatics,
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Stack);
+//# sourceMappingURL=Stack.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Stack/Stack.styles.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Stack/Stack.styles.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "styles": () => (/* binding */ styles)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _StackUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StackUtils */ "./node_modules/@fluentui/react/lib/components/Stack/StackUtils.js");
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+
+
+var nameMap = {
+    start: 'flex-start',
+    end: 'flex-end',
+};
+var GlobalClassNames = {
+    root: 'ms-Stack',
+    inner: 'ms-Stack-inner',
+};
+var styles = function (props, theme, tokens) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    var verticalFill = props.verticalFill, horizontal = props.horizontal, reversed = props.reversed, grow = props.grow, wrap = props.wrap, horizontalAlign = props.horizontalAlign, verticalAlign = props.verticalAlign, disableShrink = props.disableShrink, className = props.className;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    /* eslint-disable deprecation/deprecation */
+    var childrenGap = tokens && tokens.childrenGap ? tokens.childrenGap : props.gap;
+    var maxHeight = tokens && tokens.maxHeight ? tokens.maxHeight : props.maxHeight;
+    var maxWidth = tokens && tokens.maxWidth ? tokens.maxWidth : props.maxWidth;
+    var padding = tokens && tokens.padding ? tokens.padding : props.padding;
+    /* eslint-enable deprecation/deprecation */
+    var _h = (0,_StackUtils__WEBPACK_IMPORTED_MODULE_1__.parseGap)(childrenGap, theme), rowGap = _h.rowGap, columnGap = _h.columnGap;
+    var horizontalMargin = "" + -0.5 * columnGap.value + columnGap.unit;
+    var verticalMargin = "" + -0.5 * rowGap.value + rowGap.unit;
+    // styles to be applied to all direct children regardless of wrap or direction
+    var childStyles = {
+        textOverflow: 'ellipsis',
+    };
+    // selectors to be applied regardless of wrap or direction
+    var commonSelectors = {
+        // flexShrink styles are applied by the StackItem
+        '> *:not(.ms-StackItem)': {
+            flexShrink: disableShrink ? 0 : 1,
+        },
+    };
+    if (wrap) {
+        return {
+            root: [
+                classNames.root,
+                {
+                    flexWrap: 'wrap',
+                    maxWidth: maxWidth,
+                    maxHeight: maxHeight,
+                    width: 'auto',
+                    overflow: 'visible',
+                    height: '100%',
+                },
+                horizontalAlign && (_a = {},
+                    _a[horizontal ? 'justifyContent' : 'alignItems'] = nameMap[horizontalAlign] || horizontalAlign,
+                    _a),
+                verticalAlign && (_b = {},
+                    _b[horizontal ? 'alignItems' : 'justifyContent'] = nameMap[verticalAlign] || verticalAlign,
+                    _b),
+                className,
+                {
+                    // not allowed to be overridden by className
+                    // since this is necessary in order to prevent collapsing margins
+                    display: 'flex',
+                },
+                horizontal && {
+                    height: verticalFill ? '100%' : 'auto',
+                },
+            ],
+            inner: [
+                classNames.inner,
+                {
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginLeft: horizontalMargin,
+                    marginRight: horizontalMargin,
+                    marginTop: verticalMargin,
+                    marginBottom: verticalMargin,
+                    overflow: 'visible',
+                    boxSizing: 'border-box',
+                    padding: (0,_StackUtils__WEBPACK_IMPORTED_MODULE_1__.parsePadding)(padding, theme),
+                    // avoid unnecessary calc() calls if horizontal gap is 0
+                    width: columnGap.value === 0 ? '100%' : "calc(100% + " + columnGap.value + columnGap.unit + ")",
+                    maxWidth: '100vw',
+                    selectors: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ '> *': (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({ margin: "" + 0.5 * rowGap.value + rowGap.unit + " " + 0.5 * columnGap.value + columnGap.unit }, childStyles) }, commonSelectors),
+                },
+                horizontalAlign && (_c = {},
+                    _c[horizontal ? 'justifyContent' : 'alignItems'] = nameMap[horizontalAlign] || horizontalAlign,
+                    _c),
+                verticalAlign && (_d = {},
+                    _d[horizontal ? 'alignItems' : 'justifyContent'] = nameMap[verticalAlign] || verticalAlign,
+                    _d),
+                horizontal && {
+                    flexDirection: reversed ? 'row-reverse' : 'row',
+                    // avoid unnecessary calc() calls if vertical gap is 0
+                    height: rowGap.value === 0 ? '100%' : "calc(100% + " + rowGap.value + rowGap.unit + ")",
+                    selectors: {
+                        '> *': {
+                            maxWidth: columnGap.value === 0 ? '100%' : "calc(100% - " + columnGap.value + columnGap.unit + ")",
+                        },
+                    },
+                },
+                !horizontal && {
+                    flexDirection: reversed ? 'column-reverse' : 'column',
+                    height: "calc(100% + " + rowGap.value + rowGap.unit + ")",
+                    selectors: {
+                        '> *': {
+                            maxHeight: rowGap.value === 0 ? '100%' : "calc(100% - " + rowGap.value + rowGap.unit + ")",
+                        },
+                    },
+                },
+            ],
+        };
+    }
+    return {
+        root: [
+            classNames.root,
+            {
+                display: 'flex',
+                flexDirection: horizontal ? (reversed ? 'row-reverse' : 'row') : reversed ? 'column-reverse' : 'column',
+                flexWrap: 'nowrap',
+                width: 'auto',
+                height: verticalFill ? '100%' : 'auto',
+                maxWidth: maxWidth,
+                maxHeight: maxHeight,
+                padding: (0,_StackUtils__WEBPACK_IMPORTED_MODULE_1__.parsePadding)(padding, theme),
+                boxSizing: 'border-box',
+                selectors: (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)((_e = { '> *': childStyles }, _e[reversed ? '> *:not(:last-child)' : '> *:not(:first-child)'] = [
+                    horizontal && {
+                        marginLeft: "" + columnGap.value + columnGap.unit,
+                    },
+                    !horizontal && {
+                        marginTop: "" + rowGap.value + rowGap.unit,
+                    },
+                ], _e), commonSelectors),
+            },
+            grow && {
+                flexGrow: grow === true ? 1 : grow,
+            },
+            horizontalAlign && (_f = {},
+                _f[horizontal ? 'justifyContent' : 'alignItems'] = nameMap[horizontalAlign] || horizontalAlign,
+                _f),
+            verticalAlign && (_g = {},
+                _g[horizontal ? 'alignItems' : 'justifyContent'] = nameMap[verticalAlign] || verticalAlign,
+                _g),
+            className,
+        ],
+    };
+};
+//# sourceMappingURL=Stack.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Stack/StackItem/StackItem.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Stack/StackItem/StackItem.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "StackItem": () => (/* binding */ StackItem),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/foundation-legacy */ "./node_modules/@fluentui/foundation-legacy/lib/slots.js");
+/* harmony import */ var _fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/foundation-legacy */ "./node_modules/@fluentui/foundation-legacy/lib/createComponent.js");
+/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilities */ "./node_modules/@fluentui/utilities/lib/properties.js");
+/* harmony import */ var _StackItem_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./StackItem.styles */ "./node_modules/@fluentui/react/lib/components/Stack/StackItem/StackItem.styles.js");
+
+
+
+
+var StackItemView = function (props) {
+    var children = props.children;
+    var nativeProps = (0,_Utilities__WEBPACK_IMPORTED_MODULE_0__.getNativeProps)(props, _Utilities__WEBPACK_IMPORTED_MODULE_0__.htmlElementProperties);
+    // eslint-disable-next-line eqeqeq
+    if (children == null) {
+        return null;
+    }
+    var Slots = (0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_1__.getSlots)(props, {
+        root: 'div',
+    });
+    return (0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_1__.withSlots)(Slots.root, (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__assign)({}, nativeProps), children);
+};
+var StackItem = (0,_fluentui_foundation_legacy__WEBPACK_IMPORTED_MODULE_3__.createComponent)(StackItemView, {
+    displayName: 'StackItem',
+    styles: _StackItem_styles__WEBPACK_IMPORTED_MODULE_4__.StackItemStyles,
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StackItem);
+//# sourceMappingURL=StackItem.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Stack/StackItem/StackItem.styles.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Stack/StackItem/StackItem.styles.js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "StackItemStyles": () => (/* binding */ StackItemStyles)
+/* harmony export */ });
+/* harmony import */ var _Styling__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Styling */ "./node_modules/@fluentui/style-utilities/lib/index.js");
+
+var GlobalClassNames = {
+    root: 'ms-StackItem',
+};
+var alignMap = {
+    start: 'flex-start',
+    end: 'flex-end',
+};
+var StackItemStyles = function (props, theme, tokens) {
+    var grow = props.grow, shrink = props.shrink, disableShrink = props.disableShrink, align = props.align, verticalFill = props.verticalFill, order = props.order, className = props.className;
+    var classNames = (0,_Styling__WEBPACK_IMPORTED_MODULE_0__.getGlobalClassNames)(GlobalClassNames, theme);
+    return {
+        root: [
+            theme.fonts.medium,
+            classNames.root,
+            {
+                margin: tokens.margin,
+                padding: tokens.padding,
+                height: verticalFill ? '100%' : 'auto',
+                width: 'auto',
+            },
+            grow && { flexGrow: grow === true ? 1 : grow },
+            (disableShrink || (!grow && !shrink)) && {
+                flexShrink: 0,
+            },
+            shrink &&
+                !disableShrink && {
+                flexShrink: 1,
+            },
+            align && {
+                alignSelf: alignMap[align] || align,
+            },
+            order && {
+                order: order,
+            },
+            className,
+        ],
+    };
+};
+//# sourceMappingURL=StackItem.styles.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/components/Stack/StackUtils.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/components/Stack/StackUtils.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "parseGap": () => (/* binding */ parseGap),
+/* harmony export */   "parsePadding": () => (/* binding */ parsePadding)
+/* harmony export */ });
+/**
+ * Functions used by Stack components to simplify style-related computations
+ */
+// Helper function that converts a themed spacing key (if given) to the corresponding themed spacing value.
+var _getThemedSpacing = function (space, theme) {
+    if (theme.spacing.hasOwnProperty(space)) {
+        return theme.spacing[space];
+    }
+    return space;
+};
+// Helper function that takes a gap as a string and converts it into a { value, unit } representation.
+var _getValueUnitGap = function (gap) {
+    var numericalPart = parseFloat(gap);
+    var numericalValue = isNaN(numericalPart) ? 0 : numericalPart;
+    var numericalString = isNaN(numericalPart) ? '' : numericalPart.toString();
+    var unitPart = gap.substring(numericalString.toString().length);
+    return {
+        value: numericalValue,
+        unit: unitPart || 'px',
+    };
+};
+/**
+ * Takes in a gap size in either a CSS-style format (e.g. 10 or "10px")
+ *  or a key of a themed spacing value (e.g. "s1").
+ * Returns the separate numerical value of the padding (e.g. 10)
+ *  and the CSS unit (e.g. "px").
+ */
+var parseGap = function (gap, theme) {
+    if (gap === undefined || gap === '') {
+        return {
+            rowGap: {
+                value: 0,
+                unit: 'px',
+            },
+            columnGap: {
+                value: 0,
+                unit: 'px',
+            },
+        };
+    }
+    if (typeof gap === 'number') {
+        return {
+            rowGap: {
+                value: gap,
+                unit: 'px',
+            },
+            columnGap: {
+                value: gap,
+                unit: 'px',
+            },
+        };
+    }
+    var splitGap = gap.split(' ');
+    // If the array has more than two values, then return 0px.
+    if (splitGap.length > 2) {
+        return {
+            rowGap: {
+                value: 0,
+                unit: 'px',
+            },
+            columnGap: {
+                value: 0,
+                unit: 'px',
+            },
+        };
+    }
+    // If the array has two values, then parse each one.
+    if (splitGap.length === 2) {
+        return {
+            rowGap: _getValueUnitGap(_getThemedSpacing(splitGap[0], theme)),
+            columnGap: _getValueUnitGap(_getThemedSpacing(splitGap[1], theme)),
+        };
+    }
+    // Else, parse the numerical value and pass it as both the vertical and horizontal gap.
+    var calculatedGap = _getValueUnitGap(_getThemedSpacing(gap, theme));
+    return {
+        rowGap: calculatedGap,
+        columnGap: calculatedGap,
+    };
+};
+/**
+ * Takes in a padding in a CSS-style format (e.g. 10, "10px", "10px 10px", etc.)
+ *  where the separate padding values can also be the key of a themed spacing value
+ *  (e.g. "s1 m", "10px l1 20px l2", etc.).
+ * Returns a CSS-style padding.
+ */
+var parsePadding = function (padding, theme) {
+    if (padding === undefined || typeof padding === 'number' || padding === '') {
+        return padding;
+    }
+    var paddingValues = padding.split(' ');
+    if (paddingValues.length < 2) {
+        return _getThemedSpacing(padding, theme);
+    }
+    return paddingValues.reduce(function (padding1, padding2) {
+        return _getThemedSpacing(padding1, theme) + ' ' + _getThemedSpacing(padding2, theme);
+    });
+};
+//# sourceMappingURL=StackUtils.js.map
 
 /***/ }),
 
@@ -9731,6 +11389,66 @@ function getAriaDescribedBy(keySequences) {
     return describedby + ' ' + sequencesToID(keySequences);
 }
 //# sourceMappingURL=KeytipUtils.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/observeResize.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/observeResize.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "observeResize": () => (/* binding */ observeResize)
+/* harmony export */ });
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+
+/**
+ * Wrapper for ResizeObserver, with fallback for browsers that don't support ResizeObserver.
+ *
+ * Calls the onResize callback once layout is complete, and again whenever any of the target(s) change size.
+ * Or if ResizeObserver isn't supported, calls the callback whenever the window changes size.
+ *
+ * @param target - Either a single element, or array of elements to watch for size changes.
+ * @param onResize - Callback to be notified when layout is complete, and when the target(s) change size.
+ *    If this browser supports ResizeObserver, the callback will be passed the ResizeObserverEntry[] array.
+ *    Otherwise, the entries array will be undefined, and you'll need to find another way to get the element's size,
+ *    (e.g. clientWidth/clientHeight or getBoundingClientRect).
+ *
+ * @returns A function to clean up the observer/listener.
+ */
+var observeResize = function (target, onResize) {
+    if (typeof ResizeObserver !== 'undefined') {
+        var observer_1 = new ResizeObserver(onResize);
+        if (Array.isArray(target)) {
+            target.forEach(function (t) { return observer_1.observe(t); });
+        }
+        else {
+            observer_1.observe(target);
+        }
+        return function () { return observer_1.disconnect(); };
+    }
+    else {
+        // Fallback for browsers that don't support ResizeObserver
+        var onResizeWrapper_1 = function () { return onResize(undefined); };
+        var win_1 = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_0__.getWindow)(Array.isArray(target) ? target[0] : target);
+        if (!win_1) {
+            // Can't listen for resize if we can't get the window object
+            return function () {
+                // Nothing to clean up
+            };
+        }
+        // Listen for the first animation frame, which will happen after layout is complete
+        var animationFrameId_1 = win_1.requestAnimationFrame(onResizeWrapper_1);
+        win_1.addEventListener('resize', onResizeWrapper_1, false);
+        return function () {
+            win_1.cancelAnimationFrame(animationFrameId_1);
+            win_1.removeEventListener('resize', onResizeWrapper_1, false);
+        };
+    }
+};
+//# sourceMappingURL=observeResize.js.map
 
 /***/ }),
 
@@ -10446,6 +12164,149 @@ var Position;
     Position[Position["end"] = 3] = "end";
 })(Position || (Position = {}));
 //# sourceMappingURL=positioning.types.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@fluentui/react/lib/utilities/useOverflow.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fluentui/react/lib/utilities/useOverflow.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useOverflow": () => (/* binding */ useOverflow)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fluentui/react-hooks */ "./node_modules/@fluentui/react-hooks/lib/useRefEffect.js");
+/* harmony import */ var _fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/utilities */ "./node_modules/@fluentui/utilities/lib/dom/getWindow.js");
+/* harmony import */ var _observeResize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./observeResize */ "./node_modules/@fluentui/react/lib/utilities/observeResize.js");
+
+
+
+
+/**
+ * Track whether any items don't fit within their container, and move them to the overflow menu.
+ * Items are moved into the overflow menu from back to front, excluding pinned items.
+ *
+ * The overflow menu button must be the last sibling of all of the items that can be put into the overflow, and it
+ * must be hooked up to the `setMenuButtonRef` setter function that's returned by `useOverflow`:
+ * ```ts
+ * const overflow = useOverflow(...);
+ * ```
+ * ```jsx
+ * <Container>
+ *  <Item /> // Index 0
+ *  <Item /> // Index 1
+ *  ...
+ *  <Button ref={overflow.setMenuButtonRef} /> // Can be any React.Component or HTMLElement
+ * </Container>
+ * ```
+ */
+var useOverflow = function (_a) {
+    var onOverflowItemsChanged = _a.onOverflowItemsChanged, rtl = _a.rtl, pinnedIndex = _a.pinnedIndex;
+    var updateOverflowRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    var containerWidthRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    // Attach a resize observer to the container
+    var containerRef = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_1__.useRefEffect)(function (container) {
+        var cleanupObserver = (0,_observeResize__WEBPACK_IMPORTED_MODULE_2__.observeResize)(container, function (entries) {
+            containerWidthRef.current = entries ? entries[0].contentRect.width : container.clientWidth;
+            if (updateOverflowRef.current) {
+                updateOverflowRef.current();
+            }
+        });
+        return function () {
+            cleanupObserver();
+            containerWidthRef.current = undefined;
+        };
+    });
+    var menuButtonRef = (0,_fluentui_react_hooks__WEBPACK_IMPORTED_MODULE_1__.useRefEffect)(function (menuButton) {
+        containerRef(menuButton.parentElement);
+        return function () { return containerRef(null); };
+    });
+    // eslint-disable-next-line no-restricted-properties
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(function () {
+        var container = containerRef.current;
+        var menuButton = menuButtonRef.current;
+        if (!container || !menuButton) {
+            return;
+        }
+        // items contains the container's children, excluding the overflow menu button itself
+        var items = [];
+        for (var i = 0; i < container.children.length; i++) {
+            var item = container.children[i];
+            if (item instanceof HTMLElement && item !== menuButton) {
+                items.push(item);
+            }
+        }
+        // Keep track of the minimum width of the container to fit each child index.
+        // This cache is an integral part of the algorithm and not just a performance optimization: it allows us to
+        // recalculate the overflowIndex on subsequent resizes even if some items are already inside the overflow.
+        var minContainerWidth = [];
+        var extraWidth = 0; // The accumulated width of items that don't move into the overflow
+        updateOverflowRef.current = function () {
+            var containerWidth = containerWidthRef.current;
+            if (containerWidth === undefined) {
+                return;
+            }
+            // Iterate the items in reverse order until we find one that fits within the bounds of the container
+            for (var i = items.length - 1; i >= 0; i--) {
+                // Calculate the min container width for this item if we haven't done so yet
+                if (minContainerWidth[i] === undefined) {
+                    var itemOffsetEnd = rtl ? containerWidth - items[i].offsetLeft : items[i].offsetLeft + items[i].offsetWidth;
+                    // If the item after this one is pinned, reserve space for it
+                    if (i + 1 < items.length && i + 1 === pinnedIndex) {
+                        // Use distance between the end of the previous item and this one (rather than the
+                        // pinned item's offsetWidth), to account for any margin between the items.
+                        extraWidth = minContainerWidth[i + 1] - itemOffsetEnd;
+                    }
+                    // Reserve space for the menu button after the first item was added to the overflow
+                    if (i === items.length - 2) {
+                        extraWidth += menuButton.offsetWidth;
+                    }
+                    minContainerWidth[i] = itemOffsetEnd + extraWidth;
+                }
+                if (containerWidth > minContainerWidth[i]) {
+                    setOverflowIndex(i + 1);
+                    return;
+                }
+            }
+            // If we got here, nothing fits outside the overflow
+            setOverflowIndex(0);
+        };
+        var prevOverflowIndex = items.length;
+        var setOverflowIndex = function (overflowIndex) {
+            if (prevOverflowIndex !== overflowIndex) {
+                prevOverflowIndex = overflowIndex;
+                onOverflowItemsChanged(overflowIndex, items.map(function (ele, index) { return ({
+                    ele: ele,
+                    isOverflowing: index >= overflowIndex && index !== pinnedIndex,
+                }); }));
+            }
+        };
+        var cancelAnimationFrame = undefined;
+        // If the container width is already known from a previous render, update the overflow with its width.
+        // Do this in an animation frame to avoid forcing layout to happen early.
+        if (containerWidthRef.current !== undefined) {
+            var win_1 = (0,_fluentui_utilities__WEBPACK_IMPORTED_MODULE_3__.getWindow)(container);
+            if (win_1) {
+                var animationFrameId_1 = win_1.requestAnimationFrame(updateOverflowRef.current);
+                cancelAnimationFrame = function () { return win_1.cancelAnimationFrame(animationFrameId_1); };
+            }
+        }
+        return function () {
+            if (cancelAnimationFrame) {
+                cancelAnimationFrame();
+            }
+            // On cleanup, need to remove all items from the overflow
+            // so they don't have stale properties on the next render
+            setOverflowIndex(items.length);
+            updateOverflowRef.current = undefined;
+        };
+    });
+    return { menuButtonRef: menuButtonRef };
+};
+//# sourceMappingURL=useOverflow.js.map
 
 /***/ }),
 
@@ -17855,17 +19716,24 @@ var Icon = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(Icon);
 
-  function Icon() {
+  function Icon(props) {
+    var _this;
+
     _classCallCheck(this, Icon);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.state = {
+      isCenter: props.isCenter ? props.isCenter : false
+    };
+    return _this;
   }
 
   _createClass(Icon, [{
     key: "render",
     value: function render() {
+      var divId = this.state.isCenter ? "indexIcon" : "playIcon";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        id: "icon"
+        id: divId
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Battleship"));
     }
   }]);
@@ -17874,6 +19742,104 @@ var Icon = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Icon);
+
+/***/ }),
+
+/***/ "./src/main/webapp/javascript/header/HeaderBar.jsx":
+/*!*********************************************************!*\
+  !*** ./src/main/webapp/javascript/header/HeaderBar.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _fluentui_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fluentui/react */ "./node_modules/@fluentui/react/lib/components/Stack/Stack.js");
+/* harmony import */ var _fluentui_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/react */ "./node_modules/@fluentui/react/lib/components/Pivot/Pivot.js");
+/* harmony import */ var _fluentui_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/react */ "./node_modules/@fluentui/react/lib/components/Pivot/PivotItem.js");
+/* harmony import */ var _css_header_header_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../css/header/header.css */ "./src/main/webapp/css/header/header.css");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Icon */ "./src/main/webapp/javascript/Icon.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var HeaderBar = /*#__PURE__*/function (_Component) {
+  _inherits(HeaderBar, _Component);
+
+  var _super = _createSuper(HeaderBar);
+
+  function HeaderBar(props) {
+    _classCallCheck(this, HeaderBar);
+
+    return _super.call(this, props);
+  }
+
+  _createClass(HeaderBar, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_3__.Stack, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_2__.default, {
+        isCenter: false
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_4__.Pivot, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_5__.PivotItem, {
+        headerText: "Game"
+      }))));
+    }
+  }]);
+
+  return HeaderBar;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HeaderBar);
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/main/webapp/css/header/header.css":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/main/webapp/css/header/header.css ***!
+  \*************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "", "",{"version":3,"sources":[],"names":[],"mappings":"","sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
 
 /***/ }),
 
@@ -17896,7 +19862,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}\n\n.indexButton {\n    width: 200px;\n}\n", "",{"version":3,"sources":["webpack://./src/main/webapp/css/main.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,cAAc;IACd,YAAY;AAChB;;AAEA;IACI,iBAAiB;IACjB,8CAA8C;IAC9C,eAAe;IACf,kBAAkB;IAClB,YAAY;IACZ,YAAY;AAChB;;AAEA;IACI,YAAY;AAChB","sourcesContent":["#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#icon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}\n\n.indexButton {\n    width: 200px;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#playIcon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}\n\n.indexButton {\n    position: relative;\n    margin: 30px;\n    width: 200px;\n    height: 50px;\n    font-size: large;\n}\n\n#indexIcon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n    margin: 0 auto;\n}\n\n#indexDiv {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    transform: translate(-50%, -50%);\n}\n", "",{"version":3,"sources":["webpack://./src/main/webapp/css/main.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,cAAc;IACd,YAAY;AAChB;;AAEA;IACI,iBAAiB;IACjB,8CAA8C;IAC9C,eAAe;IACf,kBAAkB;IAClB,YAAY;IACZ,YAAY;AAChB;;AAEA;IACI,kBAAkB;IAClB,YAAY;IACZ,YAAY;IACZ,YAAY;IACZ,gBAAgB;AACpB;;AAEA;IACI,iBAAiB;IACjB,8CAA8C;IAC9C,kBAAkB;IAClB,YAAY;IACZ,YAAY;IACZ,cAAc;AAClB;;AAEA;IACI,kBAAkB;IAClB,SAAS;IACT,QAAQ;IACR,gCAAgC;AACpC","sourcesContent":["#main {\n    background: #eff;\n    margin: 0 auto;\n    width: 800px;\n}\n\n#playIcon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    padding: 10px 0;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n}\n\n.indexButton {\n    position: relative;\n    margin: 30px;\n    width: 200px;\n    height: 50px;\n    font-size: large;\n}\n\n#indexIcon {\n    font-size: larger;\n    font-family: \"Courier New\", Courier, monospace;\n    text-align: center;\n    width: 370px;\n    height: 70px;\n    margin: 0 auto;\n}\n\n#indexDiv {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    transform: translate(-50%, -50%);\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -47830,6 +49796,35 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./src/main/webapp/css/header/header.css":
+/*!***********************************************!*\
+  !*** ./src/main/webapp/css/header/header.css ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!./header.css */ "./node_modules/css-loader/dist/cjs.js!./src/main/webapp/css/header/header.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_header_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./src/main/webapp/css/main.css":
 /*!**************************************!*\
   !*** ./src/main/webapp/css/main.css ***!
@@ -48452,6 +50447,36 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__webpack_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__webpack_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
+/******/ 			}
+/******/ 			def['default'] = () => (value);
+/******/ 			__webpack_require__.d(ns, def);
+/******/ 			return ns;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -48502,9 +50527,10 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Icon */ "./src/main/webapp/javascript/Icon.jsx");
-/* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../css/main.css */ "./src/main/webapp/css/main.css");
-/* harmony import */ var _fluentui_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fluentui/react */ "./node_modules/@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton.js");
+/* harmony import */ var _css_main_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css/main.css */ "./src/main/webapp/css/main.css");
+/* harmony import */ var _fluentui_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fluentui/react */ "./node_modules/@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton.js");
+/* harmony import */ var _header_HeaderBar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./header/HeaderBar */ "./src/main/webapp/javascript/header/HeaderBar.jsx");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Icon */ "./src/main/webapp/javascript/Icon.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48563,19 +50589,23 @@ var Main = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       var currentPage = this.state.currentPage;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_2__.default, null), currentPage == page.Index && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Index"), currentPage == page.CreateRoom && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "CreateRoom"), currentPage == page.JoinRoom && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "JoinRoom"), currentPage == page.GamePlay && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "GamePlay"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_4__.PrimaryButton, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, currentPage != page.Index && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_header_HeaderBar__WEBPACK_IMPORTED_MODULE_3__.default, null), currentPage == page.CreateRoom && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "CreateRoom"), currentPage == page.JoinRoom && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "JoinRoom"), currentPage == page.GamePlay && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "GamePlay"), currentPage == page.Index && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        id: "indexDiv"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Icon__WEBPACK_IMPORTED_MODULE_4__.default, {
+        isCenter: true
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_5__.PrimaryButton, {
         text: "Create a Room",
         onClick: function onClick() {
-          return _this2.setPage(page.CreateRoom);
+          return _this2.createRoom();
         },
         className: "indexButton"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_4__.PrimaryButton, {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fluentui_react__WEBPACK_IMPORTED_MODULE_5__.PrimaryButton, {
         text: "Join a Room",
         onClick: function onClick() {
           return _this2.setPage(page.JoinRoom);
         },
         className: "indexButton"
-      }));
+      })));
     }
   }, {
     key: "setPage",
@@ -48583,6 +50613,11 @@ var Main = /*#__PURE__*/function (_Component) {
       this.setState({
         currentPage: page
       });
+    }
+  }, {
+    key: "createRoom",
+    value: function createRoom() {
+      this.setPage(page.CreateRoom);
     }
   }]);
 

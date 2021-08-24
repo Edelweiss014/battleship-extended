@@ -4,7 +4,7 @@
     width: 800px;
 }
 
-#icon {
+#playIcon {
     font-size: larger;
     font-family: "Courier New", Courier, monospace;
     padding: 10px 0;
@@ -14,7 +14,25 @@
 }
 
 .indexButton {
-    margin: 600px;
+    position: relative;
+    margin: 30px;
     width: 200px;
-    height: 200px;
+    height: 50px;
+    font-size: large;
+}
+
+#indexIcon {
+    font-size: larger;
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+    width: 370px;
+    height: 70px;
+    margin: 0 auto;
+}
+
+#indexDiv {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
