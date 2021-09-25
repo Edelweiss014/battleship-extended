@@ -32,15 +32,3 @@ node {
     version = '14.15.5'
 }
 
-task buildReactApp(type: NodeTask, dependsOn: 'npmInstall') {
-    script = project.file('node_modules/webpack/bin/webpack.js')
-    args = [
-            '--mode', 'development',
-            '--entry', './src/main/webapp/javascript/Main.jsx',
-            '-o', './src/main/resources/public/dist'
-    ]
-}
-
-processResources.dependsOn 'buildReactApp'
-clean.delete << file('node_modules')
-clean.delete << file('src/main/resources/static/dist')
